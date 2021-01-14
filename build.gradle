@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
-apply plugin: 'signing' 
+apply plugin: 'signing'
 
 allprojects {
     apply plugin: 'java'
@@ -50,8 +50,13 @@ repositories {
     }
 }
 
+configurations {
+    shadeOnly
+}
+
 dependencies {
     compile "eu.usrv:YAMCore:${config.minecraft.version}-${config.yamcore.version}:deobf"
+    shadeOnly group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.3'
 }
 
 processResources {
@@ -83,6 +88,14 @@ idea {
     }
 }
 
+jar {
+    configurations.shadeOnly.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+}
+
 task signJar(dependsOn: 'reobf'){
     doLast {
         ant.signjar(
@@ -97,3 +110,12 @@ task signJar(dependsOn: 'reobf'){
             )
     }
 }
+
+//shadowJar {
+//    classifier = ""
+//
+//    relocate 'org.apache.http.client', 'lgrepack.org.apache.http.client'
+//}
+//
+//reobf { shadowJar {  } }
+//tasks.reobfShadowJar.mustRunAfter shadowJar
