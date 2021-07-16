@@ -16,7 +16,7 @@ import com.jamesswafford.chess4j.utils.GameResult;
 import com.jamesswafford.chess4j.utils.GameStatus;
 import com.jamesswafford.chess4j.utils.GameStatusChecker;
 import com.jamesswafford.chess4j.utils.Perft;
-import eu.usrv.lootgames.chess.ChessEngineProxy;
+import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ import java.util.List;
 public class InputParser {
 
     private static final InputParser INSTANCE = new InputParser();
-    private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
+    private static final LogHelper mLog = new LogHelper("LootGames - ChessEngine");
     private boolean forceMode;
     private Thread searchThread;
     private Color engineColor;
@@ -354,7 +354,7 @@ public class InputParser {
             sb.append(undo.getMove().toString() + " ");
         }
 
-        mLog.info("# game moves: " + sb.toString());
+        mLog.info("# game moves: " + sb);
 
         ChessEngineApp.getOpeningBook().learn(gameMoves, engineColor, gameResult);
     }

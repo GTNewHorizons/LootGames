@@ -4,7 +4,7 @@ package com.jamesswafford.chess4j.io;
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.utils.GameStatus;
-import eu.usrv.lootgames.chess.ChessEngineProxy;
+import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 
 
 public final class PrintGameResult {

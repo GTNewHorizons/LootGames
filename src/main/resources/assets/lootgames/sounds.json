@@ -1,88 +1,97 @@
 {
-  "game_start": {
+  "gol_start_game": {
     "category": "master",
     "sounds": [
       {
-        "name": "game_start",
+        "name": "lootgames:gameoflight/start_game",
         "stream": false
       }
     ]
   },
-  "gameover_loose": {
+  "gol_sequence_wrong": {
     "category": "master",
     "sounds": [
       {
-        "name": "gameover_loose",
+        "name": "lootgames:gameoflight/sequence_wrong",
         "stream": false
       }
     ]
   },
-  "gameover_win": {
+  "gol_sequence_complete": {
     "category": "master",
     "sounds": [
       {
-        "name": "gameover_win",
+        "name": "lootgames:gameoflight/sequence_complete",
         "stream": false
       }
     ]
   },
-  "block_ping": {
+  "game_win": {
     "category": "master",
     "sounds": [
       {
-        "name": "block_ping",
+        "name": "lootgames:gameover_win",
         "stream": false
       }
     ]
   },
-  "sequence_complete": {
+  "game_lose": {
     "category": "master",
     "sounds": [
       {
-        "name": "sequence_complete",
+        "name": "lootgames:gameover_lose",
         "stream": false
       }
     ]
   },
-  "sequence_wrong": {
+  "ms_start_game": {
     "category": "master",
     "sounds": [
       {
-        "name": "sequence_wrong",
+        "name": "lootgames:minesweeper/start_game",
         "stream": false
       }
     ]
   },
-  "player_click": {
+  "ms_on_empty_reveal_neighbours": {
     "category": "master",
     "sounds": [
       {
-        "name": "block_ping",
+        "name": "lootgames:minesweeper/on_empty_reveal_neighbours",
         "stream": false
       }
     ]
   },
-  "masterblock_strange": {
+  "ms_bomb_activated": {
     "category": "master",
     "sounds": [
       {
-        "name": "strange_001",
+        "name": "lootgames:minesweeper/bomb_activated",
+        "stream": false
+      }
+    ]
+  },
+  "puzzle_master_strange": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "lootgames:strange_001",
         "stream": false
       },
       {
-        "name": "strange_002",
+        "name": "lootgames:strange_002",
         "stream": false
       },
       {
-        "name": "strange_003",
+        "name": "lootgames:strange_003",
         "stream": false
       },
       {
-        "name": "strange_004",
+        "name": "lootgames:strange_004",
         "stream": false
       },
       {
-        "name": "strange_005",
+        "name": "lootgames:strange_005",
         "stream": false
       }
     ]

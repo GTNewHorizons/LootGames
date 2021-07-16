@@ -16,7 +16,7 @@ import com.jamesswafford.chess4j.utils.GameStatus;
 import com.jamesswafford.chess4j.utils.GameStatusChecker;
 import com.jamesswafford.chess4j.utils.MoveUtils;
 import com.jamesswafford.chess4j.utils.TimeUtils;
-import eu.usrv.lootgames.chess.ChessEngineProxy;
+import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 import java.text.DecimalFormat;
@@ -43,7 +43,7 @@ public final class SearchIterator {
     public static int maxTime;
     public static boolean showThinking = true;
     public static boolean abortIterator = false;
-    private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
+    private static final LogHelper mLog = new LogHelper("LootGames - ChessEngine");
     private static boolean pondering;
     private static Move ponderMove;
 
