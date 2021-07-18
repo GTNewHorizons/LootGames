@@ -44,7 +44,7 @@ public class RewardUtils {
             for (HorizontalDirection direction : HorizontalDirection.values()) {
                 if (counter >= rewardLevel) break;
 
-                spawnLootChest(world, centralPos, direction, SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(rewardLevel - 1)));
+                spawnLootChest(world, centralPos, direction, SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(counter)));
                 counter++;
             }
         }

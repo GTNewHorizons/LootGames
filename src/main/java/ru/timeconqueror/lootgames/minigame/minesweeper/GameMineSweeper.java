@@ -12,6 +12,7 @@ import ru.timeconqueror.lootgames.api.minigame.NotifyColor;
 import ru.timeconqueror.lootgames.api.task.TaskCreateExplosion;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.lootgames.api.util.RewardUtils;
+import ru.timeconqueror.lootgames.common.config.ConfigMS;
 import ru.timeconqueror.lootgames.common.config.ConfigMS.Snapshot;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.common.packet.game.SPMSFieldChanged;
@@ -41,8 +42,6 @@ import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
 //TODO if all non-bomb fields are revealed, finish the game
 //TODO remove interact with opened fields
 public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
-    public static final String ADV_BEAT_LEVEL4 = "ms_level_4";
-
     public boolean cIsGenerated;
 
     private int currentLevel = 1;
@@ -63,11 +62,6 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         board = new MSBoard(0, 0);
     }
 
-    public static Pos2i convertToGamePos(BlockPos masterPos, BlockPos subordinatePos) {
-        BlockPos temp = subordinatePos.subtract(masterPos);
-        return new Pos2i(temp.getX(), temp.getZ());
-    }
-
     // server only
     public void setConfigSnapshot(Snapshot configSnapshot) {
         this.configSnapshot = configSnapshot;
@@ -84,6 +78,15 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         }
 
         super.onPlace();
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+
+        if (isClientSide()) {
+            configSnapshot = ConfigMS.Snapshot.stub(); // needs for first client ticks, because the config from readNBT is called a little bit later
+        }
     }
 
     public boolean isBoardGenerated() {

@@ -108,7 +108,7 @@ public class ConfigMS extends Config {
         private final int boardRadius;
         private final int bombCount;
 
-        public DefaultData(int boardRadius, int bombCount) {
+        private DefaultData(int boardRadius, int bombCount) {
             this.boardRadius = boardRadius;
             this.bombCount = bombCount;
         }
@@ -120,7 +120,7 @@ public class ConfigMS extends Config {
         private final StageSnapshot stage3;
         private final StageSnapshot stage4;
 
-        public Snapshot(StageSnapshot stage1, StageSnapshot stage2, StageSnapshot stage3, StageSnapshot stage4) {
+        private Snapshot(StageSnapshot stage1, StageSnapshot stage2, StageSnapshot stage3, StageSnapshot stage4) {
             this.stage1 = stage1;
             this.stage2 = stage2;
             this.stage3 = stage3;
@@ -145,6 +145,10 @@ public class ConfigMS extends Config {
             );
         }
 
+        public static Snapshot stub() {
+            return new Snapshot(StageSnapshot.stub(), StageSnapshot.stub(), StageSnapshot.stub(), StageSnapshot.stub());
+        }
+
         public StageSnapshot getStage1() {
             return stage1;
         }
@@ -165,7 +169,7 @@ public class ConfigMS extends Config {
             private final int bombCount;
             private final int boardSize;
 
-            public StageSnapshot(int bombCount, int boardSize) {
+            private StageSnapshot(int bombCount, int boardSize) {
                 this.bombCount = bombCount;
                 this.boardSize = boardSize;
             }
@@ -185,8 +189,12 @@ public class ConfigMS extends Config {
                 return compound;
             }
 
-            public static StageSnapshot deserialize(NBTTagCompound nbt) {
+            private static StageSnapshot deserialize(NBTTagCompound nbt) {
                 return new StageSnapshot(nbt.getInteger("bomb_count"), nbt.getInteger("board_size"));
+            }
+
+            private static StageSnapshot stub() {
+                return new StageSnapshot(0, 0);
             }
         }
 

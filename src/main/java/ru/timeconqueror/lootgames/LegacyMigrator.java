@@ -78,10 +78,10 @@ public class LegacyMigrator {
 
         int rounds = legacyGol.StartDigits;
         Configuration cfgRewards = LGConfigs.REWARDS.getConfig();
-        rounds = processStageConfig(rounds, legacyGol.GameStageI, cfgGol.getCategory(LGConfigs.GOL.stage1.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage1().getCategoryName()));
-        rounds = processStageConfig(rounds, legacyGol.GameStageII, cfgGol.getCategory(LGConfigs.GOL.stage2.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage2().getCategoryName()));
-        rounds = processStageConfig(rounds, legacyGol.GameStageIII, cfgGol.getCategory(LGConfigs.GOL.stage3.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage3().getCategoryName()));
-        processStageConfig(rounds, legacyGol.GameStageIV, cfgGol.getCategory(LGConfigs.GOL.stage4.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage4().getCategoryName()));
+        rounds = processStageConfig(rounds, legacyGol.GameStageI, cfgGol.getCategory(LGConfigs.GOL.stage1.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage1().getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage1().getCategoryName()));
+        rounds = processStageConfig(rounds, legacyGol.GameStageII, cfgGol.getCategory(LGConfigs.GOL.stage2.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage2().getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage2().getCategoryName()));
+        rounds = processStageConfig(rounds, legacyGol.GameStageIII, cfgGol.getCategory(LGConfigs.GOL.stage3.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage3().getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage3().getCategoryName()));
+        processStageConfig(rounds, legacyGol.GameStageIV, cfgGol.getCategory(LGConfigs.GOL.stage4.getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage4().getCategoryName()), cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage4().getCategoryName()));
 
         LOGGER.info("Successfully migrated old config file!");
 
@@ -89,16 +89,21 @@ public class LegacyMigrator {
         LOGGER.info("Configs reloaded!");
     }
 
-    private static int processStageConfig(int startDigits, LegacyLGConfig.LootStageConfig legacyStage, ConfigCategory catStage, ConfigCategory catRew) {
+    private static int processStageConfig(int startDigits, LegacyLGConfig.LootStageConfig legacyStage, ConfigCategory catStage, ConfigCategory catGolRewards, ConfigCategory catMsRewards) {
         int roundsStage2 = Math.max(legacyStage.MinDigitsRequired - startDigits, 1);
         catStage.get(ConfigGOL.Names.ROUNDS).set(roundsStage2);
         catStage.get(ConfigGOL.Names.RANDOMIZE_SEQUENCE).set(legacyStage.RandomizeSequence);
         catStage.get(ConfigGOL.Names.DISPLAY_TIME).set(legacyStage.DisplayTime * 20 / 1000);
 
-        catRew.get(RewardConfig.Names.MIN_ITEMS).set(legacyStage.MinItems);
-        catRew.get(RewardConfig.Names.MAX_ITEMS).set(legacyStage.MaxItems);
-        catRew.get(RewardConfig.Names.DEFAULT_LOOT_TABLE).set(legacyStage.LootTable);
-        catRew.get(RewardConfig.Names.PER_DIM_CONFIGS).set(legacyStage.DimensionalLoots.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue().LootTable).toArray(String[]::new));
+        catGolRewards.get(RewardConfig.Names.MIN_ITEMS).set(legacyStage.MinItems);
+        catGolRewards.get(RewardConfig.Names.MAX_ITEMS).set(legacyStage.MaxItems);
+        catGolRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE).set(legacyStage.LootTable);
+        catGolRewards.get(RewardConfig.Names.PER_DIM_CONFIGS).set(legacyStage.DimensionalLoots.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue().LootTable).toArray(String[]::new));
+
+        catMsRewards.get(RewardConfig.Names.MIN_ITEMS).set(legacyStage.MinItems);
+        catMsRewards.get(RewardConfig.Names.MAX_ITEMS).set(legacyStage.MaxItems);
+        catMsRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE).set(legacyStage.LootTable);
+        catMsRewards.get(RewardConfig.Names.PER_DIM_CONFIGS).set(legacyStage.DimensionalLoots.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue().LootTable).toArray(String[]::new));
 
         return legacyStage.MinDigitsRequired;
     }
