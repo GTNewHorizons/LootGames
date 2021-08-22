@@ -11,6 +11,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.NoteBlockEvent;
+import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.lootgames.api.minigame.BoardLootGame;
 import ru.timeconqueror.lootgames.api.minigame.ILootGameFactory;
 import ru.timeconqueror.lootgames.api.minigame.NotifyColor;
@@ -42,6 +43,8 @@ import java.util.stream.Collectors;
 //TODO add question mark flicker on WaitingStartStage
 //TODO add reward giving upon some combination
 public class GameOfLight extends BoardLootGame<GameOfLight> {
+    private static final Marker DEBUG_MARKER = Marker.GAME_OF_LIGHT;
+
     public static final int BOARD_SIZE = 3;
 
     private int round = 0;
@@ -80,6 +83,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
         if (isServerSide()) {
             if (tickTimer && resetTimer.ended()) {
+                DEBUG_LOG.debug(DEBUG_MARKER, "Time is out! Failing the current run...");
                 failGame(true);
                 return;
                 //TODO add animation of hard switch to waiting for sequence?
@@ -104,7 +108,10 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
         sendToNearby(new ChatComponentTranslation("msg.lootgames.gol.wrong_block"), NotifyColor.FAIL);
         sendUpdatePacketToNearby(SPGOLDrawMark.denied());
 
+        DEBUG_LOG.debug(DEBUG_MARKER, "The run was failed! Current attempt: {} / {}", attempt, LGConfigs.GOL.attemptCount);
+
         if (attempt >= LGConfigs.GOL.attemptCount) {
+            DEBUG_LOG.debug(DEBUG_MARKER, "Attempts are over! Forcing switch to game end...");
             if (maxReachedStage == 0) {
                 triggerGameLose();
             } else {
@@ -559,6 +566,8 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
             if (!isCenter(pos)) {
                 Symbol chosen = Symbol.byPos(pos);
 
+                DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Chosen symbol: {}", player.getDisplayName(), chosen);
+
                 playFeedbackSound(player, chosen);
                 if (isClientSide()) {
                     addDisplayedSymbol(chosen);
@@ -567,9 +576,12 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
                     Symbol correct = sequence.get(currentSymbol);
                     if (chosen != correct) {
+                        DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Symbol {} was denied. The correct one is {}", player.getDisplayName(), chosen, correct);
                         failGame(false);
                         return;
                     }
+
+                    DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Symbol {} was accepted.", player.getDisplayName(), chosen);
 
                     if (currentSymbol == sequence.size() - 1) {
                         onSuccessSequence((EntityPlayerMP) player);

@@ -56,3 +56,8 @@ achievement.lootgames.ms.start=We need more flags!
 achievement.lootgames.ms.start.desc=Get the chance to play Minesweeper
 achievement.lootgames.ms.beat_level_4=There are no bad sappers
 achievement.lootgames.ms.beat_level_4.desc=Beat a Minesweeper at Level 4
+
+lootgames.command.usage=Use '/lootgames help' to see available subcommands
+lootgames.command.reloadconfigs.success=Configs were reloaded
+lootgames.command.reloadconfigs.usage=%s - Reloads all LootGames' configs
+lootgames.command.help.usage=%s - Shows help menu

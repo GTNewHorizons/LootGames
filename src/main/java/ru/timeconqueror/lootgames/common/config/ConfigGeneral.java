@@ -2,15 +2,17 @@ package ru.timeconqueror.lootgames.common.config;
 
 import net.minecraftforge.common.config.Configuration;
 import ru.timeconqueror.lootgames.LootGames;
+import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.timecore.api.common.config.Config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class ConfigGeneral extends Config {
 
     public boolean disableMinigames;
+    public Set<Marker> enabledMarkers;
     public WorldGenCategory worldGen = new WorldGenCategory();
 
     public ConfigGeneral() {
@@ -20,6 +22,9 @@ public class ConfigGeneral extends Config {
     @Override
     public void init() {
         disableMinigames = config.getBoolean(Names.DISABLE_MINIGAMES, Names.CATEGORY_MAIN, false, "If this is set to true, then puzzle master won't start any new game. Won't affect already started games.");
+        String[] markers = Arrays.stream(Marker.values()).map(Enum::name).toArray(String[]::new);
+        String[] enabledMarkers = config.getStringList("debug_markers", Names.CATEGORY_MAIN, new String[0], "Markers which enable extra console output.\nAvailable:\n" + String.join("\n", markers) + "\n", markers);
+        this.enabledMarkers = Arrays.stream(enabledMarkers).map(Marker::byName).filter(Objects::nonNull).collect(Collectors.toSet());
         worldGen.init(config);
     }
 
@@ -31,7 +36,6 @@ public class ConfigGeneral extends Config {
         public static final String DUNGEON_LOG_LEVEL = "dungeon_log_level";
         public static final String DISABLE_MINIGAMES = "disable_minigames";
         public static final String PER_DIMENSION_CONFIGS = "per_dimension_configs";
-
     }
 
     @Override

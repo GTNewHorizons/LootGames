@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.relauncher.Side;
 import eu.usrv.legacylootgames.LootGamesLegacy;
+import eu.usrv.legacylootgames.command.LootGamesCommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -100,6 +101,7 @@ public class LootGames {
     @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event) {
         LootGamesLegacy.serverLoad(event);
+        event.registerServerCommand(new LootGamesCommand());
     }
 
     public static String namespaced(String name) {

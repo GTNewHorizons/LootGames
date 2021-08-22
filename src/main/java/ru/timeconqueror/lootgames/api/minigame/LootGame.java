@@ -12,9 +12,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.message.Message;
-import ru.timeconqueror.lootgames.api.Markers;
+import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.api.packet.IClientGamePacket;
 import ru.timeconqueror.lootgames.api.packet.IServerGamePacket;
@@ -28,10 +27,10 @@ import ru.timeconqueror.lootgames.common.packet.game.SPChangeStage;
 import ru.timeconqueror.lootgames.common.packet.game.SPDelayedChangeStage;
 import ru.timeconqueror.lootgames.registry.LGAchievements;
 import ru.timeconqueror.lootgames.registry.LGSounds;
+import ru.timeconqueror.lootgames.utils.DebugLogger;
 import ru.timeconqueror.lootgames.utils.Trackers;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.ChatComponentExt;
-import ru.timeconqueror.lootgames.utils.future.LoggerExt;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
@@ -44,7 +43,8 @@ import java.util.function.Consumer;
 
 public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<STAGE, G>> {
     private static final Logger LOGGER = LogManager.getLogger();
-    public static final Marker DEBUG_MARKER = Markers.LOOTGAME.getMarker();
+    protected static final DebugLogger DEBUG_LOG = new DebugLogger(LOGGER);
+    private static final Marker DEBUG_MARKER = Marker.LOOTGAME;
 
     protected GameMasterTile<G> masterTileEntity;
     protected TETaskScheduler taskScheduler;
@@ -232,7 +232,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         }
 
         serializeStage(this, nbt, type);
-        LOGGER.debug(DEBUG_MARKER, formatLogMessage("stage '{}' was serialized for {}."), getStage(), type == SerializationType.SAVE ? "saving" : "syncing");
+        DEBUG_LOG.debug(DEBUG_MARKER, formatLogMessage("stage '{}' was serialized for {}."), getStage(), type == SerializationType.SAVE ? "saving" : "syncing");
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -245,7 +245,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         }
 
         setStage(deserializeStage(this, nbt, type));
-        LOGGER.debug(DEBUG_MARKER, formatLogMessage("stage '{}' was deserialized {}."), getStage(), type == SerializationType.SAVE ? "from saved file" : "on client");
+        DEBUG_LOG.debug(DEBUG_MARKER, formatLogMessage("stage '{}' was deserialized {}."), getStage(), type == SerializationType.SAVE ? "from saved file" : "on client");
 
         justPlaced = false;
 
@@ -265,7 +265,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
             LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP);
         });
 
-        LoggerExt.debug(LOGGER, DEBUG_MARKER, () -> logMessage("update packet '{}' was sent.", packet.getClass().getSimpleName()));
+        DEBUG_LOG.debug(DEBUG_MARKER, () -> logMessage("update packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     public void sendUpdatePacketToNearbyExcept(EntityPlayerMP excepting, IServerGamePacket packet) {
@@ -280,7 +280,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
             }
         });
 
-        LoggerExt.debug(LOGGER, DEBUG_MARKER, () -> logMessage("update packet '{}' to all tracking except {} was sent.", packet.getClass().getSimpleName(), excepting.getGameProfile().getName()));
+        DEBUG_LOG.debug(DEBUG_MARKER, () -> logMessage("update packet '{}' to all tracking except {} was sent.", packet.getClass().getSimpleName(), excepting.getGameProfile().getName()));
     }
 
     /**
@@ -299,7 +299,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         }
 
         LGNetwork.INSTANCE.sendToServer(new CPacketGameUpdate(this, packet));
-        LoggerExt.debug(LOGGER, DEBUG_MARKER, () -> logMessage("feedback packet '{}' was sent.", packet.getClass().getSimpleName()));
+        DEBUG_LOG.debug(DEBUG_MARKER, () -> logMessage("feedback packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     /**
@@ -316,7 +316,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
      * @param stage initial stage of game
      */
     public void setupInitialStage(STAGE stage) {
-        LOGGER.debug(DEBUG_MARKER, formatLogMessage("initial stage '{}' was set up."), stage);
+        DEBUG_LOG.debug(DEBUG_MARKER, formatLogMessage("initial stage '{}' was set up."), stage);
 
         setStage(stage);
         onStageUpdate(null, stage, true);
@@ -327,7 +327,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         STAGE old = this.getStage();
         if (old != null) old.onEnd();
 
-        LOGGER.debug(DEBUG_MARKER, formatLogMessage("switching from stage '{}' to '{}'."), old, stage);
+        DEBUG_LOG.debug(DEBUG_MARKER, formatLogMessage("switching from stage '{}' to '{}'."), old, stage);
 
         setStage(stage);
         onStageUpdate(old, stage, false);
@@ -345,7 +345,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
             save();
             if (shouldDelayPacketSending) {
                 pendingStageUpdate = Pair.of(oldStage, newStage);
-                LoggerExt.debug(LOGGER, DEBUG_MARKER, () -> logMessage("update packet '{}' was delayed for sending till the next tick."));
+                DEBUG_LOG.debug(DEBUG_MARKER, () -> logMessage("update packet '{}' was delayed for sending till the next tick."));
             } else {
                 sendUpdatePacketToNearby(new SPChangeStage(this));
             }
@@ -470,6 +470,6 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     private String formatLogMessage(String message) {
-        return EnumChatFormatting.DARK_BLUE + getClass().getSimpleName() + ": " + message;
+        return getClass().getSimpleName() + ": " + message;
     }
 }
