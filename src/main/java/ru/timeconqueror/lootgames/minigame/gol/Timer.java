@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagInt;
 
 public class Timer {
     private int ticks;
+    private boolean isActive;
 
     public Timer(int ticks) {
         if (ticks < 0)
@@ -13,7 +14,7 @@ public class Timer {
     }
 
     public void update() {
-        if (!ended()) {
+        if (isActive() && !ended()) {
             ticks--;
         }
     }
@@ -30,6 +31,18 @@ public class Timer {
 
     public boolean ended() {
         return ticks == 0;
+    }
+
+    public void enable() {
+        isActive = true;
+    }
+
+    public void disable() {
+        isActive = false;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     public static Timer fromNBT(NBTBase nbt) {

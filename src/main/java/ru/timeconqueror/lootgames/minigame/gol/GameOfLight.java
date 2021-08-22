@@ -54,7 +54,6 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
     private int maxReachedStage = 0;
 
     private Timer resetTimer;
-    private boolean tickTimer;
 
     private final List<DisplayedSymbol> displayedSymbols = new ArrayList<>();
 
@@ -82,18 +81,18 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
         super.onTick();
 
         if (isServerSide()) {
-            if (tickTimer && resetTimer.ended()) {
+            if (resetTimer.isActive() && resetTimer.ended()) {
                 DEBUG_LOG.debug(DEBUG_MARKER, "Time is out! Failing the current run...");
                 failGame(true);
                 return;
                 //TODO add animation of hard switch to waiting for sequence?
             }
 
-            if (!tickTimer) {
+            if (!resetTimer.isActive()) {
                 resetTimer();
-            } else {
-                resetTimer.update();
             }
+
+            resetTimer.update();
         } else {
             displayedSymbols.removeIf((symbol) -> System.currentTimeMillis() - symbol.getClickedTime() > 600);
 
@@ -291,7 +290,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
     @Override
     protected void onStageUpdate(BoardStage oldStage, BoardStage newStage, boolean shouldDelayPacketSending) {
         ticks = 0;
-        tickTimer = false;
+        resetTimer.disable();
         super.onStageUpdate(oldStage, newStage, shouldDelayPacketSending);
     }
 
@@ -553,7 +552,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
         @Override
         protected void onStart(boolean clientSide) {
-            tickTimer = true;
+            resetTimer.enable();
         }
 
         @Override
@@ -566,7 +565,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
             if (!isCenter(pos)) {
                 Symbol chosen = Symbol.byPos(pos);
 
-                DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Chosen symbol: {}", player.getDisplayName(), chosen);
+                DEBUG_LOG.debug(DEBUG_MARKER, "{}: Chosen symbol: {} ({} ns, {} ms)", player.getDisplayName(), chosen, System.nanoTime(), System.currentTimeMillis());
 
                 playFeedbackSound(player, chosen);
                 if (isClientSide()) {
@@ -576,12 +575,13 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
                     Symbol correct = sequence.get(currentSymbol);
                     if (chosen != correct) {
-                        DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Symbol {} was denied. The correct one is {}", player.getDisplayName(), chosen, correct);
+                        DEBUG_LOG.debug(DEBUG_MARKER, "{}: Symbol {} was denied. The correct one is {}", player.getDisplayName(), chosen, correct);
                         failGame(false);
                         return;
                     }
 
-                    DEBUG_LOG.debug(DEBUG_MARKER, "Player {}: Symbol {} was accepted.", player.getDisplayName(), chosen);
+                    DEBUG_LOG.debug(DEBUG_MARKER, "{}: Symbol {} was accepted.", player.getDisplayName(), chosen);
+                    resetTimer();
 
                     if (currentSymbol == sequence.size() - 1) {
                         onSuccessSequence((EntityPlayerMP) player);
