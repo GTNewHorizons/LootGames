@@ -72,9 +72,16 @@ public class RewardUtils {
 
         if (chestTile != null) {
             if (randomLoot.length == 0) {
-                LootGames.LOGGER.error("Received LootTable is empty. Skipping Chest-Gen to avoid NPE Crash");
-                ItemDescriptor tSorryItem = ItemDescriptor.fromString("minecraft:stone");
-                ItemStack sorryStack = tSorryItem.getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"Modpack creator failed to configure the LootTables properly.\nPlease report that Loot Table [%s] for %s stage is broken, thank you!\"]}}", chestData.lootTableRL, chestData.getGameName()));
+                LootGames.LOGGER.error("Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash", lootTable, chestData.getGameName());
+                ItemDescriptor sorryItem = ItemDescriptor.fromString("minecraft:stone");
+                String lore = String.join("\",\"",
+                        "Modpack creator failed to configure",
+                        "the Loot Tables properly.",
+                        String.format("Please report that Loot Table [%s]", lootTable),
+                        String.format("for %s stage is broken.", chestData.getGameName()),
+                        "Thank you!"
+                );
+                ItemStack sorryStack = sorryItem.getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
                 chestTile.setInventorySlotContents(0, sorryStack);
             } else {
                 int count = RandHelper.RAND.nextInt(chestData.getMaxItems()) + chestData.getMinItems();
@@ -110,19 +117,19 @@ public class RewardUtils {
             this.gameName = game.getClass().getSimpleName();
         }
 
-        public String getGameName() {
+        private String getGameName() {
             return gameName;
         }
 
-        public int getMaxItems() {
+        private int getMaxItems() {
             return maxItems;
         }
 
-        public int getMinItems() {
+        private int getMinItems() {
             return minItems;
         }
 
-        public String getLootTableKey() {
+        private String getLootTableKey() {
             return lootTableRL;
         }
     }
