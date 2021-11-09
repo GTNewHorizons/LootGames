@@ -11,3 +11,6 @@ RandomJavaProj/ProcessingApp/.recommenders/
 .idea/
 out/
 *.iml
+*.bat
+Lootgames.ipr
+Lootgames.iws
