@@ -7,6 +7,8 @@ import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 import java.util.EnumSet;
 
 public class ConfigGOL extends Config {
+    public int weight;
+
     public int startDigitAmount;
     public int attemptCount;
     public int expandFieldAtStage;
@@ -30,6 +32,8 @@ public class ConfigGOL extends Config {
 
     @Override
     public void init() {
+        weight = config.getInt("weight", getKey(), 1, 0, Integer.MAX_VALUE, "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
+
         startDigitAmount = config.getInt(Names.START_DIGIT_AMOUNT, getKey(), 2, 1, Integer.MAX_VALUE, "Regulates how many digits should be randomly chosen and shown at game-start.");
         attemptCount = config.getInt(Names.ATTEMPT_COUNT, getKey(), 3, 1, Integer.MAX_VALUE, "It represents the number of attempts the player has to beat the game successfully.");
         expandFieldAtStage = config.getInt(Names.EXPAND_FIELD_AT_STAGE, getKey(), 2, 0, 4, "At which stage should the playfield become a full 3x3 pattern?\nSet 0 to disable and keep the 4-block size; set 1 to always start with 3x3.");

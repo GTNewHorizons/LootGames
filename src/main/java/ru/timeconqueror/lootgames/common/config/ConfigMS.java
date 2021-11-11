@@ -10,6 +10,8 @@ import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 public class ConfigMS extends Config {
     private static final String NO_CHANGE_FOR_GENERATED = "Won't be changed for already generated Minesweeper boards!";
 
+    public int weight;
+
     public int detonationTime;
     public int attemptCount;
 
@@ -28,6 +30,8 @@ public class ConfigMS extends Config {
 
     @Override
     public void init() {
+        weight = config.getInt("weight", getKey(), 1, 0, Integer.MAX_VALUE, "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
+
         detonationTime = config.getInt("detonation_time", getKey(), 3 * 20, 0, 600, "The time until bombs start to explode. Represented in ticks.");
         attemptCount = config.getInt("attempt_count", getKey(), 3, 1, Integer.MAX_VALUE, "It represents the number of attempts the player has to beat the game successfully.");
 
