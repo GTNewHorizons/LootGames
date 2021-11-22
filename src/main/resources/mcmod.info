@@ -1,10 +1,10 @@
 [
 {
-  "modid": "lootgames",
-  "name": "LootGames",
+  "modid": "${modId}",
+  "name": "${modName}",
   "description": "Play minigames to obtain loot",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "${modVersion}",
+  "mcversion": "${minecraftVersion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Namikon"],
