@@ -20,7 +20,7 @@ public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
     public LegacyLightGameBlock() {
         super(Material.iron);
         setBlockUnbreakable();
-        setUnlocalizedName("lightGame");
+        setBlockName("lightGame");
         setLightLevel(1.0F);
     }
 
@@ -31,7 +31,7 @@ public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public void registerIcons(IIconRegister reg) {
+    public void registerBlockIcons(IIconRegister reg) {
     }
 
     @Override

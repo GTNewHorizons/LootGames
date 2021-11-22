@@ -137,7 +137,7 @@ public class LegacyGameOfLightTile extends TileEntity {
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        readFromNBT(packet.getNbtCompound());
+        readFromNBT(packet.func_148857_g());
         worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
     }
 

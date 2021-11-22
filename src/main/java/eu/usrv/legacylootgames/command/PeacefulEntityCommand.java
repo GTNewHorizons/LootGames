@@ -84,7 +84,7 @@ public class PeacefulEntityCommand implements ICommand {
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            boolean opped = MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile());
+            boolean opped = MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
             boolean inCreative = player.capabilities.isCreativeMode;
             return opped && inCreative;
         } else return sender instanceof MinecraftServer;

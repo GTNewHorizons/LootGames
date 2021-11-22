@@ -47,7 +47,7 @@ public enum Mark {
 
         @Override
         public Mark decode(NBTTagByte nbtTagInt) {
-            return Mark.byID(nbtTagInt.getByte());
+            return Mark.byID(nbtTagInt.func_150290_f());
         }
     }
 }

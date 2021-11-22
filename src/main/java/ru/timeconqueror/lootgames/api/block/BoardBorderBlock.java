@@ -62,7 +62,7 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
     private IIcon vertical;
 
     @Override
-    public void registerIcons(IIconRegister reg) {
+    public void registerBlockIcons(IIconRegister reg) {
         bottomLeft = reg.registerIcon(LootGames.namespaced("border/bottom_left"));
         bottomRight = reg.registerIcon(LootGames.namespaced("border/bottom_right"));
         topLeft = reg.registerIcon(LootGames.namespaced("border/top_left"));

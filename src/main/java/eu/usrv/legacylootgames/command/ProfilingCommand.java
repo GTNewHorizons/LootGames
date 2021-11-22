@@ -59,7 +59,7 @@ public class ProfilingCommand implements ICommand {
 
         if (pCommandSender instanceof EntityPlayerMP) {
             EntityPlayerMP tEP = (EntityPlayerMP) pCommandSender;
-            return MinecraftServer.getServer().getConfigurationManager().canSendCommands(tEP.getGameProfile());
+            return MinecraftServer.getServer().getConfigurationManager().func_152596_g(tEP.getGameProfile());
         }
         return false;
     }

@@ -19,7 +19,7 @@ import ru.timeconqueror.timecore.api.util.NetworkUtils;
 
 public class GOLActivatorBlock extends GameBlock {
     public GOLActivatorBlock() {
-        setTextureName(LootGames.namespaced("gol_activator"));
+        setBlockTextureName(LootGames.namespaced("gol_activator"));
     }
 
     @Override

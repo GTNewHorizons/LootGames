@@ -34,7 +34,7 @@ public class PuzzleMasterBlock extends GameBlock {
     public PuzzleMasterBlock() {
         setLightLevel(1);
         setCreativeTab(LootGames.CREATIVE_TAB);
-        setUnlocalizedName(LootGames.dotted("puzzle_master"));
+        setBlockName(LootGames.dotted("puzzle_master"));
     }
 
     @Override
@@ -93,7 +93,7 @@ public class PuzzleMasterBlock extends GameBlock {
     }
 
     @Override
-    public void registerIcons(IIconRegister reg) {
+    public void registerBlockIcons(IIconRegister reg) {
         this.icon = reg.registerIcon(LootGames.namespaced("puzzle_master"));
     }
 

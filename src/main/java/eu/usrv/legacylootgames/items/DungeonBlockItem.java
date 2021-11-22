@@ -21,7 +21,7 @@ public class DungeonBlockItem extends ItemBlockWithMetadata {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return this.getUnlocalizedName() + "_" + stack.getMetadata();
+        return this.getUnlocalizedName() + "_" + stack.getItemDamage();
     }
 
     @Override
