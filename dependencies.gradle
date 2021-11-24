@@ -1,0 +1,5 @@
+// Add your dependencies here
+
+dependencies {
+    compile("eu.usrv:YAMCore:1.7.10-0.5.80:deobf")
+}

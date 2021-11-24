@@ -17,7 +17,7 @@ public abstract class SimpleTile extends TileEntity {
     }
 
     public boolean isClientSide() {
-        World level = Objects.requireNonNull(getWorld());
+        World level = Objects.requireNonNull(getWorldObj());
         return level.isRemote;
     }
 
@@ -25,7 +25,7 @@ public abstract class SimpleTile extends TileEntity {
      * Returns the blockstate on tileentity pos.
      */
     public BlockState getState() {
-        World level = Objects.requireNonNull(getWorld());
+        World level = Objects.requireNonNull(getWorldObj());
 
         return WorldExt.getBlockState(level, BlockPos.of(xCoord, yCoord, zCoord));
     }

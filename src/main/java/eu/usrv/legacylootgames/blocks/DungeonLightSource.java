@@ -25,7 +25,7 @@ public class DungeonLightSource extends Block {
 
     public DungeonLightSource() {
         super(Material.glass);
-        setUnlocalizedName("dungeonLight");
+        setBlockName("dungeonLight");
         setCreativeTab(LootGames.CREATIVE_TAB);
         setHardness(2.0F);
         setResistance(6.0F);
@@ -39,7 +39,7 @@ public class DungeonLightSource extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register) {
+    public void registerBlockIcons(IIconRegister register) {
         mIcons = new IIcon[2];
         mIcons[0] = register.registerIcon("LootGames:dungeon_lamp");
         mIcons[1] = register.registerIcon("LootGames:broken_dungeon_lamp");

@@ -45,7 +45,7 @@ public class MSOverlayHandler {
 
     private static void renderNearbyGameBombs() {
         EntityPlayer player = ClientProxy.player();
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
         List<MSMasterTile> masters = new ArrayList<>(1);
         Iterator<WeakReference<MSMasterTile>> iterator = MS_MASTERS.iterator();

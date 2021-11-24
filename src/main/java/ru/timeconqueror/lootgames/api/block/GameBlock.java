@@ -27,9 +27,9 @@ public abstract class GameBlock extends Block {
     }
 
     @Override
-    public void registerIcons(IIconRegister reg) {
+    public void registerBlockIcons(IIconRegister reg) {
         if (this.textureName != null) {
-            super.registerIcons(reg);
+            super.registerBlockIcons(reg);
         }
     }
 

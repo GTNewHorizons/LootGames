@@ -51,7 +51,7 @@ public enum Type {
 
         @Override
         public Type decode(NBTTagByte nbtTagInt) {
-            return Type.byId(nbtTagInt.getByte());
+            return Type.byId(nbtTagInt.func_150290_f());
         }
     }
 }

@@ -110,7 +110,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     public World getWorld() {
-        return Objects.requireNonNull(masterTileEntity.getWorld());
+        return Objects.requireNonNull(masterTileEntity.getWorldObj());
     }
 
     public BlockPos getMasterPos() {

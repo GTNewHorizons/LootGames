@@ -32,10 +32,10 @@ public class LootGamesCommand extends CommandBase {
 
         if (subCommand.equals("reloadconfigs")) {
             LGConfigs.load();
-            notifyOperators(sender, this, SubCommand.RELOAD_CONFIGS.prefix("success"));
+            func_152373_a(sender, this, SubCommand.RELOAD_CONFIGS.prefix("success"));
         } else if (subCommand.equals("help")) {
             for (String command : SubCommand.COMMANDS) {
-                notifyOperators(sender, this, PREFIX + "." + command + USAGE, "/" + getCommandName() + " " + command);
+                func_152373_a(sender, this, PREFIX + "." + command + USAGE, "/" + getCommandName() + " " + command);
             }
         }
     }

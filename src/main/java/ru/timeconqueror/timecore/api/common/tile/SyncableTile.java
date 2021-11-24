@@ -53,7 +53,7 @@ public class SyncableTile extends SimpleTile {
 
     @Override
     public final void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-        NBTTagCompound compound = pkt.getNbtCompound();
+        NBTTagCompound compound = pkt.func_148857_g();
 
         readNBT(compound, SerializationType.SYNC);
     }

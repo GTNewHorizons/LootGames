@@ -51,7 +51,7 @@ public class LGBlocks {
     }
 
     public static void regBlock(Block block, String name) {
-        block.setUnlocalizedName(LootGames.dotted(name));
+        block.setBlockName(LootGames.dotted(name));
         GameRegistry.registerBlock(block, name);
     }
 

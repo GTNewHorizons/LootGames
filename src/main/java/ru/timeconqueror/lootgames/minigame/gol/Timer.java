@@ -46,7 +46,7 @@ public class Timer {
     }
 
     public static Timer fromNBT(NBTBase nbt) {
-        return new Timer(((NBTTagInt) nbt).getInt());
+        return new Timer(((NBTTagInt) nbt).func_150287_d());
     }
 
     public static NBTBase toNBT(Timer timer) {

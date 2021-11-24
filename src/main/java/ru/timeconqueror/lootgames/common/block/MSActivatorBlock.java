@@ -17,7 +17,7 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 
 public class MSActivatorBlock extends GameBlock {
     public MSActivatorBlock() {
-        setTextureName(LootGames.namespaced("ms_activator"));
+        setBlockTextureName(LootGames.namespaced("ms_activator"));
     }
 
     @Override
