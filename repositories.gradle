@@ -2,7 +2,8 @@
 
 repositories {
     maven {
-        name = 'UsrvDE'
-        url = "http://jenkins.usrv.eu:8081/nexus/content/repositories/releases/"
+        name 'GTNH Maven'
+        url 'http://jenkins.usrv.eu:8081/nexus/content/groups/public/'
+        allowInsecureProtocol
     }
 }
