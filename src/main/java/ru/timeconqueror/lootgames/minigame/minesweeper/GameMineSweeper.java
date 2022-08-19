@@ -317,7 +317,6 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 }
 
                 int bombsAround = board.getType(mainPos).getId();
-                if (bombsAround < 1) throw new IllegalStateException();
 
                 int marked = 0;
                 for (int x = -1; x <= 1; x++) {
