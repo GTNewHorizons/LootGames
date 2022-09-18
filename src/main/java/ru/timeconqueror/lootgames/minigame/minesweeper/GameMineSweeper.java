@@ -341,7 +341,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                     }
 
                     Pos2i pos = mainPos.add(x, y);
-                    if (board.hasFieldOn(pos) && board.isHidden(pos)) {
+                    if (isBoardGenerated() && board.hasFieldOn(pos) && board.isHidden(pos)) {
                         if (revealMarked || board.getMark(pos) != Mark.FLAG) {
                             revealField(player, pos);
                         }
