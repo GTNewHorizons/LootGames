@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.eval;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Bitboard;
 import com.jamesswafford.chess4j.board.Board;
@@ -14,10 +13,8 @@ import com.jamesswafford.chess4j.hash.PawnTranspositionTableEntry;
 import com.jamesswafford.chess4j.pieces.*;
 import com.jamesswafford.chess4j.utils.OrderedPair;
 import com.jamesswafford.chess4j.utils.PawnUtils;
-
 import java.util.HashMap;
 import java.util.Map;
-
 
 public final class Eval {
 
@@ -52,18 +49,41 @@ public final class Eval {
     public static final int KING_SAFETY_PAWN_TWO_AWAY = -20;
     public static final int KING_SAFETY_PAWN_FAR_AWAY = -30;
     public static final int KING_SAFETY_MIDDLE_OPEN_FILE = -50;
-    public static final int[] BISHOP_PST = {0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    public static final int[] KNIGHT_PST = {-5, -5, -5, -5, -5, -5, -5, -5, -5, 0, 10, 10, 10, 10, 0, -5, -5, 0, 15, 20, 20, 15, 0, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 0, 8, 0, 0, 8, 0, -5, -5, 0, 0, 5, 5, 0, 0, -5, -10, -10, -5, -5, -5, -5, -10, -10};
+    public static final int[] BISHOP_PST = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 15, 20, 20, 15, 7, 0, 0, 7,
+        15, 20, 20, 15, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+    public static final int[] KNIGHT_PST = {
+        -5, -5, -5, -5, -5, -5, -5, -5, -5, 0, 10, 10, 10, 10, 0, -5, -5, 0, 15, 20, 20, 15, 0, -5, -5, 5, 10, 15, 15,
+        10, 5, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 0, 8, 0, 0, 8, 0, -5, -5, 0, 0, 5, 5, 0, 0, -5, -10, -10, -5, -5,
+        -5, -5, -10, -10
+    };
 
     // A8 ... H8
     // ...
     // A1 ... H1
-    public static final int[] PAWN_PST = {0, 0, 0, 0, 0, 0, 0, 0, 30, 30, 30, 30, 30, 30, 30, 30, 14, 14, 14, 18, 18, 14, 14, 14, 7, 7, 7, 10, 10, 7, 7, 7, 5, 5, 5, 7, 7, 5, 5, 5, 3, 3, 3, 5, 5, 3, 3, 3, 0, 0, 0, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    public static final int[] ROOK_PST = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0};
-    public static final int[] KING_PST = {-30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -20, -20, -20, -20, -20, -20, -20, -20, -10, -10, -10, -10, -10, -10, -10, -10, 0, 10, 20, -25, 0, -25, 20, 0
+    public static final int[] PAWN_PST = {
+        0, 0, 0, 0, 0, 0, 0, 0, 30, 30, 30, 30, 30, 30, 30, 30, 14, 14, 14, 18, 18, 14, 14, 14, 7, 7, 7, 10, 10, 7, 7,
+        7, 5, 5, 5, 7, 7, 5, 5, 5, 3, 3, 3, 5, 5, 3, 3, 3, 0, 0, 0, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
-    public static final int[] KING_ENDGAME_PST = {0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    public static final int[] QUEEN_PST = {-1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+    public static final int[] ROOK_PST = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0,
+        0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+    public static final int[] KING_PST = {
+        -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30,
+        -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -20, -20, -20, -20,
+        -20, -20, -20, -20, -10, -10, -10, -10, -10, -10, -10, -10, 0, 10, 20, -25, 0, -25, 20, 0
+    };
+    public static final int[] KING_ENDGAME_PST = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10,
+        0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0,
+        0, 0
+    };
+    public static final int[] QUEEN_PST = {
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 1, 2, 2, 1, 0, -1,
+        -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1
+    };
     private static Map<Class<?>, Integer> pieceValMap;
 
     static {
@@ -76,8 +96,7 @@ public final class Eval {
         pieceValMap.put(Pawn.class, PAWN_VAL);
     }
 
-    private Eval() {
-    }
+    private Eval() {}
 
     public static int eval(Board board) {
 
@@ -206,7 +225,8 @@ public final class Eval {
     private static int evalConnectedMajorOn7th(Board board, boolean isWhite, Square sq) {
         int score = 0;
 
-        long rookMoves = Magic.getRookMoves(board, sq.value(), Bitboard.rays[sq.value()][East.getInstance().value()]);
+        long rookMoves = Magic.getRookMoves(
+                board, sq.value(), Bitboard.rays[sq.value()][East.getInstance().value()]);
 
         if (isWhite) {
             if ((rookMoves & (board.getWhiteRooks() | board.getWhiteQueens())) != 0) {
@@ -390,7 +410,9 @@ public final class Eval {
                 }
             } else {
                 // check if open file
-                if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file().getValue()]) == 0) {
+                if (((board.getWhitePawns() | board.getBlackPawns())
+                                & Bitboard.files[kingSq.file().getValue()])
+                        == 0) {
                     score += KING_SAFETY_MIDDLE_OPEN_FILE;
                 }
             }
@@ -459,7 +481,9 @@ public final class Eval {
                 }
             } else {
                 // check if open file
-                if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file().getValue()]) == 0) {
+                if (((board.getWhitePawns() | board.getBlackPawns())
+                                & Bitboard.files[kingSq.file().getValue()])
+                        == 0) {
                     score += KING_SAFETY_MIDDLE_OPEN_FILE;
                 }
             }
@@ -501,13 +525,20 @@ public final class Eval {
     }
 
     public static OrderedPair<Integer, Integer> getPawnMaterialScore(Board board) {
-        return new OrderedPair<Integer, Integer>(board.getNumPieces(Pawn.WHITE_PAWN) * PAWN_VAL, board.getNumPieces(Pawn.BLACK_PAWN) * PAWN_VAL);
+        return new OrderedPair<Integer, Integer>(
+                board.getNumPieces(Pawn.WHITE_PAWN) * PAWN_VAL, board.getNumPieces(Pawn.BLACK_PAWN) * PAWN_VAL);
     }
 
     public static OrderedPair<Integer, Integer> getNonPawnMaterialScore(Board board) {
-        int wScore = board.getNumPieces(Queen.WHITE_QUEEN) * QUEEN_VAL + board.getNumPieces(Rook.WHITE_ROOK) * ROOK_VAL + board.getNumPieces(Knight.WHITE_KNIGHT) * KNIGHT_VAL + board.getNumPieces(Bishop.WHITE_BISHOP) * BISHOP_VAL;
+        int wScore = board.getNumPieces(Queen.WHITE_QUEEN) * QUEEN_VAL
+                + board.getNumPieces(Rook.WHITE_ROOK) * ROOK_VAL
+                + board.getNumPieces(Knight.WHITE_KNIGHT) * KNIGHT_VAL
+                + board.getNumPieces(Bishop.WHITE_BISHOP) * BISHOP_VAL;
 
-        int bScore = board.getNumPieces(Queen.BLACK_QUEEN) * QUEEN_VAL + board.getNumPieces(Rook.BLACK_ROOK) * ROOK_VAL + board.getNumPieces(Knight.BLACK_KNIGHT) * KNIGHT_VAL + board.getNumPieces(Bishop.BLACK_BISHOP) * BISHOP_VAL;
+        int bScore = board.getNumPieces(Queen.BLACK_QUEEN) * QUEEN_VAL
+                + board.getNumPieces(Rook.BLACK_ROOK) * ROOK_VAL
+                + board.getNumPieces(Knight.BLACK_KNIGHT) * KNIGHT_VAL
+                + board.getNumPieces(Bishop.BLACK_BISHOP) * BISHOP_VAL;
 
         return new OrderedPair<Integer, Integer>(wScore, bScore);
     }

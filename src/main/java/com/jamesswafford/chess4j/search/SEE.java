@@ -1,16 +1,13 @@
 package com.jamesswafford.chess4j.search;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.*;
 import com.jamesswafford.chess4j.board.squares.Direction;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.eval.Eval;
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class SEE {
 
@@ -75,9 +72,11 @@ public class SEE {
 
                 long xrays;
                 if (dir.isDiagonal()) {
-                    xrays = Magic.getBishopMoves(b, currentSq.value(), targetSquares) & (b.getWhiteBishops() | b.getWhiteQueens() | b.getBlackBishops() | b.getBlackQueens());
+                    xrays = Magic.getBishopMoves(b, currentSq.value(), targetSquares)
+                            & (b.getWhiteBishops() | b.getWhiteQueens() | b.getBlackBishops() | b.getBlackQueens());
                 } else {
-                    xrays = Magic.getRookMoves(b, currentSq.value(), targetSquares) & (b.getWhiteRooks() | b.getWhiteQueens() | b.getBlackRooks() | b.getBlackQueens());
+                    xrays = Magic.getRookMoves(b, currentSq.value(), targetSquares)
+                            & (b.getWhiteRooks() | b.getWhiteQueens() | b.getBlackRooks() | b.getBlackQueens());
                 }
                 if ((xrays & b.getWhitePieces()) != 0) {
                     whiteAttackersMap |= xrays;
@@ -87,8 +86,7 @@ public class SEE {
             }
 
             currentSq = findLeastValuable(b, sideToMove == Color.WHITE ? whiteAttackersMap : blackAttackersMap);
-            if (currentSq == null)
-                break;
+            if (currentSq == null) break;
 
             if (sideToMove == Color.WHITE) {
                 whiteAttackersMap ^= Bitboard.squares[currentSq.value()];
@@ -136,5 +134,4 @@ public class SEE {
 
         return lvSq;
     }
-
 }

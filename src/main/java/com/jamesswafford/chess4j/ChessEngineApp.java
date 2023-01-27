@@ -1,15 +1,12 @@
 package com.jamesswafford.chess4j;
 
-
 import com.jamesswafford.chess4j.book.AbstractOpeningBook;
 import com.jamesswafford.chess4j.book.OpeningBookSQLiteImpl;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public final class ChessEngineApp {
     private static final Log LOGGER = LogFactory.getLog(ChessEngineApp.class);
@@ -19,8 +16,7 @@ public final class ChessEngineApp {
     private static String testSuiteFile = null;
     private static int testSuiteTime = 5; // default to five seconds
 
-    private ChessEngineApp() {
-    }
+    private ChessEngineApp() {}
 
     public static AbstractOpeningBook getOpeningBook() {
         return openingBook;

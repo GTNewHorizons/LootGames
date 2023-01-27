@@ -1,12 +1,11 @@
 package ru.timeconqueror.timecore.api.common.tile;
 
+import java.util.Objects;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.BlockState;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
-
-import java.util.Objects;
 
 /**
  * Tile entity with some useful methods

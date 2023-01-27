@@ -1,18 +1,14 @@
 package com.jamesswafford.chess4j.board;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.squares.*;
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public final class MoveGen {
 
-    private MoveGen() {
-    }
+    private MoveGen() {}
 
     private static void addMoves(Board board, Square fromSq, long moveMap, List<Move> moves) {
         while (moveMap != 0) {
@@ -152,8 +148,12 @@ public final class MoveGen {
                     int toSqVal = Bitboard.msb(pmap);
                     Square toSq = Square.valueOf(toSqVal);
                     moves.add(new Move(South.getInstance().next(toSq), toSq, null));
-                    if (toSq.rank() == Rank.RANK_3 && board.getPiece(North.getInstance().next(toSq)) == null) {
-                        moves.add(new Move(South.getInstance().next(toSq), North.getInstance().next(toSq), null));
+                    if (toSq.rank() == Rank.RANK_3
+                            && board.getPiece(North.getInstance().next(toSq)) == null) {
+                        moves.add(new Move(
+                                South.getInstance().next(toSq),
+                                North.getInstance().next(toSq),
+                                null));
                     }
                     pmap ^= Bitboard.squares[toSqVal];
                 }
@@ -199,14 +199,17 @@ public final class MoveGen {
                     int toSqVal = Bitboard.lsb(pmap);
                     Square toSq = Square.valueOf(toSqVal);
                     moves.add(new Move(North.getInstance().next(toSq), toSq, null));
-                    if (toSq.rank() == Rank.RANK_6 && board.getPiece(South.getInstance().next(toSq)) == null) {
-                        moves.add(new Move(North.getInstance().next(toSq), South.getInstance().next(toSq), null));
+                    if (toSq.rank() == Rank.RANK_6
+                            && board.getPiece(South.getInstance().next(toSq)) == null) {
+                        moves.add(new Move(
+                                North.getInstance().next(toSq),
+                                South.getInstance().next(toSq),
+                                null));
                     }
                     pmap ^= Bitboard.squares[toSqVal];
                 }
             }
         }
-
     }
 
     public static List<Move> genPseudoLegalMoves(Board board) {

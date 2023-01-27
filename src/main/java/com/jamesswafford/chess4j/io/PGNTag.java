@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.io;
 
-
 public class PGNTag {
 
     private String tagName;
@@ -26,12 +25,10 @@ public class PGNTag {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof PGNTag))
-            return false;
+        if (!(obj instanceof PGNTag)) return false;
 
         PGNTag that = (PGNTag) obj;
-        if (!this.getTagName().equals(that.getTagName()))
-            return false;
+        if (!this.getTagName().equals(that.getTagName())) return false;
         return this.getTagValue().equals(that.getTagValue());
     }
 

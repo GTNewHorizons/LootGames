@@ -1,17 +1,13 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.exceptions.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public final class EPDParser {
 
-    private EPDParser() {
-    }
+    private EPDParser() {}
 
     // set the board and return a list of operations
     // Note the EPD grammar can be found here:

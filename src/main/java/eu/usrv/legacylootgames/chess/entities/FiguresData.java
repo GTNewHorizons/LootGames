@@ -1,11 +1,8 @@
-
 package eu.usrv.legacylootgames.chess.entities;
-
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import ru.timeconqueror.lootgames.LootGames;
-
 
 public class FiguresData {
     private final EntityLiving _mEntity;

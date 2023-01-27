@@ -1,12 +1,11 @@
 package ru.timeconqueror.timecore.api.common.tile;
 
+import java.util.Objects;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.Objects;
 
 /**
  * Syncable TileEntity.
@@ -25,7 +24,7 @@ public class SyncableTile extends SimpleTile {
 
     @Override
     public final void readFromNBT(NBTTagCompound compound) {
-        //If read from client side
+        // If read from client side
         if (compound.hasKey("client_flag")) {
             readNBT(compound, SerializationType.SYNC);
         } else {

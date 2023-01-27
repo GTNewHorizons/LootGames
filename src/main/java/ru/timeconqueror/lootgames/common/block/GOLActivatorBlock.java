@@ -23,14 +23,27 @@ public class GOLActivatorBlock extends GameBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(
+            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
             boolean succeed = LootGamesAPI.getFieldManager()
-                    .trySetupBoard(((WorldServer) worldIn), pos, GameOfLight.BOARD_SIZE, 2, GameOfLight.BOARD_SIZE, LGBlocks.GOL_MASTER, player).isSucceed();
+                    .trySetupBoard(
+                            ((WorldServer) worldIn),
+                            pos,
+                            GameOfLight.BOARD_SIZE,
+                            2,
+                            GameOfLight.BOARD_SIZE,
+                            LGBlocks.GOL_MASTER,
+                            player)
+                    .isSucceed();
 
             if (succeed) {
-                NetworkUtils.sendMessage(player, ChatComponentExt.withStyle(new ChatComponentTranslation("msg.lootgames.gol.start"), NotifyColor.NOTIFY.getColor()));
+                NetworkUtils.sendMessage(
+                        player,
+                        ChatComponentExt.withStyle(
+                                new ChatComponentTranslation("msg.lootgames.gol.start"),
+                                NotifyColor.NOTIFY.getColor()));
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.GOL_START_GAME, 0.75F, 1.0F);
                 LGAchievements.GOL_START.trigger(player);
             }

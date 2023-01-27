@@ -1,8 +1,9 @@
 package eu.usrv.legacylootgames.blocks;
 
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,10 +15,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.timecore.api.util.RandHelper;
-
-import java.util.List;
-import java.util.Random;
-
 
 public class DungeonLightSource extends Block {
     @SideOnly(Side.CLIENT)
@@ -52,10 +49,8 @@ public class DungeonLightSource extends Block {
 
     @Override
     public int getHarvestLevel(int metadata) {
-        if (metadata == State.BROKEN.ordinal())
-            return 1;
-        else
-            return 4;
+        if (metadata == State.BROKEN.ordinal()) return 1;
+        else return 4;
     }
 
     @Override
@@ -76,8 +71,7 @@ public class DungeonLightSource extends Block {
     @Override
     public int damageDropped(int meta) {
         int tRet = State.BROKEN.ordinal();
-        if (meta == State.NORMAL.ordinal())
-            tRet = RandHelper.flipCoin(State.BROKEN.ordinal(), State.NORMAL.ordinal());
+        if (meta == State.NORMAL.ordinal()) tRet = RandHelper.flipCoin(State.BROKEN.ordinal(), State.NORMAL.ordinal());
 
         return tRet;
     }
@@ -104,5 +98,4 @@ public class DungeonLightSource extends Block {
         NORMAL,
         BROKEN
     }
-
 }

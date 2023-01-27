@@ -9,8 +9,7 @@ public class CPacketGameUpdate extends PacketGameUpdate<IClientGamePacket> {
         super(game, gamePacket);
     }
 
-    public CPacketGameUpdate() {
-    }
+    public CPacketGameUpdate() {}
 
     @Override
     public GamePacketRegistry.Storage<IClientGamePacket> getStorage() {
@@ -18,6 +17,7 @@ public class CPacketGameUpdate extends PacketGameUpdate<IClientGamePacket> {
     }
 
     public static Handler<IClientGamePacket, CPacketGameUpdate> makeHandler() {
-        return new Handler<>((context, lootGame, packet) -> lootGame.onFeedbackPacket(context.getServerHandler().playerEntity, packet));
+        return new Handler<>((context, lootGame, packet) ->
+                lootGame.onFeedbackPacket(context.getServerHandler().playerEntity, packet));
     }
 }

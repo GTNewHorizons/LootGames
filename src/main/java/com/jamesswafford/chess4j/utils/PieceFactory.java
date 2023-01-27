@@ -1,11 +1,8 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.HashMap;
 import java.util.Map;
-
 
 public final class PieceFactory {
 
@@ -27,9 +24,7 @@ public final class PieceFactory {
         charToPieceMap.put("p", Pawn.BLACK_PAWN);
     }
 
-    private PieceFactory() {
-
-    }
+    private PieceFactory() {}
 
     public static Piece getPiece(char p) {
         return getPiece(String.valueOf(p));

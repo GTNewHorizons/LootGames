@@ -1,13 +1,10 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.List;
-
 
 public class BoardUtils {
 
@@ -31,7 +28,8 @@ public class BoardUtils {
         List<Square> squares = Square.allSquares();
         for (Square sq : squares) {
             Piece p = board.getPiece(sq);
-            if ((p instanceof Queen || p instanceof Rook || p instanceof Bishop || p instanceof Knight) && p.getColor().equals(sideToMove)) {
+            if ((p instanceof Queen || p instanceof Rook || p instanceof Bishop || p instanceof Knight)
+                    && p.getColor().equals(sideToMove)) {
                 n++;
             }
         }

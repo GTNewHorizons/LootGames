@@ -1,23 +1,16 @@
 package ru.timeconqueror.timecore.api.reflection;
 
 import com.google.common.base.Joiner;
-import ru.timeconqueror.lootgames.LootGames;
-
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Optional;
+import javax.annotation.Nullable;
+import ru.timeconqueror.lootgames.LootGames;
 
 public class ReflectionHelper {
-    private static final UnlockedField<Field> F_MODIFIERS = findField(Field.class, "modifiers");
-
-    static {
-        F_MODIFIERS.getField().setAccessible(true);
-    }
-
     public static boolean isFinal(Field f) {
         return Modifier.isFinal(f.getModifiers());
     }
@@ -28,16 +21,6 @@ public class ReflectionHelper {
 
     public static boolean isStatic(Method m) {
         return Modifier.isStatic(m.getModifiers());
-    }
-
-    /**
-     * Removes {@code final} modifier from field.
-     */
-    public static void unfinalize(Field f) throws IllegalAccessException {
-        if (isFinal(f)) {
-            Field modifiersField = F_MODIFIERS.getField();
-            modifiersField.setInt(f, f.getModifiers() & ~Modifier.FINAL);
-        }
     }
 
     public static void setAccessible(Field f) {
@@ -129,9 +112,11 @@ public class ReflectionHelper {
      * @return The method with the specified location in the given class or null if the method is not found.
      * @see #findMethod(Class, String, Class[])
      */
-    public static <T> Optional<UnlockedMethod<T>> findMethodSoftly(Class<?> clazz, String methodName, Class<?>... params) {
+    public static <T> Optional<UnlockedMethod<T>> findMethodSoftly(
+            Class<?> clazz, String methodName, Class<?>... params) {
         for (Method declaredMethod : clazz.getDeclaredMethods()) {
-            if (declaredMethod.getName().equals(methodName) && Arrays.equals(declaredMethod.getParameterTypes(), params)) {
+            if (declaredMethod.getName().equals(methodName)
+                    && Arrays.equals(declaredMethod.getParameterTypes(), params)) {
                 return Optional.of(new UnlockedMethod<>(declaredMethod));
             }
         }
@@ -156,7 +141,8 @@ public class ReflectionHelper {
             Method method = clazz.getDeclaredMethod(methodName, params);
             return new UnlockedMethod<>(method);
         } catch (Throwable e) {
-            throw new RuntimeException("Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params), e);
+            throw new RuntimeException(
+                    "Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params), e);
         }
     }
 
@@ -199,24 +185,15 @@ public class ReflectionHelper {
 
     public static String getDescriptorForClass(final Class<?> c) {
         if (c.isPrimitive()) {
-            if (c == byte.class)
-                return "B";
-            if (c == char.class)
-                return "C";
-            if (c == double.class)
-                return "D";
-            if (c == float.class)
-                return "F";
-            if (c == int.class)
-                return "I";
-            if (c == long.class)
-                return "J";
-            if (c == short.class)
-                return "S";
-            if (c == boolean.class)
-                return "Z";
-            if (c == void.class)
-                return "V";
+            if (c == byte.class) return "B";
+            if (c == char.class) return "C";
+            if (c == double.class) return "D";
+            if (c == float.class) return "F";
+            if (c == int.class) return "I";
+            if (c == long.class) return "J";
+            if (c == short.class) return "S";
+            if (c == boolean.class) return "Z";
+            if (c == void.class) return "V";
             throw new RuntimeException("Unrecognized primitive " + c);
         }
         if (c.isArray()) return c.getName().replace('.', '/');

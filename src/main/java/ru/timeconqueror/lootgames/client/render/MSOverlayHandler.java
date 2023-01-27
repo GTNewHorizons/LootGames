@@ -1,6 +1,11 @@
 package ru.timeconqueror.lootgames.client.render;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.awt.*;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,12 +20,6 @@ import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
-
-import java.awt.*;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class MSOverlayHandler {
     private static final ArrayList<WeakReference<MSMasterTile>> MS_MASTERS = new ArrayList<>(1);
@@ -88,32 +87,57 @@ public class MSOverlayHandler {
             MSMasterTile msMaster = masters.get(i);
             GameMineSweeper game = msMaster.getGame();
 
-            Color color = game.getStage() instanceof GameMineSweeper.StageDetonating || game.getStage() instanceof GameMineSweeper.StageExploding ? Color.RED : Color.WHITE;
+            Color color = game.getStage() instanceof GameMineSweeper.StageDetonating
+                            || game.getStage() instanceof GameMineSweeper.StageExploding
+                    ? Color.RED
+                    : Color.WHITE;
             String toDisplay = getBombDisplayString(game, extendedInfo);
 
             float finalMaxRectWidth = maxRectWidth;
             if (i == 0) {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(OVERLAY);
                 DrawHelper.drawTexturedRectByParts(5, 5, 15 * 1.5F, 16 * 1.5F, 0, 0, 0, 15, 16, 48);
-                DrawHelper.drawWidthExpandableTexturedRect(5 + 15 * 1.5F, 5, finalMaxRectWidth, 0, FIRST_SLOT_START, FIRST_SLOT_REPEAT, FIRST_SLOT_END, 48);
+                DrawHelper.drawWidthExpandableTexturedRect(
+                        5 + 15 * 1.5F,
+                        5,
+                        finalMaxRectWidth,
+                        0,
+                        FIRST_SLOT_START,
+                        FIRST_SLOT_REPEAT,
+                        FIRST_SLOT_END,
+                        48);
 
                 DrawHelper.drawYCenteredStringWithShadow(fontRenderer, toDisplay, 33, 17, color.getRGB());
             } else {
                 float finalStartY = startY;
                 Minecraft.getMinecraft().getTextureManager().bindTexture(OVERLAY);
-                DrawHelper.drawWidthExpandableTexturedRect(27.5F, finalStartY, finalMaxRectWidth, 0, EXTRA_SLOT_START, EXTRA_SLOT_REPEAT, EXTRA_SLOT_END, 48);
+                DrawHelper.drawWidthExpandableTexturedRect(
+                        27.5F,
+                        finalStartY,
+                        finalMaxRectWidth,
+                        0,
+                        EXTRA_SLOT_START,
+                        EXTRA_SLOT_REPEAT,
+                        EXTRA_SLOT_END,
+                        48);
 
-                DrawHelper.drawYCenteredStringWithShadow(fontRenderer, toDisplay, 33, (int) (startY + 8), color.getRGB());
+                DrawHelper.drawYCenteredStringWithShadow(
+                        fontRenderer, toDisplay, 33, (int) (startY + 8), color.getRGB());
                 startY += 7 * 1.5F;
             }
         }
     }
 
     private static String getBombDisplayString(GameMineSweeper game, boolean extended) {
-        int bombDisplay = game.getStage() instanceof GameMineSweeper.StageDetonating || game.getStage() instanceof GameMineSweeper.StageExploding ? game.getBoard().getBombCount() :
-                game.getBoard().getBombCount() - game.getBoard().cGetFlaggedField();
+        int bombDisplay = game.getStage() instanceof GameMineSweeper.StageDetonating
+                        || game.getStage() instanceof GameMineSweeper.StageExploding
+                ? game.getBoard().getBombCount()
+                : game.getBoard().getBombCount() - game.getBoard().cGetFlaggedField();
         BlockPos gamePos = game.getGameCenter();
-        return extended ? "x" + bombDisplay + " on "/*todo translate */ + gamePos.getX() + ", " + gamePos.getY() + ", " + gamePos.getZ() : "x" + bombDisplay;
+        return extended
+                ? "x" + bombDisplay + " on " /*todo translate */ + gamePos.getX() + ", " + gamePos.getY() + ", "
+                        + gamePos.getZ()
+                : "x" + bombDisplay;
     }
 
     public static void addSupportedMaster(MSMasterTile master) {

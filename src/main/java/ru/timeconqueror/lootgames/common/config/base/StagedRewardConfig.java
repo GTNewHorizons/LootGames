@@ -8,7 +8,8 @@ import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 public class StagedRewardConfig extends ConfigSection {
     private final RewardConfig[] configs;
 
-    public static FourStagedRewardConfig fourStaged(String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
+    public static FourStagedRewardConfig fourStaged(
+            String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
         return new FourStagedRewardConfig(parentKey, key, comment, fourStagedDefaults);
     }
 
@@ -19,7 +20,8 @@ public class StagedRewardConfig extends ConfigSection {
 
     public RewardConfig getStageByIndex(int index) {
         if (index < 0 || index > size() - 1) {
-            throw new IllegalArgumentException("Provided number (=" + index + ") should be positive and less then " + (size() - 1));
+            throw new IllegalArgumentException(
+                    "Provided number (=" + index + ") should be positive and less then " + (size() - 1));
         }
         return configs[index];
     }
@@ -40,12 +42,32 @@ public class StagedRewardConfig extends ConfigSection {
     }
 
     public static class FourStagedRewardConfig extends StagedRewardConfig {
-        private FourStagedRewardConfig(String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
-            super(parentKey, key, comment,
-                    new RewardConfig(LGConfigs.mergeCategories(parentKey, key), "stage_1", "Rewards for stage 1", fourStagedDefaults.getStage1()),
-                    new RewardConfig(LGConfigs.mergeCategories(parentKey, key), "stage_2", "Rewards for stage 2", fourStagedDefaults.getStage2()),
-                    new RewardConfig(LGConfigs.mergeCategories(parentKey, key), "stage_3", "Rewards for stage 3", fourStagedDefaults.getStage3()),
-                    new RewardConfig(LGConfigs.mergeCategories(parentKey, key), "stage_4", "Rewards for stage 4", fourStagedDefaults.getStage4()));
+        private FourStagedRewardConfig(
+                String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
+            super(
+                    parentKey,
+                    key,
+                    comment,
+                    new RewardConfig(
+                            LGConfigs.mergeCategories(parentKey, key),
+                            "stage_1",
+                            "Rewards for stage 1",
+                            fourStagedDefaults.getStage1()),
+                    new RewardConfig(
+                            LGConfigs.mergeCategories(parentKey, key),
+                            "stage_2",
+                            "Rewards for stage 2",
+                            fourStagedDefaults.getStage2()),
+                    new RewardConfig(
+                            LGConfigs.mergeCategories(parentKey, key),
+                            "stage_3",
+                            "Rewards for stage 3",
+                            fourStagedDefaults.getStage3()),
+                    new RewardConfig(
+                            LGConfigs.mergeCategories(parentKey, key),
+                            "stage_4",
+                            "Rewards for stage 4",
+                            fourStagedDefaults.getStage4()));
         }
 
         public RewardConfig getStage1() {

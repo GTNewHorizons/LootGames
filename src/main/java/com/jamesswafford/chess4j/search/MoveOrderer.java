@@ -1,13 +1,10 @@
 package com.jamesswafford.chess4j.search;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.utils.MoveUtils;
-
 import java.util.Arrays;
 import java.util.List;
-
 
 public class MoveOrderer {
 
@@ -49,7 +46,9 @@ public class MoveOrderer {
             if (hashMove != null) {
                 int ind = MoveUtils.indexOf(moves, hashMove, startIndex);
                 if (ind != -1) {
-                    assert (Arrays.asList(moves).subList(startIndex, moves.length).contains(hashMove));
+                    assert (Arrays.asList(moves)
+                            .subList(startIndex, moves.length)
+                            .contains(hashMove));
                     MoveUtils.swap(moves, startIndex, ind);
                     lastMoveOrderStage = MoveOrderStage.HASH_MOVE;
                     return hashMove;
@@ -169,5 +168,4 @@ public class MoveOrderer {
     public void setLastMoveOrderStage(MoveOrderStage lastMoveOrderStage) {
         this.lastMoveOrderStage = lastMoveOrderStage;
     }
-
 }

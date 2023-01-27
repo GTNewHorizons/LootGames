@@ -10,10 +10,9 @@ import eu.usrv.legacylootgames.gol.blocks.LegacyLightGameBlock;
 import eu.usrv.legacylootgames.gol.tiles.LegacyGameOfLightTile;
 import eu.usrv.legacylootgames.worldgen.LootGamesWorldGen;
 import eu.usrv.yamcore.YAMCore;
-import ru.timeconqueror.lootgames.LootGames;
-
 import java.io.IOException;
 import java.util.Random;
+import ru.timeconqueror.lootgames.LootGames;
 
 public class LootGamesLegacy {
     public static Random Rnd = new Random();
@@ -43,7 +42,6 @@ public class LootGamesLegacy {
 
     public static void serverLoad(FMLServerStartingEvent pEvent) {
         pEvent.registerServerCommand(new ProfilingCommand());
-        if (YAMCore.isDebug())
-            pEvent.registerServerCommand(new PeacefulEntityCommand());
+        if (YAMCore.isDebug()) pEvent.registerServerCommand(new PeacefulEntityCommand());
     }
 }

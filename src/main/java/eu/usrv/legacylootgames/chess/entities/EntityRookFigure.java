@@ -1,16 +1,13 @@
-
 package eu.usrv.legacylootgames.chess.entities;
-
 
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-
 public class EntityRookFigure extends EntityIronGolem implements IChessFigure {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[]{
-            new ResourceLocation("LootGames:textures/entity/rook_golem/black.png"),
-            new ResourceLocation("LootGames:textures/entity/rook_golem/white.png")
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+        new ResourceLocation("LootGames:textures/entity/rook_golem/black.png"),
+        new ResourceLocation("LootGames:textures/entity/rook_golem/white.png")
     };
 
     private FiguresData _mFiguresData;

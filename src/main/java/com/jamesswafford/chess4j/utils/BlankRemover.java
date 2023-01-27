@@ -1,13 +1,11 @@
 package com.jamesswafford.chess4j.utils;
 
-
 /**
  * lifted from: http://www.rgagnon.com/javadetails/java-0352.html
  */
 public final class BlankRemover {
 
-    private BlankRemover() {
-    }
+    private BlankRemover() {}
 
     /* remove leading whitespace */
     public static String ltrim(String source) {
@@ -32,5 +30,4 @@ public final class BlankRemover {
     public static String lrtrim(String source) {
         return ltrim(rtrim(source));
     }
-
 }

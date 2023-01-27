@@ -1,5 +1,8 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
+import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
+
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,17 +33,13 @@ import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 import ru.timeconqueror.timecore.api.util.RandHelper;
 import ru.timeconqueror.timecore.api.util.Wrapper;
 
-import java.util.List;
-
-import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
-
-//TODO lang keys for advancements
-//TODO change generation random - depending on world is bad.
-//TODO add leveling info in chat
-//todo add game rules in chat
-//TODO remove break particle before left click interact
-//TODO if all non-bomb fields are revealed, finish the game
-//TODO remove interact with opened fields
+// TODO lang keys for advancements
+// TODO change generation random - depending on world is bad.
+// TODO add leveling info in chat
+// todo add game rules in chat
+// TODO remove break particle before left click interact
+// TODO if all non-bomb fields are revealed, finish the game
+// TODO remove interact with opened fields
 public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public boolean cIsGenerated;
 
@@ -85,7 +84,11 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         super.onLoad();
 
         if (isClientSide()) {
-            configSnapshot = ConfigMS.Snapshot.stub(); // needs for first client ticks, because the config from readNBT is called a little bit later
+            configSnapshot =
+                    ConfigMS.Snapshot
+                            .stub(); // needs for first client ticks, because the config from readNBT is called a little
+            // bit
+            // later
         }
     }
 
@@ -121,7 +124,6 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         }
     }
 
-
     @Override
     protected void triggerGameWin() {
         super.triggerGameWin();
@@ -142,7 +144,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             players.forEach(LGAchievements.MS_BEAT_LEVEL4::trigger);
         }
 
-        RewardUtils.spawnFourStagedReward(((WorldServer) getWorld()), this, central, currentLevel - 1, LGConfigs.REWARDS.rewardsMinesweeper);
+        RewardUtils.spawnFourStagedReward(
+                ((WorldServer) getWorld()), this, central, currentLevel - 1, LGConfigs.REWARDS.rewardsMinesweeper);
     }
 
     @Override
@@ -237,7 +240,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public static class Factory implements ILootGameFactory {
         @Override
         public void genOnPuzzleMasterClick(World world, BlockPos puzzleMasterPos) {
-            BlockPos floorCenterPos = puzzleMasterPos.offset(0, -3/*instead of GameDungeonStructure.MASTER_BLOCK_OFFSET*/ + 1, 0);
+            BlockPos floorCenterPos =
+                    puzzleMasterPos.offset(0, -3 /*instead of GameDungeonStructure.MASTER_BLOCK_OFFSET*/ + 1, 0);
             WorldExt.setBlock(world, floorCenterPos, LGBlocks.MS_ACTIVATOR);
         }
     }
@@ -245,8 +249,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public class StageWaiting extends BoardStage {
         private static final String ID = "waiting";
 
-        public StageWaiting() {
-        }
+        public StageWaiting() {}
 
         @Override
         protected void onClick(EntityPlayer player, Pos2i pos, MouseClickType type) {
@@ -292,7 +295,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
                 if (type == Type.EMPTY) {
                     if (playRevealNeighboursSound) {
-                        WorldExt.playSoundServerly(getWorld(), convertToBlockPos(pos), LGSounds.MS_ON_EMPTY_REVEAL_NEIGHBOURS, 0.6F, 1.0F);
+                        WorldExt.playSoundServerly(
+                                getWorld(), convertToBlockPos(pos), LGSounds.MS_ON_EMPTY_REVEAL_NEIGHBOURS, 0.6F, 1.0F);
                         playRevealNeighboursSound = false;
                     }
 
@@ -329,7 +333,10 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 }
 
                 if (marked != bombsAround) {
-                    sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.reveal_invalid_mark_count"), NotifyColor.WARN);
+                    sendTo(
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.ms.reveal_invalid_mark_count"),
+                            NotifyColor.WARN);
                     return;
                 }
             }
@@ -361,7 +368,6 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             if (board.checkWin()) {
                 onLevelSuccessfullyFinished();
             }
-
         }
 
         private void triggerBombs(Pos2i pos) {
@@ -439,13 +445,12 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public class StageExploding extends BoardStage {
         private static final String ID = "exploding";
 
-        public StageExploding() {
-        }
+        public StageExploding() {}
 
         @Override
         public void postInit() {
             int longestDetTime = detonateBoard(currentLevel + 3, false);
-            ticks = longestDetTime + 20; //number represents some pause after detonating
+            ticks = longestDetTime + 20; // number represents some pause after detonating
         }
 
         @Override
@@ -455,7 +460,10 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
                 if (ticks <= 0) {
                     sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.new_attempt"), NotifyColor.NOTIFY);
-                    sendToNearby(new ChatComponentTranslation("msg.lootgames.attempt_left", LGConfigs.MINESWEEPER.attemptCount - attemptCount), NotifyColor.GRAVE_NOTIFY);
+                    sendToNearby(
+                            new ChatComponentTranslation(
+                                    "msg.lootgames.attempt_left", LGConfigs.MINESWEEPER.attemptCount - attemptCount),
+                            NotifyColor.GRAVE_NOTIFY);
 
                     switchStage(new StageWaiting());
 
@@ -484,7 +492,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                         longestDetTime.set(detTime);
                     }
 
-                    taskScheduler.addTask(new TaskCreateExplosion(convertToBlockPos(pos2i), strength, affectBlocks), detTime);
+                    taskScheduler.addTask(
+                            new TaskCreateExplosion(convertToBlockPos(pos2i), strength, affectBlocks), detTime);
                 }
             });
 
@@ -497,4 +506,3 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         }
     }
 }
-

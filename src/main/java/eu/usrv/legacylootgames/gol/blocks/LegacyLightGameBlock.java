@@ -1,6 +1,4 @@
-
 package eu.usrv.legacylootgames.gol.blocks;
-
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import ru.timeconqueror.lootgames.client.IconLoader;
-
 
 public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
 
@@ -31,8 +28,7 @@ public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public void registerBlockIcons(IIconRegister reg) {
-    }
+    public void registerBlockIcons(IIconRegister reg) {}
 
     @Override
     public final boolean hasTileEntity(int metadata) {

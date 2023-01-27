@@ -1,9 +1,8 @@
 package ru.timeconqueror.timecore.api.util;
 
+import javax.vecmath.Vector3d;
 import net.minecraft.entity.Entity;
 import ru.timeconqueror.lootgames.utils.future.Vector3i;
-
-import javax.vecmath.Vector3d;
 
 public class MathUtils {
     /**

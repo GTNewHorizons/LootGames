@@ -1,8 +1,6 @@
 package eu.usrv.legacylootgames;
 
-
 import net.minecraft.world.World;
-
 
 public interface ILootGame {
     void init();
@@ -25,5 +23,14 @@ public interface ILootGame {
      * @param pOffsetZ     The offset from pCenterZ
      * @return TRUE, if you have set any block, FALSE, if you have not.
      */
-    boolean onGenerateBlock(World pWorldObject, int pMaxXZ, int pMaxY, int pCenterX, int pBottomY, int pCenterZ, int pOffsetX, int pOffsetY, int pOffsetZ);
+    boolean onGenerateBlock(
+            World pWorldObject,
+            int pMaxXZ,
+            int pMaxY,
+            int pCenterX,
+            int pBottomY,
+            int pCenterZ,
+            int pOffsetX,
+            int pOffsetY,
+            int pOffsetZ);
 }

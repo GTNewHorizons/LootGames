@@ -1,5 +1,6 @@
 package ru.timeconqueror.lootgames.api.block;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -11,9 +12,7 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.BlockState;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-//TODO textures
+// TODO textures
 @ParametersAreNonnullByDefault
 public class BoardBorderBlock extends GameBlock implements IGameField {
     public BoardBorderBlock() {
@@ -31,7 +30,6 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
             if (!(currentBlock instanceof BoardBorderBlock)) {
                 break;
             }
-
 
             Type type = Type.byMeta(currentMeta);
 
@@ -97,7 +95,8 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
-            LootGamesAPI.getFieldManager().onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, pos, BlockState.of(blockBroken, meta)));
+            LootGamesAPI.getFieldManager()
+                    .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, pos, BlockState.of(blockBroken, meta)));
         }
 
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
@@ -115,7 +114,8 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
 
         public static Type byMeta(int meta) {
             if (meta >= VALUES.length)
-                throw new IllegalArgumentException(String.format("Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
+                throw new IllegalArgumentException(String.format(
+                        "Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
             return VALUES[meta];
         }
     }

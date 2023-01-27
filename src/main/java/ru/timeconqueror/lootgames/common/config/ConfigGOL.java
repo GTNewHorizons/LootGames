@@ -1,10 +1,9 @@
 package ru.timeconqueror.lootgames.common.config;
 
+import java.util.EnumSet;
 import net.minecraftforge.common.config.Configuration;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
-
-import java.util.EnumSet;
 
 public class ConfigGOL extends Config {
     public int weight;
@@ -24,23 +23,69 @@ public class ConfigGOL extends Config {
 
     public ConfigGOL() {
         super(Names.CATEGORY_GAME_OF_LIGHT);
-        stage1 = new StageConfig(getKey(), "stage_1", "Regulates characteristics of stage 1.", new DefaultData(5, false, 24));
-        stage2 = new StageConfig(getKey(), "stage_2", "Regulates characteristics of stage 2.", new DefaultData(5, false, 16));
-        stage3 = new StageConfig(getKey(), "stage_3", "Regulates characteristics of stage 3.", new DefaultData(5, false, 12));
-        stage4 = new StageConfig(getKey(), "stage_4", "Regulates characteristics of stage 4.", new DefaultData(5, true, 12));
+        stage1 = new StageConfig(
+                getKey(), "stage_1", "Regulates characteristics of stage 1.", new DefaultData(5, false, 24));
+        stage2 = new StageConfig(
+                getKey(), "stage_2", "Regulates characteristics of stage 2.", new DefaultData(5, false, 16));
+        stage3 = new StageConfig(
+                getKey(), "stage_3", "Regulates characteristics of stage 3.", new DefaultData(5, false, 12));
+        stage4 = new StageConfig(
+                getKey(), "stage_4", "Regulates characteristics of stage 4.", new DefaultData(5, true, 12));
     }
 
     @Override
     public void init() {
-        weight = config.getInt("weight", getKey(), 1, 0, Integer.MAX_VALUE, "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
+        weight = config.getInt(
+                "weight",
+                getKey(),
+                1,
+                0,
+                Integer.MAX_VALUE,
+                "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
-        startDigitAmount = config.getInt(Names.START_DIGIT_AMOUNT, getKey(), 2, 1, Integer.MAX_VALUE, "Regulates how many digits should be randomly chosen and shown at game-start.");
-        attemptCount = config.getInt(Names.ATTEMPT_COUNT, getKey(), 3, 1, Integer.MAX_VALUE, "It represents the number of attempts the player has to beat the game successfully.");
-        expandFieldAtStage = config.getInt(Names.EXPAND_FIELD_AT_STAGE, getKey(), 2, 0, 4, "At which stage should the playfield become a full 3x3 pattern?\nSet 0 to disable and keep the 4-block size; set 1 to always start with 3x3.");
-        explodeOnFail = config.getBoolean(Names.EXPLODE_ON_FAIL, getKey(), true, "Enables or disables structure exploding on max failed attempts.");
-        zombiesOnFail = config.getBoolean(Names.ZOMBIES_ON_FAIL, getKey(), true, "Enables or disables structure filling with zombies on max failed attempts.");
-        lavaOnFail = config.getBoolean(Names.LAVA_ON_FAIL, getKey(), true, "Enables or disables structure filling with lava on max failed attempts.");
-        timeout = config.getInt(Names.TIMEOUT, getKey(), 30, 10, Integer.MAX_VALUE, "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");
+        startDigitAmount = config.getInt(
+                Names.START_DIGIT_AMOUNT,
+                getKey(),
+                2,
+                1,
+                Integer.MAX_VALUE,
+                "Regulates how many digits should be randomly chosen and shown at game-start.");
+        attemptCount = config.getInt(
+                Names.ATTEMPT_COUNT,
+                getKey(),
+                3,
+                1,
+                Integer.MAX_VALUE,
+                "It represents the number of attempts the player has to beat the game successfully.");
+        expandFieldAtStage = config.getInt(
+                Names.EXPAND_FIELD_AT_STAGE,
+                getKey(),
+                2,
+                0,
+                4,
+                "At which stage should the playfield become a full 3x3 pattern?\nSet 0 to disable and keep the 4-block size; set 1 to always start with 3x3.");
+        explodeOnFail = config.getBoolean(
+                Names.EXPLODE_ON_FAIL,
+                getKey(),
+                true,
+                "Enables or disables structure exploding on max failed attempts.");
+        zombiesOnFail = config.getBoolean(
+                Names.ZOMBIES_ON_FAIL,
+                getKey(),
+                true,
+                "Enables or disables structure filling with zombies on max failed attempts.");
+        lavaOnFail = config.getBoolean(
+                Names.LAVA_ON_FAIL,
+                getKey(),
+                true,
+                "Enables or disables structure filling with lava on max failed attempts.");
+        timeout = config.getInt(
+                Names.TIMEOUT,
+                getKey(),
+                30,
+                10,
+                Integer.MAX_VALUE,
+                "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");
 
         stage1.init(config);
         stage2.init(config);
@@ -87,7 +132,7 @@ public class ConfigGOL extends Config {
         }
     }
 
-    //used for migration
+    // used for migration
     public static class Names {
         public static final String CATEGORY_GAME_OF_LIGHT = "game_of_light";
 
@@ -117,9 +162,25 @@ public class ConfigGOL extends Config {
         }
 
         protected void init(Configuration config) {
-            rounds = config.getInt(Names.ROUNDS, getCategoryName(), defData.rounds, 1, 256, "Round count required to complete this stage and unlock leveled reward.");
-            randomizeSequence = config.getBoolean(Names.RANDOMIZE_SEQUENCE, getCategoryName(), defData.randomizeSequence, "If true, the pattern will randomize on each round in this stage.");
-            displayTime = config.getInt(Names.DISPLAY_TIME, getCategoryName(), defData.displayTime, 2, 40, "Amount of time (in ticks; 20 ticks = 1s) for which the symbol will be displayed.");
+            rounds = config.getInt(
+                    Names.ROUNDS,
+                    getCategoryName(),
+                    defData.rounds,
+                    1,
+                    256,
+                    "Round count required to complete this stage and unlock leveled reward.");
+            randomizeSequence = config.getBoolean(
+                    Names.RANDOMIZE_SEQUENCE,
+                    getCategoryName(),
+                    defData.randomizeSequence,
+                    "If true, the pattern will randomize on each round in this stage.");
+            displayTime = config.getInt(
+                    Names.DISPLAY_TIME,
+                    getCategoryName(),
+                    defData.displayTime,
+                    2,
+                    40,
+                    "Amount of time (in ticks; 20 ticks = 1s) for which the symbol will be displayed.");
 
             config.setCategoryComment(getCategoryName(), getComment());
         }
@@ -138,6 +199,8 @@ public class ConfigGOL extends Config {
     }
 
     public enum Fail {
-        ZOMBIES, EXPLOSION, LAVA
+        ZOMBIES,
+        EXPLOSION,
+        LAVA
     }
 }

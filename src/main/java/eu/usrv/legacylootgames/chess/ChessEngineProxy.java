@@ -1,15 +1,12 @@
 package eu.usrv.legacylootgames.chess;
 
-
 import com.jamesswafford.chess4j.exceptions.IllegalMoveException;
 import com.jamesswafford.chess4j.exceptions.ParseException;
 import com.jamesswafford.chess4j.io.InputParser;
-import ru.timeconqueror.lootgames.LootGames;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+import ru.timeconqueror.lootgames.LootGames;
 
 interface IChessEventListener {
     void chessEngineMessage(UUID pUUID, String pMessage);
@@ -20,21 +17,17 @@ public class ChessEngineProxy {
     private UUID _mCurrentAttachedChessGame = null;
     private final List<IChessEventListener> listeners = new ArrayList<IChessEventListener>();
 
-    private ChessEngineProxy() {
-    }
+    private ChessEngineProxy() {}
 
     public static ChessEngineProxy getInstance() {
-        if (_mInstance == null)
-            _mInstance = new ChessEngineProxy();
+        if (_mInstance == null) _mInstance = new ChessEngineProxy();
 
         return _mInstance;
     }
 
     public UUID getEngineToken() {
-        if (_mCurrentAttachedChessGame != null)
-            return null;
-        else
-            _mCurrentAttachedChessGame = UUID.randomUUID();
+        if (_mCurrentAttachedChessGame != null) return null;
+        else _mCurrentAttachedChessGame = UUID.randomUUID();
 
         return _mCurrentAttachedChessGame;
     }
@@ -64,7 +57,6 @@ public class ChessEngineProxy {
     }
 
     public void publishAnswer(String pMessage) {
-        for (IChessEventListener hl : listeners)
-            hl.chessEngineMessage(_mCurrentAttachedChessGame, pMessage);
+        for (IChessEventListener hl : listeners) hl.chessEngineMessage(_mCurrentAttachedChessGame, pMessage);
     }
 }

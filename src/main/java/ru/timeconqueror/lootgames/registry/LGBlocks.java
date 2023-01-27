@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import eu.usrv.legacylootgames.blocks.DungeonLightSource;
 import eu.usrv.legacylootgames.items.DungeonBlockItem;
+import java.util.function.Supplier;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import ru.timeconqueror.lootgames.LootGames;
@@ -17,8 +18,6 @@ import ru.timeconqueror.lootgames.common.block.PuzzleMasterBlock;
 import ru.timeconqueror.lootgames.common.block.tile.GOLMasterTile;
 import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
 import ru.timeconqueror.lootgames.common.block.tile.PuzzleMasterTile;
-
-import java.util.function.Supplier;
 
 public class LGBlocks {
     public static final DungeonBrick DUNGEON_WALL = new DungeonBrick();

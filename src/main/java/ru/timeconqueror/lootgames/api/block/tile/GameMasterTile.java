@@ -64,8 +64,7 @@ public abstract class GameMasterTile<T extends LootGame<?, T>> extends SyncableT
      * @param player         player, who clicked the subordinate block.
      * @param subordinatePos pos of subordinate block.
      */
-    public void onBlockRightClick(EntityPlayer player, BlockPos subordinatePos) {
-    }
+    public void onBlockRightClick(EntityPlayer player, BlockPos subordinatePos) {}
 
     /**
      * Will be called when subordinate block is left-clicked by player.
@@ -73,9 +72,7 @@ public abstract class GameMasterTile<T extends LootGame<?, T>> extends SyncableT
      * @param player         player, who clicked the subordinate block.
      * @param subordinatePos pos of subordinate block.
      */
-    public void onBlockLeftClick(EntityPlayer player, BlockPos subordinatePos) {
-
-    }
+    public void onBlockLeftClick(EntityPlayer player, BlockPos subordinatePos) {}
 
     public T getGame() {
         return game;

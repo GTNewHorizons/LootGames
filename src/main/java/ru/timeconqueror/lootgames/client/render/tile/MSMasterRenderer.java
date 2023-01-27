@@ -38,7 +38,7 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
         if (!game.cIsGenerated) {
             for (int xL = 0; xL < boardSize; xL++) {
                 for (int zL = 0; zL < boardSize; zL++) {
-                    //brightened
+                    // brightened
                     DrawHelper.drawTexturedRectByParts(xL, zL, 1, 1, -0.005F, 0, 0, 1, 1, 4);
                 }
             }
@@ -57,17 +57,22 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
 
                         float times = max / period;
 
-                        float extendedPeriod = period * (times + 1) / times; // is needed because we want for it to explode at red state that comes on half period.
-                        double alphaFactor = stage instanceof StageExploding ? 1 : Math.abs(Math.sin(Math.toRadians(ticks / extendedPeriod * 180F)));
+                        float extendedPeriod = period
+                                * (times + 1)
+                                / times; // is needed because we want for it to explode at red state that comes on half
+                        // period.
+                        double alphaFactor = stage instanceof StageExploding
+                                ? 1
+                                : Math.abs(Math.sin(Math.toRadians(ticks / extendedPeriod * 180F)));
                         int alphaColor = DrawHelper.changeAlpha(0xFFFFFFFF, (int) (alphaFactor * 255));
 
-                        //brightened
+                        // brightened
                         DrawHelper.drawTexturedRectByParts(xL, zL, 1, 1, -0.005F, 1, 0, 1, 1, 4F);
 
                         GL11.glEnable(GL11.GL_BLEND);
                         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                         GL11.glEnable(GL11.GL_ALPHA_TEST);
-                        //brightened translucent
+                        // brightened translucent
                         DrawHelper.drawTexturedRectByParts(xL, zL, 1, 1, -0.005F, 1, 3, 1, 1, 4F, alphaColor);
 
                         GL11.glDisable(GL11.GL_BLEND);

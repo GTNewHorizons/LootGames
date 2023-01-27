@@ -1,6 +1,4 @@
-
 package eu.usrv.legacylootgames.chess.blocks;
-
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,7 +14,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ru.timeconqueror.lootgames.LootGames;
-
 
 public class BlockChessBlock extends Block implements ITileEntityProvider {
     @SideOnly(Side.CLIENT)
@@ -59,9 +56,17 @@ public class BlockChessBlock extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(World pWorld, int pX, int pY, int pZ, EntityPlayer pPlayer, int pSide, float pSubX, float pSubY, float pSubZ) {
-        if (pWorld.isRemote)
-            return true;
+    public boolean onBlockActivated(
+            World pWorld,
+            int pX,
+            int pY,
+            int pZ,
+            EntityPlayer pPlayer,
+            int pSide,
+            float pSubX,
+            float pSubY,
+            float pSubZ) {
+        if (pWorld.isRemote) return true;
         else {
             if (!pWorld.isRemote && pWorld.getTileEntity(pX, pY, pZ) instanceof TEChessMasterBlock) {
                 TEChessMasterBlock tileEntity = (TEChessMasterBlock) pWorld.getTileEntity(pX, pY, pZ);

@@ -1,14 +1,11 @@
 package eu.usrv.legacylootgames;
 
-
-import ru.timeconqueror.lootgames.common.config.LGConfigs;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
-
+import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 /**
  * Simple logger to an external file, to record the creation of Dungeons
@@ -37,7 +34,8 @@ public class LootGamesDungeonLogger {
     }
 
     public void debug(String pMessage) {
-        if (LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("debug") || LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("trace"))
+        if (LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("debug")
+                || LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("trace"))
             _mLootgameLogger.log(Level.FINE, pMessage);
     }
 

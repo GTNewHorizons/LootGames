@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.hash;
 
-
 import eu.usrv.yamcore.auxiliary.LogHelper;
-
 
 public class PawnTranspositionTable {
     private static final PawnTranspositionTable INSTANCE = new PawnTranspositionTable();
@@ -81,5 +79,4 @@ public class PawnTranspositionTable {
     public long getNumCollisions() {
         return numCollisions;
     }
-
 }

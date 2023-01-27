@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.pieces;
 
-
 import com.jamesswafford.chess4j.Color;
-
 
 public final class Bishop extends Piece {
 
@@ -25,5 +23,4 @@ public final class Bishop extends Piece {
             return WHITE_BISHOP;
         }
     }
-
 }

@@ -1,8 +1,8 @@
 package eu.usrv.legacylootgames.blocks;
 
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,9 +16,6 @@ import net.minecraft.world.World;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.client.IconLoader;
 import ru.timeconqueror.timecore.api.util.RandHelper;
-
-import java.util.List;
-
 
 public class DungeonBrick extends Block {
     @SideOnly(Side.CLIENT)
@@ -76,8 +73,9 @@ public class DungeonBrick extends Block {
 
         if (metadata == Type.CEILING.ordinal() || metadata == Type.FLOOR.ordinal() || metadata == Type.WALL.ordinal())
             tHarvestLevel = 4;
-        else if (metadata == Type.CEILING_CRACKED.ordinal() || metadata == Type.FLOOR_CRACKED.ordinal() || metadata == Type.WALL_CRACKED.ordinal())
-            tHarvestLevel = 2;
+        else if (metadata == Type.CEILING_CRACKED.ordinal()
+                || metadata == Type.FLOOR_CRACKED.ordinal()
+                || metadata == Type.WALL_CRACKED.ordinal()) tHarvestLevel = 2;
 
         return tHarvestLevel;
     }
@@ -92,10 +90,10 @@ public class DungeonBrick extends Block {
         int tMeta = pWorld.getBlockMetadata(pX, pY, pZ);
         float tBlockHardness = super.getBlockHardness(pWorld, pX, pY, pZ);
 
-        if (tMeta == Type.FLOOR_SHIELDED.ordinal())
-            tBlockHardness = -1F;
-        else if (tMeta == Type.CEILING_CRACKED.ordinal() || tMeta == Type.FLOOR_CRACKED.ordinal() || tMeta == Type.WALL_CRACKED.ordinal())
-            tBlockHardness = 2.0F;
+        if (tMeta == Type.FLOOR_SHIELDED.ordinal()) tBlockHardness = -1F;
+        else if (tMeta == Type.CEILING_CRACKED.ordinal()
+                || tMeta == Type.FLOOR_CRACKED.ordinal()
+                || tMeta == Type.WALL_CRACKED.ordinal()) tBlockHardness = 2.0F;
 
         return tBlockHardness;
     }
@@ -116,5 +114,4 @@ public class DungeonBrick extends Block {
         FLOOR_CRACKED,
         FLOOR_SHIELDED
     }
-
 }

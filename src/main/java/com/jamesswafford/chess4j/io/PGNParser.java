@@ -1,16 +1,13 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.exceptions.IllegalMoveException;
 import com.jamesswafford.chess4j.exceptions.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  * http://www6.chessclub.com/help/PGN-spec
@@ -33,7 +30,10 @@ public final class PGNParser {
         moveText = moveText.replaceAll("\\d+\\.", "");
 
         // get rid of game end indicator
-        moveText = moveText.replaceAll("1-0", "").replaceAll("0-1", "").replaceAll("1/2-1/2", "").replaceAll("\\*", "");
+        moveText = moveText.replaceAll("1-0", "")
+                .replaceAll("0-1", "")
+                .replaceAll("1/2-1/2", "")
+                .replaceAll("\\*", "");
 
         // get rid of extra white space
         moveText = moveText.replaceAll("\\s+", " ").trim();
@@ -109,8 +109,7 @@ public final class PGNParser {
         Pattern r = Pattern.compile(tagPattern);
         Matcher m = r.matcher(tagTxt);
 
-        if (!m.find())
-            return null;
+        if (!m.find()) return null;
         return new PGNTag(m.group(1), m.group(2));
     }
 }

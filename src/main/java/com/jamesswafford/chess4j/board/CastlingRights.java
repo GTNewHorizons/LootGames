@@ -1,8 +1,10 @@
 package com.jamesswafford.chess4j.board;
 
-
 public enum CastlingRights {
-    WHITE_KINGSIDE("K"), WHITE_QUEENSIDE("Q"), BLACK_KINGSIDE("k"), BLACK_QUEENSIDE("q");
+    WHITE_KINGSIDE("K"),
+    WHITE_QUEENSIDE("Q"),
+    BLACK_KINGSIDE("k"),
+    BLACK_QUEENSIDE("q");
 
     private String label;
 
@@ -13,5 +15,4 @@ public enum CastlingRights {
     public String getLabel() {
         return label;
     }
-
 }

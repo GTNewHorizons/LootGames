@@ -1,22 +1,20 @@
 package eu.usrv.legacylootgames.worldgen;
 
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import eu.usrv.legacylootgames.LootGamesLegacy;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Queue;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Queue;
-
-
-// Borrowed from https://github.com/jtmnf/SimpleOreGenerator/blob/master/src/main/java/com/jtmnf/simpleoregen/handler/RetroGenWorld.java
+// Borrowed from
+// https://github.com/jtmnf/SimpleOreGenerator/blob/master/src/main/java/com/jtmnf/simpleoregen/handler/RetroGenWorld.java
 public class LootGamesRetroGen {
     public static LootGamesRetroGen instance = new LootGamesRetroGen();
     public static HashMap<Integer, Queue<ChunkInfo>> _mRetroChunk = new HashMap<Integer, Queue<ChunkInfo>>();
@@ -24,14 +22,12 @@ public class LootGamesRetroGen {
     private static final String NBTGENERATED = "generated";
 
     public static void initRetroGen() {
-        if (LGConfigs.GENERAL.worldGen.retroGenDungeons)
-            MinecraftForge.EVENT_BUS.register(instance);
+        if (LGConfigs.GENERAL.worldGen.retroGenDungeons) MinecraftForge.EVENT_BUS.register(instance);
     }
 
     @SubscribeEvent
     public void worldTickEvent(TickEvent.WorldTickEvent pEvent) {
-        if (pEvent.side != Side.SERVER)
-            return;
+        if (pEvent.side != Side.SERVER) return;
 
         World tWorld = pEvent.world;
         int tDimensionID = tWorld.provider.dimensionId;

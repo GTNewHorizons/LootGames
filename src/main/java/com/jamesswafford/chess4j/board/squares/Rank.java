@@ -1,9 +1,14 @@
-
 package com.jamesswafford.chess4j.board.squares;
 
-
 public enum Rank {
-    RANK_8(0, "8"), RANK_7(1, "7"), RANK_6(2, "6"), RANK_5(3, "5"), RANK_4(4, "4"), RANK_3(5, "3"), RANK_2(6, "2"), RANK_1(7, "1");
+    RANK_8(0, "8"),
+    RANK_7(1, "7"),
+    RANK_6(2, "6"),
+    RANK_5(3, "5"),
+    RANK_4(4, "4"),
+    RANK_3(5, "3"),
+    RANK_2(6, "2"),
+    RANK_1(7, "1");
 
     private static Rank[] ranks_arr = new Rank[8];
 
@@ -81,5 +86,4 @@ public enum Rank {
     public boolean southOf(Rank r) {
         return this.getValue() > r.getValue();
     }
-
 }

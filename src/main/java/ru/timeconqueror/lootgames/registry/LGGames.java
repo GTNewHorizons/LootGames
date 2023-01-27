@@ -11,8 +11,7 @@ public class LGGames {
     public static void register() {
         LootGamesAPI.registerTaskFactory(TaskCreateExplosion.class, TaskCreateExplosion::new);
 
-        for (int i = 0; i < LGConfigs.GOL.weight; i++)
-            LootGamesAPI.registerGameGenerator(new GameOfLight.Factory());
+        for (int i = 0; i < LGConfigs.GOL.weight; i++) LootGamesAPI.registerGameGenerator(new GameOfLight.Factory());
         for (int i = 0; i < LGConfigs.MINESWEEPER.weight; i++)
             LootGamesAPI.registerGameGenerator(new GameMineSweeper.Factory());
     }

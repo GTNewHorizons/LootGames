@@ -1,16 +1,13 @@
-
 package eu.usrv.legacylootgames.chess.entities;
-
 
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-
 public class EntityKnightFigure extends EntityZombie implements IChessFigure {
-    public static final ResourceLocation[] TEXTURES = new ResourceLocation[]{
-            new ResourceLocation("LootGames:textures/entity/knight_zombie/black.png"),
-            new ResourceLocation("LootGames:textures/entity/knight_zombie/white.png")
+    public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
+        new ResourceLocation("LootGames:textures/entity/knight_zombie/black.png"),
+        new ResourceLocation("LootGames:textures/entity/knight_zombie/white.png")
     };
 
     private FiguresData _mFiguresData;

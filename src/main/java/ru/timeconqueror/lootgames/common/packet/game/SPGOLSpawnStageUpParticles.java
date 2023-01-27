@@ -8,14 +8,10 @@ import ru.timeconqueror.lootgames.utils.sanity.Particles;
 
 public class SPGOLSpawnStageUpParticles implements IServerGamePacket {
     @Override
-    public void encode(PacketBuffer bufferTo) {
-
-    }
+    public void encode(PacketBuffer bufferTo) {}
 
     @Override
-    public void decode(PacketBuffer bufferFrom) {
-
-    }
+    public void decode(PacketBuffer bufferFrom) {}
 
     @Override
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> game) {

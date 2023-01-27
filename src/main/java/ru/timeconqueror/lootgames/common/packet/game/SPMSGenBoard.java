@@ -6,15 +6,14 @@ import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 
-//TODO why I even have this class, if I can just call tile sync?
+// TODO why I even have this class, if I can just call tile sync?
 public class SPMSGenBoard extends NBTGamePacket {
 
     /**
      * Only for using via reflection
      */
     @Deprecated
-    public SPMSGenBoard() {
-    }
+    public SPMSGenBoard() {}
 
     public SPMSGenBoard(GameMineSweeper game) {
         super(() -> {

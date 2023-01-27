@@ -1,6 +1,4 @@
-
 package com.jamesswafford.chess4j.board.squares;
-
 
 public abstract class Direction {
 
@@ -22,26 +20,18 @@ public abstract class Direction {
 
         if (fDiff == 0) {
             // same file
-            if (rDiff < 0)
-                return South.getInstance();
-            if (rDiff > 0)
-                return North.getInstance();
+            if (rDiff < 0) return South.getInstance();
+            if (rDiff > 0) return North.getInstance();
         } else if (fDiff < 0) {
             // to is east of from
-            if (rDiff == 0)
-                return East.getInstance();
-            if (rDiff == fDiff)
-                return SouthEast.getInstance();
-            if (rDiff == -fDiff)
-                return NorthEast.getInstance();
+            if (rDiff == 0) return East.getInstance();
+            if (rDiff == fDiff) return SouthEast.getInstance();
+            if (rDiff == -fDiff) return NorthEast.getInstance();
         } else { // fDiff > 0
             // to is west of from
-            if (rDiff == 0)
-                return West.getInstance();
-            if (rDiff == fDiff)
-                return NorthWest.getInstance();
-            if (rDiff == -fDiff)
-                return SouthWest.getInstance();
+            if (rDiff == 0) return West.getInstance();
+            if (rDiff == fDiff) return NorthWest.getInstance();
+            if (rDiff == -fDiff) return SouthWest.getInstance();
         }
 
         return null;
@@ -52,5 +42,4 @@ public abstract class Direction {
     public abstract boolean isDiagonal();
 
     public abstract int value();
-
 }

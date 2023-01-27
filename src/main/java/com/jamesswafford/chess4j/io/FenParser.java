@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.CastlingRights;
@@ -9,7 +8,6 @@ import com.jamesswafford.chess4j.exceptions.ParseException;
 import com.jamesswafford.chess4j.pieces.Piece;
 import com.jamesswafford.chess4j.utils.BlankRemover;
 import com.jamesswafford.chess4j.utils.PieceFactory;
-
 
 /**
  * FenParser
@@ -26,8 +24,7 @@ public final class FenParser {
     private static final int HALF_MOVE_CLOCK_PART = 4;
     private static final int FULL_MOVE_COUNTER_PART = 5;
 
-    private FenParser() {
-    }
+    private FenParser() {}
 
     // the FEN grammar can be found here:
     // http://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation
@@ -161,5 +158,4 @@ public final class FenParser {
             b.swapPlayer();
         }
     }
-
 }

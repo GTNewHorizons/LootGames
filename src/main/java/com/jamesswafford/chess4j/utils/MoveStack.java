@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.board.Move;
-
 
 public class MoveStack {
 
@@ -12,9 +10,7 @@ public class MoveStack {
     private Move[] moves = new Move[STACK_SIZE];
     private int index;
 
-    private MoveStack() {
-
-    }
+    private MoveStack() {}
 
     public static MoveStack getInstance() {
         return INSTANCE;
@@ -48,5 +44,4 @@ public class MoveStack {
         index--;
         return moves[index];
     }
-
 }

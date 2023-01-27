@@ -1,8 +1,6 @@
 package eu.usrv.legacylootgames.auxiliary;
 
-
 import com.google.common.collect.Lists;
-
 import java.util.List;
 
 /**
@@ -42,15 +40,21 @@ public enum ExtendedDirections {
     /**
      * Combined
      **/
-    NORTHEAST(1, 0, -1), NORTHWEST(-1, 0, -1), SOUTHEAST(1, 0, 1), SOUTHWEST(-1, 0, 1),
+    NORTHEAST(1, 0, -1),
+    NORTHWEST(-1, 0, -1),
+    SOUTHEAST(1, 0, 1),
+    SOUTHWEST(-1, 0, 1),
 
     /**
      * Used only by getOrientation, for invalid inputs
      */
     UNKNOWN(0, 0, 0);
 
-    public static final ExtendedDirections[] VALID_DIRECTIONS = {DOWN, UP, NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST};
-    public static final List<ExtendedDirections> HORIZONTAL = Lists.newArrayList(NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST);
+    public static final ExtendedDirections[] VALID_DIRECTIONS = {
+        DOWN, UP, NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST
+    };
+    public static final List<ExtendedDirections> HORIZONTAL =
+            Lists.newArrayList(NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST);
     public static final int[] OPPOSITES = {1, 0, 3, 2, 5, 4, 9, 8, 7, 6, 10};
     public final int offsetX;
     public final int offsetY;
@@ -58,15 +62,15 @@ public enum ExtendedDirections {
     public final int flag;
 
     // Left hand rule rotation matrix for all possible axes of rotation
-  /*public static final int[][] ROTATION_MATRIX = {
-      { 0, 1, 4, 5, 3, 2, 6 },
-      { 0, 1, 5, 4, 2, 3, 6 },
-      { 5, 4, 2, 3, 0, 1, 6 },
-      { 4, 5, 2, 3, 1, 0, 6 },
-      { 2, 3, 1, 0, 4, 5, 6 },
-      { 3, 2, 0, 1, 4, 5, 6 },
-      { 0, 1, 2, 3, 4, 5, 6 },
-  };*/
+    /*public static final int[][] ROTATION_MATRIX = {
+        { 0, 1, 4, 5, 3, 2, 6 },
+        { 0, 1, 5, 4, 2, 3, 6 },
+        { 5, 4, 2, 3, 0, 1, 6 },
+        { 4, 5, 2, 3, 1, 0, 6 },
+        { 2, 3, 1, 0, 4, 5, 6 },
+        { 3, 2, 0, 1, 4, 5, 6 },
+        { 0, 1, 2, 3, 4, 5, 6 },
+    };*/
 
     ExtendedDirections(int x, int y, int z) {
         offsetX = x;
@@ -90,8 +94,8 @@ public enum ExtendedDirections {
         return getOrientation(OPPOSITES[ordinal()]);
     }
 
-  /*public ExtendedDirections getRotation( ForgeDirection axis )
-  {
-    return getOrientation( ROTATION_MATRIX[axis.ordinal()][ordinal()] );
-  }*/
+    /*public ExtendedDirections getRotation( ForgeDirection axis )
+    {
+      return getOrientation( ROTATION_MATRIX[axis.ordinal()][ordinal()] );
+    }*/
 }

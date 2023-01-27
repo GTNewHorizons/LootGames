@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.board;
 
-
 import com.jamesswafford.chess4j.board.squares.*;
-
 
 public class Bitboard {
 
@@ -60,34 +58,58 @@ public class Bitboard {
             Square sq = Square.valueOf(i);
             if (sq.file().eastOf(File.FILE_A)) {
                 if (sq.rank().southOf(Rank.RANK_7)) {
-                    knightMoves[i] |= squares[North.getInstance().next(NorthWest.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            North.getInstance()
+                                    .next(NorthWest.getInstance().next(sq))
+                                    .value()];
                 }
                 if (sq.rank().northOf(Rank.RANK_2)) {
-                    knightMoves[i] |= squares[South.getInstance().next(SouthWest.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            South.getInstance()
+                                    .next(SouthWest.getInstance().next(sq))
+                                    .value()];
                 }
             }
             if (sq.file().eastOf(File.FILE_B)) {
                 if (sq.rank().southOf(Rank.RANK_8)) {
-                    knightMoves[i] |= squares[NorthWest.getInstance().next(West.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            NorthWest.getInstance()
+                                    .next(West.getInstance().next(sq))
+                                    .value()];
                 }
                 if (sq.rank().northOf(Rank.RANK_1)) {
-                    knightMoves[i] |= squares[SouthWest.getInstance().next(West.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            SouthWest.getInstance()
+                                    .next(West.getInstance().next(sq))
+                                    .value()];
                 }
             }
             if (sq.file().westOf(File.FILE_G)) {
                 if (sq.rank().southOf(Rank.RANK_8)) {
-                    knightMoves[i] |= squares[NorthEast.getInstance().next(East.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            NorthEast.getInstance()
+                                    .next(East.getInstance().next(sq))
+                                    .value()];
                 }
                 if (sq.rank().northOf(Rank.RANK_1)) {
-                    knightMoves[i] |= squares[SouthEast.getInstance().next(East.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            SouthEast.getInstance()
+                                    .next(East.getInstance().next(sq))
+                                    .value()];
                 }
             }
             if (sq.file().westOf(File.FILE_H)) {
                 if (sq.rank().southOf(Rank.RANK_7)) {
-                    knightMoves[i] |= squares[North.getInstance().next(NorthEast.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            North.getInstance()
+                                    .next(NorthEast.getInstance().next(sq))
+                                    .value()];
                 }
                 if (sq.rank().northOf(Rank.RANK_2)) {
-                    knightMoves[i] |= squares[South.getInstance().next(SouthEast.getInstance().next(sq)).value()];
+                    knightMoves[i] |= squares[
+                            South.getInstance()
+                                    .next(SouthEast.getInstance().next(sq))
+                                    .value()];
                 }
             }
         }
@@ -183,5 +205,4 @@ public class Bitboard {
 
         return sb.toString();
     }
-
 }
