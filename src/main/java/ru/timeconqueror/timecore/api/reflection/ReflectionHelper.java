@@ -12,12 +12,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class ReflectionHelper {
-    private static final UnlockedField<Field> F_MODIFIERS = findField(Field.class, "modifiers");
-
-    static {
-        F_MODIFIERS.getField().setAccessible(true);
-    }
-
     public static boolean isFinal(Field f) {
         return Modifier.isFinal(f.getModifiers());
     }
@@ -28,16 +22,6 @@ public class ReflectionHelper {
 
     public static boolean isStatic(Method m) {
         return Modifier.isStatic(m.getModifiers());
-    }
-
-    /**
-     * Removes {@code final} modifier from field.
-     */
-    public static void unfinalize(Field f) throws IllegalAccessException {
-        if (isFinal(f)) {
-            Field modifiersField = F_MODIFIERS.getField();
-            modifiersField.setInt(f, f.getModifiers() & ~Modifier.FINAL);
-        }
     }
 
     public static void setAccessible(Field f) {
