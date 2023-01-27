@@ -1,19 +1,16 @@
 package com.jamesswafford.chess4j.book;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
 import com.jamesswafford.chess4j.hash.Zobrist;
 import com.jamesswafford.chess4j.utils.GameResult;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
@@ -133,7 +130,9 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
     @Override
     public void learn(List<Move> moves, Color engineColor, GameResult gameResult) {
-        if (!(GameResult.WIN.equals(gameResult) || GameResult.LOSS.equals(gameResult) || GameResult.DRAW.equals(gameResult))) {
+        if (!(GameResult.WIN.equals(gameResult)
+                || GameResult.LOSS.equals(gameResult)
+                || GameResult.DRAW.equals(gameResult))) {
             return;
         }
 
@@ -156,7 +155,13 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
         for (BookMove bookMove : bookMoves) {
             if (bookMove.getMove().equals(move)) {
-                update(Board.INSTANCE, move, bookMove.getFrequency(), bookMove.getWins() + (GameResult.WIN.equals(gameResult) ? 1 : 0), bookMove.getLosses() + (GameResult.LOSS.equals(gameResult) ? 1 : 0), bookMove.getDraws() + (GameResult.DRAW.equals(gameResult) ? 1 : 0));
+                update(
+                        Board.INSTANCE,
+                        move,
+                        bookMove.getFrequency(),
+                        bookMove.getWins() + (GameResult.WIN.equals(gameResult) ? 1 : 0),
+                        bookMove.getLosses() + (GameResult.LOSS.equals(gameResult) ? 1 : 0),
+                        bookMove.getDraws() + (GameResult.DRAW.equals(gameResult) ? 1 : 0));
             }
         }
     }
@@ -192,7 +197,8 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
     private void createTables() throws SQLException {
         Statement stmt = conn.createStatement();
-        stmt.execute("create table book_moves (key int not null,fromsq int not null,tosq int not null,frequency int default 1,wins int,losses int,draws int)");
+        stmt.execute(
+                "create table book_moves (key int not null,fromsq int not null,tosq int not null,frequency int default 1,wins int,losses int,draws int)");
         stmt.execute("create index idx_book_moves_key on book_moves(key)");
         stmt.execute("create table zobrist_keys (id integer primary key autoincrement,key int not null)");
         stmt.close();
@@ -239,5 +245,4 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
         ps.executeUpdate();
         ps.close();
     }
-
 }

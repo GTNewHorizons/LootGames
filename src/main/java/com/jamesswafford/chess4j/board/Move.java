@@ -1,9 +1,7 @@
 package com.jamesswafford.chess4j.board;
 
-
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.Piece;
-
 
 public class Move {
 

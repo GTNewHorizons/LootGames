@@ -1,5 +1,7 @@
 package ru.timeconqueror.lootgames.client.render.tile;
 
+import static ru.timeconqueror.lootgames.minigame.gol.GameOfLight.StageUnderExpanding.MAX_TICKS_EXPANDING;
+
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -19,9 +21,7 @@ import ru.timeconqueror.timecore.animation.Ease;
 import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 
-import static ru.timeconqueror.lootgames.minigame.gol.GameOfLight.StageUnderExpanding.MAX_TICKS_EXPANDING;
-
-//TODO draw board by symbol, not by fully not activated board with activated overlay
+// TODO draw board by symbol, not by fully not activated board with activated overlay
 public class GOLMasterRenderer extends TileEntitySpecialRenderer {
     public static final ResourceLocation BOARD = LootGames.rl("textures/game/gol_board.png");
     private static final ResourceLocation BOARD_ACTIVE = LootGames.rl("textures/game/gol_board_active.png");
@@ -106,7 +106,8 @@ public class GOLMasterRenderer extends TileEntitySpecialRenderer {
         float textureLength = 48;
 
         if (game.getStage() instanceof StageUnderExpanding) {
-            float progress = Ease.inOutQuart((float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
+            float progress = Ease.inOutQuart(
+                    (float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
 
             length = MathUtils.lerp(progress, 1, 3);
             textureStart = 16F - 16F * progress;
@@ -114,7 +115,17 @@ public class GOLMasterRenderer extends TileEntitySpecialRenderer {
         }
 
         GL11.glTranslatef(3 / 2F, 3 / 2F, 0);
-        DrawHelper.drawTexturedRectByParts(-length / 2, -length / 2, length, length, -0.005F, textureStart, textureStart, textureLength, textureLength, 48);
+        DrawHelper.drawTexturedRectByParts(
+                -length / 2,
+                -length / 2,
+                length,
+                length,
+                -0.005F,
+                textureStart,
+                textureStart,
+                textureLength,
+                textureLength,
+                48);
         GL11.glTranslatef(-3 / 2F, -3 / 2F, 0);
     }
 }

@@ -12,8 +12,7 @@ public class TaskCreateExplosion implements ITask {
     private float strength;
     private boolean affectBlocks;
 
-    public TaskCreateExplosion() {
-    }
+    public TaskCreateExplosion() {}
 
     public TaskCreateExplosion(BlockPos pos, float strength, boolean affectBlocks) {
         this(pos.getX(), pos.getY(), pos.getZ(), strength, affectBlocks);

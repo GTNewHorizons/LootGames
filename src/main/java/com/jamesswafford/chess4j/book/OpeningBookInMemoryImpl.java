@@ -1,12 +1,9 @@
 package com.jamesswafford.chess4j.book;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
-
 import java.util.*;
-
 
 public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
 
@@ -14,8 +11,7 @@ public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
 
     private Map<Long, List<BookMove>> movesMap = new HashMap<Long, List<BookMove>>();
 
-    private OpeningBookInMemoryImpl() {
-    }
+    private OpeningBookInMemoryImpl() {}
 
     public static OpeningBookInMemoryImpl getInstance() {
         return INSTANCE;
@@ -76,7 +72,5 @@ public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
     }
 
     @Override
-    public void initializeBook() {
-    }
-
+    public void initializeBook() {}
 }

@@ -1,6 +1,4 @@
-
 package eu.usrv.legacylootgames.chess.entities.render;
-
 
 import eu.usrv.legacylootgames.chess.entities.FiguresData;
 import eu.usrv.legacylootgames.chess.entities.IChessFigure;
@@ -9,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-
 
 public class PawnEntityRender extends RenderSilverfish {
     public PawnEntityRender() {
@@ -20,10 +17,8 @@ public class PawnEntityRender extends RenderSilverfish {
     protected ResourceLocation getEntityTexture(Entity pEntity) {
         FiguresData tFigureData = ((IChessFigure) pEntity).getFiguresData();
 
-        if (tFigureData.isWhite())
-            return tFigureData.getTexture(1);
-        else
-            return tFigureData.getTexture();
+        if (tFigureData.isWhite()) return tFigureData.getTexture(1);
+        else return tFigureData.getTexture();
     }
 
     @Override

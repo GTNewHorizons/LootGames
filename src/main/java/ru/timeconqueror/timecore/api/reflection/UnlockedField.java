@@ -1,7 +1,7 @@
 package ru.timeconqueror.timecore.api.reflection;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import javax.annotation.Nullable;
 
 /**
  * Wrapper for field, unlocks the access to it.

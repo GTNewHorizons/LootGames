@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.search;
 
-
 import com.jamesswafford.chess4j.ChessEngineApp;
 import com.jamesswafford.chess4j.Constants;
 import com.jamesswafford.chess4j.board.Board;
@@ -18,12 +17,10 @@ import com.jamesswafford.chess4j.utils.MoveUtils;
 import com.jamesswafford.chess4j.utils.TimeUtils;
 import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 /**
  * SearchIterator
@@ -47,8 +44,7 @@ public final class SearchIterator {
     private static boolean pondering;
     private static Move ponderMove;
 
-    private SearchIterator() {
-    }
+    private SearchIterator() {}
 
     public static SearchIterator getInstance() {
         return INSTANCE;
@@ -82,7 +78,11 @@ public final class SearchIterator {
                 // pondering loop. as long as we guess correctly we'll loop back around
                 // if we don't predict correctly this thread is terminated
                 boolean ponderSuccess = true;
-                while (!abortIterator && gs == GameStatus.INPROGRESS && ponderEnabled && pv.size() > 1 && ponderSuccess) {
+                while (!abortIterator
+                        && gs == GameStatus.INPROGRESS
+                        && ponderEnabled
+                        && pv.size() > 1
+                        && ponderSuccess) {
                     ponderMove = pv.get(1);
                     mLog.info("### START PONDERING: " + ponderMove);
                     pondering = true;
@@ -188,7 +188,8 @@ public final class SearchIterator {
             score = Search.search(pv, alphaBound, betaBound, board, depth, stats, true);
 
             if ((score <= alphaBound || score >= betaBound) && !Search.abortSearch) {
-                mLog.debug("# research depth " + depth + "! alpha=" + alphaBound + ", beta=" + betaBound + ", score=" + score);
+                mLog.debug("# research depth " + depth + "! alpha=" + alphaBound + ", beta=" + betaBound + ", score="
+                        + score);
                 score = Search.search(pv, -Constants.INFINITY, Constants.INFINITY, board, depth, stats, true);
             }
 
@@ -222,8 +223,7 @@ public final class SearchIterator {
                 mLog.debug("# stopping iterative search because half time expired.");
                 stopSearching = true;
             }
-        }
-        while (!stopSearching);
+        } while (!stopSearching);
 
         assert (pv.size() > 0);
         assert (MoveUtils.isLineValid(pv, board));
@@ -242,10 +242,13 @@ public final class SearchIterator {
         double qnodePct = stats.getQNodes() / (totalNodes / 100.0);
 
         mLog.info("\n");
-        mLog.info("# nodes: " + df2.format(totalNodes) + ", interior: " + df2.format(stats.getNodes()) + " (" + df.format(interiorPct) + "%)" + ", quiescense: " + df2.format(stats.getQNodes()) + " (" + df.format(qnodePct) + "%)");
+        mLog.info("# nodes: " + df2.format(totalNodes) + ", interior: " + df2.format(stats.getNodes()) + " ("
+                + df.format(interiorPct) + "%)" + ", quiescense: " + df2.format(stats.getQNodes()) + " ("
+                + df.format(qnodePct) + "%)");
 
         long totalSearchTime = System.currentTimeMillis() - Search.startTime;
-        mLog.info("# search time: " + totalSearchTime / 1000.0 + " seconds" + ", rate: " + df2.format(totalNodes / (totalSearchTime / 1000.0)) + " nodes per second");
+        mLog.info("# search time: " + totalSearchTime / 1000.0 + " seconds" + ", rate: "
+                + df2.format(totalNodes / (totalSearchTime / 1000.0)) + " nodes per second");
 
         long hashHits = TranspositionTable.getInstance().getNumHits();
         long hashProbes = TranspositionTable.getInstance().getNumProbes();
@@ -253,12 +256,16 @@ public final class SearchIterator {
         double hashHitPct = hashHits / (hashProbes / 100.0);
         double hashCollisionPct = hashCollisions / (hashProbes / 100.0);
 
-        mLog.info("# hash probes: " + df2.format(hashProbes) + ", hits: " + df2.format(hashHits) + " (" + df.format(hashHitPct) + "%)" + ", collisions: " + df2.format(hashCollisions) + " (" + df.format(hashCollisionPct) + "%)");
+        mLog.info("# hash probes: " + df2.format(hashProbes) + ", hits: " + df2.format(hashHits) + " ("
+                + df.format(hashHitPct) + "%)" + ", collisions: " + df2.format(hashCollisions) + " ("
+                + df.format(hashCollisionPct) + "%)");
 
         double failHighPct = stats.getFailHighs() / (hashProbes / 100.0);
         double failLowPct = stats.getFailLows() / (hashProbes / 100.0);
         double exactScorePct = stats.getHashExactScores() / (hashProbes / 100.0);
-        mLog.info("# fail highs: " + df2.format(stats.getFailHighs()) + " (" + df.format(failHighPct) + "%)" + ", fail lows: " + df2.format(stats.getFailLows()) + " (" + df.format(failLowPct) + "%)" + ", exact scores: " + df2.format(stats.getHashExactScores()) + " (" + df.format(exactScorePct) + "%)");
+        mLog.info("# fail highs: " + df2.format(stats.getFailHighs()) + " (" + df.format(failHighPct) + "%)"
+                + ", fail lows: " + df2.format(stats.getFailLows()) + " (" + df.format(failLowPct) + "%)"
+                + ", exact scores: " + df2.format(stats.getHashExactScores()) + " (" + df.format(exactScorePct) + "%)");
 
         long pawnHashHits = PawnTranspositionTable.getInstance().getNumHits();
         long pawnHashProbes = PawnTranspositionTable.getInstance().getNumProbes();
@@ -266,7 +273,9 @@ public final class SearchIterator {
         double pawnHashHitPct = pawnHashHits / (pawnHashProbes / 100.0);
         double pawnHashCollisionPct = pawnHashCollisions / (pawnHashProbes / 100.0);
 
-        mLog.info("# pawn hash probes: " + df2.format(pawnHashProbes) + ", hits: " + df2.format(pawnHashHits) + " (" + df.format(pawnHashHitPct) + "%)" + ", collisions: " + df2.format(pawnHashCollisions) + " (" + df.format(pawnHashCollisionPct) + "%)");
+        mLog.info("# pawn hash probes: " + df2.format(pawnHashProbes) + ", hits: " + df2.format(pawnHashHits) + " ("
+                + df.format(pawnHashHitPct) + "%)" + ", collisions: " + df2.format(pawnHashCollisions) + " ("
+                + df.format(pawnHashCollisionPct) + "%)");
     }
 
     public static Move getPonderMove() {
@@ -281,5 +290,4 @@ public final class SearchIterator {
         pondering = false;
         Search.analysisMode = false;
     }
-
 }

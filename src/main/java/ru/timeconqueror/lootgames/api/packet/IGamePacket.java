@@ -1,8 +1,7 @@
 package ru.timeconqueror.lootgames.api.packet;
 
-import net.minecraft.network.PacketBuffer;
-
 import java.io.IOException;
+import net.minecraft.network.PacketBuffer;
 
 public interface IGamePacket {
     void encode(PacketBuffer bufferTo) throws IOException;

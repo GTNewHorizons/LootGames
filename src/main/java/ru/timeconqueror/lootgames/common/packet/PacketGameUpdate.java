@@ -5,6 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
+import java.io.IOException;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -19,8 +20,6 @@ import ru.timeconqueror.lootgames.utils.future.ThreeConsumer;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 
-import java.io.IOException;
-
 public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessage {
     private T gamePacket;
     private BlockPos masterPos;
@@ -30,9 +29,7 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
         this.gamePacket = gamePacket;
     }
 
-    public PacketGameUpdate() {
-
-    }
+    public PacketGameUpdate() {}
 
     @Override
     public void fromBytes(ByteBuf buf) {
@@ -49,7 +46,10 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
                 gamePacket = packetClass.newInstance();
                 gamePacket.decode(buffer);
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException("Can't decode received game packet, due to lack of public nullary constructor in " + packetClass, e);
+                throw new RuntimeException(
+                        "Can't decode received game packet, due to lack of public nullary constructor in "
+                                + packetClass,
+                        e);
             }
 
             setMasterPos(masterPos);
@@ -100,7 +100,8 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
 
     public abstract Storage<T> getStorage();
 
-    public static class Handler<T extends IGamePacket, P extends PacketGameUpdate<T>> implements IMessageHandler<P, IMessage> {
+    public static class Handler<T extends IGamePacket, P extends PacketGameUpdate<T>>
+            implements IMessageHandler<P, IMessage> {
         private final ThreeConsumer<MessageContext, LootGame<?, ?>, T> gameUpdater;
 
         public Handler(ThreeConsumer<MessageContext, LootGame<?, ?>, T> gameUpdater) {
@@ -115,7 +116,9 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
                 GameMasterTile<?> master = ((GameMasterTile<?>) te);
                 gameUpdater.accept(ctx, master.getGame(), packet.getGamePacket());
             } else {
-                LootGames.LOGGER.error("Something went wrong. Can't find TileEntityMaster on pos " + packet.getMasterPos() + " for packet " + packet.getGamePacketClass().getName());
+                LootGames.LOGGER.error(
+                        "Something went wrong. Can't find TileEntityMaster on pos " + packet.getMasterPos()
+                                + " for packet " + packet.getGamePacketClass().getName());
             }
 
             return null;

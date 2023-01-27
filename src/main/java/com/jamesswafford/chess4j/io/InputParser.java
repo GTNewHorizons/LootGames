@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.ChessEngineApp;
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
@@ -18,12 +17,10 @@ import com.jamesswafford.chess4j.utils.GameStatusChecker;
 import com.jamesswafford.chess4j.utils.Perft;
 import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class InputParser {
 
@@ -33,8 +30,7 @@ public class InputParser {
     private Thread searchThread;
     private Color engineColor;
 
-    private InputParser() {
-    }
+    private InputParser() {}
 
     public static InputParser getInstance() {
         return INSTANCE;
@@ -145,7 +141,7 @@ public class InputParser {
     private void eval() {
         int eval = Eval.eval(Board.INSTANCE);
         ChessEngineProxy.getInstance().publishAnswer("eval=" + eval);
-        //logger.info( "eval=" + eval );
+        // logger.info( "eval=" + eval );
     }
 
     private void force() {
@@ -199,8 +195,7 @@ public class InputParser {
         long start = System.currentTimeMillis();
         long nodes = Perft.perft(Board.INSTANCE, depth);
         long end = System.currentTimeMillis();
-        if (end == start)
-            end = start + 1; // HACK to avoid div 0
+        if (end == start) end = start + 1; // HACK to avoid div 0
         DecimalFormat df = new DecimalFormat("0,000");
         mLog.info("# nodes: " + df.format(nodes));
         mLog.info("# elapsed time: " + (end - start) + " ms");
@@ -470,5 +465,4 @@ public class InputParser {
 
         searchThread = SearchIterator.think();
     }
-
 }

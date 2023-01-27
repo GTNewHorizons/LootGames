@@ -1,11 +1,8 @@
 package com.jamesswafford.chess4j.search;
 
-
 import com.jamesswafford.chess4j.board.Move;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class SearchStats {
 
@@ -75,5 +72,4 @@ public class SearchStats {
     public void incQNodes() {
         qnodes++;
     }
-
 }

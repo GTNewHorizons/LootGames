@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.exceptions;
 
-
 public class ParseException extends Exception {
 
     /**

@@ -1,16 +1,16 @@
 package ru.timeconqueror.lootgames.api.minigame;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import net.minecraft.world.World;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Can be accessed via {@link LootGamesAPI#getGameManager()}.
- *///TODO bind packets to their games, so we dont need to cast in runOnServer and client
+ */
+// TODO bind packets to their games, so we dont need to cast in runOnServer and client
 public class GameManager {
     private static final List<ILootGameFactory> GAME_GEN_LIST = new ArrayList<>();
 

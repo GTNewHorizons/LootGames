@@ -33,8 +33,7 @@ public class BoardGameMasterTile<T extends BoardLootGame<T>> extends GameMasterT
         Pos2i pos = game.convertToGamePos(subordinatePos);
 
         int size = game.getCurrentBoardSize();
-        if (pos.getX() >= 0 && pos.getX() < size
-                && pos.getY() >= 0 && pos.getY() < size) {
+        if (pos.getX() >= 0 && pos.getX() < size && pos.getY() >= 0 && pos.getY() < size) {
             game.onClick(player, pos, type);
         }
     }

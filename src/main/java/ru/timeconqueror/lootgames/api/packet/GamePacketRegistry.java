@@ -2,7 +2,6 @@ package ru.timeconqueror.lootgames.api.packet;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import java.util.Objects;
 
 public abstract class GamePacketRegistry {
@@ -46,7 +45,8 @@ public abstract class GamePacketRegistry {
                     throw new RuntimeException(String.format("Id %s has been already registered.", key));
                 }
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException(String.format("Packet %s has been already registered.", packetClass.getName()));
+                throw new RuntimeException(
+                        String.format("Packet %s has been already registered.", packetClass.getName()));
             }
         }
     }
@@ -73,8 +73,7 @@ public abstract class GamePacketRegistry {
             if (this == o) return true;
             if (!(o instanceof Key)) return false;
             Key that = (Key) o;
-            return packetId == that.packetId &&
-                    modId.equals(that.modId);
+            return packetId == that.packetId && modId.equals(that.modId);
         }
 
         @Override

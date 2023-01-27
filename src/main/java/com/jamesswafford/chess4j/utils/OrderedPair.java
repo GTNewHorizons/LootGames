@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import java.io.Serializable;
-
 
 public class OrderedPair<T1, T2> implements Serializable {
 
@@ -10,6 +8,7 @@ public class OrderedPair<T1, T2> implements Serializable {
      *
      */
     private static final long serialVersionUID = 3572202581972146545L;
+
     private T1 e1;
     private T2 e2;
 
@@ -27,17 +26,13 @@ public class OrderedPair<T1, T2> implements Serializable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof OrderedPair))
-            return false;
+        if (!(obj instanceof OrderedPair)) return false;
         @SuppressWarnings("rawtypes")
         OrderedPair op = (OrderedPair) obj;
 
-        if (this.e1 == null && op.e1 != null)
-            return false;
-        if (!this.e1.equals(op.e1))
-            return false;
-        if (this.e2 == null && op.e2 != null)
-            return false;
+        if (this.e1 == null && op.e1 != null) return false;
+        if (!this.e1.equals(op.e1)) return false;
+        if (this.e2 == null && op.e2 != null) return false;
         return this.e2.equals(op.e2);
     }
 
@@ -53,5 +48,4 @@ public class OrderedPair<T1, T2> implements Serializable {
     public String toString() {
         return "OrderedPair [e1=" + e1 + ", e2=" + e2 + "]";
     }
-
 }

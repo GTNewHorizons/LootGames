@@ -1,8 +1,9 @@
 package eu.usrv.legacylootgames.command;
 
-
 import eu.usrv.legacylootgames.LootGamesLegacy;
 import eu.usrv.yamcore.auxiliary.PlayerChatHelper;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.monster.EntityZombie;
@@ -10,10 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class PeacefulEntityCommand implements ICommand {
     private final List<String> aliases;
@@ -56,7 +53,12 @@ public class PeacefulEntityCommand implements ICommand {
                 EntityZombie zombie = new EntityZombie(((EntityPlayer) pCmdSender).worldObj);
                 zombie.forceSpawn = true;
                 zombie.tasks.taskEntries.clear();
-                zombie.setLocationAndAngles(((EntityPlayer) pCmdSender).posX, ((EntityPlayer) pCmdSender).posY + 1, ((EntityPlayer) pCmdSender).posZ, MathHelper.wrapAngleTo180_float(LootGamesLegacy.Rnd.nextFloat() * 360.0F), 0.0F);
+                zombie.setLocationAndAngles(
+                        ((EntityPlayer) pCmdSender).posX,
+                        ((EntityPlayer) pCmdSender).posY + 1,
+                        ((EntityPlayer) pCmdSender).posZ,
+                        MathHelper.wrapAngleTo180_float(LootGamesLegacy.Rnd.nextFloat() * 360.0F),
+                        0.0F);
                 zombie.rotationYawHead = zombie.rotationYaw;
                 zombie.renderYawOffset = zombie.rotationYaw;
                 ((EntityPlayer) pCmdSender).worldObj.spawnEntityInWorld(zombie);
@@ -84,7 +86,8 @@ public class PeacefulEntityCommand implements ICommand {
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            boolean opped = MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
+            boolean opped =
+                    MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
             boolean inCreative = player.capabilities.isCreativeMode;
             return opped && inCreative;
         } else return sender instanceof MinecraftServer;

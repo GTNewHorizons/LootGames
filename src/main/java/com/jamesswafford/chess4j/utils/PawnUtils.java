@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Bitboard;
 import com.jamesswafford.chess4j.board.Board;
@@ -8,7 +7,6 @@ import com.jamesswafford.chess4j.board.squares.File;
 import com.jamesswafford.chess4j.board.squares.North;
 import com.jamesswafford.chess4j.board.squares.South;
 import com.jamesswafford.chess4j.board.squares.Square;
-
 
 public class PawnUtils {
 
@@ -26,16 +24,22 @@ public class PawnUtils {
                 isolated[i] |= Bitboard.files[sq.file().getValue() + 1];
             }
 
-            passed[i][Color.WHITE.ordinal()] = Bitboard.rays[i][North.getInstance().value()];
-            passed[i][Color.BLACK.ordinal()] = Bitboard.rays[i][South.getInstance().value()];
+            passed[i][Color.WHITE.ordinal()] =
+                    Bitboard.rays[i][North.getInstance().value()];
+            passed[i][Color.BLACK.ordinal()] =
+                    Bitboard.rays[i][South.getInstance().value()];
 
             if (sq.file().getValue() > File.FILE_A.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i - 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i - 1][South.getInstance().value()];
+                passed[i][Color.WHITE.ordinal()] |=
+                        Bitboard.rays[i - 1][North.getInstance().value()];
+                passed[i][Color.BLACK.ordinal()] |=
+                        Bitboard.rays[i - 1][South.getInstance().value()];
             }
             if (sq.file().getValue() < File.FILE_H.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i + 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i + 1][South.getInstance().value()];
+                passed[i][Color.WHITE.ordinal()] |=
+                        Bitboard.rays[i + 1][North.getInstance().value()];
+                passed[i][Color.BLACK.ordinal()] |=
+                        Bitboard.rays[i + 1][South.getInstance().value()];
             }
         }
     }
@@ -62,7 +66,6 @@ public class PawnUtils {
         } else {
             return (fileMask & board.getBlackPawns()) != 0;
         }
-
     }
 
     public static boolean isIsolated(Board board, Square pawnSq, boolean isWhite) {

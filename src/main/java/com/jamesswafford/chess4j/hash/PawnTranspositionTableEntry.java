@@ -1,6 +1,5 @@
 package com.jamesswafford.chess4j.hash;
 
-
 public class PawnTranspositionTableEntry {
 
     private long zobristKey;
@@ -25,8 +24,7 @@ public class PawnTranspositionTableEntry {
             return false;
         }
         PawnTranspositionTableEntry that = (PawnTranspositionTableEntry) obj;
-        if (this.getZobristKey() != that.getZobristKey())
-            return false;
+        if (this.getZobristKey() != that.getZobristKey()) return false;
         return this.getScore() == that.getScore();
     }
 
@@ -37,5 +35,4 @@ public class PawnTranspositionTableEntry {
 
         return hc;
     }
-
 }

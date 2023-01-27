@@ -1,18 +1,15 @@
 package eu.usrv.legacylootgames.command;
 
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import eu.usrv.legacylootgames.LootGamesLegacy;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class ProfilingCommand implements ICommand {
     private final List<String> aliases;
@@ -43,19 +40,16 @@ public class ProfilingCommand implements ICommand {
         for (String pID : LootGamesLegacy.Profiler.getUniqueItems()) {
             long tTime = LootGamesLegacy.Profiler.GetAverageTime(pID);
             String tInfo;
-            if (tTime == -1)
-                tInfo = "N/A";
-            else
-                tInfo = String.format("%d ms", tTime);
+            if (tTime == -1) tInfo = "N/A";
+            else tInfo = String.format("%d ms", tTime);
             pCommandSender.addChatMessage(new ChatComponentText(String.format("%s : %s", pID, tInfo)));
-
         }
     }
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender pCommandSender) {
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && !FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
-            return true;
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER
+                && !FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()) return true;
 
         if (pCommandSender instanceof EntityPlayerMP) {
             EntityPlayerMP tEP = (EntityPlayerMP) pCommandSender;

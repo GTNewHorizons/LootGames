@@ -1,15 +1,12 @@
 package com.jamesswafford.chess4j.hash;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.CastlingRights;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.*;
 import com.jamesswafford.chess4j.utils.PieceFactory;
-
 import java.util.*;
-
 
 public final class Zobrist {
 
@@ -47,8 +44,7 @@ public final class Zobrist {
         }
     }
 
-    private Zobrist() {
-    }
+    private Zobrist() {}
 
     private static void createZobristKeys(Piece p) {
         Random r = new Random();

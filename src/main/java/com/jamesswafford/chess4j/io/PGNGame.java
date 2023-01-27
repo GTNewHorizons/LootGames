@@ -1,12 +1,9 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.board.Move;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class PGNGame {
 
@@ -48,11 +45,8 @@ public class PGNGame {
 
         PGNGame that = (PGNGame) obj;
 
-        if (!this.getTags().equals(that.getTags()))
-            return false;
-        if (!this.getMoves().equals(that.getMoves()))
-            return false;
+        if (!this.getTags().equals(that.getTags())) return false;
+        if (!this.getMoves().equals(that.getMoves())) return false;
         return this.getResult().equals(that.getResult());
     }
-
 }

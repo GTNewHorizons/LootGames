@@ -32,7 +32,8 @@ import ru.timeconqueror.timecore.api.common.CommonEventHandler;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.util.Hacks;
 
-@Mod(modid = LootGames.MODID,
+@Mod(
+        modid = LootGames.MODID,
         dependencies = "required-after:Forge@[10.13.4.1614,);" + "required-after:YAMCore@[0.5.76,);",
         name = LootGames.MODNAME,
         version = LootGames.VERSION,
@@ -95,8 +96,7 @@ public class LootGames {
     }
 
     @Mod.EventHandler
-    public static void onComplete(FMLLoadCompleteEvent event) {
-    }
+    public static void onComplete(FMLLoadCompleteEvent event) {}
 
     @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event) {

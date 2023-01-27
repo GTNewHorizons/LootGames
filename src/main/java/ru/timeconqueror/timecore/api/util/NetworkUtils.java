@@ -1,14 +1,13 @@
 package ru.timeconqueror.timecore.api.util;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IChatComponent;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
-
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class NetworkUtils {
 
@@ -40,7 +39,8 @@ public class NetworkUtils {
      */
     public static List<EntityPlayerMP> getPlayersNearby(BlockPos fromPos, double distanceIn) {
         @SuppressWarnings("unchecked")
-        List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList;
+        List<EntityPlayerMP> players =
+                FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList;
         return players.stream()
                 .filter(player -> {
                     double distanceSq = player.getDistanceSq(fromPos.getX(), fromPos.getY(), fromPos.getZ());

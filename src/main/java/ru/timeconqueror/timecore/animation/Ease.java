@@ -53,41 +53,32 @@ public class Ease {
     }
 
     public static float inOutCirc(float x) {
-        return x < 0.5
-                ? (1 - sqrt_double(1 - pow(2 * x, 2))) / 2
-                : (sqrt_double(1 - pow(-2 * x + 2, 2)) + 1) / 2;
+        return x < 0.5 ? (1 - sqrt_double(1 - pow(2 * x, 2))) / 2 : (sqrt_double(1 - pow(-2 * x + 2, 2)) + 1) / 2;
     }
 
     public static float inElastic(float x) {
         final float c4 = (float) ((2 * Math.PI) / 3);
 
-        return (float) (x == 0
-                ? 0
-                : x == 1
-                ? 1
-                : -pow(2, 10 * x - 10) * sin((x * 10 - 10.75F) * c4));
+        return (float) (x == 0 ? 0 : x == 1 ? 1 : -pow(2, 10 * x - 10) * sin((x * 10 - 10.75F) * c4));
     }
 
     public static float outElastic(float x) {
         final float c4 = (float) ((2 * Math.PI) / 3);
 
-        return (float) (x == 0
-                ? 0
-                : x == 1
-                ? 1
-                : pow(2, -10 * x) * sin((x * 10 - 0.75F) * c4) + 1);
+        return (float) (x == 0 ? 0 : x == 1 ? 1 : pow(2, -10 * x) * sin((x * 10 - 0.75F) * c4) + 1);
     }
 
     public static float inOutElastic(float x) {
         final float c5 = (float) ((2 * Math.PI) / 4.5F);
 
-        return (float) (x == 0
-                ? 0
-                : x == 1
-                ? 1
-                : x < 0.5
-                ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125F) * c5)) / 2
-                : (pow(2, -20 * x + 10) * sin((20 * x - 11.125F) * c5)) / 2 + 1);
+        return (float)
+                (x == 0
+                        ? 0
+                        : x == 1
+                                ? 1
+                                : x < 0.5
+                                        ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125F) * c5)) / 2
+                                        : (pow(2, -20 * x + 10) * sin((20 * x - 11.125F) * c5)) / 2 + 1);
     }
 
     public static float inQuad(float x) {
@@ -123,12 +114,7 @@ public class Ease {
     }
 
     public static float inOutExpo(float x) {
-        return (float) (x == 0
-                ? 0
-                : x == 1
-                ? 1
-                : x < 0.5 ? pow(2, 20 * x - 10) / 2
-                : (2 - pow(2, -20 * x + 10)) / 2);
+        return (float) (x == 0 ? 0 : x == 1 ? 1 : x < 0.5 ? pow(2, 20 * x - 10) / 2 : (2 - pow(2, -20 * x + 10)) / 2);
     }
 
     public static float inBack(float x) {
@@ -165,9 +151,6 @@ public class Ease {
     }
 
     public static float inOutBounce(float x) {
-        return x < 0.5
-                ? (1 - outBounce(1 - 2 * x)) / 2
-                : (1 + outBounce(2 * x - 1)) / 2;
+        return x < 0.5 ? (1 - outBounce(1 - 2 * x)) / 2 : (1 + outBounce(2 * x - 1)) / 2;
     }
-
 }

@@ -1,9 +1,14 @@
-
 package com.jamesswafford.chess4j.board.squares;
 
-
 public enum File {
-    FILE_A(0, "a"), FILE_B(1, "b"), FILE_C(2, "c"), FILE_D(3, "d"), FILE_E(4, "e"), FILE_F(5, "f"), FILE_G(6, "g"), FILE_H(7, "h");
+    FILE_A(0, "a"),
+    FILE_B(1, "b"),
+    FILE_C(2, "c"),
+    FILE_D(3, "d"),
+    FILE_E(4, "e"),
+    FILE_F(5, "f"),
+    FILE_G(6, "g"),
+    FILE_H(7, "h");
 
     private static File[] files_arr = new File[8];
 
@@ -77,5 +82,4 @@ public enum File {
         }
         return file(value - 1);
     }
-
 }

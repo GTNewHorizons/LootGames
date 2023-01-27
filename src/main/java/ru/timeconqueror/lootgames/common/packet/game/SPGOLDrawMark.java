@@ -1,12 +1,11 @@
 package ru.timeconqueror.lootgames.common.packet.game;
 
+import java.io.IOException;
 import net.minecraft.network.PacketBuffer;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.api.packet.IServerGamePacket;
 import ru.timeconqueror.lootgames.minigame.gol.GameOfLight;
 import ru.timeconqueror.lootgames.minigame.gol.QMarkAppearance.State;
-
-import java.io.IOException;
 
 public class SPGOLDrawMark implements IServerGamePacket {
     private State state;
@@ -27,8 +26,7 @@ public class SPGOLDrawMark implements IServerGamePacket {
      * Only for using via reflection
      */
     @Deprecated
-    public SPGOLDrawMark() {
-    }
+    public SPGOLDrawMark() {}
 
     @Override
     public void encode(PacketBuffer bufferTo) throws IOException {

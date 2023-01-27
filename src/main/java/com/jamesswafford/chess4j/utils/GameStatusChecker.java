@@ -1,20 +1,16 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
 import com.jamesswafford.chess4j.board.Undo;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.List;
-
 
 public final class GameStatusChecker {
 
-    private GameStatusChecker() {
-    }
+    private GameStatusChecker() {}
 
     public static GameStatus getGameStatus() {
         Board b = Board.INSTANCE;
@@ -78,7 +74,6 @@ public final class GameStatusChecker {
         }
 
         return numWhiteSqBishops > 0 && numDarkSqBishops > 0;
-
     }
 
     public static int getNumberPreviousVisits(Board b) {
@@ -99,5 +94,4 @@ public final class GameStatusChecker {
         int numPrevVisits = getNumberPreviousVisits(b);
         return numPrevVisits >= 2;
     }
-
 }

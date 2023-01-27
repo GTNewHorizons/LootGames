@@ -1,11 +1,8 @@
 package com.jamesswafford.chess4j.board;
 
-
 import com.jamesswafford.chess4j.board.squares.*;
 import com.jamesswafford.chess4j.utils.BoardUtils;
-
 import java.util.Random;
-
 
 public class Magic {
 
@@ -25,7 +22,6 @@ public class Magic {
 
     // initialize rook and bishop masks
     static {
-
         for (int i = 0; i < 64; i++) {
             rookMasks[i] = 0;
 
@@ -35,10 +31,15 @@ public class Magic {
             for (int j = 0; j < 64; j++) {
                 Square sq2 = Square.valueOf(j);
                 if (i != j) {
-                    if ((sq2.rank() == sq.rank() && sq2.file() != File.FILE_A && sq2.file() != File.FILE_H) || (sq2.file() == sq.file() && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8)) {
+                    if ((sq2.rank() == sq.rank() && sq2.file() != File.FILE_A && sq2.file() != File.FILE_H)
+                            || (sq2.file() == sq.file() && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8)) {
                         rookMasks[i] |= Bitboard.squares[j];
                     }
-                    if (BoardUtils.isDiagonal(sq, sq2) && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8 && sq2.file() != File.FILE_A && sq2.file() != File.FILE_H) {
+                    if (BoardUtils.isDiagonal(sq, sq2)
+                            && sq2.rank() != Rank.RANK_1
+                            && sq2.rank() != Rank.RANK_8
+                            && sq2.file() != File.FILE_A
+                            && sq2.file() != File.FILE_H) {
                         bishopMasks[i] |= Bitboard.squares[j];
                     }
                 }
@@ -48,7 +49,6 @@ public class Magic {
 
     // initialize rook attack sets
     static {
-
         for (int sq = 0; sq < 64; sq++) {
             long mask = rookMasks[sq];
             int numVariations = 1 << Long.bitCount(mask); // 2 ^ num bits
@@ -111,7 +111,6 @@ public class Magic {
 
     // initialize bishop attack sets
     static {
-
         for (int sq = 0; sq < 64; sq++) {
             long mask = bishopMasks[sq];
             int numVariations = 1 << Long.bitCount(mask); // 2 ^ num bits
@@ -173,7 +172,6 @@ public class Magic {
     }
 
     static {
-
         for (int sq = 0; sq < 64; sq++) {
             long mask = rookMasks[sq];
             long numMaskBits = Long.bitCount(mask);
@@ -212,8 +210,7 @@ public class Magic {
                     usedBy[index] = attackSet;
                 }
 
-            }
-            while (fail);
+            } while (fail);
 
             magicNumbersRooks[sq] = magic;
             magicNumbersShiftRooks[sq] = magicShift;
@@ -221,7 +218,6 @@ public class Magic {
     }
 
     static {
-
         for (int sq = 0; sq < 64; sq++) {
             long mask = bishopMasks[sq];
             long numMaskBits = Long.bitCount(mask);
@@ -260,8 +256,7 @@ public class Magic {
                     usedBy[index] = attackSet;
                 }
 
-            }
-            while (fail);
+            } while (fail);
 
             magicNumbersBishops[sq] = magic;
             magicNumbersShiftBishops[sq] = magicShift;
@@ -277,7 +272,10 @@ public class Magic {
 
             for (int i = 0; i < numVariations; i++) {
                 int magicInd = (int) ((rookOcc[sqVal][i] * magicNumbersRooks[sqVal]) >>> magicNumbersShiftRooks[sqVal]);
-                magicRookMoves[sqVal][magicInd] = genMovesMask(sq, rookOcc[sqVal][i], North.getInstance()) | genMovesMask(sq, rookOcc[sqVal][i], South.getInstance()) | genMovesMask(sq, rookOcc[sqVal][i], East.getInstance()) | genMovesMask(sq, rookOcc[sqVal][i], West.getInstance());
+                magicRookMoves[sqVal][magicInd] = genMovesMask(sq, rookOcc[sqVal][i], North.getInstance())
+                        | genMovesMask(sq, rookOcc[sqVal][i], South.getInstance())
+                        | genMovesMask(sq, rookOcc[sqVal][i], East.getInstance())
+                        | genMovesMask(sq, rookOcc[sqVal][i], West.getInstance());
             }
         }
 
@@ -287,8 +285,12 @@ public class Magic {
             int numVariations = 1 << Long.bitCount(mask);
 
             for (int i = 0; i < numVariations; i++) {
-                int magicInd = (int) ((bishopOcc[sqVal][i] * magicNumbersBishops[sqVal]) >>> magicNumbersShiftBishops[sqVal]);
-                magicBishopMoves[sqVal][magicInd] = genMovesMask(sq, bishopOcc[sqVal][i], NorthEast.getInstance()) | genMovesMask(sq, bishopOcc[sqVal][i], SouthEast.getInstance()) | genMovesMask(sq, bishopOcc[sqVal][i], SouthWest.getInstance()) | genMovesMask(sq, bishopOcc[sqVal][i], NorthWest.getInstance());
+                int magicInd =
+                        (int) ((bishopOcc[sqVal][i] * magicNumbersBishops[sqVal]) >>> magicNumbersShiftBishops[sqVal]);
+                magicBishopMoves[sqVal][magicInd] = genMovesMask(sq, bishopOcc[sqVal][i], NorthEast.getInstance())
+                        | genMovesMask(sq, bishopOcc[sqVal][i], SouthEast.getInstance())
+                        | genMovesMask(sq, bishopOcc[sqVal][i], SouthWest.getInstance())
+                        | genMovesMask(sq, bishopOcc[sqVal][i], NorthWest.getInstance());
             }
         }
     }
@@ -323,5 +325,4 @@ public class Magic {
         int magicInd = (int) ((blockers * magicNumbersRooks[fromSq]) >>> magicNumbersShiftRooks[fromSq]);
         return magicRookMoves[fromSq][magicInd] & targets;
     }
-
 }

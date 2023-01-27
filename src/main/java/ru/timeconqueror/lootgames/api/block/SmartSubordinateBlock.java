@@ -2,6 +2,7 @@ package ru.timeconqueror.lootgames.api.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.function.BiConsumer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -14,8 +15,6 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
 
-import java.util.function.BiConsumer;
-
 /**
  * Subordinate block for minigames. Will find master block and notify it. The master block must be at the north-west corner of the game border
  * and its tileentity must extend {@link GameMasterTile <>}!
@@ -24,14 +23,16 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
     @Override
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         if (!worldIn.isRemote) {
-            LootGamesAPI.getFieldManager().onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, BlockPos.of(x, y, z)));
+            LootGamesAPI.getFieldManager()
+                    .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, BlockPos.of(x, y, z)));
         }
 
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(
+            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
         BlockPos pos = BlockPos.of(x, y, z);
         forMasterTile(player, worldIn, pos, (master, blockPos) -> master.onBlockRightClick(player, pos));
 
@@ -48,9 +49,11 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
         return false;
     }
 
-    private void forMasterTile(EntityPlayer player, World world, BlockPos pos, BiConsumer<GameMasterTile<?>, BlockPos> action) {
+    private void forMasterTile(
+            EntityPlayer player, World world, BlockPos pos, BiConsumer<GameMasterTile<?>, BlockPos> action) {
         BlockPos masterPos = getMasterPos(world, pos);
-        WorldUtils.forTypedTileWithWarn(player, world, masterPos, GameMasterTile.class, master -> action.accept(master, masterPos));
+        WorldUtils.forTypedTileWithWarn(
+                player, world, masterPos, GameMasterTile.class, master -> action.accept(master, masterPos));
     }
 
     public static BlockPos getMasterPos(World world, BlockPos pos) {

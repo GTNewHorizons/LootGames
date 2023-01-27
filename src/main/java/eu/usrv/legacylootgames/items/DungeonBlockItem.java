@@ -1,17 +1,14 @@
 package eu.usrv.legacylootgames.items;
 
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-
-import java.util.List;
-
 
 public class DungeonBlockItem extends ItemBlockWithMetadata {
 

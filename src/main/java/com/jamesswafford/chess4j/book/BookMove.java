@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.book;
 
-
 import com.jamesswafford.chess4j.board.Move;
-
 
 public class BookMove {
 
@@ -40,7 +38,8 @@ public class BookMove {
 
     @Override
     public String toString() {
-        return "BookMove [move=" + getMove() + ", frequency=" + getFrequency() + ", wins=" + getWins() + ", losses=" + getLosses() + ", draws=" + getDraws() + "]";
+        return "BookMove [move=" + getMove() + ", frequency=" + getFrequency() + ", wins=" + getWins() + ", losses="
+                + getLosses() + ", draws=" + getDraws() + "]";
     }
 
     @Override
@@ -60,14 +59,10 @@ public class BookMove {
         }
 
         BookMove that = (BookMove) obj;
-        if (!this.getMove().equals(that.getMove()))
-            return false;
-        if (this.getFrequency() != that.getFrequency())
-            return false;
-        if (this.getWins() != that.getWins())
-            return false;
-        if (this.getLosses() != that.getLosses())
-            return false;
+        if (!this.getMove().equals(that.getMove())) return false;
+        if (this.getFrequency() != that.getFrequency()) return false;
+        if (this.getWins() != that.getWins()) return false;
+        if (this.getLosses() != that.getLosses()) return false;
         return this.getDraws() == that.getDraws();
     }
 
@@ -94,5 +89,4 @@ public class BookMove {
     public void setDraws(int draws) {
         this.draws = draws;
     }
-
 }

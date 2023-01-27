@@ -17,7 +17,12 @@ public class CommonEventHandler {
         Block block = event.world.getBlock(event.x, event.y, event.z);
 
         if (block instanceof ILeftInteractible) {
-            event.setCanceled(((ILeftInteractible) block).onLeftClick(event.world, event.entityPlayer, BlockPos.of(event.x, event.y, event.z), InteractSide.byFace(event.face).getFacing()));
+            event.setCanceled(((ILeftInteractible) block)
+                    .onLeftClick(
+                            event.world,
+                            event.entityPlayer,
+                            BlockPos.of(event.x, event.y, event.z),
+                            InteractSide.byFace(event.face).getFacing()));
         }
     }
 }

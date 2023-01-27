@@ -12,7 +12,7 @@ public class IconLoader {
     @SubscribeEvent
     public void regIcons(TextureStitchEvent.Pre event) {
         TextureMap reg = event.map;
-        if (reg.getTextureType() == 0) {// are for blocks
+        if (reg.getTextureType() == 0) { // are for blocks
             shieldedDungeonFloor = reg.registerIcon(LootGames.namespaced("shielded_dungeon_floor"));
         }
     }

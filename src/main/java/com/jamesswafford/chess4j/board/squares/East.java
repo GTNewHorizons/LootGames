@@ -1,13 +1,10 @@
-
 package com.jamesswafford.chess4j.board.squares;
-
 
 public final class East extends Direction {
 
     private static final East INSTANCE = new East();
 
-    private East() {
-    }
+    private East() {}
 
     public static East getInstance() {
         return INSTANCE;

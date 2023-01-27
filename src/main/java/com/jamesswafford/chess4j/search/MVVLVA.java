@@ -1,14 +1,11 @@
 package com.jamesswafford.chess4j.search;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.pieces.*;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class MVVLVA implements Comparator<Move> {
 
@@ -87,5 +84,4 @@ public class MVVLVA implements Comparator<Move> {
 
         return retVal;
     }
-
 }

@@ -1,8 +1,8 @@
 package com.jamesswafford.chess4j;
 
-
 public enum Color {
-    BLACK(0), WHITE(1);
+    BLACK(0),
+    WHITE(1);
 
     private int color;
 

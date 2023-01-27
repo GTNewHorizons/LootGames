@@ -1,8 +1,7 @@
 package ru.timeconqueror.lootgames.utils.future;
 
-import net.minecraft.block.Block;
-
 import java.util.Objects;
+import net.minecraft.block.Block;
 
 public class BlockState {
     private final Block block;

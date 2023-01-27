@@ -12,8 +12,10 @@ public class ConfigRewards extends Config {
     public ConfigRewards() {
         super(Names.CATEGORY_REWARDS);
 
-        rewardsGol = StagedRewardConfig.fourStaged(getKey(), LGConfigs.GOL.getKey(), "Game of Light Rewards", StagedRewards.fourStagedDefaults());
-        rewardsMinesweeper = StagedRewardConfig.fourStaged(getKey(), LGConfigs.MINESWEEPER.getKey(), "Minesweeper Rewards", StagedRewards.fourStagedDefaults());
+        rewardsGol = StagedRewardConfig.fourStaged(
+                getKey(), LGConfigs.GOL.getKey(), "Game of Light Rewards", StagedRewards.fourStagedDefaults());
+        rewardsMinesweeper = StagedRewardConfig.fourStaged(
+                getKey(), LGConfigs.MINESWEEPER.getKey(), "Minesweeper Rewards", StagedRewards.fourStagedDefaults());
     }
 
     public static class Names {

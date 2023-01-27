@@ -1,8 +1,7 @@
 package ru.timeconqueror.lootgames.api.task;
 
-import ru.timeconqueror.timecore.api.exception.NotExistsException;
-
 import java.util.HashMap;
+import ru.timeconqueror.timecore.api.exception.NotExistsException;
 
 /**
  * Used for task factory registering.
@@ -19,7 +18,8 @@ public abstract class TaskRegistry {
 
     public static <T extends ITask> void registerTaskFactory(Class<T> taskClass, ITask.ITaskFactory<T> factory) {
         if (TASK_FACTORIES.put(taskClass, factory) != null) {
-            throw new IllegalArgumentException("The factory for task class " + taskClass + " has been already registered.");
+            throw new IllegalArgumentException(
+                    "The factory for task class " + taskClass + " has been already registered.");
         }
     }
 }

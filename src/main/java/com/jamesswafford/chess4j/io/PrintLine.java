@@ -1,11 +1,8 @@
 package com.jamesswafford.chess4j.io;
 
-
 import com.jamesswafford.chess4j.board.Move;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-
 import java.util.List;
-
 
 public class PrintLine {
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
@@ -37,5 +34,4 @@ public class PrintLine {
         }
         return s;
     }
-
 }

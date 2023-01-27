@@ -1,8 +1,7 @@
 package ru.timeconqueror.timecore.api.util;
 
-import ru.timeconqueror.lootgames.utils.future.BlockPos;
-
 import java.util.Iterator;
+import ru.timeconqueror.lootgames.utils.future.BlockPos;
 
 public class BlockPosUtils {
 

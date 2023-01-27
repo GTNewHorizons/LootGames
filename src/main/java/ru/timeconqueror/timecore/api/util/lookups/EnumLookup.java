@@ -1,10 +1,9 @@
 package ru.timeconqueror.timecore.api.util.lookups;
 
-import ru.timeconqueror.timecore.api.reflection.ReflectionHelper;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import ru.timeconqueror.timecore.api.reflection.ReflectionHelper;
 
 public interface EnumLookup<E extends Enum<E>, S> {
     E by(S id);
@@ -18,7 +17,8 @@ public interface EnumLookup<E extends Enum<E>, S> {
 
         for (T val : enumValues) {
             if (idLookup.put(idSupplier.apply(val), val) != null) {
-                throw new IllegalArgumentException("Found duplication of id " + idSupplier.apply(val) + " for " + enumClass.getName());
+                throw new IllegalArgumentException(
+                        "Found duplication of id " + idSupplier.apply(val) + " for " + enumClass.getName());
             }
         }
 
@@ -43,7 +43,8 @@ public interface EnumLookup<E extends Enum<E>, S> {
         @Override
         public E by(S id) {
             if (!lookup.containsKey(id)) {
-                throw new IllegalArgumentException("Instance of enum " + clazz.getSimpleName() + " was not found for id '" + id + "'");
+                throw new IllegalArgumentException(
+                        "Instance of enum " + clazz.getSimpleName() + " was not found for id '" + id + "'");
             }
 
             return lookup.get(id);
@@ -67,7 +68,8 @@ public interface EnumLookup<E extends Enum<E>, S> {
         @Override
         public E by(Integer id) {
             if (id < 0 || id >= values.length) {
-                throw new IllegalArgumentException("There's no instance " + clazz.getSimpleName() + " with index '" + id + "'");
+                throw new IllegalArgumentException(
+                        "There's no instance " + clazz.getSimpleName() + " with index '" + id + "'");
             }
             return values[id];
         }

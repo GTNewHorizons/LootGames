@@ -1,13 +1,10 @@
-
 package com.jamesswafford.chess4j.board.squares;
-
 
 public final class SouthWest extends Direction {
 
     private static final SouthWest INSTANCE = new SouthWest();
 
-    private SouthWest() {
-    }
+    private SouthWest() {}
 
     public static SouthWest getInstance() {
         return INSTANCE;

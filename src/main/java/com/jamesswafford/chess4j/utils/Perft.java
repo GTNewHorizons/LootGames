@@ -1,16 +1,14 @@
 package com.jamesswafford.chess4j.utils;
 
-
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*	Initial position
 Depth 	Perft(Depth) 	Total Nodes
@@ -23,7 +21,6 @@ Depth 	Perft(Depth) 	Total Nodes
 7 	3,195,901,860 	3,320,034,396
 */
 
-
 /*	r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -
 Depth 	Perft(Depth) 	Total Nodes
 1 	48 	48
@@ -32,9 +29,8 @@ Depth 	Perft(Depth) 	Total Nodes
 4 	4,085,603 	4,185,552
 5 	193,690,690 	197,876,242
 6 	8,031,647,685
-Note: this exceeds 32 bits 	8,229,523,927	
+Note: this exceeds 32 bits 	8,229,523,927
 */
-
 
 class PerftCallable implements Callable<Long> {
 
@@ -67,16 +63,13 @@ class PerftCallable implements Callable<Long> {
     public Long call() throws Exception {
         return perft(depth);
     }
-
 }
-
 
 public final class Perft {
     private static final Log LOGGERX = LogFactory.getLog(Perft.class);
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
 
-    private Perft() {
-    }
+    private Perft() {}
 
     public static long perft(Board b, int depth) {
         if (depth <= 0) {
@@ -108,5 +101,4 @@ public final class Perft {
 
         return n;
     }
-
 }

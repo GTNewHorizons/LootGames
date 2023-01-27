@@ -1,8 +1,6 @@
 package eu.usrv.legacylootgames.auxiliary;
 
-
 import java.util.*;
-
 
 public class ProfilingStorage {
     private final Map<String, List<Long>> mProfilingMap;
@@ -25,18 +23,15 @@ public class ProfilingStorage {
      */
     public void AddTimeToList(String pIdentifier, long pTotalTime) {
         try {
-            if (pTotalTime == 0)
-                return;
+            if (pTotalTime == 0) return;
 
-            if (!mProfilingMap.containsKey(pIdentifier))
-                mProfilingMap.put(pIdentifier, new LinkedList<Long>());
+            if (!mProfilingMap.containsKey(pIdentifier)) mProfilingMap.put(pIdentifier, new LinkedList<Long>());
 
             LinkedList<Long> ll = (LinkedList<Long>) mProfilingMap.get(pIdentifier);
 
             ll.addLast(pTotalTime);
 
-            while (ll.size() > 50)
-                ll.removeFirst();
+            while (ll.size() > 50) ll.removeFirst();
         } catch (Exception e) {
             // Just do nothing. profiling is for debug purposes only anyways...
         }
@@ -50,8 +45,7 @@ public class ProfilingStorage {
      */
     public long GetAverageTime(String pIdentifier) {
         try {
-            if (!mProfilingMap.containsKey(pIdentifier))
-                return -1;
+            if (!mProfilingMap.containsKey(pIdentifier)) return -1;
 
             int tTotalVal = 0;
             long tAverage = 0;

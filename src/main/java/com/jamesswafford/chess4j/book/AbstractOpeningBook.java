@@ -1,15 +1,12 @@
 package com.jamesswafford.chess4j.book;
 
-
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.io.PGNGame;
 import com.jamesswafford.chess4j.utils.GameResult;
-
 import java.util.List;
 import java.util.Random;
-
 
 public abstract class AbstractOpeningBook {
 
@@ -52,8 +49,7 @@ public abstract class AbstractOpeningBook {
 
         // LOGGER.debug("# choosing book move from list of " + bms.size() + " candidate moves.");
 
-        if (bms.size() == 0)
-            return null;
+        if (bms.size() == 0) return null;
 
         int totalWeight = 0;
         for (BookMove bm : bms) {
@@ -70,7 +66,7 @@ public abstract class AbstractOpeningBook {
             }
         }
 
-        throw new RuntimeException("Error in getMoveWeihtedRandomByFrequency().  totalWeight=" + totalWeight + ", val=" + val);
+        throw new RuntimeException(
+                "Error in getMoveWeihtedRandomByFrequency().  totalWeight=" + totalWeight + ", val=" + val);
     }
-
 }

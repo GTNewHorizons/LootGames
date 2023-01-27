@@ -30,7 +30,12 @@ public class RewardUtils {
      * @param rewardLevel  from 0 to 4 inclusive. Zero means no chests will be generated.
      * @param rewardConfig reward part of your game's config
      */
-    public static void spawnFourStagedReward(WorldServer world, LootGame<?, ?> game, BlockPos centralPos, int rewardLevel, FourStagedRewardConfig rewardConfig) {
+    public static void spawnFourStagedReward(
+            WorldServer world,
+            LootGame<?, ?> game,
+            BlockPos centralPos,
+            int rewardLevel,
+            FourStagedRewardConfig rewardConfig) {
         BlockState state = BlockState.of(LGBlocks.DUNGEON_LAMP, DungeonLightSource.State.NORMAL.ordinal());
         WorldExt.setBlockState(world, centralPos.offset(1, 0, 1), state);
         WorldExt.setBlockState(world, centralPos.offset(1, 0, -1), state);
@@ -44,7 +49,11 @@ public class RewardUtils {
             for (HorizontalDirection direction : HorizontalDirection.values()) {
                 if (counter >= rewardLevel) break;
 
-                spawnLootChest(world, centralPos, direction, SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(counter)));
+                spawnLootChest(
+                        world,
+                        centralPos,
+                        direction,
+                        SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(counter)));
                 counter++;
             }
         }
@@ -60,28 +69,33 @@ public class RewardUtils {
      *                            chest will be spawned 1 block north of the {@code centralPos} with south facing.
      * @param chestData           data which contains the rules of setting chest content
      */
-    public static void spawnLootChest(WorldServer world, BlockPos centralPos, HorizontalDirection horizontalDirection, SpawnChestData chestData) {
+    public static void spawnLootChest(
+            WorldServer world, BlockPos centralPos, HorizontalDirection horizontalDirection, SpawnChestData chestData) {
         EnumFacing direction = horizontalDirection.get();
         String lootTable = chestData.getLootTableKey();
 
         WeightedRandomChestContent[] randomLoot = ChestGenHooks.getItems(lootTable, RandHelper.RAND);
 
         BlockPos pos = centralPos.offset(direction.getFrontOffsetX(), 0, direction.getFrontOffsetZ());
-        WorldExt.setBlock(world, pos, Blocks.chest, 3);//FIXME what about block facing?
+        WorldExt.setBlock(world, pos, Blocks.chest, 3); // FIXME what about block facing?
         IInventory chestTile = (IInventory) WorldExt.getTileEntity(world, pos);
 
         if (chestTile != null) {
             if (randomLoot.length == 0) {
-                LootGames.LOGGER.error("Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash", lootTable, chestData.getGameName());
+                LootGames.LOGGER.error(
+                        "Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash",
+                        lootTable,
+                        chestData.getGameName());
                 ItemDescriptor sorryItem = ItemDescriptor.fromString("minecraft:stone");
-                String lore = String.join("\",\"",
+                String lore = String.join(
+                        "\",\"",
                         "Modpack creator failed to configure",
                         "the Loot Tables properly.",
                         String.format("Please report that Loot Table [%s]", lootTable),
                         String.format("for %s stage is broken.", chestData.getGameName()),
-                        "Thank you!"
-                );
-                ItemStack sorryStack = sorryItem.getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
+                        "Thank you!");
+                ItemStack sorryStack = sorryItem.getItemStackwNBT(
+                        1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
                 chestTile.setInventorySlotContents(0, sorryStack);
             } else {
                 int count = RandHelper.RAND.nextInt(chestData.getMaxItems()) + chestData.getMinItems();
@@ -97,7 +111,8 @@ public class RewardUtils {
         private final int maxItems;
 
         public static SpawnChestData fromRewardConfig(LootGame<?, ?> game, RewardConfig rewardConfig) {
-            return new SpawnChestData(game, rewardConfig.getLootTable(game.getWorld()), rewardConfig.minItems, rewardConfig.maxItems);
+            return new SpawnChestData(
+                    game, rewardConfig.getLootTable(game.getWorld()), rewardConfig.minItems, rewardConfig.maxItems);
         }
 
         /**

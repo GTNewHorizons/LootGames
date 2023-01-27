@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.pieces;
 
-
 import com.jamesswafford.chess4j.Color;
-
 
 public abstract class Piece {
 
@@ -25,5 +23,4 @@ public abstract class Piece {
     public boolean isWhite() {
         return color.getColor() == Color.WHITE.getColor();
     }
-
 }

@@ -1,9 +1,6 @@
-
 package com.jamesswafford.chess4j.board.squares;
 
-
 import java.util.*;
-
 
 public final class Square {
 

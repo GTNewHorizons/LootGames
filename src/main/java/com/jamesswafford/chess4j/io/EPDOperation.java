@@ -1,10 +1,8 @@
 package com.jamesswafford.chess4j.io;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 public class EPDOperation {
 
@@ -31,5 +29,4 @@ public class EPDOperation {
     public List<String> getEpdOperands() {
         return Collections.unmodifiableList(epdOperands);
     }
-
 }

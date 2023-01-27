@@ -1,18 +1,17 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagCompound;
-import ru.timeconqueror.lootgames.api.util.Pos2i;
-import ru.timeconqueror.lootgames.utils.future.ICodec;
-import ru.timeconqueror.timecore.api.util.CodecUtils;
-import ru.timeconqueror.timecore.api.util.Wrapper;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagCompound;
+import ru.timeconqueror.lootgames.api.util.Pos2i;
+import ru.timeconqueror.lootgames.utils.future.ICodec;
+import ru.timeconqueror.timecore.api.util.CodecUtils;
+import ru.timeconqueror.timecore.api.util.Wrapper;
 
 public class MSBoard {
     int cFlaggedFields;
@@ -135,7 +134,9 @@ public class MSBoard {
         int emptyPlaces = size * size - bombCount;
 
         if (emptyPlaces < 0)
-            throw new IllegalStateException("How is that possible, that board square is less or equal to bomb count? Square = " + (size * size) + ", bomb count = " + bombCount);
+            throw new IllegalStateException(
+                    "How is that possible, that board square is less or equal to bomb count? Square = " + (size * size)
+                            + ", bomb count = " + bombCount);
 
         int safeDistance;
         if (emptyPlaces >= 13) {
@@ -148,31 +149,36 @@ public class MSBoard {
 
         Wrapper<Integer> count = new Wrapper<>(0);
 
-        return IntStream.range(0, fieldSize).filter(index -> {
-            if (count.get() > emptyPlaces) {
-                return true;
-            }
+        return IntStream.range(0, fieldSize)
+                .filter(index -> {
+                    if (count.get() > emptyPlaces) {
+                        return true;
+                    }
 
-            Pos2i pos = toPos(index);//TODO optimize
+                    Pos2i pos = toPos(index); // TODO optimize
 
-            if (start.manhattanDistanceTo(pos) <= safeDistance) {
-                count.set(count.get() + 1);
-                return false;
-            } else {
-                return true;
-            }
-        }).boxed().collect(Collectors.toList());
+                    if (start.manhattanDistanceTo(pos) <= safeDistance) {
+                        count.set(count.get() + 1);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
+                .boxed()
+                .collect(Collectors.toList());
     }
 
     public void generate(Pos2i startFieldPos) {
         if (toIndex(startFieldPos) > (size * size) - 1) {
-            throw new IllegalArgumentException(String.format("Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d", startFieldPos, size));
+            throw new IllegalArgumentException(String.format(
+                    "Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d",
+                    startFieldPos, size));
         }
 
         board = new MSField[size][size];
         int square = size * size;
 
-        //adding bombs
+        // adding bombs
         List<Integer> fields = getAvailableBombIndices(startFieldPos, square);
 
         Collections.shuffle(fields);
@@ -187,7 +193,7 @@ public class MSBoard {
             board[integer % size][integer / size].type = Type.BOMB;
         }
 
-        //adding numbers and spaces
+        // adding numbers and spaces
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (!isBomb(i, j)) {
@@ -230,7 +236,6 @@ public class MSBoard {
                             bombCount++;
                         }
                     }
-
                 }
             }
         }
@@ -261,7 +266,6 @@ public class MSBoard {
         if (!field.isHidden) field.mark = Mark.NO_MARK;
 
         board[pos.getX()][pos.getY()] = field;
-
 
         if (oldMark == Mark.FLAG && field.mark != Mark.FLAG) {
             cFlaggedFields--;
@@ -381,10 +385,11 @@ public class MSBoard {
             @Override
             public MSField decode(NBTTagCompound nbt) {
                 return new MSField(
-                        forSync && !nbt.hasKey("type") ? Type.EMPTY : Type.CODEC.decode((NBTTagByte) nbt.getTag("type")),
+                        forSync && !nbt.hasKey("type")
+                                ? Type.EMPTY
+                                : Type.CODEC.decode((NBTTagByte) nbt.getTag("type")),
                         nbt.getBoolean("hidden"),
-                        Mark.CODEC.decode((NBTTagByte) nbt.getTag("mark"))
-                );
+                        Mark.CODEC.decode((NBTTagByte) nbt.getTag("mark")));
             }
         }
     }

@@ -1,8 +1,7 @@
 package ru.timeconqueror.timecore.api.common.config;
 
-import net.minecraftforge.common.config.Configuration;
-
 import java.io.File;
+import net.minecraftforge.common.config.Configuration;
 
 public abstract class Config {
     private static File configDir;

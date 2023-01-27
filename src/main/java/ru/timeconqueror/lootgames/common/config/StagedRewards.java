@@ -8,16 +8,17 @@ public class StagedRewards {
         return FourStagedDefaults.DEFAULT;
     }
 
-    public static FourStagedDefaults fourStagedDefaults(Defaults stage1, Defaults stage2, Defaults stage3, Defaults stage4) {
+    public static FourStagedDefaults fourStagedDefaults(
+            Defaults stage1, Defaults stage2, Defaults stage3, Defaults stage4) {
         return new FourStagedDefaults(stage1, stage2, stage3, stage4);
     }
 
     public static class FourStagedDefaults {
-        private static final FourStagedDefaults DEFAULT = new FourStagedDefaults(new Defaults(LootTables.DUNGEON_CHEST, 4, 8),
+        private static final FourStagedDefaults DEFAULT = new FourStagedDefaults(
+                new Defaults(LootTables.DUNGEON_CHEST, 4, 8),
                 new Defaults(LootTables.MINESHAFT_CORRIDOR, 5, 10),
                 new Defaults(LootTables.PYRAMID_JUNGLE_CHEST, 6, 11),
-                new Defaults(LootTables.STRONGHOLD_CORRIDOR, 7, 12)
-        );
+                new Defaults(LootTables.STRONGHOLD_CORRIDOR, 7, 12));
 
         private final Defaults stage1;
         private final Defaults stage2;

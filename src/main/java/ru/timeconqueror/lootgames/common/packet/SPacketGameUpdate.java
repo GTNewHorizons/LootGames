@@ -9,8 +9,7 @@ public class SPacketGameUpdate extends PacketGameUpdate<IServerGamePacket> {
         super(game, gamePacket);
     }
 
-    public SPacketGameUpdate() {
-    }
+    public SPacketGameUpdate() {}
 
     @Override
     public GamePacketRegistry.Storage<IServerGamePacket> getStorage() {

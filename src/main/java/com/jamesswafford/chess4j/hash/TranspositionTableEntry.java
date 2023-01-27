@@ -1,8 +1,6 @@
 package com.jamesswafford.chess4j.hash;
 
-
 import com.jamesswafford.chess4j.board.Move;
-
 
 public class TranspositionTableEntry {
 
@@ -46,18 +44,14 @@ public class TranspositionTableEntry {
             return false;
         }
         TranspositionTableEntry that = (TranspositionTableEntry) obj;
-        if (this.getZobristKey() != that.getZobristKey())
-            return false;
-        if (this.getScore() != that.getScore())
-            return false;
-        if (this.getDepth() != that.getDepth())
-            return false;
+        if (this.getZobristKey() != that.getZobristKey()) return false;
+        if (this.getScore() != that.getScore()) return false;
+        if (this.getDepth() != that.getDepth()) return false;
         if (this.getMove() == null) {
             return that.getMove() == null;
         } else {
             return this.getMove().equals(that.getMove());
         }
-
     }
 
     @Override
@@ -69,5 +63,4 @@ public class TranspositionTableEntry {
 
         return hc;
     }
-
 }

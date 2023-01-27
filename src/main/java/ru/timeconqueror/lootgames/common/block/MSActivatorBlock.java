@@ -21,7 +21,8 @@ public class MSActivatorBlock extends GameBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(
+            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
 
@@ -29,7 +30,8 @@ public class MSActivatorBlock extends GameBlock {
             int allocatedSize = snapshot.getStage4().getBoardSize();
 
             boolean succeed = LootGamesAPI.getFieldManager()
-                    .trySetupBoard(((WorldServer) worldIn), pos, allocatedSize, 2, allocatedSize, LGBlocks.MS_MASTER, player)
+                    .trySetupBoard(
+                            ((WorldServer) worldIn), pos, allocatedSize, 2, allocatedSize, LGBlocks.MS_MASTER, player)
                     .forTileIfSucceed(MSMasterTile.class, master -> master.init(snapshot))
                     .isSucceed();
 
