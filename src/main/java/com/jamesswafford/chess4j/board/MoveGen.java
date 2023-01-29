@@ -1,10 +1,11 @@
 package com.jamesswafford.chess4j.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.squares.*;
 import com.jamesswafford.chess4j.pieces.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class MoveGen {
 
@@ -109,8 +110,7 @@ public final class MoveGen {
 
         if (board.getPlayerToMove() == Color.WHITE) {
             long targets = board.getBlackPieces();
-            if (board.getEPSquare() != null)
-                targets |= Bitboard.squares[board.getEPSquare().value()];
+            if (board.getEPSquare() != null) targets |= Bitboard.squares[board.getEPSquare().value()];
 
             // attacks west
             pmap = ((board.getWhitePawns() & ~Bitboard.files[File.FILE_A.getValue()]) >> 9) & targets;
@@ -148,20 +148,15 @@ public final class MoveGen {
                     int toSqVal = Bitboard.msb(pmap);
                     Square toSq = Square.valueOf(toSqVal);
                     moves.add(new Move(South.getInstance().next(toSq), toSq, null));
-                    if (toSq.rank() == Rank.RANK_3
-                            && board.getPiece(North.getInstance().next(toSq)) == null) {
-                        moves.add(new Move(
-                                South.getInstance().next(toSq),
-                                North.getInstance().next(toSq),
-                                null));
+                    if (toSq.rank() == Rank.RANK_3 && board.getPiece(North.getInstance().next(toSq)) == null) {
+                        moves.add(new Move(South.getInstance().next(toSq), North.getInstance().next(toSq), null));
                     }
                     pmap ^= Bitboard.squares[toSqVal];
                 }
             }
         } else {
             long targets = board.getWhitePieces();
-            if (board.getEPSquare() != null)
-                targets |= Bitboard.squares[board.getEPSquare().value()];
+            if (board.getEPSquare() != null) targets |= Bitboard.squares[board.getEPSquare().value()];
 
             // attacks west
             pmap = ((board.getBlackPawns() & ~Bitboard.files[File.FILE_A.getValue()]) << 7) & targets;
@@ -199,12 +194,8 @@ public final class MoveGen {
                     int toSqVal = Bitboard.lsb(pmap);
                     Square toSq = Square.valueOf(toSqVal);
                     moves.add(new Move(North.getInstance().next(toSq), toSq, null));
-                    if (toSq.rank() == Rank.RANK_6
-                            && board.getPiece(South.getInstance().next(toSq)) == null) {
-                        moves.add(new Move(
-                                North.getInstance().next(toSq),
-                                South.getInstance().next(toSq),
-                                null));
+                    if (toSq.rank() == Rank.RANK_6 && board.getPiece(South.getInstance().next(toSq)) == null) {
+                        moves.add(new Move(North.getInstance().next(toSq), South.getInstance().next(toSq), null));
                     }
                     pmap ^= Bitboard.squares[toSqVal];
                 }

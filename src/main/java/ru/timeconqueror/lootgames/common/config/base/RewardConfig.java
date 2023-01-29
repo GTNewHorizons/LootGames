@@ -1,12 +1,15 @@
 package ru.timeconqueror.lootgames.common.config.base;
 
 import java.util.HashMap;
+
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class RewardConfig extends ConfigSection {
+
     public int minItems;
     public int maxItems;
     public String defaultLootTable;
@@ -21,6 +24,7 @@ public class RewardConfig extends ConfigSection {
     }
 
     public static class Names {
+
         public static final String MIN_ITEMS = "min_items";
         public static final String MAX_ITEMS = "max_items";
         public static final String DEFAULT_LOOT_TABLE = "default_loot_table";
@@ -105,6 +109,7 @@ public class RewardConfig extends ConfigSection {
     }
 
     public static class Defaults {
+
         private final String lootTable;
         private final int minItems;
         private final int maxItems;

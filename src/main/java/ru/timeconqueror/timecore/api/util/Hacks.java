@@ -3,9 +3,10 @@ package ru.timeconqueror.timecore.api.util;
 import javax.annotation.Nonnull;
 
 public class Hacks {
+
     /**
-     * Can be used on fields, that will be initialized later, via reflection.
-     * It just promises IDE, that it won't be null
+     * Can be used on fields, that will be initialized later, via reflection. It just promises IDE, that it won't be
+     * null
      */
     @SuppressWarnings("ConstantConditions")
     @Nonnull

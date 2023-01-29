@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.minigame.gol;
 
 public class DisplayedSymbol {
+
     private final long clickedTime;
     private final Symbol symbol;
 

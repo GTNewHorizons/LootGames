@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.api.minigame;
 
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 
 public interface ILootGameFactory {

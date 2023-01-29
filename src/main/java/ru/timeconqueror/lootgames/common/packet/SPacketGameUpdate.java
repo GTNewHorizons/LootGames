@@ -5,6 +5,7 @@ import ru.timeconqueror.lootgames.api.packet.GamePacketRegistry;
 import ru.timeconqueror.lootgames.api.packet.IServerGamePacket;
 
 public class SPacketGameUpdate extends PacketGameUpdate<IServerGamePacket> {
+
     public <G extends LootGame<?, G>> SPacketGameUpdate(LootGame<?, G> game, IServerGamePacket gamePacket) {
         super(game, gamePacket);
     }

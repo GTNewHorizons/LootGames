@@ -3,20 +3,22 @@ package eu.usrv.legacylootgames.gol.tiles;
 import static eu.usrv.legacylootgames.auxiliary.ExtendedDirections.UP;
 import static eu.usrv.legacylootgames.auxiliary.ExtendedDirections.isHorizontal;
 
-import eu.usrv.legacylootgames.auxiliary.ExtendedDirections;
-import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+
 import ru.timeconqueror.lootgames.LegacyMigrator;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
+import eu.usrv.legacylootgames.auxiliary.ExtendedDirections;
+import eu.usrv.legacylootgames.blocks.DungeonBrick;
 
 public class LegacyGameOfLightTile extends TileEntity {
+
     private static final String NBTTAG_ISACTIVE = "mIsActive";
     private static final String NBTTAG_ISMASTER = "mIsMaster";
     private static final String NBTTAG_DIRECTION = "mTEDirection";
@@ -63,73 +65,64 @@ public class LegacyGameOfLightTile extends TileEntity {
     }
 
     private LegacyGameOfLightTile getBlockNorth() {
-        if (_mGameBlockNorth == null && mNorthPos != null)
-            _mGameBlockNorth = (LegacyGameOfLightTile)
-                    worldObj.getTileEntity((int) mNorthPos.xCoord, (int) mNorthPos.yCoord, (int) mNorthPos.zCoord);
+        if (_mGameBlockNorth == null && mNorthPos != null) _mGameBlockNorth = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mNorthPos.xCoord, (int) mNorthPos.yCoord, (int) mNorthPos.zCoord);
 
         return _mGameBlockNorth;
     }
 
     private LegacyGameOfLightTile getBlockWest() {
-        if (_mGameBlockWest == null && mWestPos != null)
-            _mGameBlockWest = (LegacyGameOfLightTile)
-                    worldObj.getTileEntity((int) mWestPos.xCoord, (int) mWestPos.yCoord, (int) mWestPos.zCoord);
+        if (_mGameBlockWest == null && mWestPos != null) _mGameBlockWest = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mWestPos.xCoord, (int) mWestPos.yCoord, (int) mWestPos.zCoord);
 
         return _mGameBlockWest;
     }
 
     private LegacyGameOfLightTile getBlockSouth() {
-        if (_mGameBlockSouth == null && mSouthPos != null)
-            _mGameBlockSouth = (LegacyGameOfLightTile)
-                    worldObj.getTileEntity((int) mSouthPos.xCoord, (int) mSouthPos.yCoord, (int) mSouthPos.zCoord);
+        if (_mGameBlockSouth == null && mSouthPos != null) _mGameBlockSouth = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mSouthPos.xCoord, (int) mSouthPos.yCoord, (int) mSouthPos.zCoord);
 
         return _mGameBlockSouth;
     }
 
     private LegacyGameOfLightTile getBlockEast() {
-        if (_mGameBlockEast == null && mEastPos != null)
-            _mGameBlockEast = (LegacyGameOfLightTile)
-                    worldObj.getTileEntity((int) mEastPos.xCoord, (int) mEastPos.yCoord, (int) mEastPos.zCoord);
+        if (_mGameBlockEast == null && mEastPos != null) _mGameBlockEast = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mEastPos.xCoord, (int) mEastPos.yCoord, (int) mEastPos.zCoord);
 
         return _mGameBlockEast;
     }
 
     private LegacyGameOfLightTile getBlockMaster() {
-        if (_mMasterTE == null && mMasterPos != null)
-            _mMasterTE = (LegacyGameOfLightTile)
-                    worldObj.getTileEntity((int) mMasterPos.xCoord, (int) mMasterPos.yCoord, (int) mMasterPos.zCoord);
+        if (_mMasterTE == null && mMasterPos != null) _mMasterTE = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mMasterPos.xCoord, (int) mMasterPos.yCoord, (int) mMasterPos.zCoord);
 
         return _mMasterTE;
     }
 
     private LegacyGameOfLightTile getBlockNW() {
-        if (_mGameBlockNW == null && mNorthWestPos != null)
-            _mGameBlockNW = (LegacyGameOfLightTile) worldObj.getTileEntity(
-                    (int) mNorthWestPos.xCoord, (int) mNorthWestPos.yCoord, (int) mNorthWestPos.zCoord);
+        if (_mGameBlockNW == null && mNorthWestPos != null) _mGameBlockNW = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mNorthWestPos.xCoord, (int) mNorthWestPos.yCoord, (int) mNorthWestPos.zCoord);
 
         return _mGameBlockNW;
     }
 
     private LegacyGameOfLightTile getBlockNE() {
-        if (_mGameBlockNE == null && mNorthEastPos != null)
-            _mGameBlockNE = (LegacyGameOfLightTile) worldObj.getTileEntity(
-                    (int) mNorthEastPos.xCoord, (int) mNorthEastPos.yCoord, (int) mNorthEastPos.zCoord);
+        if (_mGameBlockNE == null && mNorthEastPos != null) _mGameBlockNE = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mNorthEastPos.xCoord, (int) mNorthEastPos.yCoord, (int) mNorthEastPos.zCoord);
 
         return _mGameBlockNE;
     }
 
     private LegacyGameOfLightTile getBlockSW() {
-        if (_mGameBlockSW == null && mSouthWestPos != null)
-            _mGameBlockSW = (LegacyGameOfLightTile) worldObj.getTileEntity(
-                    (int) mSouthWestPos.xCoord, (int) mSouthWestPos.yCoord, (int) mSouthWestPos.zCoord);
+        if (_mGameBlockSW == null && mSouthWestPos != null) _mGameBlockSW = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mSouthWestPos.xCoord, (int) mSouthWestPos.yCoord, (int) mSouthWestPos.zCoord);
 
         return _mGameBlockSW;
     }
 
     private LegacyGameOfLightTile getBlockSE() {
-        if (_mGameBlockSE == null && mSouthEastPos != null)
-            _mGameBlockSE = (LegacyGameOfLightTile) worldObj.getTileEntity(
-                    (int) mSouthEastPos.xCoord, (int) mSouthEastPos.yCoord, (int) mSouthEastPos.zCoord);
+        if (_mGameBlockSE == null && mSouthEastPos != null) _mGameBlockSE = (LegacyGameOfLightTile) worldObj
+                .getTileEntity((int) mSouthEastPos.xCoord, (int) mSouthEastPos.yCoord, (int) mSouthEastPos.zCoord);
 
         return _mGameBlockSE;
     }
@@ -232,7 +225,8 @@ public class LegacyGameOfLightTile extends TileEntity {
                 if (WorldExt.getBlock(worldObj, puzzle)
                         .isReplaceable(worldObj, puzzle.getX(), puzzle.getY(), puzzle.getZ())) {
                     LegacyMigrator.LOGGER.debug(
-                            "Found old Game Of Light block on {}! Converting structure back to puzzle master!", pos);
+                            "Found old Game Of Light block on {}! Converting structure back to puzzle master!",
+                            pos);
                     WorldExt.setBlock(worldObj, puzzle, LGBlocks.PUZZLE_MASTER);
                 } else {
                     LegacyMigrator.LOGGER.debug(

@@ -1,5 +1,9 @@
 package eu.usrv.legacylootgames;
 
+import java.io.IOException;
+import java.util.Random;
+
+import ru.timeconqueror.lootgames.LootGames;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -10,11 +14,9 @@ import eu.usrv.legacylootgames.gol.blocks.LegacyLightGameBlock;
 import eu.usrv.legacylootgames.gol.tiles.LegacyGameOfLightTile;
 import eu.usrv.legacylootgames.worldgen.LootGamesWorldGen;
 import eu.usrv.yamcore.YAMCore;
-import java.io.IOException;
-import java.util.Random;
-import ru.timeconqueror.lootgames.LootGames;
 
 public class LootGamesLegacy {
+
     public static Random Rnd = new Random();
     public static LootGamesDungeonLogger DungeonLogger;
     public static ProfilingStorage Profiler;

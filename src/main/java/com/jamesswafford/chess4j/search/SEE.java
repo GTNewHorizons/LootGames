@@ -1,13 +1,14 @@
 package com.jamesswafford.chess4j.search;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.*;
 import com.jamesswafford.chess4j.board.squares.Direction;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.eval.Eval;
 import com.jamesswafford.chess4j.pieces.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SEE {
 
@@ -112,8 +113,8 @@ public class SEE {
     }
 
     /**
-     * Returns the square with the least valuable piece for <sideToMove>, or NULL
-     * if none of the squares have a piece of that color.
+     * Returns the square with the least valuable piece for <sideToMove>, or NULL if none of the squares have a piece of
+     * that color.
      *
      * @return
      */

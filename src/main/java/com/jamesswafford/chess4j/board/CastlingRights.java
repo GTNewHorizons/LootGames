@@ -1,6 +1,7 @@
 package com.jamesswafford.chess4j.board;
 
 public enum CastlingRights {
+
     WHITE_KINGSIDE("K"),
     WHITE_QUEENSIDE("Q"),
     BLACK_KINGSIDE("k"),

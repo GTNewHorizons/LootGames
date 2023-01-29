@@ -2,11 +2,14 @@ package ru.timeconqueror.lootgames.api.packet;
 
 import java.io.IOException;
 import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
 public abstract class NBTGamePacket implements IServerGamePacket {
+
     @Nullable
     private NBTTagCompound compound;
 

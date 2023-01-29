@@ -2,15 +2,18 @@ package ru.timeconqueror.lootgames.api.task;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.utils.future.INBTSerializable;
 import ru.timeconqueror.timecore.api.exception.NotExistsException;
 
 public class TETaskScheduler implements INBTSerializable<NBTTagList> {
+
     private final ArrayList<TaskWrapper> tasks = new ArrayList<>();
 
     private final TileEntity tileEntity;
@@ -86,13 +89,15 @@ public class TETaskScheduler implements INBTSerializable<NBTTagList> {
                 e.printStackTrace();
             } catch (NotExistsException e) {
                 LootGames.LOGGER.error(
-                        "Mod author didn't register factory for task class {} in TaskRegistry. Skipping...", clazz);
+                        "Mod author didn't register factory for task class {} in TaskRegistry. Skipping...",
+                        clazz);
                 e.printStackTrace();
             }
         }
     }
 
     private static class TaskWrapper {
+
         private int timeBeforeStart;
         private final ITask task;
 

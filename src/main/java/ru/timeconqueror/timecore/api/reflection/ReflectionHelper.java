@@ -1,16 +1,20 @@
 package ru.timeconqueror.timecore.api.reflection;
 
-import com.google.common.base.Joiner;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Optional;
+
 import javax.annotation.Nullable;
+
 import ru.timeconqueror.lootgames.LootGames;
 
+import com.google.common.base.Joiner;
+
 public class ReflectionHelper {
+
     public static boolean isFinal(Field f) {
         return Modifier.isFinal(f.getModifiers());
     }
@@ -59,8 +63,8 @@ public class ReflectionHelper {
     }
 
     /**
-     * Finds a field with the specified location in the given class and makes it accessible.
-     * Note: for performance, store the returned value and avoid calling this repeatedly.
+     * Finds a field with the specified location in the given class and makes it accessible. Note: for performance,
+     * store the returned value and avoid calling this repeatedly.
      * <p>
      * Returns null if the field is not found and prints error stacktrace.
      *
@@ -81,8 +85,8 @@ public class ReflectionHelper {
     }
 
     /**
-     * Finds a field with the specified location in the given class and makes it accessible.
-     * Note: for performance, store the returned value and avoid calling this repeatedly.
+     * Finds a field with the specified location in the given class and makes it accessible. Note: for performance,
+     * store the returned value and avoid calling this repeatedly.
      * <p>
      * Throws {@link RuntimeException} if the field is not found.
      *
@@ -101,8 +105,8 @@ public class ReflectionHelper {
     }
 
     /**
-     * Finds a method with the specified location and params in the given class and makes it accessible.
-     * Note: for performance, store the returned value and avoid calling this repeatedly.
+     * Finds a method with the specified location and params in the given class and makes it accessible. Note: for
+     * performance, store the returned value and avoid calling this repeatedly.
      * <p>
      * Returns null if the method is not found.
      *
@@ -112,8 +116,8 @@ public class ReflectionHelper {
      * @return The method with the specified location in the given class or null if the method is not found.
      * @see #findMethod(Class, String, Class[])
      */
-    public static <T> Optional<UnlockedMethod<T>> findMethodSoftly(
-            Class<?> clazz, String methodName, Class<?>... params) {
+    public static <T> Optional<UnlockedMethod<T>> findMethodSoftly(Class<?> clazz, String methodName,
+            Class<?>... params) {
         for (Method declaredMethod : clazz.getDeclaredMethods()) {
             if (declaredMethod.getName().equals(methodName)
                     && Arrays.equals(declaredMethod.getParameterTypes(), params)) {
@@ -125,8 +129,8 @@ public class ReflectionHelper {
     }
 
     /**
-     * Finds a method with the specified location and params in the given class and makes it accessible.
-     * Note: for performance, store the returned value and avoid calling this repeatedly.
+     * Finds a method with the specified location and params in the given class and makes it accessible. Note: for
+     * performance, store the returned value and avoid calling this repeatedly.
      * <p>
      * Throws {@link RuntimeException} if the field is not found.
      *
@@ -142,7 +146,8 @@ public class ReflectionHelper {
             return new UnlockedMethod<>(method);
         } catch (Throwable e) {
             throw new RuntimeException(
-                    "Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params), e);
+                    "Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params),
+                    e);
         }
     }
 

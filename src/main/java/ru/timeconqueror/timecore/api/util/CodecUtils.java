@@ -2,13 +2,16 @@ package ru.timeconqueror.timecore.api.util;
 
 import java.lang.reflect.Array;
 import java.util.function.Predicate;
+
 import net.minecraft.nbt.NBTTagCompound;
+
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 
 public class CodecUtils {
+
     @SuppressWarnings("unchecked")
-    public static <T> T[][] read2DimArr(
-            NBTTagCompound tableTag, Class<T> elementClass, ICodec<T, NBTTagCompound> elementCodec) {
+    public static <T> T[][] read2DimArr(NBTTagCompound tableTag, Class<T> elementClass,
+            ICodec<T, NBTTagCompound> elementCodec) {
         int size = tableTag.getInteger("size");
 
         T[][] table = null;
@@ -43,8 +46,8 @@ public class CodecUtils {
         return write2DimArr(objArr, elementCodec, e -> true);
     }
 
-    public static <T> NBTTagCompound write2DimArr(
-            T[][] objArr, ICodec<T, NBTTagCompound> elementCodec, Predicate<T> writeElementIf) {
+    public static <T> NBTTagCompound write2DimArr(T[][] objArr, ICodec<T, NBTTagCompound> elementCodec,
+            Predicate<T> writeElementIf) {
         NBTTagCompound tableTag = new NBTTagCompound();
 
         for (int i = 0; i < objArr.length; i++) {
@@ -68,6 +71,7 @@ public class CodecUtils {
     }
 
     public static class NotFoundException extends RuntimeException {
+
         public NotFoundException() {}
 
         public NotFoundException(String message) {
@@ -82,8 +86,8 @@ public class CodecUtils {
             super(cause);
         }
 
-        public NotFoundException(
-                String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        public NotFoundException(String message, Throwable cause, boolean enableSuppression,
+                boolean writableStackTrace) {
             super(message, cause, enableSuppression, writableStackTrace);
         }
     }

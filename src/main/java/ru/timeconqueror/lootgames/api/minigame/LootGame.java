@@ -1,10 +1,11 @@
 package ru.timeconqueror.lootgames.api.minigame;
 
-import eu.usrv.legacylootgames.StructureGenerator;
 import java.util.Objects;
 import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,9 +15,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.Message;
+
 import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.api.packet.IClientGamePacket;
@@ -39,8 +42,10 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
 import ru.timeconqueror.timecore.api.util.Pair;
+import eu.usrv.legacylootgames.StructureGenerator;
 
 public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<STAGE, G>> {
+
     private static final Logger LOGGER = LogManager.getLogger();
     protected static final DebugLogger DEBUG_LOG = new DebugLogger(LOGGER);
     private static final Marker DEBUG_MARKER = Marker.LOOTGAME;
@@ -118,8 +123,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * You should call it, when the game is won.
-     * Overriding is fine.
+     * You should call it, when the game is won. Overriding is fine.
      */
     @OverridingMethodsMustInvokeSuper
     protected void triggerGameWin() {
@@ -133,8 +137,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * You should call it, when the game is lost.
-     * Overriding is fine.
+     * You should call it, when the game is lost. Overriding is fine.
      */
     @OverridingMethodsMustInvokeSuper
     protected void triggerGameLose() {
@@ -148,8 +151,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * Will be called when the game ends.
-     * Overriding is fine.
+     * Will be called when the game ends. Overriding is fine.
      */
     protected void onGameEnd() {
         LootGameCleaner.resetUnbreakablePlayField(getWorld(), getRoomFloorPos());
@@ -159,12 +161,12 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     protected abstract BlockPos getGameCenter();
 
     /**
-     * Returns default broadcast distance (radius) from dungeon central position.
-     * You may use it, for example, for triggering advancements and sending text messages.
+     * Returns default broadcast distance (radius) from dungeon central position. You may use it, for example, for
+     * triggering advancements and sending text messages.
      */
     public int getBroadcastDistance() {
-        return StructureGenerator.getRoomWidth() / 2
-                + 3; // 3 - it is just extra block distance after passing dungeon wall. Not so much, not so little.
+        return StructureGenerator.getRoomWidth() / 2 + 3; // 3 - it is just extra block distance after passing dungeon
+                                                          // wall. Not so much, not so little.
     }
 
     public void sendTo(EntityPlayer player, IChatComponent component) {
@@ -192,16 +194,15 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * Applies the consumer for every player that are nearby.
-     * Server-only.
+     * Applies the consumer for every player that are nearby. Server-only.
      */
     public void forEachPlayerNearby(Consumer<EntityPlayerMP> action) {
         NetworkUtils.forEachPlayerNearby(getGameCenter(), getBroadcastDistance(), action);
     }
 
     /**
-     * Should return the position of block, that is a part of shielded dungeon floor or has a neighbor, that is a shielded floor block.
-     * Used, for example, to recursively reset shield of unbreakability on dungeon floor.
+     * Should return the position of block, that is a part of shielded dungeon floor or has a neighbor, that is a
+     * shielded floor block. Used, for example, to recursively reset shield of unbreakability on dungeon floor.
      */
     protected abstract BlockPos getRoomFloorPos();
 
@@ -268,14 +269,14 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         BlockPos masterPos = getMasterPos();
         Trackers.forPlayersWatchingChunk(
-                ((WorldServer) getWorld()), masterPos.getX() >> 4, masterPos.getZ() >> 4, entityPlayerMP -> {
-                    LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP);
-                });
+                ((WorldServer) getWorld()),
+                masterPos.getX() >> 4,
+                masterPos.getZ() >> 4,
+                entityPlayerMP -> { LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP); });
 
         DEBUG_LOG.debug(
                 DEBUG_MARKER,
-                () -> logMessage(
-                        "update packet '{}' was sent.", packet.getClass().getSimpleName()));
+                () -> logMessage("update packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     public void sendUpdatePacketToNearbyExcept(EntityPlayerMP excepting, IServerGamePacket packet) {
@@ -285,7 +286,10 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         BlockPos masterPos = getMasterPos();
         Trackers.forPlayersWatchingChunk(
-                ((WorldServer) getWorld()), masterPos.getX() >> 4, masterPos.getZ() >> 4, entityPlayerMP -> {
+                ((WorldServer) getWorld()),
+                masterPos.getX() >> 4,
+                masterPos.getZ() >> 4,
+                entityPlayerMP -> {
                     if (!entityPlayerMP.getUniqueID().equals(excepting.getUniqueID())) {
                         LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP);
                     }
@@ -317,8 +321,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         LGNetwork.INSTANCE.sendToServer(new CPacketGameUpdate(this, packet));
         DEBUG_LOG.debug(
                 DEBUG_MARKER,
-                () -> logMessage(
-                        "feedback packet '{}' was sent.", packet.getClass().getSimpleName()));
+                () -> logMessage("feedback packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     /**
@@ -329,8 +332,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * Only for usage from {@link #onPlace()}.
-     * Will be synced later.
+     * Only for usage from {@link #onPlace()}. Will be synced later.
      *
      * @param stage initial stage of game
      */
@@ -354,9 +356,9 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     /**
-     * Called for both logical sides when the game was switched to this stage.
-     * For server: called only when you manually change stage on server side via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)}
-     * For client: called every time server sends new state, including deserializing from saved nbt.
+     * Called for both logical sides when the game was switched to this stage. For server: called only when you manually
+     * change stage on server side via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)} For client:
+     * called every time server sends new state, including deserializing from saved nbt.
      */
     protected void onStageUpdate(@Nullable STAGE oldStage, @Nullable STAGE newStage, boolean shouldDelayPacketSending) {
         if (isServerSide()) {
@@ -389,8 +391,12 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
     /**
      * Called for both logical sides when the game was switched to this stage:
-     * <ol>- by changing stage via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)}</ol>
-     * <ol>- by deserializing and syncing</ol>
+     * <ol>
+     * - by changing stage via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)}
+     * </ol>
+     * <ol>
+     * - by deserializing and syncing
+     * </ol>
      * <p>
      * Warning: {@link #getWorld()} can return null here, because world is set after reading from nbt!
      */
@@ -403,10 +409,15 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     public abstract void onDestroy();
 
     public abstract static class Stage {
+
         /**
          * Called for both logical sides when the game was switched to this stage:
-         * <ol>- by changing stage via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)}</ol>
-         * <ol>- by deserializing and syncing</ol>
+         * <ol>
+         * - by changing stage via {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)}
+         * </ol>
+         * <ol>
+         * - by deserializing and syncing
+         * </ol>
          * <p>
          * Warning: {@link #getWorld()} can return null here, because world is set after reading from nbt!
          */
@@ -423,8 +434,8 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         protected void onEnd() {}
 
         /**
-         * Serializes stage according to the provided serialization type.
-         * If you have some sensitive data you can check here for type before adding it to nbt or not.
+         * Serializes stage according to the provided serialization type. If you have some sensitive data you can check
+         * here for type before adding it to nbt or not.
          *
          * @param serializationType defines for which purpose stage is serializing.
          */
@@ -440,24 +451,24 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
         }
 
         /**
-         * Called on server side right after the game switched to this stage {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)},
-         * but BEFORE it will be saved and synced.
+         * Called on server side right after the game switched to this stage {@link #setupInitialStage(Stage)} or
+         * {@link #switchStage(Stage)}, but BEFORE it will be saved and synced.
          * <p>
          * Is not called upon serializing and deserializing.
          */
         public void preInit() {}
 
         /**
-         * Called on server side right after the game switched to this stage {@link #setupInitialStage(Stage)} or {@link #switchStage(Stage)},
-         * and AFTER it will be saved and synced.
+         * Called on server side right after the game switched to this stage {@link #setupInitialStage(Stage)} or
+         * {@link #switchStage(Stage)}, and AFTER it will be saved and synced.
          * <p>
          * Is not called upon serializing and deserializing.
          */
         public void postInit() {}
     }
 
-    public static <STAGE extends Stage> void serializeStage(
-            LootGame<STAGE, ?> game, NBTTagCompound nbt, SerializationType serializationType) {
+    public static <STAGE extends Stage> void serializeStage(LootGame<STAGE, ?> game, NBTTagCompound nbt,
+            SerializationType serializationType) {
         Stage stage = game.getStage();
         if (stage != null) {
             NBTTagCompound stageWrapper = new NBTTagCompound();
@@ -468,12 +479,14 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     @Nullable
-    public static <S extends Stage, T extends LootGame<S, T>> S deserializeStage(
-            LootGame<S, T> game, NBTTagCompound nbt, SerializationType serializationType) {
+    public static <S extends Stage, T extends LootGame<S, T>> S deserializeStage(LootGame<S, T> game,
+            NBTTagCompound nbt, SerializationType serializationType) {
         if (nbt.hasKey("stage_wrapper")) {
             NBTTagCompound stageWrapper = nbt.getCompoundTag("stage_wrapper");
             return game.createStageFromNBT(
-                    stageWrapper.getString("id"), stageWrapper.getCompoundTag("stage"), serializationType);
+                    stageWrapper.getString("id"),
+                    stageWrapper.getCompoundTag("stage"),
+                    serializationType);
         } else {
             return null;
         }

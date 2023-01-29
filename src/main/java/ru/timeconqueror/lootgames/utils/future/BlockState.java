@@ -1,9 +1,11 @@
 package ru.timeconqueror.lootgames.utils.future;
 
 import java.util.Objects;
+
 import net.minecraft.block.Block;
 
 public class BlockState {
+
     private final Block block;
     private final int meta;
 

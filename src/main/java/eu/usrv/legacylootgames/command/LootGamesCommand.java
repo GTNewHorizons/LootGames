@@ -1,13 +1,16 @@
 package eu.usrv.legacylootgames.command;
 
 import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.timecore.api.util.CollectionUtils;
 
 public class LootGamesCommand extends CommandBase {
+
     private static final String PREFIX = "lootgames.command";
     private static final String USAGE = ".usage";
 
@@ -49,13 +52,14 @@ public class LootGamesCommand extends CommandBase {
     }
 
     public enum SubCommand {
+
         RELOAD_CONFIGS("reloadconfigs"),
         HELP("help");
 
         private final String command;
 
-        private static final String[] COMMANDS =
-                CollectionUtils.mapArray(values(), String[]::new, subCommand -> subCommand.command);
+        private static final String[] COMMANDS = CollectionUtils
+                .mapArray(values(), String[]::new, subCommand -> subCommand.command);
 
         SubCommand(String command) {
             this.command = command;

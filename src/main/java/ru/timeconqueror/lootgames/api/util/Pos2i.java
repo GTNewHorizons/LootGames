@@ -3,6 +3,7 @@ package ru.timeconqueror.lootgames.api.util;
 import java.util.Objects;
 
 public class Pos2i {
+
     private final int x;
     private final int y;
 

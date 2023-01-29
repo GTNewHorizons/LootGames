@@ -1,7 +1,5 @@
 package ru.timeconqueror.lootgames.api.util;
 
-import eu.usrv.legacylootgames.blocks.DungeonLightSource;
-import eu.usrv.yamcore.auxiliary.ItemDescriptor;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -9,6 +7,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ChestGenHooks;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.common.config.base.RewardConfig;
@@ -20,8 +19,11 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.HorizontalDirection;
 import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.RandHelper;
+import eu.usrv.legacylootgames.blocks.DungeonLightSource;
+import eu.usrv.yamcore.auxiliary.ItemDescriptor;
 
 public class RewardUtils {
+
     /**
      * Spawns lamp decoration and up to four chests depending on provided {@code rewardLevel}
      *
@@ -30,12 +32,8 @@ public class RewardUtils {
      * @param rewardLevel  from 0 to 4 inclusive. Zero means no chests will be generated.
      * @param rewardConfig reward part of your game's config
      */
-    public static void spawnFourStagedReward(
-            WorldServer world,
-            LootGame<?, ?> game,
-            BlockPos centralPos,
-            int rewardLevel,
-            FourStagedRewardConfig rewardConfig) {
+    public static void spawnFourStagedReward(WorldServer world, LootGame<?, ?> game, BlockPos centralPos,
+            int rewardLevel, FourStagedRewardConfig rewardConfig) {
         BlockState state = BlockState.of(LGBlocks.DUNGEON_LAMP, DungeonLightSource.State.NORMAL.ordinal());
         WorldExt.setBlockState(world, centralPos.offset(1, 0, 1), state);
         WorldExt.setBlockState(world, centralPos.offset(1, 0, -1), state);
@@ -64,13 +62,13 @@ public class RewardUtils {
      *
      * @param world               world where to spawn chest
      * @param centralPos          position around which chest will be spawned
-     * @param horizontalDirection in what direction of {@code centralPos} chest should be placed.
-     *                            For example, if you set the direction to {@link HorizontalDirection#NORTH},
-     *                            chest will be spawned 1 block north of the {@code centralPos} with south facing.
+     * @param horizontalDirection in what direction of {@code centralPos} chest should be placed. For example, if you
+     *                            set the direction to {@link HorizontalDirection#NORTH}, chest will be spawned 1 block
+     *                            north of the {@code centralPos} with south facing.
      * @param chestData           data which contains the rules of setting chest content
      */
-    public static void spawnLootChest(
-            WorldServer world, BlockPos centralPos, HorizontalDirection horizontalDirection, SpawnChestData chestData) {
+    public static void spawnLootChest(WorldServer world, BlockPos centralPos, HorizontalDirection horizontalDirection,
+            SpawnChestData chestData) {
         EnumFacing direction = horizontalDirection.get();
         String lootTable = chestData.getLootTableKey();
 
@@ -94,8 +92,8 @@ public class RewardUtils {
                         String.format("Please report that Loot Table [%s]", lootTable),
                         String.format("for %s stage is broken.", chestData.getGameName()),
                         "Thank you!");
-                ItemStack sorryStack = sorryItem.getItemStackwNBT(
-                        1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
+                ItemStack sorryStack = sorryItem
+                        .getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
                 chestTile.setInventorySlotContents(0, sorryStack);
             } else {
                 int count = RandHelper.RAND.nextInt(chestData.getMaxItems()) + chestData.getMinItems();
@@ -105,6 +103,7 @@ public class RewardUtils {
     }
 
     public static class SpawnChestData {
+
         private final String lootTableRL;
         private final String gameName;
         private final int minItems;
@@ -112,18 +111,21 @@ public class RewardUtils {
 
         public static SpawnChestData fromRewardConfig(LootGame<?, ?> game, RewardConfig rewardConfig) {
             return new SpawnChestData(
-                    game, rewardConfig.getLootTable(game.getWorld()), rewardConfig.minItems, rewardConfig.maxItems);
+                    game,
+                    rewardConfig.getLootTable(game.getWorld()),
+                    rewardConfig.minItems,
+                    rewardConfig.maxItems);
         }
 
         /**
          * @param game        game, which calls this method
-         * @param lootTableRL loot table, from which items will be set in spawned chest.
-         *                    If loot table won't be found, the game will place "sorry-stone" in the chest.
-         * @param minItems    minimum amount of item stacks to be generated in chest.
-         *                    Won't be applied, if count of items in bound loot table are less than it.
-         *                    If min and max are set to -1, the limits will be disabled.
-         * @param maxItems    maximum amount of item stacks to be generated in chest.
-         *                    If this is set to -1, max limit will be disabled.
+         * @param lootTableRL loot table, from which items will be set in spawned chest. If loot table won't be found,
+         *                    the game will place "sorry-stone" in the chest.
+         * @param minItems    minimum amount of item stacks to be generated in chest. Won't be applied, if count of
+         *                    items in bound loot table are less than it. If min and max are set to -1, the limits will
+         *                    be disabled.
+         * @param maxItems    maximum amount of item stacks to be generated in chest. If this is set to -1, max limit
+         *                    will be disabled.
          */
         public SpawnChestData(LootGame<?, ?> game, String lootTableRL, int minItems, int maxItems) {
             this.lootTableRL = lootTableRL;

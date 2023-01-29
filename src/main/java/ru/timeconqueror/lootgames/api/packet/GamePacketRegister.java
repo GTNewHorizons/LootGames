@@ -3,6 +3,7 @@ package ru.timeconqueror.lootgames.api.packet;
 import ru.timeconqueror.lootgames.LootGames;
 
 public class GamePacketRegister {
+
     private static int clientIncrement = 0;
     private static int serverIncrement = 0;
 

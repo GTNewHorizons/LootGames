@@ -9,6 +9,7 @@ import com.jamesswafford.chess4j.pieces.Piece;
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class DrawBoard {
+
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
     // private static final Log loggerX = LogFactory.getLog( DrawBoard.class );
 

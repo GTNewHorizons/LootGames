@@ -2,10 +2,12 @@ package ru.timeconqueror.lootgames.api.task;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 
 public class TaskCreateExplosion implements ITask {
+
     protected double x;
     private double y;
     private double z;

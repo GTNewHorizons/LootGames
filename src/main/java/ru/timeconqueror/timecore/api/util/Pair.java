@@ -5,6 +5,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Pair<L, R> {
+
     private final L left;
     private final R right;
 

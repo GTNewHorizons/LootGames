@@ -1,12 +1,14 @@
 package ru.timeconqueror.lootgames.utils;
 
 import org.apache.logging.log4j.Logger;
+
 import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.utils.future.MessageSupplier;
 import ru.timeconqueror.timecore.api.util.EnvironmentUtils;
 
 public class DebugLogger {
+
     private final Logger internal;
 
     public DebugLogger(Logger internal) {

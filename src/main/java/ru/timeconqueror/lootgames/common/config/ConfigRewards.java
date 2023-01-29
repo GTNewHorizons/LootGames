@@ -4,6 +4,7 @@ import ru.timeconqueror.lootgames.common.config.base.StagedRewardConfig;
 import ru.timeconqueror.timecore.api.common.config.Config;
 
 public class ConfigRewards extends Config {
+
     public static final ConfigRewards INSTANCE = new ConfigRewards();
 
     public final StagedRewardConfig.FourStagedRewardConfig rewardsGol;
@@ -13,12 +14,19 @@ public class ConfigRewards extends Config {
         super(Names.CATEGORY_REWARDS);
 
         rewardsGol = StagedRewardConfig.fourStaged(
-                getKey(), LGConfigs.GOL.getKey(), "Game of Light Rewards", StagedRewards.fourStagedDefaults());
+                getKey(),
+                LGConfigs.GOL.getKey(),
+                "Game of Light Rewards",
+                StagedRewards.fourStagedDefaults());
         rewardsMinesweeper = StagedRewardConfig.fourStaged(
-                getKey(), LGConfigs.MINESWEEPER.getKey(), "Minesweeper Rewards", StagedRewards.fourStagedDefaults());
+                getKey(),
+                LGConfigs.MINESWEEPER.getKey(),
+                "Minesweeper Rewards",
+                StagedRewards.fourStagedDefaults());
     }
 
     public static class Names {
+
         public static final String CATEGORY_REWARDS = "rewards";
     }
 

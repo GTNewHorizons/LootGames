@@ -1,5 +1,7 @@
 package com.jamesswafford.chess4j.io;
 
+import java.util.List;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
@@ -12,7 +14,6 @@ import com.jamesswafford.chess4j.exceptions.ParseException;
 import com.jamesswafford.chess4j.pieces.Pawn;
 import com.jamesswafford.chess4j.pieces.Piece;
 import com.jamesswafford.chess4j.utils.PieceFactory;
-import java.util.List;
 
 public final class MoveParser {
 
@@ -130,8 +131,8 @@ public final class MoveParser {
         return moves.contains(move);
     }
 
-    private boolean isMatchToMove(
-            File srcFile, Rank srcRank, Square dstSquare, Piece piece, Piece promo, Move legalMove) {
+    private boolean isMatchToMove(File srcFile, Rank srcRank, Square dstSquare, Piece piece, Piece promo,
+            Move legalMove) {
         if (srcFile != null && !srcFile.equals(legalMove.from().file())) {
             return false;
         }

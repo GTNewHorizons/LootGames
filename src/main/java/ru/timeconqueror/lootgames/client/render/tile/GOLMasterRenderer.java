@@ -5,7 +5,9 @@ import static ru.timeconqueror.lootgames.minigame.gol.GameOfLight.StageUnderExpa
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.block.tile.BoardGameMasterTile;
 import ru.timeconqueror.lootgames.api.minigame.BoardLootGame.BoardStage;
@@ -23,6 +25,7 @@ import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 
 // TODO draw board by symbol, not by fully not activated board with activated overlay
 public class GOLMasterRenderer extends TileEntitySpecialRenderer {
+
     public static final ResourceLocation BOARD = LootGames.rl("textures/game/gol_board.png");
     private static final ResourceLocation BOARD_ACTIVE = LootGames.rl("textures/game/gol_board_active.png");
     private static final ResourceLocation MARKS = LootGames.rl("textures/game/gol_marks.png");
@@ -106,8 +109,8 @@ public class GOLMasterRenderer extends TileEntitySpecialRenderer {
         float textureLength = 48;
 
         if (game.getStage() instanceof StageUnderExpanding) {
-            float progress = Ease.inOutQuart(
-                    (float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
+            float progress = Ease
+                    .inOutQuart((float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
 
             length = MathUtils.lerp(progress, 1, 3);
             textureStart = 16F - 16F * progress;

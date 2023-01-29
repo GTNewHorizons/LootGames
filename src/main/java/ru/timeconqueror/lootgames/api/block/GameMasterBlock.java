@@ -1,14 +1,17 @@
 package ru.timeconqueror.lootgames.api.block;
 
 import java.util.function.BiFunction;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
 
 public class GameMasterBlock extends GameBlock implements IGameField {
+
     private final BiFunction<Integer, World, GameMasterTile<?>> tileEntityFactory;
 
     public GameMasterBlock(BiFunction<Integer, World, GameMasterTile<?>> tileEntityFactory) {
@@ -21,8 +24,8 @@ public class GameMasterBlock extends GameBlock implements IGameField {
     }
 
     @Override
-    public boolean onBlockActivated(
-            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+            float subY, float subZ) {
         WorldUtils.forTypedTileWithWarn(
                 worldIn,
                 BlockPos.of(x, y, z),

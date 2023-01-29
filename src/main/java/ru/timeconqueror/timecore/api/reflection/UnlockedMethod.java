@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
  * @param <T> method return type.
  */
 public class UnlockedMethod<T> {
+
     private final Method method;
 
     public UnlockedMethod(Method method) {
@@ -18,10 +19,10 @@ public class UnlockedMethod<T> {
     }
 
     /**
-     * Invokes method with given params.
-     * Safe for use with non-accessible methods.
+     * Invokes method with given params. Safe for use with non-accessible methods.
      *
-     * @param methodOwner owner of method. If the underlying method is static, the methodOwner argument is ignored; it may be null.
+     * @param methodOwner owner of method. If the underlying method is static, the methodOwner argument is ignored; it
+     *                    may be null.
      * @param params      the parameters used for the method call.
      * @return object return by method or null if the method has {@code void} modifier.
      */

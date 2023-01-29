@@ -1,12 +1,14 @@
 package ru.timeconqueror.lootgames.api.task;
 
 import java.util.HashMap;
+
 import ru.timeconqueror.timecore.api.exception.NotExistsException;
 
 /**
  * Used for task factory registering.
  */
 public abstract class TaskRegistry {
+
     private static final HashMap<Class<? extends ITask>, ITask.ITaskFactory<?>> TASK_FACTORIES = new HashMap<>();
 
     @SuppressWarnings("unchecked")

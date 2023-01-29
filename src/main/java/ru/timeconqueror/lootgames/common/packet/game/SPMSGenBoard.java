@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.common.packet.game;
 
 import net.minecraft.nbt.NBTTagCompound;
+
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;

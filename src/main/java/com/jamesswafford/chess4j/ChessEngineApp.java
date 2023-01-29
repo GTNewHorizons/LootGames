@@ -1,14 +1,17 @@
 package com.jamesswafford.chess4j;
 
-import com.jamesswafford.chess4j.book.AbstractOpeningBook;
-import com.jamesswafford.chess4j.book.OpeningBookSQLiteImpl;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.jamesswafford.chess4j.book.AbstractOpeningBook;
+import com.jamesswafford.chess4j.book.OpeningBookSQLiteImpl;
+
 public final class ChessEngineApp {
+
     private static final Log LOGGER = LogFactory.getLog(ChessEngineApp.class);
 
     private static AbstractOpeningBook openingBook;

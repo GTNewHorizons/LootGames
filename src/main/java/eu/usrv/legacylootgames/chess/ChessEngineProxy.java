@@ -1,18 +1,22 @@
 package eu.usrv.legacylootgames.chess;
 
-import com.jamesswafford.chess4j.exceptions.IllegalMoveException;
-import com.jamesswafford.chess4j.exceptions.ParseException;
-import com.jamesswafford.chess4j.io.InputParser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import ru.timeconqueror.lootgames.LootGames;
 
+import com.jamesswafford.chess4j.exceptions.IllegalMoveException;
+import com.jamesswafford.chess4j.exceptions.ParseException;
+import com.jamesswafford.chess4j.io.InputParser;
+
 interface IChessEventListener {
+
     void chessEngineMessage(UUID pUUID, String pMessage);
 }
 
 public class ChessEngineProxy {
+
     private static ChessEngineProxy _mInstance;
     private UUID _mCurrentAttachedChessGame = null;
     private final List<IChessEventListener> listeners = new ArrayList<IChessEventListener>();

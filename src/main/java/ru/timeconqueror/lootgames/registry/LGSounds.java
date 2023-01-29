@@ -3,6 +3,7 @@ package ru.timeconqueror.lootgames.registry;
 import static ru.timeconqueror.lootgames.LootGames.namespaced;
 
 public class LGSounds {
+
     public static final String GOL_START_GAME = namespaced("gol_start_game");
     public static final String GOL_SEQUENCE_WRONG = namespaced("gol_sequence_wrong");
     public static final String GOL_SEQUENCE_COMPLETE = namespaced("gol_sequence_complete");

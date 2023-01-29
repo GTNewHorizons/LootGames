@@ -1,12 +1,14 @@
 package ru.timeconqueror.lootgames.client;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
+
 import ru.timeconqueror.lootgames.LootGames;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class IconLoader {
+
     public static IIcon shieldedDungeonFloor;
 
     @SubscribeEvent

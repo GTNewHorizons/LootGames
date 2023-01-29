@@ -1,8 +1,9 @@
 package com.jamesswafford.chess4j.search;
 
-import com.jamesswafford.chess4j.board.Move;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.jamesswafford.chess4j.board.Move;
 
 public class SearchStats {
 

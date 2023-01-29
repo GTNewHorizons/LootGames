@@ -4,16 +4,15 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 
 public class DrawHelper {
+
     /**
      * Draws textured rectangle.
      * <p>
-     * Term, used in parameters:
-     * Parts are used to determine the actual size of {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture.
-     * The example:
-     * Total texture has 64x64 resolution.
-     * Let's consider axis X:
-     * If we provide 4 as {@code texturePartCount} it wil be splitted into 4 pieces with width 16.
-     * Then if we set {@code textureX} to 1 and {@code textureWidth} to 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
+     * Term, used in parameters: Parts are used to determine the actual size of
+     * {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture. The
+     * example: Total texture has 64x64 resolution. Let's consider axis X: If we provide 4 as {@code texturePartCount}
+     * it wil be splitted into 4 pieces with width 16. Then if we set {@code textureX} to 1 and {@code textureWidth} to
+     * 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
      *
      * @param x0               start x-coordinate. (x of left-top corner)
      * @param y0               start y-coordinate. (y of left-top corner)
@@ -24,19 +23,11 @@ public class DrawHelper {
      * @param textureY         index of start subtexture part on axis Y (y of left-top texture corner).
      * @param textureWidth     subtexture width in parts.
      * @param textureHeight    subtexture height in parts.
-     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned above.
+     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned
+     *                         above.
      */
-    public static void drawTexturedRectByParts(
-            float x0,
-            float y0,
-            float width,
-            float height,
-            float zLevel,
-            float textureX,
-            float textureY,
-            float textureWidth,
-            float textureHeight,
-            float texturePartCount) {
+    public static void drawTexturedRectByParts(float x0, float y0, float width, float height, float zLevel,
+            float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount) {
         float portionFactor = 1 / texturePartCount;
         drawTexturedRect(x0, y0, width, height, zLevel, textureX, textureY, textureWidth, textureHeight, portionFactor);
     }
@@ -44,13 +35,11 @@ public class DrawHelper {
     /**
      * Draws textured rectangle.
      * <p>
-     * Term, used in parameters:
-     * Parts are used to determine the actual size of {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture.
-     * The example:
-     * Total texture has 64x64 resolution.
-     * Let's consider axis X:
-     * If we provide 4 as {@code texturePartCount} it wil be splitted into 4 pieces with width 16.
-     * Then if we set {@code textureX} to 1 and {@code textureWidth} to 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
+     * Term, used in parameters: Parts are used to determine the actual size of
+     * {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture. The
+     * example: Total texture has 64x64 resolution. Let's consider axis X: If we provide 4 as {@code texturePartCount}
+     * it wil be splitted into 4 pieces with width 16. Then if we set {@code textureX} to 1 and {@code textureWidth} to
+     * 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
      *
      * @param x0                  start x-coordinate. (x of left-top corner)
      * @param y0                  start y-coordinate. (y of left-top corner)
@@ -61,19 +50,11 @@ public class DrawHelper {
      * @param textureY            index of start subtexture part on axis Y (y of left-top texture corner).
      * @param textureWidth        subtexture width in parts.
      * @param textureHeight       subtexture height in parts.
-     * @param textureDivideFactor represents the value equal to 1 / parts. Part count determines in how many parts texture must be divided in both axis. Part description is mentioned above.
+     * @param textureDivideFactor represents the value equal to 1 / parts. Part count determines in how many parts
+     *                            texture must be divided in both axis. Part description is mentioned above.
      */
-    private static void drawTexturedRect(
-            float x0,
-            float y0,
-            float width,
-            float height,
-            float zLevel,
-            float textureX,
-            float textureY,
-            float textureWidth,
-            float textureHeight,
-            float textureDivideFactor) {
+    private static void drawTexturedRect(float x0, float y0, float width, float height, float zLevel, float textureX,
+            float textureY, float textureWidth, float textureHeight, float textureDivideFactor) {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
         tess.addVertexWithUV(x0, y0, zLevel, textureX * textureDivideFactor, textureY * textureDivideFactor);
@@ -101,13 +82,11 @@ public class DrawHelper {
     /**
      * Draws textured rectangle.
      * <p>
-     * Term, used in parameters:
-     * Parts are used to determine the actual size of {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture.
-     * The example:
-     * Total texture has 64x64 resolution.
-     * Let's consider axis X:
-     * If we provide 4 as {@code texturePartCount} it wil be splitted into 4 pieces with width 16.
-     * Then if we set {@code textureX} to 1 and {@code textureWidth} to 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
+     * Term, used in parameters: Parts are used to determine the actual size of
+     * {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture. The
+     * example: Total texture has 64x64 resolution. Let's consider axis X: If we provide 4 as {@code texturePartCount}
+     * it wil be splitted into 4 pieces with width 16. Then if we set {@code textureX} to 1 and {@code textureWidth} to
+     * 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
      *
      * @param x0               start x-coordinate. (x of left-top corner)
      * @param y0               start y-coordinate. (y of left-top corner)
@@ -118,20 +97,12 @@ public class DrawHelper {
      * @param textureY         index of start subtexture part on axis Y (y of left-top texture corner).
      * @param textureWidth     subtexture width in parts.
      * @param textureHeight    subtexture height in parts.
-     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned above.
+     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned
+     *                         above.
      * @param argbColor        color which will be applied to the texture
      */
-    public static void drawTexturedRectByParts(
-            float x0,
-            float y0,
-            float width,
-            float height,
-            float zLevel,
-            float textureX,
-            float textureY,
-            float textureWidth,
-            float textureHeight,
-            float texturePartCount,
+    public static void drawTexturedRectByParts(float x0, float y0, float width, float height, float zLevel,
+            float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount,
             int argbColor) {
         float portionFactor = 1 / texturePartCount;
         drawTexturedRect(
@@ -151,13 +122,11 @@ public class DrawHelper {
     /**
      * Draws textured rectangle.
      * <p>
-     * Term, used in parameters:
-     * Parts are used to determine the actual size of {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture.
-     * The example:
-     * Total texture has 64x64 resolution.
-     * Let's consider axis X:
-     * If we provide 4 as {@code texturePartCount} it wil be splitted into 4 pieces with width 16.
-     * Then if we set {@code textureX} to 1 and {@code textureWidth} to 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
+     * Term, used in parameters: Parts are used to determine the actual size of
+     * {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture. The
+     * example: Total texture has 64x64 resolution. Let's consider axis X: If we provide 4 as {@code texturePartCount}
+     * it wil be splitted into 4 pieces with width 16. Then if we set {@code textureX} to 1 and {@code textureWidth} to
+     * 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
      *
      * @param x0                  start x-coordinate. (x of left-top corner)
      * @param y0                  start y-coordinate. (y of left-top corner)
@@ -168,21 +137,12 @@ public class DrawHelper {
      * @param textureY            index of start subtexture part on axis Y (y of left-top texture corner).
      * @param textureWidth        subtexture width in parts.
      * @param textureHeight       subtexture height in parts.
-     * @param textureDivideFactor represents the value equal to 1 / parts. Part count determines in how many parts texture must be divided in both axis. Part description is mentioned above.
+     * @param textureDivideFactor represents the value equal to 1 / parts. Part count determines in how many parts
+     *                            texture must be divided in both axis. Part description is mentioned above.
      * @param argbColor           color which will be applied to the texture
      */
-    private static void drawTexturedRect(
-            float x0,
-            float y0,
-            float width,
-            float height,
-            float zLevel,
-            float textureX,
-            float textureY,
-            float textureWidth,
-            float textureHeight,
-            float textureDivideFactor,
-            int argbColor) {
+    private static void drawTexturedRect(float x0, float y0, float width, float height, float zLevel, float textureX,
+            float textureY, float textureWidth, float textureHeight, float textureDivideFactor, int argbColor) {
         int r = getRed(argbColor);
         int g = getGreen(argbColor);
         int b = getBlue(argbColor);
@@ -217,18 +177,18 @@ public class DrawHelper {
     }
 
     /**
-     * Draws textured rectangle with autoexpandable width.
-     * How it works: this method renders left and right part of rectangle, depending on given {@code requiredWidth}, and then repeats center element until it fill all remaining width.
+     * Draws textured rectangle with autoexpandable width. How it works: this method renders left and right part of
+     * rectangle, depending on given {@code requiredWidth}, and then repeats center element until it fill all remaining
+     * width.
      * <p>
-     * If {@code requiredWidth} is less than the sum of {@code startElement, endElement} width, it will be expanded to this sum.
+     * If {@code requiredWidth} is less than the sum of {@code startElement, endElement} width, it will be expanded to
+     * this sum.
      * <p>
-     * Term, used in parameters:
-     * Parts are used to determine the actual size of {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture.
-     * The example:
-     * Total texture has 64x64 resolution.
-     * Let's consider axis X:
-     * If we provide 4 as {@code texturePartCount} it wil be splitted into 4 pieces with width 16.
-     * Then if we set {@code textureX} to 1 and {@code textureWidth} to 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
+     * Term, used in parameters: Parts are used to determine the actual size of
+     * {@code textureX, textureY, textureWidth, textureHeight} and coordinates relative to the entire texture. The
+     * example: Total texture has 64x64 resolution. Let's consider axis X: If we provide 4 as {@code texturePartCount}
+     * it wil be splitted into 4 pieces with width 16. Then if we set {@code textureX} to 1 and {@code textureWidth} to
+     * 3, it will mean, that we need a texture with start at (1 * 16) by X and with end at (1 + 3) * 16 by X.
      *
      * @param x0               start x-coordinate. (x of left-top corner)
      * @param y0               start y-coordinate. (y of left-top corner)
@@ -237,18 +197,12 @@ public class DrawHelper {
      * @param startElement     element, that represents left rectangle part.
      * @param repeatElement    element, that represents repeat rectangle part.
      * @param endElement       element, that represents right rectangle part.
-     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned above.
+     * @param texturePartCount in how many parts texture must be divided in both axis. Part description is mentioned
+     *                         above.
      */
     // TODO improve draw calls
-    public static void drawWidthExpandableTexturedRect(
-            float x0,
-            float y0,
-            float requiredWidth,
-            float zLevel,
-            TexturedRect startElement,
-            TexturedRect repeatElement,
-            TexturedRect endElement,
-            float texturePartCount) {
+    public static void drawWidthExpandableTexturedRect(float x0, float y0, float requiredWidth, float zLevel,
+            TexturedRect startElement, TexturedRect repeatElement, TexturedRect endElement, float texturePartCount) {
         float startWidth = startElement.width;
         float endWidth = endElement.width;
         float minWidth = startWidth + endWidth;
@@ -387,8 +341,8 @@ public class DrawHelper {
      * @param y     center y-coordinate
      * @param color HTML color. Example: 0xFF0000 -> red.
      */
-    public static void drawYCenteredStringWithShadow(
-            FontRenderer fontRendererIn, String text, int x, int y, int color) {
+    public static void drawYCenteredStringWithShadow(FontRenderer fontRendererIn, String text, int x, int y,
+            int color) {
         drawStringWithShadow(fontRendererIn, text, x, y - fontRendererIn.FONT_HEIGHT / 2, color);
     }
 
@@ -405,6 +359,7 @@ public class DrawHelper {
     }
 
     public static class TexturedRect {
+
         /**
          * Represents coordinate length along the axis X.
          */
@@ -422,18 +377,20 @@ public class DrawHelper {
          */
         private final float textureY;
         /**
-         * Texture width in points.
-         * Point is a relative texture coordinate. It is used in {@code textureX, textureY, textureWidth, textureHeight} to determine its sizes and coordinates relative to the entire texture.
+         * Texture width in points. Point is a relative texture coordinate. It is used in
+         * {@code textureX, textureY, textureWidth, textureHeight} to determine its sizes and coordinates relative to
+         * the entire texture.
          */
         private final float textureWidth;
         /**
-         * Texture height in points.
-         * Point is a relative texture coordinate. It is used in {@code textureX, textureY, textureWidth, textureHeight} to determine its sizes and coordinates relative to the entire texture.
+         * Texture height in points. Point is a relative texture coordinate. It is used in
+         * {@code textureX, textureY, textureWidth, textureHeight} to determine its sizes and coordinates relative to
+         * the entire texture.
          */
         private final float textureHeight;
 
-        public TexturedRect(
-                float width, float height, float textureX, float textureY, float textureWidth, float textureHeight) {
+        public TexturedRect(float width, float height, float textureX, float textureY, float textureWidth,
+                float textureHeight) {
             this.width = width;
             this.height = height;
             this.textureX = textureX;

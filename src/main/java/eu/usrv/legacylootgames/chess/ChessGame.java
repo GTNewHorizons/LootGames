@@ -1,17 +1,19 @@
 package eu.usrv.legacylootgames.chess;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
+import ru.timeconqueror.lootgames.LootGames;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import eu.usrv.legacylootgames.ILootGame;
 import eu.usrv.legacylootgames.chess.blocks.BlockChessBlock;
 import eu.usrv.legacylootgames.chess.entities.*;
 import eu.usrv.legacylootgames.chess.tiles.TEChessMasterBlock;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import ru.timeconqueror.lootgames.LootGames;
 
 public class ChessGame implements ILootGame {
+
     public static BlockChessBlock GameBlock;
     private static final Block SQUARE_WHITE = Blocks.quartz_block;
     private static final Block SQUARE_BLACK = Blocks.obsidian;
@@ -24,30 +26,40 @@ public class ChessGame implements ILootGame {
 
         int id = 0;
         EntityRegistry.registerModEntity(
-                EntityBishopFigure.class, "LootGamesChessBishop", id++, LootGames.INSTANCE, 1, 5, false);
+                EntityBishopFigure.class,
+                "LootGamesChessBishop",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
+        EntityRegistry
+                .registerModEntity(EntityKingFigure.class, "LootGamesChessKing", id++, LootGames.INSTANCE, 1, 5, false);
         EntityRegistry.registerModEntity(
-                EntityKingFigure.class, "LootGamesChessKing", id++, LootGames.INSTANCE, 1, 5, false);
+                EntityKnightFigure.class,
+                "LootGamesChessKnight",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
+        EntityRegistry
+                .registerModEntity(EntityPawnFigure.class, "LootGamesChessPawn", id++, LootGames.INSTANCE, 1, 5, false);
         EntityRegistry.registerModEntity(
-                EntityKnightFigure.class, "LootGamesChessKnight", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry.registerModEntity(
-                EntityPawnFigure.class, "LootGamesChessPawn", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry.registerModEntity(
-                EntityQueenFigure.class, "LootGamesChessQueen", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry.registerModEntity(
-                EntityRookFigure.class, "LootGamesChessRook", id++, LootGames.INSTANCE, 1, 5, false);
+                EntityQueenFigure.class,
+                "LootGamesChessQueen",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
+        EntityRegistry
+                .registerModEntity(EntityRookFigure.class, "LootGamesChessRook", id++, LootGames.INSTANCE, 1, 5, false);
     }
 
     @Override
-    public boolean onGenerateBlock(
-            World pWorldObject,
-            int pMaxXZ,
-            int pMaxY,
-            int pCenterX,
-            int pBottom,
-            int pCenterZ,
-            int pOffsetX,
-            int pOffsetY,
-            int pOffsetZ) {
+    public boolean onGenerateBlock(World pWorldObject, int pMaxXZ, int pMaxY, int pCenterX, int pBottom, int pCenterZ,
+            int pOffsetX, int pOffsetY, int pOffsetZ) {
         boolean tPlaced = false;
         Block tTBP = Blocks.nether_brick;
 

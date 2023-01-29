@@ -1,6 +1,7 @@
 package com.jamesswafford.chess4j.board.squares;
 
 public enum Rank {
+
     RANK_8(0, "8"),
     RANK_7(1, "7"),
     RANK_6(2, "6"),

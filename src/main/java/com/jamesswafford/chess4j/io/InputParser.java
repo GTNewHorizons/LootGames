@@ -1,5 +1,10 @@
 package com.jamesswafford.chess4j.io;
 
+import java.io.FileInputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jamesswafford.chess4j.ChessEngineApp;
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
@@ -15,12 +20,9 @@ import com.jamesswafford.chess4j.utils.GameResult;
 import com.jamesswafford.chess4j.utils.GameStatus;
 import com.jamesswafford.chess4j.utils.GameStatusChecker;
 import com.jamesswafford.chess4j.utils.Perft;
+
 import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-import java.io.FileInputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InputParser {
 
@@ -42,79 +44,67 @@ public class InputParser {
 
         String[] input = command.split("\\s+");
         String cmd = input[0];
-        if ("accepted".equals(cmd)) {
-        } else if ("analyze".equals(cmd)) {
-        } else if ("black".equals(cmd)) {
-        } else if ("bk".equals(cmd)) {
-            bk();
-        } else if ("bkmoves".equals(cmd)) {
-            bkmoves();
-        } else if ("computer".equals(cmd)) {
-        } else if ("db".equals(cmd)) {
-            db();
-        } else if ("draw".equals(cmd)) {
-        } else if ("easy".equals(cmd)) {
-            SearchIterator.ponderEnabled = false;
-        } else if ("eval".equals(cmd)) {
-            eval();
-        } else if ("force".equals(cmd)) {
-            force();
-        } else if ("go".equals(cmd)) {
-            go();
-        } else if ("hard".equals(cmd)) {
-            SearchIterator.ponderEnabled = true;
-        } else if ("hint".equals(cmd)) {
-        } else if ("ics".equals(cmd)) {
-        } else if ("level".equals(cmd)) {
-            level(input);
-        } else if ("name".equals(cmd)) {
-            mLog.info("# opponent is: " + input[1]);
-        } else if ("new".equals(cmd)) {
-            newGame();
-        } else if ("nopost".equals(cmd)) {
-            SearchIterator.showThinking = false;
-        } else if ("otim".equals(cmd)) {
-        } else if ("perft".equals(cmd)) {
-            perft(input);
-        } else if ("pgn2book".equals(cmd)) {
-            pgn2book(input);
-        } else if ("playother".equals(cmd)) {
-            playother();
-        } else if ("ping".equals(cmd)) {
-            ping(input);
-        } else if ("post".equals(cmd)) {
-            SearchIterator.showThinking = true;
-        } else if ("protover".equals(cmd)) {
-            protover(input);
-        } else if ("quit".equals(cmd)) {
-            quit();
-        } else if ("random".equals(cmd)) {
-        } else if ("rating".equals(cmd)) {
-        } else if ("rejected".equals(cmd)) {
-        } else if ("remove".equals(cmd)) {
-            remove();
-        } else if ("result".equals(cmd)) {
-            result(input);
-        } else if ("sd".equals(cmd)) {
-            sd(input);
-        } else if ("setboard".equals(cmd)) {
-            setboard(input);
-        } else if ("st".equals(cmd)) {
-        } else if ("time".equals(cmd)) {
-            time(input);
-        } else if ("undo".equals(cmd)) {
-            undo();
-        } else if ("usermove".equals(cmd)) {
-            usermove(input);
-        } else if ("variant".equals(cmd)) {
-            variant(input);
-        } else if ("white".equals(cmd)) {
-        } else if ("xboard".equals(cmd)) {
-        } else if ("?".equals(cmd)) {
-            moveNow();
-        } else {
-            throw new ParseException("Invalid command: " + cmd);
-        }
+        if ("accepted".equals(cmd)) {} else
+            if ("analyze".equals(cmd)) {} else if ("black".equals(cmd)) {} else if ("bk".equals(cmd)) {
+                bk();
+            } else if ("bkmoves".equals(cmd)) {
+                bkmoves();
+            } else if ("computer".equals(cmd)) {} else if ("db".equals(cmd)) {
+                db();
+            } else if ("draw".equals(cmd)) {} else if ("easy".equals(cmd)) {
+                SearchIterator.ponderEnabled = false;
+            } else if ("eval".equals(cmd)) {
+                eval();
+            } else if ("force".equals(cmd)) {
+                force();
+            } else if ("go".equals(cmd)) {
+                go();
+            } else if ("hard".equals(cmd)) {
+                SearchIterator.ponderEnabled = true;
+            } else if ("hint".equals(cmd)) {} else if ("ics".equals(cmd)) {} else if ("level".equals(cmd)) {
+                level(input);
+            } else if ("name".equals(cmd)) {
+                mLog.info("# opponent is: " + input[1]);
+            } else if ("new".equals(cmd)) {
+                newGame();
+            } else if ("nopost".equals(cmd)) {
+                SearchIterator.showThinking = false;
+            } else if ("otim".equals(cmd)) {} else if ("perft".equals(cmd)) {
+                perft(input);
+            } else if ("pgn2book".equals(cmd)) {
+                pgn2book(input);
+            } else if ("playother".equals(cmd)) {
+                playother();
+            } else if ("ping".equals(cmd)) {
+                ping(input);
+            } else if ("post".equals(cmd)) {
+                SearchIterator.showThinking = true;
+            } else if ("protover".equals(cmd)) {
+                protover(input);
+            } else if ("quit".equals(cmd)) {
+                quit();
+            } else if ("random".equals(cmd)) {} else
+                if ("rating".equals(cmd)) {} else if ("rejected".equals(cmd)) {} else if ("remove".equals(cmd)) {
+                    remove();
+                } else if ("result".equals(cmd)) {
+                    result(input);
+                } else if ("sd".equals(cmd)) {
+                    sd(input);
+                } else if ("setboard".equals(cmd)) {
+                    setboard(input);
+                } else if ("st".equals(cmd)) {} else if ("time".equals(cmd)) {
+                    time(input);
+                } else if ("undo".equals(cmd)) {
+                    undo();
+                } else if ("usermove".equals(cmd)) {
+                    usermove(input);
+                } else if ("variant".equals(cmd)) {
+                    variant(input);
+                } else if ("white".equals(cmd)) {} else if ("xboard".equals(cmd)) {} else if ("?".equals(cmd)) {
+                    moveNow();
+                } else {
+                    throw new ParseException("Invalid command: " + cmd);
+                }
     }
 
     private void bk() {
@@ -150,9 +140,9 @@ public class InputParser {
     }
 
     /**
-     * Leave force mode and set the engine to play the color that is on move. Associate the engine's
-     * clock with the color that is on move, the opponent's clock with the color that is not on move.
-     * Start the engine's clock. Start thinking and eventually make a move.
+     * Leave force mode and set the engine to play the color that is on move. Associate the engine's clock with the
+     * color that is on move, the opponent's clock with the color that is not on move. Start the engine's clock. Start
+     * thinking and eventually make a move.
      */
     private void go() {
         stopSearchThread();
@@ -171,9 +161,9 @@ public class InputParser {
     }
 
     /**
-     * Move now. If your engine is thinking, it should move immediately; otherwise, the command should
-     * be ignored (treated as a no-op). It is permissible for your engine to always ignore the ? command.
-     * The only bad consequence is that xboard's Move Now menu command will do nothing.
+     * Move now. If your engine is thinking, it should move immediately; otherwise, the command should be ignored
+     * (treated as a no-op). It is permissible for your engine to always ignore the ? command. The only bad consequence
+     * is that xboard's Move Now menu command will do nothing.
      */
     private void moveNow() {
         if (!SearchIterator.isPondering()) {
@@ -257,24 +247,22 @@ public class InputParser {
     }
 
     /**
-     * Leave force mode and set the engine to play the color that is not on move.
-     * Associate the opponent's clock with the color that is on move, the engine's
-     * clock with the color that is not on move. Start the opponent's clock. If
-     * pondering is enabled, the engine should begin pondering. If the engine later
-     * receives a move, it should start thinking and eventually reply.
+     * Leave force mode and set the engine to play the color that is not on move. Associate the opponent's clock with
+     * the color that is on move, the engine's clock with the color that is not on move. Start the opponent's clock. If
+     * pondering is enabled, the engine should begin pondering. If the engine later receives a move, it should start
+     * thinking and eventually reply.
      */
     private void playother() {
         // TODO
     }
 
     /**
-     * Because of the way xboard uses the ping command, we should never see a "ping" command
-     * when the engine is on move. However, if we do, we should not respond with the "pong"
-     * until after making the move. The exception is pondering -- if the engine is pondering
-     * it should immediately respond with the pong but continue pondering.
+     * Because of the way xboard uses the ping command, we should never see a "ping" command when the engine is on move.
+     * However, if we do, we should not respond with the "pong" until after making the move. The exception is pondering
+     * -- if the engine is pondering it should immediately respond with the pong but continue pondering.
      * <p>
-     * The documentation specifically mentions a "?" followed by "ping". In this case
-     * the pong should not be sent until after the move is made.
+     * The documentation specifically mentions a "?" followed by "ping". In this case the pong should not be sent until
+     * after the move is made.
      */
     private void ping(String[] input) {
         if (!SearchIterator.isPondering()) {
@@ -303,8 +291,8 @@ public class InputParser {
     }
 
     /**
-     * Retract a move. Undoes the last two moves and continues playing the same color.
-     * Xboard sends this command only when the user is on move.
+     * Retract a move. Undoes the last two moves and continues playing the same color. Xboard sends this command only
+     * when the user is on move.
      */
     private void remove() {
         stopSearchThread();
@@ -313,16 +301,13 @@ public class InputParser {
     }
 
     /**
-     * RESULT is either 1-0, 0-1, 1/2-1/2, or *, indicating whether white won, black won,
-     * the game was drawn, or the game unfinished. The COMMENT string is purely human
-     * readable. It is subject to change.
+     * RESULT is either 1-0, 0-1, 1/2-1/2, or *, indicating whether white won, black won, the game was drawn, or the
+     * game unfinished. The COMMENT string is purely human readable. It is subject to change.
      * <p>
-     * We will get a RESULT command even if we already know the game ended. If we send
-     * the RESULT command (e.g. after mating the opponent), we will still get a RESULT
-     * command back.
+     * We will get a RESULT command even if we already know the game ended. If we send the RESULT command (e.g. after
+     * mating the opponent), we will still get a RESULT command back.
      * <p>
-     * We will NOT get a RESULT command if the user stops playing by selecting Reset,
-     * Edit Game, Exit, or the like.
+     * We will NOT get a RESULT command if the user stops playing by selecting Reset, Edit Game, Exit, or the like.
      */
     private void result(String[] input) {
         stopSearchThread();
@@ -355,9 +340,8 @@ public class InputParser {
     }
 
     /**
-     * sd DEPTH
-     * The engine will limit its thinking to DEPTH ply. Note the engine will still respect
-     * any time control restrictions in place.
+     * sd DEPTH The engine will limit its thinking to DEPTH ply. Note the engine will still respect any time control
+     * restrictions in place.
      */
     private void sd(String[] input) {
         Integer depth = Integer.valueOf(input[1]);
@@ -392,16 +376,16 @@ public class InputParser {
     }
 
     /**
-     * Back up one move. Xboard will never send this without putting the engine in
-     * "force" mode first. We don't have to worry about undoing a move the engine made.
+     * Back up one move. Xboard will never send this without putting the engine in "force" mode first. We don't have to
+     * worry about undoing a move the engine made.
      */
     private void undo() {
         Board.INSTANCE.undoLastMove();
     }
 
     /**
-     * Sent when the user makes a move and the engine is already playing the opposite color.
-     * The engine may or may not be pondering.
+     * Sent when the user makes a move and the engine is already playing the opposite color. The engine may or may not
+     * be pondering.
      */
     private void usermove(String[] input) throws IllegalMoveException, ParseException {
         String strMove = input[1];

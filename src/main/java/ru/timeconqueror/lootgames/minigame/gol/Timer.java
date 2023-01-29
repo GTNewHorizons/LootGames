@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagInt;
 
 public class Timer {
+
     private int ticks;
     private boolean isActive;
 

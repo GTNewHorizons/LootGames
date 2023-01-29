@@ -3,7 +3,9 @@ package ru.timeconqueror.lootgames.common.config;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.timecore.api.common.config.Config;
@@ -32,14 +34,13 @@ public class ConfigGeneral extends Config {
                 new String[0],
                 "Markers which enable extra console output.\nAvailable:\n" + String.join("\n", markers) + "\n",
                 markers);
-        this.enabledMarkers = Arrays.stream(enabledMarkers)
-                .map(Marker::byName)
-                .filter(Objects::nonNull)
+        this.enabledMarkers = Arrays.stream(enabledMarkers).map(Marker::byName).filter(Objects::nonNull)
                 .collect(Collectors.toSet());
         worldGen.init(config);
     }
 
     public static class Names {
+
         public static final String CATEGORY_MAIN = "main";
         public static final String CATEGORY_WORLDGEN = "worldgen";
 
@@ -55,6 +56,7 @@ public class ConfigGeneral extends Config {
     }
 
     public static class WorldGenCategory {
+
         public boolean disableDungeonGen;
         public boolean retroGenDungeons;
         private Map<Integer, Integer> dimRhombs;
@@ -62,13 +64,16 @@ public class ConfigGeneral extends Config {
 
         private void init(Configuration config) {
             disableDungeonGen = config.getBoolean(
-                    Names.DISABLE_DUNGEON_GEN, Names.CATEGORY_WORLDGEN, false, "Enable or disable dungeon generation");
-            //            retroGenDungeons = config.getBoolean("retrogen_dungeons", "worldgen", false, "Enable or
+                    Names.DISABLE_DUNGEON_GEN,
+                    Names.CATEGORY_WORLDGEN,
+                    false,
+                    "Enable or disable dungeon generation");
+            // retroGenDungeons = config.getBoolean("retrogen_dungeons", "worldgen", false, "Enable or
             // disable RetroGen"); is disabled
             String[] dimConfigs = config.getStringList(
                     Names.PER_DIMENSION_CONFIGS,
                     Names.CATEGORY_WORLDGEN,
-                    new String[] {"0| 20"},
+                    new String[] { "0| 20" },
                     "Whitelisted dimensions' ids that were allowed for dungeon generation and rhomb size.\nRhomb size means the size of rhombs, which will imaginary cover the world. Dungeon will be generated in each rhomb. \nSo the larger the size, the less chance of generation. \nRhomb size must be between 5 and 100. \nExample of array element: 0| 20 - this means that dungeons will be generated in rhombs with size equal to 20 in the overworld (ID = 0).");
             parseDimAndRhombList(dimConfigs);
             dungeonLogLevel = config.getString(
@@ -76,7 +81,7 @@ public class ConfigGeneral extends Config {
                     Names.CATEGORY_WORLDGEN,
                     Level.INFO.toString(),
                     "Log level for the separate DungeonGenerator Logger. Valid options: INFO, DEBUG, TRACE",
-                    new String[] {"INFO", "DEBUG", "TRACE"});
+                    new String[] { "INFO", "DEBUG", "TRACE" });
 
             config.setCategoryComment(Names.CATEGORY_WORLDGEN, "Regulates dungeon appearing in world.");
         }
@@ -105,11 +110,11 @@ public class ConfigGeneral extends Config {
                     } else {
                         if (!dimRhombs.containsKey(dimID)) {
                             dimRhombs.put(dimID, rhombSize);
-                            LootGames.LOGGER.info(
-                                    "Worldgen enabled in dimension {} with rhomb size {}.", dimID, rhombSize);
-                        } else
-                            LootGames.LOGGER.error(
-                                    "Invalid dimension rhomb entry found: {}. DimensionID is already defined.", entry);
+                            LootGames.LOGGER
+                                    .info("Worldgen enabled in dimension {} with rhomb size {}.", dimID, rhombSize);
+                        } else LootGames.LOGGER.error(
+                                "Invalid dimension rhomb entry found: {}. DimensionID is already defined.",
+                                entry);
                     }
                 } catch (NumberFormatException e) {
                     LootGames.LOGGER.error(

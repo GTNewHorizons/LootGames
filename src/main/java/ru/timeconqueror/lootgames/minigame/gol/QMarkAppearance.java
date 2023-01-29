@@ -5,7 +5,8 @@ import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import ru.timeconqueror.timecore.api.util.lookups.EnumLookup;
 
 public class QMarkAppearance {
-    private static final State[] HANDLED = {State.ACCEPTED, State.DENIED};
+
+    private static final State[] HANDLED = { State.ACCEPTED, State.DENIED };
     private final State state;
     private final long startTime;
 
@@ -31,6 +32,7 @@ public class QMarkAppearance {
     }
 
     public enum State {
+
         NONE,
         SHOWING,
         ACCEPTED,

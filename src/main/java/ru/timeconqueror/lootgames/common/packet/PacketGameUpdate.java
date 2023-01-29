@@ -1,14 +1,11 @@
 package ru.timeconqueror.lootgames.common.packet;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import io.netty.buffer.ByteBuf;
 import java.io.IOException;
+
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
@@ -19,8 +16,14 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.ThreeConsumer;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
 
 public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessage {
+
     private T gamePacket;
     private BlockPos masterPos;
 
@@ -102,6 +105,7 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
 
     public static class Handler<T extends IGamePacket, P extends PacketGameUpdate<T>>
             implements IMessageHandler<P, IMessage> {
+
         private final ThreeConsumer<MessageContext, LootGame<?, ?>, T> gameUpdater;
 
         public Handler(ThreeConsumer<MessageContext, LootGame<?, ?>, T> gameUpdater) {
@@ -118,7 +122,8 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
             } else {
                 LootGames.LOGGER.error(
                         "Something went wrong. Can't find TileEntityMaster on pos " + packet.getMasterPos()
-                                + " for packet " + packet.getGamePacketClass().getName());
+                                + " for packet "
+                                + packet.getGamePacketClass().getName());
             }
 
             return null;

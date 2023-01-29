@@ -1,10 +1,13 @@
 package ru.timeconqueror.timecore.api.common.config;
 
 import javax.annotation.Nullable;
+
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 public abstract class ConfigSection {
+
     private final String key;
 
     @Nullable

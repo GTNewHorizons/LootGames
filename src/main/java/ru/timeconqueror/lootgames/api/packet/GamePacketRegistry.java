@@ -1,10 +1,12 @@
 package ru.timeconqueror.lootgames.api.packet;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import java.util.Objects;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 public abstract class GamePacketRegistry {
+
     private static final Storage<IClientGamePacket> CLIENT_STORAGE = new Storage<>();
     private static final Storage<IServerGamePacket> SERVER_STORAGE = new Storage<>();
 
@@ -17,6 +19,7 @@ public abstract class GamePacketRegistry {
     }
 
     public static class Storage<T> {
+
         private final BiMap<Key, Class<? extends T>> packets = HashBiMap.create();
 
         public Class<? extends T> getPacketClass(Key key) {
@@ -52,6 +55,7 @@ public abstract class GamePacketRegistry {
     }
 
     public static class Key {
+
         private final String modId;
         private final int packetId;
 

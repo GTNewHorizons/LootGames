@@ -4,6 +4,7 @@ import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.timecore.api.util.lookups.EnumLookup;
 
 public enum Symbol {
+
     NORTH_WEST(0, new Pos2i(0, 0)),
     NORTH(1, new Pos2i(1, 0)),
     NORTH_EAST(2, new Pos2i(2, 0)),
@@ -14,7 +15,7 @@ public enum Symbol {
     SOUTH_EAST(7, new Pos2i(2, 2));
 
     private static final EnumLookup<Symbol, Integer> LOOKUP = EnumLookup.make(Symbol.class, Symbol::getIndex);
-    public static final Symbol[] NWES_SYMBOLS = new Symbol[] {NORTH, WEST, EAST, SOUTH};
+    public static final Symbol[] NWES_SYMBOLS = new Symbol[] { NORTH, WEST, EAST, SOUTH };
 
     private final int index;
     private final Pos2i pos;

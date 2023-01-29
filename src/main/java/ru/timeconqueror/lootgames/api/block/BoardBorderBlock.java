@@ -1,11 +1,13 @@
 package ru.timeconqueror.lootgames.api.block;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
@@ -15,6 +17,7 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 // TODO textures
 @ParametersAreNonnullByDefault
 public class BoardBorderBlock extends GameBlock implements IGameField {
+
     public BoardBorderBlock() {
         super();
     }
@@ -103,6 +106,7 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
     }
 
     public enum Type {
+
         HORIZONTAL,
         VERTICAL,
         TOP_LEFT,
@@ -113,9 +117,8 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
         private static final Type[] VALUES = values();
 
         public static Type byMeta(int meta) {
-            if (meta >= VALUES.length)
-                throw new IllegalArgumentException(String.format(
-                        "Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
+            if (meta >= VALUES.length) throw new IllegalArgumentException(
+                    String.format("Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
             return VALUES[meta];
         }
     }

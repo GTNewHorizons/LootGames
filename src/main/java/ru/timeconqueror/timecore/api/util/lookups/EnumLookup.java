@@ -3,9 +3,11 @@ package ru.timeconqueror.timecore.api.util.lookups;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
 import ru.timeconqueror.timecore.api.reflection.ReflectionHelper;
 
 public interface EnumLookup<E extends Enum<E>, S> {
+
     E by(S id);
 
     S from(E value);
@@ -30,6 +32,7 @@ public interface EnumLookup<E extends Enum<E>, S> {
     }
 
     class MapBasedLookup<E extends Enum<E>, S> implements EnumLookup<E, S> {
+
         private final Class<E> clazz;
         private final Map<S, E> lookup;
         private final Function<E, S> toIdFunc;
@@ -57,6 +60,7 @@ public interface EnumLookup<E extends Enum<E>, S> {
     }
 
     class IndexBasedLookup<E extends Enum<E>> implements EnumLookup<E, Integer> {
+
         private final Class<E> clazz;
         private final E[] values;
 

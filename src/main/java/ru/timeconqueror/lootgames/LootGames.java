@@ -1,18 +1,13 @@
 package ru.timeconqueror.lootgames;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.relauncher.Side;
-import eu.usrv.legacylootgames.LootGamesLegacy;
-import eu.usrv.legacylootgames.command.LootGamesCommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ru.timeconqueror.lootgames.api.minigame.FieldManager;
 import ru.timeconqueror.lootgames.api.minigame.GameManager;
 import ru.timeconqueror.lootgames.client.ClientEventHandler;
@@ -31,6 +26,13 @@ import ru.timeconqueror.lootgames.registry.LGGames;
 import ru.timeconqueror.timecore.api.common.CommonEventHandler;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.util.Hacks;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.relauncher.Side;
+import eu.usrv.legacylootgames.LootGamesLegacy;
+import eu.usrv.legacylootgames.command.LootGamesCommand;
 
 @Mod(
         modid = LootGames.MODID,
@@ -39,6 +41,7 @@ import ru.timeconqueror.timecore.api.util.Hacks;
         version = LootGames.VERSION,
         certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")
 public class LootGames {
+
     public static final String MODID = "lootgames";
     public static final String MODNAME = "LootGames";
     public static final String VERSION = "GRADLETOKEN_VERSION";
@@ -46,6 +49,7 @@ public class LootGames {
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     public static final CreativeTabs CREATIVE_TAB = new CreativeTabs(MODNAME) {
+
         @Override
         public Item getTabIconItem() {
             return Item.getItemFromBlock(LGBlocks.PUZZLE_MASTER);

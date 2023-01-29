@@ -3,6 +3,7 @@ package eu.usrv.legacylootgames.auxiliary;
 import java.util.*;
 
 public class ProfilingStorage {
+
     private final Map<String, List<Long>> mProfilingMap;
 
     public ProfilingStorage() {

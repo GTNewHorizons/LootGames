@@ -1,9 +1,10 @@
 package com.jamesswafford.chess4j.book;
 
+import java.util.*;
+
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
-import java.util.*;
 
 public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
 

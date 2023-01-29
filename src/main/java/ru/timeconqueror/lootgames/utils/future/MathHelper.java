@@ -1,16 +1,17 @@
 package ru.timeconqueror.lootgames.utils.future;
 
 public class MathHelper {
+
     /**
      * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with steps of 2*PI / 65536.
      */
     private static final float[] SIN_TABLE = new float[65536];
     /**
-     * Though it looks like an array, this is really more like a mapping.  Key (index of this array) is the upper 5 bits
-     * of the result of multiplying a 32-bit unsigned integer by the B(2, 5) De Bruijn sequence 0x077CB531.  Value
-     * (value stored in the array) is the unique index (from the right) of the leftmost one-bit in a 32-bit unsigned
-     * integer that can cause the upper 5 bits to get that value.  Used for highly optimized "find the log-base-2 of
-     * this number" calculations.
+     * Though it looks like an array, this is really more like a mapping. Key (index of this array) is the upper 5 bits
+     * of the result of multiplying a 32-bit unsigned integer by the B(2, 5) De Bruijn sequence 0x077CB531. Value (value
+     * stored in the array) is the unique index (from the right) of the leftmost one-bit in a 32-bit unsigned integer
+     * that can cause the upper 5 bits to get that value. Used for highly optimized "find the log-base-2 of this number"
+     * calculations.
      */
     private static final int[] multiplyDeBruijnBitPosition;
 
@@ -36,7 +37,7 @@ public class MathHelper {
     }
 
     /**
-     * Is the given value a power of two?  (1, 2, 4, 8, 16, ...)
+     * Is the given value a power of two? (1, 2, 4, 8, 16, ...)
      */
     private static boolean isPowerOfTwo(int p_151235_0_) {
         return p_151235_0_ != 0 && (p_151235_0_ & p_151235_0_ - 1) == 0;
@@ -44,7 +45,7 @@ public class MathHelper {
 
     /**
      * Uses a B(2, 5) De Bruijn sequence and a lookup table to efficiently calculate the log-base-two of the given
-     * value.  Optimized for cases where the input value is a power-of-two.  If the input value is not a power-of-two,
+     * value. Optimized for cases where the input value is a power-of-two. If the input value is not a power-of-two,
      * then subtract 1 from the return value.
      */
     private static int calculateLogBaseTwoDeBruijn(int p_151241_0_) {
@@ -53,13 +54,13 @@ public class MathHelper {
     }
 
     /**
-     * Efficiently calculates the floor of the base-2 log of an integer value.  This is effectively the index of the
-     * highest bit that is set.  For example, if the number in binary is 0...100101, this will return 5.
+     * Efficiently calculates the floor of the base-2 log of an integer value. This is effectively the index of the
+     * highest bit that is set. For example, if the number in binary is 0...100101, this will return 5.
      */
     public static int calculateLogBaseTwo(int p_151239_0_) {
         /**
          * Uses a B(2, 5) De Bruijn sequence and a lookup table to efficiently calculate the log-base-two of the given
-         * value.  Optimized for cases where the input value is a power-of-two.  If the input value is not a power-of-
+         * value. Optimized for cases where the input value is a power-of-two. If the input value is not a power-of-
          * two, then subtract 1 from the return value.
          */
         return calculateLogBaseTwoDeBruijn(p_151239_0_) - (isPowerOfTwo(p_151239_0_) ? 0 : 1);
@@ -70,9 +71,7 @@ public class MathHelper {
             SIN_TABLE[var0] = (float) Math.sin((double) var0 * Math.PI * 2.0D / 65536.0D);
         }
 
-        multiplyDeBruijnBitPosition = new int[] {
-            0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11,
-            5, 10, 9
-        };
+        multiplyDeBruijnBitPosition = new int[] { 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13,
+                23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9 };
     }
 }

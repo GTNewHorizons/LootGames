@@ -2,11 +2,15 @@ package ru.timeconqueror.lootgames.common.packet.game;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import javax.annotation.Nullable;
+
 import net.minecraft.network.PacketBuffer;
+
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 
 public class SPDelayedChangeStage extends SPChangeStage {
+
     @Nullable
     private String prevStageId;
 

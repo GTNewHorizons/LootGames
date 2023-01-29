@@ -6,6 +6,7 @@ import ru.timeconqueror.timecore.api.common.tile.SimpleTile;
 import ru.timeconqueror.timecore.api.util.RandHelper;
 
 public class PuzzleMasterTile extends SimpleTile {
+
     private long lastSoundTick = 0L;
 
     @Override

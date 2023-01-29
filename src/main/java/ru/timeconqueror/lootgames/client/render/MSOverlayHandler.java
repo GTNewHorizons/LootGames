@@ -1,17 +1,19 @@
 package ru.timeconqueror.lootgames.client.render;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.awt.*;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
@@ -20,8 +22,10 @@ import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MSOverlayHandler {
+
     private static final ArrayList<WeakReference<MSMasterTile>> MS_MASTERS = new ArrayList<>(1);
 
     private static final TexturedRect FIRST_SLOT_START = new TexturedRect(3 * 1.5F, 16 * 1.5F, 15, 0, 3, 16);
@@ -88,9 +92,7 @@ public class MSOverlayHandler {
             GameMineSweeper game = msMaster.getGame();
 
             Color color = game.getStage() instanceof GameMineSweeper.StageDetonating
-                            || game.getStage() instanceof GameMineSweeper.StageExploding
-                    ? Color.RED
-                    : Color.WHITE;
+                    || game.getStage() instanceof GameMineSweeper.StageExploding ? Color.RED : Color.WHITE;
             String toDisplay = getBombDisplayString(game, extendedInfo);
 
             float finalMaxRectWidth = maxRectWidth;
@@ -121,8 +123,8 @@ public class MSOverlayHandler {
                         EXTRA_SLOT_END,
                         48);
 
-                DrawHelper.drawYCenteredStringWithShadow(
-                        fontRenderer, toDisplay, 33, (int) (startY + 8), color.getRGB());
+                DrawHelper
+                        .drawYCenteredStringWithShadow(fontRenderer, toDisplay, 33, (int) (startY + 8), color.getRGB());
                 startY += 7 * 1.5F;
             }
         }
@@ -130,14 +132,16 @@ public class MSOverlayHandler {
 
     private static String getBombDisplayString(GameMineSweeper game, boolean extended) {
         int bombDisplay = game.getStage() instanceof GameMineSweeper.StageDetonating
-                        || game.getStage() instanceof GameMineSweeper.StageExploding
-                ? game.getBoard().getBombCount()
-                : game.getBoard().getBombCount() - game.getBoard().cGetFlaggedField();
+                || game.getStage() instanceof GameMineSweeper.StageExploding ? game.getBoard().getBombCount()
+                        : game.getBoard().getBombCount() - game.getBoard().cGetFlaggedField();
         BlockPos gamePos = game.getGameCenter();
-        return extended
-                ? "x" + bombDisplay + " on " /*todo translate */ + gamePos.getX() + ", " + gamePos.getY() + ", "
-                        + gamePos.getZ()
-                : "x" + bombDisplay;
+        return extended ? "x" + bombDisplay
+                + " on " /* todo translate */
+                + gamePos.getX()
+                + ", "
+                + gamePos.getY()
+                + ", "
+                + gamePos.getZ() : "x" + bombDisplay;
     }
 
     public static void addSupportedMaster(MSMasterTile master) {

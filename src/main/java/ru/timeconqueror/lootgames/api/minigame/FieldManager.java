@@ -1,10 +1,10 @@
 package ru.timeconqueror.lootgames.api.minigame;
 
-import com.google.common.collect.Iterables;
-import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.BoardBorderBlock;
 import ru.timeconqueror.lootgames.api.block.IGameField;
@@ -26,6 +27,9 @@ import ru.timeconqueror.timecore.api.util.BlockPosUtils;
 import ru.timeconqueror.timecore.api.util.CollectionUtils;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
+
+import com.google.common.collect.Iterables;
+import eu.usrv.legacylootgames.blocks.DungeonBrick;
 
 /**
  * Can be accessed via {@link LootGamesAPI#getFieldManager()}.
@@ -63,20 +67,20 @@ public class FieldManager {
         fieldUnderBreaking = false;
     }
 
-    public boolean canReplaceAreaWithBoard(
-            World world, BlockPos cornerPos, int xSize, int ySize, int zSize, @Nullable BlockPos except) {
+    public boolean canReplaceAreaWithBoard(World world, BlockPos cornerPos, int xSize, int ySize, int zSize,
+            @Nullable BlockPos except) {
         Iterable<BlockPos> positions = Iterables.concat(
                 BlockPosUtils.between(cornerPos, xSize, 1, zSize), // board positions
                 // second area is smaller because we don't need to check if the player can fit the place in the corner
                 // blocks above the border.
-                BlockPosUtils.between(
-                        cornerPos.offset(1, 1, 1), xSize - 2, ySize - 1, zSize - 2) // positions above the board
-                );
+                BlockPosUtils.between(cornerPos.offset(1, 1, 1), xSize - 2, ySize - 1, zSize - 2) // positions above the
+                                                                                                  // board
+        );
 
         return CollectionUtils.allMatch(positions, (pos) -> {
             BlockState state = WorldExt.getBlockState(world, pos);
             return (state.getBlock() == LGBlocks.DUNGEON_WALL
-                            && state.getMeta() == DungeonBrick.Type.FLOOR_SHIELDED.ordinal())
+                    && state.getMeta() == DungeonBrick.Type.FLOOR_SHIELDED.ordinal())
                     || state.getBlock().getMaterial().isReplaceable()
                     || pos.equals(except);
         });
@@ -91,14 +95,8 @@ public class FieldManager {
      * @param player to notify about fail
      * @return true if field placed.
      */
-    public GenerationChain trySetupBoard(
-            WorldServer world,
-            BlockPos centerPos,
-            int xSize,
-            int height,
-            int zSize,
-            Block masterBlock,
-            @Nullable EntityPlayer player) {
+    public GenerationChain trySetupBoard(WorldServer world, BlockPos centerPos, int xSize, int height, int zSize,
+            Block masterBlock, @Nullable EntityPlayer player) {
         BlockPos cornerPos = centerPos.offset(-xSize / 2 - 1, 0, -zSize / 2 - 1);
         BlockPos.Mutable borderPos = cornerPos.mutable();
         if (!canReplaceAreaWithBoard(world, borderPos, xSize + 2, height + 1, zSize + 2, centerPos)) {
@@ -107,7 +105,10 @@ public class FieldManager {
                         player,
                         ChatComponentExt.withStyle(
                                 new ChatComponentTranslation(
-                                        "msg.lootgames.field.not_enough_space", xSize + 2, height + 1, zSize + 2),
+                                        "msg.lootgames.field.not_enough_space",
+                                        xSize + 2,
+                                        height + 1,
+                                        zSize + 2),
                                 NotifyColor.FAIL.getColor()));
                 WorldExt.playSoundServerly(world, centerPos, LGSounds.GAME_LOSE, 0.4F, 1.0F);
             }
@@ -159,8 +160,8 @@ public class FieldManager {
     }
 
     public void clearBoard(WorldServer world, BlockPos start, int sizeX, int sizeZ) {
-        Iterable<BlockPos> gameBlocks =
-                BlockPos.betweenClosed(start.offset(-1, 0, -1), start.offset(sizeX + 1, 0, sizeZ + 1));
+        Iterable<BlockPos> gameBlocks = BlockPos
+                .betweenClosed(start.offset(-1, 0, -1), start.offset(sizeX + 1, 0, sizeZ + 1));
 
         for (BlockPos pos : gameBlocks) {
             if (WorldExt.getBlock(world, pos) instanceof IGameField) {
@@ -170,6 +171,7 @@ public class FieldManager {
     }
 
     public static class GenerationChain {
+
         private final World world;
         private final BlockPos pos;
         private final boolean succeed;

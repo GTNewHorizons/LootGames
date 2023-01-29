@@ -1,9 +1,11 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import net.minecraft.nbt.NBTTagByte;
+
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 
 public enum Type {
+
     BOMB((byte) -1),
     EMPTY((byte) 0),
     ONE((byte) 1),
@@ -44,6 +46,7 @@ public enum Type {
     }
 
     public static class Codec implements ICodec<Type, NBTTagByte> {
+
         @Override
         public NBTTagByte encode(Type obj) {
             return new NBTTagByte(obj.getId());

@@ -1,9 +1,8 @@
 package ru.timeconqueror.lootgames.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Optional;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
@@ -23,10 +23,13 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Particles;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 // TODO check surface before placing game block
 // TODO add animation, which places block below
 public class PuzzleMasterBlock extends GameBlock {
+
     @SideOnly(Side.CLIENT)
     protected IIcon icon;
 
@@ -57,13 +60,14 @@ public class PuzzleMasterBlock extends GameBlock {
     }
 
     @Override
-    public boolean onBlockActivated(
-            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+            float subY, float subZ) {
         if (!worldIn.isRemote) {
             try {
                 if (LGConfigs.GENERAL.disableMinigames) {
                     NetworkUtils.sendMessage(
-                            player, new ChatComponentTranslation("msg.lootgames.puzzle_master.turned_off"));
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.puzzle_master.turned_off"));
                     return true;
                 }
 
@@ -76,8 +80,8 @@ public class PuzzleMasterBlock extends GameBlock {
                 if (!error.isPresent()) {
                     LGAchievements.FIND_DUNGEON.trigger(player);
                 } else {
-                    NetworkUtils.sendMessage(
-                            player, new ChatComponentText(error.get())); // TODO move error to lang file
+                    NetworkUtils.sendMessage(player, new ChatComponentText(error.get())); // TODO move error to lang
+                                                                                          // file
 
                     WorldExt.setBlock(worldIn, pos, block, 2); // rollback
                 }

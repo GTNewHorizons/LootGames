@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class CollectionUtils {
+
     public static <T> boolean contains(T[] array, T object) {
         for (T t : array) {
             if (t.equals(object)) return true;
@@ -74,8 +75,10 @@ public class CollectionUtils {
         R[] mapped = mappedArrFactory.apply(source.length);
 
         if (mapped.length != source.length) {
-            throw new IllegalArgumentException("Mapped array should have the same length (" + source.length
-                    + ") as source array. Provided length:" + mapped.length);
+            throw new IllegalArgumentException(
+                    "Mapped array should have the same length (" + source.length
+                            + ") as source array. Provided length:"
+                            + mapped.length);
         }
 
         for (int i = 0; i < source.length; i++) {

@@ -1,8 +1,9 @@
 package com.jamesswafford.chess4j.board;
 
+import java.util.Random;
+
 import com.jamesswafford.chess4j.board.squares.*;
 import com.jamesswafford.chess4j.utils.BoardUtils;
-import java.util.Random;
 
 public class Magic {
 
@@ -35,8 +36,7 @@ public class Magic {
                             || (sq2.file() == sq.file() && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8)) {
                         rookMasks[i] |= Bitboard.squares[j];
                     }
-                    if (BoardUtils.isDiagonal(sq, sq2)
-                            && sq2.rank() != Rank.RANK_1
+                    if (BoardUtils.isDiagonal(sq, sq2) && sq2.rank() != Rank.RANK_1
                             && sq2.rank() != Rank.RANK_8
                             && sq2.file() != File.FILE_A
                             && sq2.file() != File.FILE_H) {
@@ -285,8 +285,8 @@ public class Magic {
             int numVariations = 1 << Long.bitCount(mask);
 
             for (int i = 0; i < numVariations; i++) {
-                int magicInd =
-                        (int) ((bishopOcc[sqVal][i] * magicNumbersBishops[sqVal]) >>> magicNumbersShiftBishops[sqVal]);
+                int magicInd = (int) ((bishopOcc[sqVal][i] * magicNumbersBishops[sqVal])
+                        >>> magicNumbersShiftBishops[sqVal]);
                 magicBishopMoves[sqVal][magicInd] = genMovesMask(sq, bishopOcc[sqVal][i], NorthEast.getInstance())
                         | genMovesMask(sq, bishopOcc[sqVal][i], SouthEast.getInstance())
                         | genMovesMask(sq, bishopOcc[sqVal][i], SouthWest.getInstance())

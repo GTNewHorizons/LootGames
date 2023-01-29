@@ -1,11 +1,13 @@
 package ru.timeconqueror.lootgames.utils.future;
 
 import javax.annotation.concurrent.Immutable;
+
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
 @Immutable
 public class Vector3i implements Comparable<Vector3i> {
+
     /**
      * An immutable vector with zero as all coordinates.
      */
@@ -48,8 +50,7 @@ public class Vector3i implements Comparable<Vector3i> {
 
     public int compareTo(Vector3i p_compareTo_1_) {
         if (this.getY() == p_compareTo_1_.getY()) {
-            return this.getZ() == p_compareTo_1_.getZ()
-                    ? this.getX() - p_compareTo_1_.getX()
+            return this.getZ() == p_compareTo_1_.getZ() ? this.getX() - p_compareTo_1_.getX()
                     : this.getZ() - p_compareTo_1_.getZ();
         } else {
             return this.getY() - p_compareTo_1_.getY();
@@ -127,8 +128,7 @@ public class Vector3i implements Comparable<Vector3i> {
      * Offsets this BlockPos n blocks in the given direction
      */
     public Vector3i relative(EnumFacing facing, int n) {
-        return n == 0
-                ? this
+        return n == 0 ? this
                 : new Vector3i(
                         this.getX() + facing.getFrontOffsetX() * n,
                         this.getY() + facing.getFrontOffsetY() * n,

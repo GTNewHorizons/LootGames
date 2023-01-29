@@ -1,9 +1,8 @@
 package eu.usrv.legacylootgames.command;
 
-import eu.usrv.legacylootgames.LootGamesLegacy;
-import eu.usrv.yamcore.auxiliary.PlayerChatHelper;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.monster.EntityZombie;
@@ -12,7 +11,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
 
+import eu.usrv.legacylootgames.LootGamesLegacy;
+import eu.usrv.yamcore.auxiliary.PlayerChatHelper;
+
 public class PeacefulEntityCommand implements ICommand {
+
     private final List<String> aliases;
 
     public PeacefulEntityCommand() {
@@ -86,8 +89,8 @@ public class PeacefulEntityCommand implements ICommand {
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            boolean opped =
-                    MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
+            boolean opped = MinecraftServer.getServer().getConfigurationManager()
+                    .func_152596_g(player.getGameProfile());
             boolean inCreative = player.capabilities.isCreativeMode;
             return opped && inCreative;
         } else return sender instanceof MinecraftServer;

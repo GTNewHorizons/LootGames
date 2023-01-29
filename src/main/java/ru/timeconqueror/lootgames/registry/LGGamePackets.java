@@ -4,6 +4,7 @@ import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.common.packet.game.*;
 
 public class LGGamePackets {
+
     public static void register() {
         LootGamesAPI.regServerPacket(SPChangeStage.class);
         LootGamesAPI.regServerPacket(SPDelayedChangeStage.class);

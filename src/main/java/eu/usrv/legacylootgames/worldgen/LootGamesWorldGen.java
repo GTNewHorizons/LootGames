@@ -1,14 +1,17 @@
 package eu.usrv.legacylootgames.worldgen;
 
+import java.util.Random;
+
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
+
+import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import cpw.mods.fml.common.IWorldGenerator;
 import eu.usrv.legacylootgames.LootGamesLegacy;
 import eu.usrv.legacylootgames.StructureGenerator;
-import java.util.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 public class LootGamesWorldGen implements IWorldGenerator {
+
     private final Random _mRnd;
 
     public LootGamesWorldGen() {
@@ -17,12 +20,7 @@ public class LootGamesWorldGen implements IWorldGenerator {
     }
 
     @Override
-    public void generate(
-            Random pRandom,
-            int pChunkX,
-            int pChunkZ,
-            World pWorld,
-            IChunkProvider pChunkGenerator,
+    public void generate(Random pRandom, int pChunkX, int pChunkZ, World pWorld, IChunkProvider pChunkGenerator,
             IChunkProvider pChunkProvider) {
         long tStart = System.currentTimeMillis();
         LootGamesLegacy.DungeonLogger.trace("WorldGen => Generate()");
@@ -42,8 +40,8 @@ public class LootGamesWorldGen implements IWorldGenerator {
         boolean tState = true;
 
         if (LGConfigs.GENERAL.worldGen.disableDungeonGen) {
-            LootGamesLegacy.DungeonLogger.trace(
-                    "WorldGen => Generate() => checkSpawnConditions() => WorldGen is DISABLED");
+            LootGamesLegacy.DungeonLogger
+                    .trace("WorldGen => Generate() => checkSpawnConditions() => WorldGen is DISABLED");
             tState = false;
         }
 
@@ -55,8 +53,8 @@ public class LootGamesWorldGen implements IWorldGenerator {
         }
 
         if (tState && !canSpawnInChunk_v3(pChunkX, pChunkZ, pWorld)) {
-            LootGamesLegacy.DungeonLogger.trace(
-                    "WorldGen => Generate() => checkSpawnConditions() => Location not suitable");
+            LootGamesLegacy.DungeonLogger
+                    .trace("WorldGen => Generate() => checkSpawnConditions() => Location not suitable");
             tState = false;
         }
 

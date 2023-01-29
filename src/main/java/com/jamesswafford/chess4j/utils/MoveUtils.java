@@ -1,13 +1,15 @@
 package com.jamesswafford.chess4j.utils;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
 import eu.usrv.yamcore.auxiliary.LogHelper;
-import java.util.Collections;
-import java.util.List;
 
 public final class MoveUtils {
+
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
 
     private MoveUtils() {}

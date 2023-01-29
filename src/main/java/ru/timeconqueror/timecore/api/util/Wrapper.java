@@ -3,22 +3,25 @@ package ru.timeconqueror.timecore.api.util;
 import java.util.Objects;
 
 /**
- * Provides ability to set variable created outside of lambda function from this lambda.
- * <br>Example:<br>
- * <blockquote><pre>
+ * Provides ability to set variable created outside of lambda function from this lambda. <br>
+ * Example:<br>
+ * <blockquote>
+ * 
+ * <pre>
  * Wrapper&lt;Boolean&gt; passed = new Wrapper<>(false);
  *
- * someMethod(it -> {
- *     passed.set(true);
- * });
+ * someMethod(it -> { passed.set(true); });
  *
- * if(passed.get()){
+ * if (passed.get()) {
  *     doSmth();
  * }
  *
- * </pre></blockquote>
+ * </pre>
+ * 
+ * </blockquote>
  */
 public class Wrapper<T> {
+
     private T value;
 
     public Wrapper(T value) {

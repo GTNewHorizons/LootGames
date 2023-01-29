@@ -1,7 +1,9 @@
 package ru.timeconqueror.timecore.api.common.tile;
 
 import java.util.Objects;
+
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -10,10 +12,10 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 /**
  * Syncable TileEntity.
  * <p>
- * You can also control what should be sent to client
- * and what should be only used for saving.
+ * You can also control what should be sent to client and what should be only used for saving.
  */
 public class SyncableTile extends SimpleTile {
+
     /**
      * For saving/sending data use {@link #writeNBT(NBTTagCompound, SerializationType)}
      */

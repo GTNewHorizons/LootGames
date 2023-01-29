@@ -6,6 +6,7 @@ import com.jamesswafford.chess4j.utils.GameStatus;
 import eu.usrv.legacylootgames.chess.ChessEngineProxy;
 
 public final class PrintGameResult {
+
     private PrintGameResult() {}
 
     public static void printResult(GameStatus gs) {

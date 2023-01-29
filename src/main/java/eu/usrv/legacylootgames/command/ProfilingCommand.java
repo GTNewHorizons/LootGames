@@ -1,17 +1,20 @@
 package eu.usrv.legacylootgames.command;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import eu.usrv.legacylootgames.LootGamesLegacy;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import eu.usrv.legacylootgames.LootGamesLegacy;
+
 public class ProfilingCommand implements ICommand {
+
     private final List<String> aliases;
 
     public ProfilingCommand() {
@@ -49,7 +52,8 @@ public class ProfilingCommand implements ICommand {
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender pCommandSender) {
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER
-                && !FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()) return true;
+                && !FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
+            return true;
 
         if (pCommandSender instanceof EntityPlayerMP) {
             EntityPlayerMP tEP = (EntityPlayerMP) pCommandSender;

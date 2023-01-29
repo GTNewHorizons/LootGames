@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.utils.future;
 
 import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -8,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class WorldExt {
+
     public static BlockState getBlockState(World world, BlockPos pos) {
         return new BlockState(
                 world.getBlock(pos.getX(), pos.getY(), pos.getZ()),
@@ -46,23 +48,17 @@ public class WorldExt {
         world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), sound, volume, pitch);
     }
 
-    public static void playSoundCliently(
-            World world, BlockPos pos, String sound, float volume, float pitch, boolean distanceDelay) {
+    public static void playSoundCliently(World world, BlockPos pos, String sound, float volume, float pitch,
+            boolean distanceDelay) {
         world.playSound(pos.getX(), pos.getY(), pos.getZ(), sound, volume, pitch, distanceDelay);
     }
 
-    public static void explode(
-            World world, @Nullable Entity exploder, BlockPos pos, float strength, boolean affectBlocks) {
+    public static void explode(World world, @Nullable Entity exploder, BlockPos pos, float strength,
+            boolean affectBlocks) {
         explode(world, exploder, pos.getX(), pos.getY(), pos.getZ(), strength, affectBlocks);
     }
 
-    public static void explode(
-            World world,
-            @Nullable Entity exploder,
-            double x,
-            double y,
-            double z,
-            float strength,
+    public static void explode(World world, @Nullable Entity exploder, double x, double y, double z, float strength,
             boolean affectBlocks) {
         world.createExplosion(exploder, x, y, z, strength, affectBlocks);
     }

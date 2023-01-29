@@ -2,12 +2,14 @@ package ru.timeconqueror.lootgames.common.config;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.common.config.ConfigMS.Snapshot.StageSnapshot;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class ConfigMS extends Config {
+
     private static final String NO_CHANGE_FOR_GENERATED = "Won't be changed for already generated Minesweeper boards!";
 
     public int weight;
@@ -62,8 +64,7 @@ public class ConfigMS extends Config {
     }
 
     /**
-     * @param index - 1-4 (inclusive)
-     *              Can return true, if index will be out of bounds.
+     * @param index - 1-4 (inclusive) Can return true, if index will be out of bounds.
      * @throws RuntimeException if stage config was not found for provided index.
      */
     public StageConfig getStageByIndex(int index) {
@@ -92,6 +93,7 @@ public class ConfigMS extends Config {
     }
 
     public static class StageConfig extends ConfigSection {
+
         private int bombCount;
         private int boardRadius;
 
@@ -147,6 +149,7 @@ public class ConfigMS extends Config {
     }
 
     private static class DefaultData {
+
         private final int boardRadius;
         private final int bombCount;
 
@@ -157,6 +160,7 @@ public class ConfigMS extends Config {
     }
 
     public static class Snapshot {
+
         private final StageSnapshot stage1;
         private final StageSnapshot stage2;
         private final StageSnapshot stage3;
@@ -207,6 +211,7 @@ public class ConfigMS extends Config {
         }
 
         public static class StageSnapshot {
+
             private final int bombCount;
             private final int boardSize;
 
@@ -240,8 +245,7 @@ public class ConfigMS extends Config {
         }
 
         /**
-         * @param index - 1-4 (inclusive)
-         *              Can return true, if index will be out of bounds.
+         * @param index - 1-4 (inclusive) Can return true, if index will be out of bounds.
          * @throws RuntimeException if stage config was not found for provided index.
          */
         public StageSnapshot getStageByIndex(int index) {

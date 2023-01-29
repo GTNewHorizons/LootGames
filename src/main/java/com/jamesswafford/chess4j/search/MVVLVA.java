@@ -1,11 +1,12 @@
 package com.jamesswafford.chess4j.search;
 
-import com.jamesswafford.chess4j.board.Board;
-import com.jamesswafford.chess4j.board.Move;
-import com.jamesswafford.chess4j.pieces.*;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.jamesswafford.chess4j.board.Board;
+import com.jamesswafford.chess4j.board.Move;
+import com.jamesswafford.chess4j.pieces.*;
 
 public class MVVLVA implements Comparator<Move> {
 
@@ -28,16 +29,13 @@ public class MVVLVA implements Comparator<Move> {
     }
 
     /**
-     * Score the move. Promotions are scored highest of all, with capturing promotions
-     * being higher than non-capturing promotions. Secondary to capture vs non-capture
-     * is the piece being promoted to. Queen promotions are higher, followed by rook,
-     * bishop, then knight.
+     * Score the move. Promotions are scored highest of all, with capturing promotions being higher than non-capturing
+     * promotions. Secondary to capture vs non-capture is the piece being promoted to. Queen promotions are higher,
+     * followed by rook, bishop, then knight.
      * <p>
-     * Captures are scored next using the MVV/LVA algorithm. This is not a very accurate
-     * algorithm, but it's fast and cheap. The idea is to score moves that capture bigger
-     * pieces higher. If two moves capture the same piece, the move with the smallest capturer
-     * is scored higher.
-     * PxQ, NxQ, BxQ, RxQ, QxQ, KxQ, PxR, BxR, NxR, RxR, QxR, KxR ...
+     * Captures are scored next using the MVV/LVA algorithm. This is not a very accurate algorithm, but it's fast and
+     * cheap. The idea is to score moves that capture bigger pieces higher. If two moves capture the same piece, the
+     * move with the smallest capturer is scored higher. PxQ, NxQ, BxQ, RxQ, QxQ, KxQ, PxR, BxR, NxR, RxR, QxR, KxR ...
      * <p>
      * The remaining (non-capturing) moves are next, in no particular order.
      *

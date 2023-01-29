@@ -1,21 +1,24 @@
 package eu.usrv.legacylootgames.worldgen;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
-import eu.usrv.legacylootgames.LootGamesLegacy;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Queue;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkDataEvent;
+
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import eu.usrv.legacylootgames.LootGamesLegacy;
 
 // Borrowed from
 // https://github.com/jtmnf/SimpleOreGenerator/blob/master/src/main/java/com/jtmnf/simpleoregen/handler/RetroGenWorld.java
 public class LootGamesRetroGen {
+
     public static LootGamesRetroGen instance = new LootGamesRetroGen();
     public static HashMap<Integer, Queue<ChunkInfo>> _mRetroChunk = new HashMap<Integer, Queue<ChunkInfo>>();
     private static final String NBTMODID = "lootgames";
@@ -79,6 +82,7 @@ public class LootGamesRetroGen {
     }
 
     public static class ChunkInfo {
+
         public int mChunkX;
         public int mChunkZ;
 

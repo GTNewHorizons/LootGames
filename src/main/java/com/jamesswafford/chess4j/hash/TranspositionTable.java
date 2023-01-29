@@ -5,6 +5,7 @@ import com.jamesswafford.chess4j.board.Move;
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class TranspositionTable {
+
     private static final TranspositionTable INSTANCE = new TranspositionTable();
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
     private static int numEntries;
@@ -67,8 +68,8 @@ public class TranspositionTable {
     }
 
     /**
-     * Store an entry in the transposition table, Gerbil style. Meaning, for now I'm skirting around
-     * dealing with the headache that is storing mate scores by storing them as bounds only.
+     * Store an entry in the transposition table, Gerbil style. Meaning, for now I'm skirting around dealing with the
+     * headache that is storing mate scores by storing them as bounds only.
      *
      * @param entryType
      * @param zobristKey

@@ -6,9 +6,11 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+
 import ru.timeconqueror.lootgames.client.IconLoader;
 
 public abstract class GameBlock extends Block {
+
     public GameBlock() {
         super(Material.rock);
         setBlockUnbreakable();

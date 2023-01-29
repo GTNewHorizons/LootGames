@@ -1,12 +1,13 @@
 package com.jamesswafford.chess4j.hash;
 
+import java.util.*;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.CastlingRights;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.*;
 import com.jamesswafford.chess4j.utils.PieceFactory;
-import java.util.*;
 
 public final class Zobrist {
 
@@ -116,7 +117,7 @@ public final class Zobrist {
     public static List<Long> getAllKeys() {
         List<Long> keys = new ArrayList<Long>();
 
-        String[] strPieces = {"P", "R", "N", "B", "Q", "K", "p", "r", "n", "b", "q", "k"};
+        String[] strPieces = { "P", "R", "N", "B", "Q", "K", "p", "r", "n", "b", "q", "k" };
 
         for (String strPiece : strPieces) {
             Piece piece = PieceFactory.getPiece(strPiece);
@@ -142,7 +143,7 @@ public final class Zobrist {
     }
 
     public static void setKeys(List<Long> keys) {
-        String[] strPieces = {"P", "R", "N", "B", "Q", "K", "p", "r", "n", "b", "q", "k"};
+        String[] strPieces = { "P", "R", "N", "B", "Q", "K", "p", "r", "n", "b", "q", "k" };
 
         int ind = 0;
 

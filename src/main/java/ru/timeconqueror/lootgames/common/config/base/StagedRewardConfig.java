@@ -1,15 +1,17 @@
 package ru.timeconqueror.lootgames.common.config.base;
 
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.common.config.StagedRewards;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class StagedRewardConfig extends ConfigSection {
+
     private final RewardConfig[] configs;
 
-    public static FourStagedRewardConfig fourStaged(
-            String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
+    public static FourStagedRewardConfig fourStaged(String parentKey, String key, String comment,
+            StagedRewards.FourStagedDefaults fourStagedDefaults) {
         return new FourStagedRewardConfig(parentKey, key, comment, fourStagedDefaults);
     }
 
@@ -42,8 +44,9 @@ public class StagedRewardConfig extends ConfigSection {
     }
 
     public static class FourStagedRewardConfig extends StagedRewardConfig {
-        private FourStagedRewardConfig(
-                String parentKey, String key, String comment, StagedRewards.FourStagedDefaults fourStagedDefaults) {
+
+        private FourStagedRewardConfig(String parentKey, String key, String comment,
+                StagedRewards.FourStagedDefaults fourStagedDefaults) {
             super(
                     parentKey,
                     key,

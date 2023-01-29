@@ -1,8 +1,9 @@
 package com.jamesswafford.chess4j.utils;
 
-import com.jamesswafford.chess4j.pieces.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.jamesswafford.chess4j.pieces.*;
 
 public final class PieceFactory {
 

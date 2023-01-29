@@ -1,10 +1,13 @@
 package ru.timeconqueror.timecore.api.util;
 
 import javax.vecmath.Vector3d;
+
 import net.minecraft.entity.Entity;
+
 import ru.timeconqueror.lootgames.utils.future.Vector3i;
 
 public class MathUtils {
+
     /**
      * Coerces number in provided range.
      *
@@ -50,8 +53,8 @@ public class MathUtils {
     }
 
     /**
-     * Calculates the value, that represents the part ({@code percentage}) of the {@code [start-to-end]} range, counting from the {@code start}.
-     * Also works if {@code end} is less then {@code start}
+     * Calculates the value, that represents the part ({@code percentage}) of the {@code [start-to-end]} range, counting
+     * from the {@code start}. Also works if {@code end} is less then {@code start}
      *
      * @param factor percentage value
      * @param start  start point, can be also more than end
@@ -62,8 +65,8 @@ public class MathUtils {
     }
 
     /**
-     * Calculates the value, that represents the part ({@code percentage}) of the {@code [start-to-end]} range, counting from the {@code start}.
-     * Also works if {@code end} is less then {@code start}
+     * Calculates the value, that represents the part ({@code percentage}) of the {@code [start-to-end]} range, counting
+     * from the {@code start}. Also works if {@code end} is less then {@code start}
      *
      * @param factor percentage value
      * @param start  start point, can be also more than end
@@ -74,7 +77,8 @@ public class MathUtils {
     }
 
     /**
-     * Returns the percentage value (from 0 to 1), which represents, what percentage of the {@code [start-to-end]} range {@code current} number takes.
+     * Returns the percentage value (from 0 to 1), which represents, what percentage of the {@code [start-to-end]} range
+     * {@code current} number takes.
      *
      * @param current number, that is in {@code [start-to-end]} range.
      * @param start   start value (0)
@@ -85,7 +89,8 @@ public class MathUtils {
     }
 
     /**
-     * Returns the percentage value (from 0 to 1), which represents, what percentage of the {@code [start-to-end]} range {@code current} number takes.
+     * Returns the percentage value (from 0 to 1), which represents, what percentage of the {@code [start-to-end]} range
+     * {@code current} number takes.
      *
      * @param current number, that is in {@code [start-to-end]} range.
      * @param start   start value (0)

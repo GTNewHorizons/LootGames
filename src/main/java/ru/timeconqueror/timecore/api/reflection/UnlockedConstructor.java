@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
  * @param <T> type of instances that are created by this constructor.
  */
 public class UnlockedConstructor<T> {
+
     private final Constructor<T> c;
 
     public UnlockedConstructor(Constructor<T> c) {
@@ -17,8 +18,7 @@ public class UnlockedConstructor<T> {
     }
 
     /**
-     * Creates a new instance.
-     * Safe for use with non-accessible constructors.
+     * Creates a new instance. Safe for use with non-accessible constructors.
      *
      * @param initParams an array of objects to be passed as parameters to the constructor call.
      * @return new instance.

@@ -8,6 +8,7 @@ import static net.minecraft.util.MathHelper.*;
  * Easings from https://easings.net/.
  */
 public class Ease {
+
     public static float inSine(float x) {
         return 1 - cos((float) ((x * PI) / 2));
     }
@@ -71,14 +72,10 @@ public class Ease {
     public static float inOutElastic(float x) {
         final float c5 = (float) ((2 * Math.PI) / 4.5F);
 
-        return (float)
-                (x == 0
-                        ? 0
-                        : x == 1
-                                ? 1
-                                : x < 0.5
-                                        ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125F) * c5)) / 2
-                                        : (pow(2, -20 * x + 10) * sin((20 * x - 11.125F) * c5)) / 2 + 1);
+        return (float) (x == 0 ? 0
+                : x == 1 ? 1
+                        : x < 0.5 ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125F) * c5)) / 2
+                                : (pow(2, -20 * x + 10) * sin((20 * x - 11.125F) * c5)) / 2 + 1);
     }
 
     public static float inQuad(float x) {

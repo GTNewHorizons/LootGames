@@ -3,6 +3,7 @@ package ru.timeconqueror.timecore.api.util;
 import net.minecraft.util.EnumFacing;
 
 public enum HorizontalDirection {
+
     NORTH(EnumFacing.NORTH),
     EAST(EnumFacing.EAST),
     SOUTH(EnumFacing.SOUTH),

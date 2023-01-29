@@ -1,16 +1,18 @@
 package com.jamesswafford.chess4j.book;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.MoveGen;
 import com.jamesswafford.chess4j.hash.Zobrist;
 import com.jamesswafford.chess4j.utils.GameResult;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
@@ -130,8 +132,7 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
     @Override
     public void learn(List<Move> moves, Color engineColor, GameResult gameResult) {
-        if (!(GameResult.WIN.equals(gameResult)
-                || GameResult.LOSS.equals(gameResult)
+        if (!(GameResult.WIN.equals(gameResult) || GameResult.LOSS.equals(gameResult)
                 || GameResult.DRAW.equals(gameResult))) {
             return;
         }

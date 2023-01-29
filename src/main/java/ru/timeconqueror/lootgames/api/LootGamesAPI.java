@@ -11,6 +11,7 @@ import ru.timeconqueror.lootgames.api.task.ITask;
 import ru.timeconqueror.lootgames.api.task.TaskRegistry;
 
 public class LootGamesAPI {
+
     public static void regClientPacket(Class<? extends IClientGamePacket> packetClass) {
         GamePacketRegister.regClientPacket(packetClass);
     }

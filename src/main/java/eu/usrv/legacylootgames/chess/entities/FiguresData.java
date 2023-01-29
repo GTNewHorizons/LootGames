@@ -2,9 +2,11 @@ package eu.usrv.legacylootgames.chess.entities;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
+
 import ru.timeconqueror.lootgames.LootGames;
 
 public class FiguresData {
+
     private final EntityLiving _mEntity;
     private ResourceLocation[] _mTextures;
     private boolean _mUpdateTextures;
@@ -74,7 +76,7 @@ public class FiguresData {
     public void loadTextures(String... tex) {
         try {
             ResourceLocation[] newTextures = new ResourceLocation[_mTextures.length];
-            for (int i = newTextures.length; i-- > 0; ) {
+            for (int i = newTextures.length; i-- > 0;) {
                 if (!_mTextures[i].toString().equals(tex[i])) {
                     this._mUpdateTextures = true;
                     newTextures[i] = new ResourceLocation(tex[i]);

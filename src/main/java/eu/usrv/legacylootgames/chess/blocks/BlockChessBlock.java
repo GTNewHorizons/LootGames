@@ -1,8 +1,5 @@
 package eu.usrv.legacylootgames.chess.blocks;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import eu.usrv.legacylootgames.chess.tiles.TEChessMasterBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -13,9 +10,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.LootGames;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import eu.usrv.legacylootgames.chess.tiles.TEChessMasterBlock;
 
 public class BlockChessBlock extends Block implements ITileEntityProvider {
+
     @SideOnly(Side.CLIENT)
     protected IIcon mTexture;
 
@@ -56,16 +58,8 @@ public class BlockChessBlock extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(
-            World pWorld,
-            int pX,
-            int pY,
-            int pZ,
-            EntityPlayer pPlayer,
-            int pSide,
-            float pSubX,
-            float pSubY,
-            float pSubZ) {
+    public boolean onBlockActivated(World pWorld, int pX, int pY, int pZ, EntityPlayer pPlayer, int pSide, float pSubX,
+            float pSubY, float pSubZ) {
         if (pWorld.isRemote) return true;
         else {
             if (!pWorld.isRemote && pWorld.getTileEntity(pX, pY, pZ) instanceof TEChessMasterBlock) {

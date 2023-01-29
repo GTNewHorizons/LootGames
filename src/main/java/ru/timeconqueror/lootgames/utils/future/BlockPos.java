@@ -1,26 +1,31 @@
 package ru.timeconqueror.lootgames.utils.future;
 
-import com.google.common.collect.AbstractIterator;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
 import javax.annotation.concurrent.Immutable;
+
 import net.minecraft.util.EnumFacing;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.AbstractIterator;
+
 @Immutable
 public class BlockPos extends Vector3i {
+
     private static final Logger LOGGER = LogManager.getLogger();
     /**
      * An immutable block pos with zero as all coordinates.
      */
     public static final BlockPos ZERO = new BlockPos(0, 0, 0);
 
-    private static final int PACKED_X_LENGTH =
-            1 + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
+    private static final int PACKED_X_LENGTH = 1
+            + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
     private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
     private static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
     private static final long PACKED_X_MASK = (1L << PACKED_X_LENGTH) - 1L;
@@ -88,8 +93,7 @@ public class BlockPos extends Vector3i {
      * Add the given coordinates to the coordinates of this BlockPos
      */
     public BlockPos offset(double x, double y, double z) {
-        return x == 0.0D && y == 0.0D && z == 0.0D
-                ? this
+        return x == 0.0D && y == 0.0D && z == 0.0D ? this
                 : new BlockPos((double) this.getX() + x, (double) this.getY() + y, (double) this.getZ() + z);
     }
 
@@ -212,8 +216,7 @@ public class BlockPos extends Vector3i {
      * Offsets this BlockPos n blocks in the given direction
      */
     public BlockPos relative(EnumFacing facing, int n) {
-        return n == 0
-                ? this
+        return n == 0 ? this
                 : new BlockPos(
                         this.getX() + facing.getFrontOffsetX() * n,
                         this.getY() + facing.getFrontOffsetY() * n,
@@ -233,8 +236,10 @@ public class BlockPos extends Vector3i {
     /**
      * Returns a version of this BlockPos that is guaranteed to be immutable.
      *
-     * <p>When storing a BlockPos given to you for an extended period of time, make sure you
-     * use this in case the value is changed internally.</p>
+     * <p>
+     * When storing a BlockPos given to you for an extended period of time, make sure you use this in case the value is
+     * changed internally.
+     * </p>
      */
     public BlockPos immutable() {
         return this;
@@ -244,13 +249,14 @@ public class BlockPos extends Vector3i {
         return new BlockPos.Mutable(this.getX(), this.getY(), this.getZ());
     }
 
-    public static Iterable<BlockPos> randomBetweenClosed(
-            Random rand, int amount, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+    public static Iterable<BlockPos> randomBetweenClosed(Random rand, int amount, int minX, int minY, int minZ,
+            int maxX, int maxY, int maxZ) {
         int i = maxX - minX + 1;
         int j = maxY - minY + 1;
         int k = maxZ - minZ + 1;
         return () -> {
             return new AbstractIterator<BlockPos>() {
+
                 final BlockPos.Mutable nextPos = new BlockPos.Mutable();
                 int counter = amount;
 
@@ -258,8 +264,8 @@ public class BlockPos extends Vector3i {
                     if (this.counter <= 0) {
                         return this.endOfData();
                     } else {
-                        BlockPos blockpos = this.nextPos.set(
-                                minX + rand.nextInt(i), minY + rand.nextInt(j), minZ + rand.nextInt(k));
+                        BlockPos blockpos = this.nextPos
+                                .set(minX + rand.nextInt(i), minY + rand.nextInt(j), minZ + rand.nextInt(k));
                         --this.counter;
                         return blockpos;
                     }
@@ -278,6 +284,7 @@ public class BlockPos extends Vector3i {
         int l = pos.getZ();
         return () -> {
             return new AbstractIterator<BlockPos>() {
+
                 private final BlockPos.Mutable cursor = new BlockPos.Mutable();
                 private int currentDepth;
                 private int maxX;
@@ -326,11 +333,9 @@ public class BlockPos extends Vector3i {
         };
     }
 
-    public static Optional<BlockPos> findClosestMatch(
-            BlockPos pos, int width, int height, Predicate<BlockPos> posFilter) {
-        return withinManhattanStream(pos, width, height, width)
-                .filter(posFilter)
-                .findFirst();
+    public static Optional<BlockPos> findClosestMatch(BlockPos pos, int width, int height,
+            Predicate<BlockPos> posFilter) {
+        return withinManhattanStream(pos, width, height, width).filter(posFilter).findFirst();
     }
 
     /**
@@ -338,8 +343,7 @@ public class BlockPos extends Vector3i {
      * position as first element in the stream.
      */
     public static Stream<BlockPos> withinManhattanStream(BlockPos pos, int xWidth, int yHeight, int zWidth) {
-        return StreamSupport.stream(
-                withinManhattan(pos, xWidth, yHeight, zWidth).spliterator(), false);
+        return StreamSupport.stream(withinManhattan(pos, xWidth, yHeight, zWidth).spliterator(), false);
     }
 
     public static Iterable<BlockPos> betweenClosed(BlockPos firstPos, BlockPos secondPos) {
@@ -357,18 +361,17 @@ public class BlockPos extends Vector3i {
     }
 
     public static Stream<BlockPos> betweenClosedStream(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-        return StreamSupport.stream(
-                betweenClosed(minX, minY, minZ, maxX, maxY, maxZ).spliterator(), false);
+        return StreamSupport.stream(betweenClosed(minX, minY, minZ, maxX, maxY, maxZ).spliterator(), false);
     }
 
     /**
-     * Creates an Iterable that returns all positions in the box specified by the given corners. <strong>Coordinates must
-     * be in order</strong>; e.g. x1 <= x2.
+     * Creates an Iterable that returns all positions in the box specified by the given corners. <strong>Coordinates
+     * must be in order</strong>; e.g. x1 <= x2.
      * <p>
-     * This method uses MutableBlockPos instead of regular BlockPos, which grants better
-     * performance. However, the resulting BlockPos instances can only be used inside the iteration loop (as otherwise
-     * the value will change), unless {@link Mutable#immutable()} is called. This method is ideal for searching large areas
-     * and only storing a few locations.
+     * This method uses MutableBlockPos instead of regular BlockPos, which grants better performance. However, the
+     * resulting BlockPos instances can only be used inside the iteration loop (as otherwise the value will change),
+     * unless {@link Mutable#immutable()} is called. This method is ideal for searching large areas and only storing a
+     * few locations.
      */
     public static Iterable<BlockPos> betweenClosed(int x1, int y1, int z1, int x2, int y2, int z2) {
         int i = x2 - x1 + 1;
@@ -376,6 +379,7 @@ public class BlockPos extends Vector3i {
         int k = z2 - z1 + 1;
         int l = i * j * k;
         return () -> new AbstractIterator<BlockPos>() {
+
             private final Mutable cursor = new Mutable();
             private int index;
 
@@ -395,6 +399,7 @@ public class BlockPos extends Vector3i {
     }
 
     public static class Mutable extends BlockPos {
+
         public Mutable() {
             this(0, 0, 0);
         }
@@ -478,7 +483,9 @@ public class BlockPos extends Vector3i {
 
         public BlockPos.Mutable move(Vector3i vector3i_) {
             return this.set(
-                    this.getX() + vector3i_.getX(), this.getY() + vector3i_.getY(), this.getZ() + vector3i_.getZ());
+                    this.getX() + vector3i_.getX(),
+                    this.getY() + vector3i_.getY(),
+                    this.getZ() + vector3i_.getZ());
         }
 
         /**
@@ -502,8 +509,10 @@ public class BlockPos extends Vector3i {
         /**
          * Returns a version of this BlockPos that is guaranteed to be immutable.
          *
-         * <p>When storing a BlockPos given to you for an extended period of time, make sure you
-         * use this in case the value is changed internally.</p>
+         * <p>
+         * When storing a BlockPos given to you for an extended period of time, make sure you use this in case the value
+         * is changed internally.
+         * </p>
          */
         public BlockPos immutable() {
             return new BlockPos(this);

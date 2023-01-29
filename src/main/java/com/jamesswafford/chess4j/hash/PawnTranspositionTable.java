@@ -3,6 +3,7 @@ package com.jamesswafford.chess4j.hash;
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class PawnTranspositionTable {
+
     private static final PawnTranspositionTable INSTANCE = new PawnTranspositionTable();
     private static LogHelper mLog = new LogHelper("LootGames - ChessEngine");
     private static int numEntries;

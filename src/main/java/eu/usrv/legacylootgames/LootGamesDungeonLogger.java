@@ -5,12 +5,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
+
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 /**
  * Simple logger to an external file, to record the creation of Dungeons
  */
 public class LootGamesDungeonLogger {
+
     private FileHandler _mFileTxt;
     private VerySimpleFormatter _mFormatterTxt;
     private Logger _mLootgameLogger;
@@ -57,6 +59,7 @@ public class LootGamesDungeonLogger {
     }
 
     private static class VerySimpleFormatter extends Formatter {
+
         // Create a DateFormat to format the logger timestamp.
         private static final DateFormat df = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss.SSS");
 

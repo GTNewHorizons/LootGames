@@ -5,6 +5,7 @@ import ru.timeconqueror.lootgames.common.config.ConfigMS;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
 
 public class MSMasterTile extends BoardGameMasterTile<GameMineSweeper> {
+
     public MSMasterTile() {
         super(new GameMineSweeper());
     }

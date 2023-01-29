@@ -6,6 +6,7 @@ import net.minecraft.util.EnumChatFormatting;
  * Default notify colors.
  */
 public enum NotifyColor {
+
     SUCCESS(EnumChatFormatting.GREEN),
     WARN(EnumChatFormatting.YELLOW),
     NOTIFY(EnumChatFormatting.AQUA),

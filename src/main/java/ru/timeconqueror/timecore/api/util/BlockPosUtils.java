@@ -1,13 +1,14 @@
 package ru.timeconqueror.timecore.api.util;
 
 import java.util.Iterator;
+
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 
 public class BlockPosUtils {
 
     /**
-     * Creates iterator for provided area.
-     * Positions with {@code xSize}, {@code ySize} or {@code zSize} coords are excluded.
+     * Creates iterator for provided area. Positions with {@code xSize}, {@code ySize} or {@code zSize} coords are
+     * excluded.
      */
     public static Iterable<BlockPos> between(BlockPos startPos, int xSize, int ySize, int zSize) {
         return () -> new Iterator<BlockPos>() {

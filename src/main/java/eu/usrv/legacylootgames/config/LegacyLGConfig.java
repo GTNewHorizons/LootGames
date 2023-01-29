@@ -1,14 +1,17 @@
 package eu.usrv.legacylootgames.config;
 
-import eu.usrv.yamcore.auxiliary.IntHelper;
-import eu.usrv.yamcore.config.ConfigManager;
 import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;
+
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.LegacyMigrator;
+import eu.usrv.yamcore.auxiliary.IntHelper;
+import eu.usrv.yamcore.config.ConfigManager;
 
 public class LegacyLGConfig extends ConfigManager {
+
     public boolean RetroGenDungeons; // ignored
     public boolean WorldGenEnabled;
     public String DungeonLoggerLogLevel;
@@ -32,26 +35,26 @@ public class LegacyLGConfig extends ConfigManager {
                     Integer tDimID = Integer.parseInt(tArray[0]);
                     Integer tRhombSize = Integer.parseInt(tArray[1]);
 
-                    if (tRhombSize < 5 || tRhombSize > 100)
-                        LegacyMigrator.LOGGER.error(String.format(
-                                "Invalid DimensionWhitelist entry found: [%s;]; RhombusSize must be between 5 and 100",
-                                tEntry));
+                    if (tRhombSize < 5 || tRhombSize > 100) LegacyMigrator.LOGGER.error(
+                            String.format(
+                                    "Invalid DimensionWhitelist entry found: [%s;]; RhombusSize must be between 5 and 100",
+                                    tEntry));
                     else {
                         if (!DimensionWhitelist.containsKey(tDimID)) {
                             DimensionWhitelist.put(tDimID, tRhombSize);
-                        } else
-                            LegacyMigrator.LOGGER.error(String.format(
-                                    "Invalid DimensionWhitelist entry found: [%s;]; DimensionID is already defined",
-                                    tEntry));
+                        } else LegacyMigrator.LOGGER.error(
+                                String.format(
+                                        "Invalid DimensionWhitelist entry found: [%s;]; DimensionID is already defined",
+                                        tEntry));
                     }
-                } else
-                    LegacyMigrator.LOGGER.error(String.format(
-                            "Invalid DimensionWhitelist entry found: [%s;]; DimensionID or Rhombus Size is not an Integer",
+                } else LegacyMigrator.LOGGER.error(
+                        String.format(
+                                "Invalid DimensionWhitelist entry found: [%s;]; DimensionID or Rhombus Size is not an Integer",
+                                tEntry));
+            } else LegacyMigrator.LOGGER.error(
+                    String.format(
+                            "Invalid DimensionWhitelist entry found: [%s;]; Syntax is <DimensionID>;<Rhombus Size>",
                             tEntry));
-            } else
-                LegacyMigrator.LOGGER.error(String.format(
-                        "Invalid DimensionWhitelist entry found: [%s;]; Syntax is <DimensionID>;<Rhombus Size>",
-                        tEntry));
         }
     }
 
@@ -72,15 +75,15 @@ public class LegacyLGConfig extends ConfigManager {
                 "main",
                 MinigamesEnabled,
                 "Switch to enable or disable the Master-Blocks. If disabled, no minigames will spawn. You can change this ingame");
-        RetroGenDungeons =
-                _mainConfig.getBoolean("RetroGenDungeons", "worldgen", RetroGenDungeons, "Enable or disable RetroGen");
-        WorldGenEnabled =
-                _mainConfig.getBoolean("WorldGenEnabled", "worldgen", WorldGenEnabled, "Enable or disable WorldGen");
+        RetroGenDungeons = _mainConfig
+                .getBoolean("RetroGenDungeons", "worldgen", RetroGenDungeons, "Enable or disable RetroGen");
+        WorldGenEnabled = _mainConfig
+                .getBoolean("WorldGenEnabled", "worldgen", WorldGenEnabled, "Enable or disable WorldGen");
 
         String[] tDimConfig = _mainConfig.getStringList(
                 "DimensionWhitelist",
                 "worldgen",
-                new String[] {"0; 20"},
+                new String[] { "0; 20" },
                 "List DimensionIDs where LootGame Dungeons are allowed to spawn, with Rhombus Size. Syntax is <DimensionID>:<Rhombus Size>");
         parseDimensionConfig(tDimConfig);
 
@@ -89,12 +92,13 @@ public class LegacyLGConfig extends ConfigManager {
                 "debug",
                 DungeonLoggerLogLevel,
                 "LogLevel for the separate DungeonGenerator Logger. Valid options: info, debug, trace",
-                new String[] {"INFO", "DEBUG", "TRACE"});
+                new String[] { "INFO", "DEBUG", "TRACE" });
     }
 
     protected void PostInit() {}
 
     public static class GOLConfig {
+
         public LootStageConfig GameStageI;
         public LootStageConfig GameStageII;
         public LootStageConfig GameStageIII;
@@ -260,13 +264,14 @@ public class LegacyLGConfig extends ConfigManager {
             String[] tDimConfig = pConfig.getStringList(
                     "DimensionalConfig",
                     String.format("games.gol.gamestages.%s", pSection),
-                    new String[] {""},
+                    new String[] { "" },
                     "Syntax: <DimensionID>;<LootTableName>;<AdditionalDigitsRequired>; one line for each Dimension. If you use AdditionalDigitsRequired, make sure to use the same or an higher number on each stage");
             if (tDimConfig.length > 0) pConfObject.SetDimensionalLootConfig(tDimConfig);
         }
     }
 
     public static class LootStageConfig {
+
         public int MinItems;
         public int MaxItems;
         public int DisplayTime;
@@ -295,25 +300,29 @@ public class LegacyLGConfig extends ConfigManager {
 
                         if (!DimensionalLoots.containsKey(tDimID))
                             DimensionalLoots.put(tDimID, new DimensionalConfig(tArray[1], tAddDig));
-                        else
-                            LegacyMigrator.LOGGER.error(String.format(
-                                    "Invalid DimensionalLootConfig entry found: [%s;] DimensionID is already defined",
+                        else LegacyMigrator.LOGGER.error(
+                                String.format(
+                                        "Invalid DimensionalLootConfig entry found: [%s;] DimensionID is already defined",
+                                        tEntry));
+                    } else LegacyMigrator.LOGGER.error(
+                            String.format(
+                                    "Invalid DimensionalLootConfig entry found: [%s;]; DimensionID is not an Integer",
                                     tEntry));
-                    } else
-                        LegacyMigrator.LOGGER.error(String.format(
-                                "Invalid DimensionalLootConfig entry found: [%s;]; DimensionID is not an Integer",
+                } else LegacyMigrator.LOGGER.error(
+                        String.format(
+                                "Invalid DimensionalLootConfig entry found: [%s;]; Syntax is <DimensionID>;<LootTableName>;<AdditionalDigitsRequired> ",
                                 tEntry));
-                } else
-                    LegacyMigrator.LOGGER.error(String.format(
-                            "Invalid DimensionalLootConfig entry found: [%s;]; Syntax is <DimensionID>;<LootTableName>;<AdditionalDigitsRequired> ",
-                            tEntry));
             }
 
-            LegacyMigrator.LOGGER.info(String.format(
-                    "Loaded %d DimensionID based LootTables for StageID %d", DimensionalLoots.size(), LevelID));
+            LegacyMigrator.LOGGER.info(
+                    String.format(
+                            "Loaded %d DimensionID based LootTables for StageID %d",
+                            DimensionalLoots.size(),
+                            LevelID));
         }
 
         public static class DimensionalConfig {
+
             public String LootTable;
             public int AdditionalDigits;
 

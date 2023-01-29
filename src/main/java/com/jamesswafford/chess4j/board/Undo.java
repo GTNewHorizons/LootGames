@@ -79,7 +79,15 @@ public class Undo {
 
     @Override
     public String toString() {
-        return "Undo [move=" + getMove() + ", fiftyCounter=" + getFiftyCounter() + ", castlingRights="
-                + getCastlingRights() + ", epSquare=" + getEpSquare() + ", zobristKey=" + getZobristKey() + "]";
+        return "Undo [move=" + getMove()
+                + ", fiftyCounter="
+                + getFiftyCounter()
+                + ", castlingRights="
+                + getCastlingRights()
+                + ", epSquare="
+                + getEpSquare()
+                + ", zobristKey="
+                + getZobristKey()
+                + "]";
     }
 }

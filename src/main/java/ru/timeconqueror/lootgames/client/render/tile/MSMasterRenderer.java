@@ -3,7 +3,9 @@ package ru.timeconqueror.lootgames.client.render.tile;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.block.tile.BoardGameMasterTile;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
@@ -17,6 +19,7 @@ import ru.timeconqueror.lootgames.minigame.minesweeper.Type;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 
 public class MSMasterRenderer extends TileEntitySpecialRenderer {
+
     private static final ResourceLocation BOARD = LootGames.rl("textures/game/ms_board.png");
 
     @Override
@@ -57,12 +60,10 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
 
                         float times = max / period;
 
-                        float extendedPeriod = period
-                                * (times + 1)
-                                / times; // is needed because we want for it to explode at red state that comes on half
+                        float extendedPeriod = period * (times + 1) / times; // is needed because we want for it to
+                                                                             // explode at red state that comes on half
                         // period.
-                        double alphaFactor = stage instanceof StageExploding
-                                ? 1
+                        double alphaFactor = stage instanceof StageExploding ? 1
                                 : Math.abs(Math.sin(Math.toRadians(ticks / extendedPeriod * 180F)));
                         int alphaColor = DrawHelper.changeAlpha(0xFFFFFFFF, (int) (alphaFactor * 255));
 
@@ -99,7 +100,7 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
                             if (type.getId() > 0) {
                                 textureX = type.getId() % 4 == 0 ? 3 : (type.getId() % 4 - 1);
                                 textureY = type.getId() <= 4 ? 1 : 2;
-                            } else /*if type == empty*/ {
+                            } else /* if type == empty */ {
                                 textureX = 2;
                                 textureY = 0;
                             }

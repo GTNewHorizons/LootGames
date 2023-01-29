@@ -1,21 +1,25 @@
 package ru.timeconqueror.lootgames;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import eu.usrv.legacylootgames.config.LegacyLGConfig;
 import java.io.File;
 import java.io.IOException;
+
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ru.timeconqueror.lootgames.common.config.ConfigGOL;
 import ru.timeconqueror.lootgames.common.config.ConfigGeneral;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.common.config.base.RewardConfig;
 import ru.timeconqueror.timecore.api.common.config.Config;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import eu.usrv.legacylootgames.config.LegacyLGConfig;
 
 public class LegacyMigrator {
+
     public static final Logger LOGGER = LogManager.getLogger("LootGames Legacy Migrator");
 
     public static void onPreInit(FMLPreInitializationEvent event) {
@@ -26,8 +30,10 @@ public class LegacyMigrator {
         File file = new File(event.getModConfigurationDirectory(), "LootGames/lootgames.cfg");
         if (file.exists()) {
             LOGGER.info("Detected legacy config file. Migrating...");
-            LegacyLGConfig legacyCfg =
-                    new LegacyLGConfig(event.getModConfigurationDirectory(), LootGames.MODNAME, LootGames.MODID);
+            LegacyLGConfig legacyCfg = new LegacyLGConfig(
+                    event.getModConfigurationDirectory(),
+                    LootGames.MODNAME,
+                    LootGames.MODID);
             if (!legacyCfg.LoadConfig()) {
                 try {
                     FileUtils.copyFile(file, new File(file.getParent(), "lootgames.cfg_old"), false);
@@ -50,8 +56,9 @@ public class LegacyMigrator {
             }
 
             if (cantDelete) {
-                throw new RuntimeException("Configs were migrated, but we couldn't delete old file '"
-                        + file.getAbsolutePath() + "', please delete it manually and then launch the game again!");
+                throw new RuntimeException(
+                        "Configs were migrated, but we couldn't delete old file '" + file.getAbsolutePath()
+                                + "', please delete it manually and then launch the game again!");
             }
         }
     }
@@ -61,10 +68,8 @@ public class LegacyMigrator {
         ConfigCategory catWorldGen = cfgGeneral.getCategory(ConfigGeneral.Names.CATEGORY_WORLDGEN);
         catWorldGen.get(ConfigGeneral.Names.DISABLE_DUNGEON_GEN).set(!legacyCfg.WorldGenEnabled);
         catWorldGen.get(ConfigGeneral.Names.DUNGEON_LOG_LEVEL).set(legacyCfg.DungeonLoggerLogLevel);
-        catWorldGen
-                .get(ConfigGeneral.Names.PER_DIMENSION_CONFIGS)
-                .set(legacyCfg.DimensionWhitelist.entrySet().stream()
-                        .map(e -> e.getKey() + "|" + e.getValue())
+        catWorldGen.get(ConfigGeneral.Names.PER_DIMENSION_CONFIGS).set(
+                legacyCfg.DimensionWhitelist.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue())
                         .toArray(String[]::new));
 
         ConfigCategory catMain = cfgGeneral.getCategory(ConfigGeneral.Names.CATEGORY_MAIN);
@@ -89,29 +94,25 @@ public class LegacyMigrator {
                 legacyGol.GameStageI,
                 cfgGol.getCategory(LGConfigs.GOL.stage1.getCategoryName()),
                 cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage1().getCategoryName()),
-                cfgRewards.getCategory(
-                        LGConfigs.REWARDS.rewardsMinesweeper.getStage1().getCategoryName()));
+                cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage1().getCategoryName()));
         rounds = processStageConfig(
                 rounds,
                 legacyGol.GameStageII,
                 cfgGol.getCategory(LGConfigs.GOL.stage2.getCategoryName()),
                 cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage2().getCategoryName()),
-                cfgRewards.getCategory(
-                        LGConfigs.REWARDS.rewardsMinesweeper.getStage2().getCategoryName()));
+                cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage2().getCategoryName()));
         rounds = processStageConfig(
                 rounds,
                 legacyGol.GameStageIII,
                 cfgGol.getCategory(LGConfigs.GOL.stage3.getCategoryName()),
                 cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage3().getCategoryName()),
-                cfgRewards.getCategory(
-                        LGConfigs.REWARDS.rewardsMinesweeper.getStage3().getCategoryName()));
+                cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage3().getCategoryName()));
         processStageConfig(
                 rounds,
                 legacyGol.GameStageIV,
                 cfgGol.getCategory(LGConfigs.GOL.stage4.getCategoryName()),
                 cfgRewards.getCategory(LGConfigs.REWARDS.rewardsGol.getStage4().getCategoryName()),
-                cfgRewards.getCategory(
-                        LGConfigs.REWARDS.rewardsMinesweeper.getStage4().getCategoryName()));
+                cfgRewards.getCategory(LGConfigs.REWARDS.rewardsMinesweeper.getStage4().getCategoryName()));
 
         LOGGER.info("Successfully migrated old config file!");
 
@@ -119,12 +120,8 @@ public class LegacyMigrator {
         LOGGER.info("Configs reloaded!");
     }
 
-    private static int processStageConfig(
-            int startDigits,
-            LegacyLGConfig.LootStageConfig legacyStage,
-            ConfigCategory catStage,
-            ConfigCategory catGolRewards,
-            ConfigCategory catMsRewards) {
+    private static int processStageConfig(int startDigits, LegacyLGConfig.LootStageConfig legacyStage,
+            ConfigCategory catStage, ConfigCategory catGolRewards, ConfigCategory catMsRewards) {
         int roundsStage2 = Math.max(legacyStage.MinDigitsRequired - startDigits, 1);
         catStage.get(ConfigGOL.Names.ROUNDS).set(roundsStage2);
         catStage.get(ConfigGOL.Names.RANDOMIZE_SEQUENCE).set(legacyStage.RandomizeSequence);
@@ -133,19 +130,15 @@ public class LegacyMigrator {
         catGolRewards.get(RewardConfig.Names.MIN_ITEMS).set(legacyStage.MinItems);
         catGolRewards.get(RewardConfig.Names.MAX_ITEMS).set(legacyStage.MaxItems);
         catGolRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE).set(legacyStage.LootTable);
-        catGolRewards
-                .get(RewardConfig.Names.PER_DIM_CONFIGS)
-                .set(legacyStage.DimensionalLoots.entrySet().stream()
-                        .map(e -> e.getKey() + "|" + e.getValue().LootTable)
+        catGolRewards.get(RewardConfig.Names.PER_DIM_CONFIGS).set(
+                legacyStage.DimensionalLoots.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue().LootTable)
                         .toArray(String[]::new));
 
         catMsRewards.get(RewardConfig.Names.MIN_ITEMS).set(legacyStage.MinItems);
         catMsRewards.get(RewardConfig.Names.MAX_ITEMS).set(legacyStage.MaxItems);
         catMsRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE).set(legacyStage.LootTable);
-        catMsRewards
-                .get(RewardConfig.Names.PER_DIM_CONFIGS)
-                .set(legacyStage.DimensionalLoots.entrySet().stream()
-                        .map(e -> e.getKey() + "|" + e.getValue().LootTable)
+        catMsRewards.get(RewardConfig.Names.PER_DIM_CONFIGS).set(
+                legacyStage.DimensionalLoots.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue().LootTable)
                         .toArray(String[]::new));
 
         return legacyStage.MinDigitsRequired;

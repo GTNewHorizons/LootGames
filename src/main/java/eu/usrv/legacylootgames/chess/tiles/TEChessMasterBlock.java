@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
 public class TEChessMasterBlock extends TileEntity {
+
     public void onBlockClickedByPlayer(Object object, EntityPlayer pPlayer) {}
 
     public enum eGameStage {

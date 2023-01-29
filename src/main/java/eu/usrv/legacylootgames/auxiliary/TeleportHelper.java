@@ -1,6 +1,5 @@
 package eu.usrv.legacylootgames.auxiliary;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -9,10 +8,13 @@ import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+
 /**
  * MOVE THIS TO YAMCORE!!
  */
 public class TeleportHelper {
+
     public static Entity teleportEntity(Entity pEntity, TeleportPoint pDestination) {
         final boolean changeDim = pEntity.worldObj.provider.dimensionId != pDestination.dimID;
         if (changeDim) teleportToDimensionNew(pEntity, pDestination);
@@ -27,8 +29,11 @@ public class TeleportHelper {
                 player.setPositionAndUpdate(pDestination.x, pDestination.y, pDestination.z);
             } else pEntity.setPosition(pDestination.x, pDestination.y, pDestination.z);
             pEntity.setLocationAndAngles(
-                    pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                            pDestination.pitch);
+                    pDestination.x,
+                    pDestination.y,
+                    pDestination.z,
+                    (float) pDestination.yaw,
+                    (float) pDestination.pitch);
             if (mount != null) pEntity.mountEntity(mount);
         }
         return pEntity;
@@ -53,11 +58,12 @@ public class TeleportHelper {
 
                 player.dimension = pDestination.dimID;
 
-                player.playerNetServerHandler.sendPacket(new S07PacketRespawn(
-                        player.dimension,
-                        player.worldObj.difficultySetting,
-                        player.worldObj.getWorldInfo().getTerrainType(),
-                        player.theItemInWorldManager.getGameType()));
+                player.playerNetServerHandler.sendPacket(
+                        new S07PacketRespawn(
+                                player.dimension,
+                                player.worldObj.difficultySetting,
+                                player.worldObj.getWorldInfo().getTerrainType(),
+                                player.theItemInWorldManager.getGameType()));
                 currentServer.removePlayerEntityDangerously(player);
                 player.isDead = false;
             } else {
@@ -65,8 +71,11 @@ public class TeleportHelper {
                 pEntity.isDead = false;
             }
             pEntity.setLocationAndAngles(
-                    pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                            pDestination.pitch);
+                    pDestination.x,
+                    pDestination.y,
+                    pDestination.z,
+                    (float) pDestination.yaw,
+                    (float) pDestination.pitch);
             targetServer.theChunkProviderServer.loadChunk((int) pDestination.x >> 4, (int) pDestination.z >> 4);
             targetServer.spawnEntityInWorld(pEntity);
             targetServer.updateEntityWithOptionalForce(pEntity, false);
@@ -79,8 +88,11 @@ public class TeleportHelper {
                 pEntity = EntityList.createEntityFromNBT(entityNBT, targetServer);
                 if (pEntity == null) return null;
                 pEntity.setLocationAndAngles(
-                        pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                                pDestination.pitch);
+                        pDestination.x,
+                        pDestination.y,
+                        pDestination.z,
+                        (float) pDestination.yaw,
+                        (float) pDestination.pitch);
                 targetServer.spawnEntityInWorld(pEntity);
                 pEntity.setWorld(targetServer);
                 pEntity.dimension = pDestination.dimID;
@@ -93,20 +105,29 @@ public class TeleportHelper {
                 targetServer.updateEntityWithOptionalForce(pEntity, false);
 
                 player.playerNetServerHandler.setPlayerLocation(
-                        pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                                pDestination.pitch);
+                        pDestination.x,
+                        pDestination.y,
+                        pDestination.z,
+                        (float) pDestination.yaw,
+                        (float) pDestination.pitch);
                 player.theItemInWorldManager.setWorld(targetServer);
                 player.mcServer.getConfigurationManager().updateTimeAndWeatherForPlayer(player, targetServer);
                 player.mcServer.getConfigurationManager().syncPlayerInventory(player);
                 FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, currentDim, pDestination.dimID);
                 player.setPositionAndUpdate(pDestination.x, pDestination.y, pDestination.z);
                 player.setLocationAndAngles(
-                        pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                                pDestination.pitch);
+                        pDestination.x,
+                        pDestination.y,
+                        pDestination.z,
+                        (float) pDestination.yaw,
+                        (float) pDestination.pitch);
             }
             pEntity.setLocationAndAngles(
-                    pDestination.x, pDestination.y, pDestination.z, (float) pDestination.yaw, (float)
-                            pDestination.pitch);
+                    pDestination.x,
+                    pDestination.y,
+                    pDestination.z,
+                    (float) pDestination.yaw,
+                    (float) pDestination.pitch);
             if (mount != null) {
                 if ((pEntity instanceof EntityPlayerMP)) targetServer.updateEntityWithOptionalForce(pEntity, true);
                 pEntity.mountEntity(mount);
@@ -118,6 +139,7 @@ public class TeleportHelper {
     }
 
     public static class TeleportPoint {
+
         public int dimID;
         public String pointName;
         public double x;

@@ -1,25 +1,28 @@
 package ru.timeconqueror.lootgames.api.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.function.BiConsumer;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.client.IconLoader;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Subordinate block for minigames. Will find master block and notify it. The master block must be at the north-west corner of the game border
- * and its tileentity must extend {@link GameMasterTile <>}!
+ * Subordinate block for minigames. Will find master block and notify it. The master block must be at the north-west
+ * corner of the game border and its tileentity must extend {@link GameMasterTile <>}!
  */
 public class SmartSubordinateBlock extends GameBlock implements ILeftInteractible, ISubordinateProvider {
+
     @Override
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         if (!worldIn.isRemote) {
@@ -31,8 +34,8 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
     }
 
     @Override
-    public boolean onBlockActivated(
-            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+            float subY, float subZ) {
         BlockPos pos = BlockPos.of(x, y, z);
         forMasterTile(player, worldIn, pos, (master, blockPos) -> master.onBlockRightClick(player, pos));
 
@@ -49,11 +52,15 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
         return false;
     }
 
-    private void forMasterTile(
-            EntityPlayer player, World world, BlockPos pos, BiConsumer<GameMasterTile<?>, BlockPos> action) {
+    private void forMasterTile(EntityPlayer player, World world, BlockPos pos,
+            BiConsumer<GameMasterTile<?>, BlockPos> action) {
         BlockPos masterPos = getMasterPos(world, pos);
         WorldUtils.forTypedTileWithWarn(
-                player, world, masterPos, GameMasterTile.class, master -> action.accept(master, masterPos));
+                player,
+                world,
+                masterPos,
+                GameMasterTile.class,
+                master -> action.accept(master, masterPos));
     }
 
     public static BlockPos getMasterPos(World world, BlockPos pos) {

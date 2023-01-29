@@ -1,6 +1,7 @@
 package com.jamesswafford.chess4j.board.squares;
 
 public enum File {
+
     FILE_A(0, "a"),
     FILE_B(1, "b"),
     FILE_C(2, "c"),

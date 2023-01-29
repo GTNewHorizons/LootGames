@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
@@ -18,13 +19,14 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
 
 public class GOLActivatorBlock extends GameBlock {
+
     public GOLActivatorBlock() {
         setBlockTextureName(LootGames.namespaced("gol_activator"));
     }
 
     @Override
-    public boolean onBlockActivated(
-            World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
+            float subY, float subZ) {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
             boolean succeed = LootGamesAPI.getFieldManager()

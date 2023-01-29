@@ -1,9 +1,11 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import net.minecraft.nbt.NBTTagByte;
+
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 
 public enum Mark {
+
     NO_MARK((byte) 0),
     FLAG((byte) 1),
     QUESTION_MARK((byte) 2);
@@ -40,6 +42,7 @@ public enum Mark {
     }
 
     public static class Codec implements ICodec<Mark, NBTTagByte> {
+
         @Override
         public NBTTagByte encode(Mark obj) {
             return new NBTTagByte(obj.id);

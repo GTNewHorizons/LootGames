@@ -1,6 +1,7 @@
 package ru.timeconqueror.timecore.api.reflection;
 
 import java.lang.reflect.Field;
+
 import javax.annotation.Nullable;
 
 /**
@@ -9,6 +10,7 @@ import javax.annotation.Nullable;
  * @param <T> field type.
  */
 public class UnlockedField<T> {
+
     private final Field field;
     private boolean finalized;
 
@@ -20,8 +22,7 @@ public class UnlockedField<T> {
     }
 
     /**
-     * Gets the value of field in provided {@code fieldOwner}
-     * Safe for use with non-accessible fields.
+     * Gets the value of field in provided {@code fieldOwner} Safe for use with non-accessible fields.
      *
      * @param fieldOwner owner of field. If the underlying field is static, the obj argument is ignored; it may be null.
      */

@@ -6,14 +6,17 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
+
 import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 import ru.timeconqueror.timecore.api.util.CodecUtils;
 import ru.timeconqueror.timecore.api.util.Wrapper;
 
 public class MSBoard {
+
     int cFlaggedFields;
     private MSField[][] board;
     private int size;
@@ -102,8 +105,7 @@ public class MSBoard {
     boolean checkWin() {
         boolean winState = true;
 
-        loop:
-        for (MSField[] msFields : board) {
+        loop: for (MSField[] msFields : board) {
             for (MSField msField : msFields) {
                 if (msField.type == Type.BOMB) {
                     if (!msField.isHidden || msField.mark != Mark.FLAG) {
@@ -133,10 +135,10 @@ public class MSBoard {
     private List<Integer> getAvailableBombIndices(Pos2i start, int fieldSize) {
         int emptyPlaces = size * size - bombCount;
 
-        if (emptyPlaces < 0)
-            throw new IllegalStateException(
-                    "How is that possible, that board square is less or equal to bomb count? Square = " + (size * size)
-                            + ", bomb count = " + bombCount);
+        if (emptyPlaces < 0) throw new IllegalStateException(
+                "How is that possible, that board square is less or equal to bomb count? Square = " + (size * size)
+                        + ", bomb count = "
+                        + bombCount);
 
         int safeDistance;
         if (emptyPlaces >= 13) {
@@ -149,30 +151,29 @@ public class MSBoard {
 
         Wrapper<Integer> count = new Wrapper<>(0);
 
-        return IntStream.range(0, fieldSize)
-                .filter(index -> {
-                    if (count.get() > emptyPlaces) {
-                        return true;
-                    }
+        return IntStream.range(0, fieldSize).filter(index -> {
+            if (count.get() > emptyPlaces) {
+                return true;
+            }
 
-                    Pos2i pos = toPos(index); // TODO optimize
+            Pos2i pos = toPos(index); // TODO optimize
 
-                    if (start.manhattanDistanceTo(pos) <= safeDistance) {
-                        count.set(count.get() + 1);
-                        return false;
-                    } else {
-                        return true;
-                    }
-                })
-                .boxed()
-                .collect(Collectors.toList());
+            if (start.manhattanDistanceTo(pos) <= safeDistance) {
+                count.set(count.get() + 1);
+                return false;
+            } else {
+                return true;
+            }
+        }).boxed().collect(Collectors.toList());
     }
 
     public void generate(Pos2i startFieldPos) {
         if (toIndex(startFieldPos) > (size * size) - 1) {
-            throw new IllegalArgumentException(String.format(
-                    "Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d",
-                    startFieldPos, size));
+            throw new IllegalArgumentException(
+                    String.format(
+                            "Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d",
+                            startFieldPos,
+                            size));
         }
 
         board = new MSField[size][size];
@@ -212,8 +213,10 @@ public class MSBoard {
 
     /**
      * Converts pos to field index.
-     * <p>Example:
-     * <p>Pos {x = 2; y = 4}, gridSize = 5 -> index 22 out of (gridSize * gridSize)
+     * <p>
+     * Example:
+     * <p>
+     * Pos {x = 2; y = 4}, gridSize = 5 -> index 22 out of (gridSize * gridSize)
      */
     public int toIndex(Pos2i pos) {
         return pos.getY() * size + pos.getX();
@@ -320,6 +323,7 @@ public class MSBoard {
     }
 
     public static class MSField {
+
         private Type type;
         private Mark mark;
         private boolean isHidden;
@@ -364,6 +368,7 @@ public class MSBoard {
         public static final Codec SAVE_CODEC = new Codec(false);
 
         public static class Codec implements ICodec<MSField, NBTTagCompound> {
+
             private final boolean forSync;
 
             public Codec(boolean forSync) {
@@ -385,8 +390,7 @@ public class MSBoard {
             @Override
             public MSField decode(NBTTagCompound nbt) {
                 return new MSField(
-                        forSync && !nbt.hasKey("type")
-                                ? Type.EMPTY
+                        forSync && !nbt.hasKey("type") ? Type.EMPTY
                                 : Type.CODEC.decode((NBTTagByte) nbt.getTag("type")),
                         nbt.getBoolean("hidden"),
                         Mark.CODEC.decode((NBTTagByte) nbt.getTag("mark")));

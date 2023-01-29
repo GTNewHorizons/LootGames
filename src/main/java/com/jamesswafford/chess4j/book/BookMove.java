@@ -38,8 +38,16 @@ public class BookMove {
 
     @Override
     public String toString() {
-        return "BookMove [move=" + getMove() + ", frequency=" + getFrequency() + ", wins=" + getWins() + ", losses="
-                + getLosses() + ", draws=" + getDraws() + "]";
+        return "BookMove [move=" + getMove()
+                + ", frequency="
+                + getFrequency()
+                + ", wins="
+                + getWins()
+                + ", losses="
+                + getLosses()
+                + ", draws="
+                + getDraws()
+                + "]";
     }
 
     @Override

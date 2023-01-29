@@ -1,10 +1,11 @@
 package com.jamesswafford.chess4j.utils;
 
+import java.util.List;
+
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.*;
-import java.util.List;
 
 public class BoardUtils {
 

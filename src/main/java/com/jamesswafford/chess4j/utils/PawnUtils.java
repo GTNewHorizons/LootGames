@@ -24,30 +24,24 @@ public class PawnUtils {
                 isolated[i] |= Bitboard.files[sq.file().getValue() + 1];
             }
 
-            passed[i][Color.WHITE.ordinal()] =
-                    Bitboard.rays[i][North.getInstance().value()];
-            passed[i][Color.BLACK.ordinal()] =
-                    Bitboard.rays[i][South.getInstance().value()];
+            passed[i][Color.WHITE.ordinal()] = Bitboard.rays[i][North.getInstance().value()];
+            passed[i][Color.BLACK.ordinal()] = Bitboard.rays[i][South.getInstance().value()];
 
             if (sq.file().getValue() > File.FILE_A.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |=
-                        Bitboard.rays[i - 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |=
-                        Bitboard.rays[i - 1][South.getInstance().value()];
+                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i - 1][North.getInstance().value()];
+                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i - 1][South.getInstance().value()];
             }
             if (sq.file().getValue() < File.FILE_H.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |=
-                        Bitboard.rays[i + 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |=
-                        Bitboard.rays[i + 1][South.getInstance().value()];
+                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i + 1][North.getInstance().value()];
+                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i + 1][South.getInstance().value()];
             }
         }
     }
 
     /**
-     * isPassed(board,pawnSq) - return true if the pawn on <pawnSq> is a passed pawn. A passed pawn is a pawn
-     * with no opposing pawns to prevent it from advancing to the eighth rank. i.e. there are no opposing pawns
-     * in front of it on the same file nor on an adjacent file. (//http://en.wikipedia.org/wiki/Passed_pawn)
+     * isPassed(board,pawnSq) - return true if the pawn on <pawnSq> is a passed pawn. A passed pawn is a pawn with no
+     * opposing pawns to prevent it from advancing to the eighth rank. i.e. there are no opposing pawns in front of it
+     * on the same file nor on an adjacent file. (//http://en.wikipedia.org/wiki/Passed_pawn)
      *
      * @param board
      * @param pawnSq

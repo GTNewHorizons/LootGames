@@ -3,6 +3,7 @@ package ru.timeconqueror.lootgames.api;
 import javax.annotation.Nullable;
 
 public enum Marker {
+
     LOOTGAME,
     GAME_OF_LIGHT;
 

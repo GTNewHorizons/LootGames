@@ -1,9 +1,11 @@
 package ru.timeconqueror.timecore.api.common.config;
 
 import java.io.File;
+
 import net.minecraftforge.common.config.Configuration;
 
 public abstract class Config {
+
     private static File configDir;
     protected final Configuration config;
 
@@ -20,10 +22,8 @@ public abstract class Config {
     }
 
     /**
-     * Returns the relative path to the file, where config will be saved and read.
-     * <br>
-     * Example:
-     * {@code lootgames/minesweeper.cfg} will be saved in {@code config/lootgames/minesweeper.toml}.
+     * Returns the relative path to the file, where config will be saved and read. <br>
+     * Example: {@code lootgames/minesweeper.cfg} will be saved in {@code config/lootgames/minesweeper.toml}.
      */
     public abstract String getRelativePath();
 

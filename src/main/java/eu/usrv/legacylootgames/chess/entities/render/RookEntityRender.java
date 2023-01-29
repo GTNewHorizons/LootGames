@@ -1,14 +1,17 @@
 package eu.usrv.legacylootgames.chess.entities.render;
 
-import eu.usrv.legacylootgames.chess.entities.FiguresData;
-import eu.usrv.legacylootgames.chess.entities.IChessFigure;
 import net.minecraft.client.renderer.entity.RenderIronGolem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
+import eu.usrv.legacylootgames.chess.entities.FiguresData;
+import eu.usrv.legacylootgames.chess.entities.IChessFigure;
+
 public class RookEntityRender extends RenderIronGolem {
+
     public RookEntityRender() {
         super();
     }

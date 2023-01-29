@@ -1,11 +1,14 @@
 package ru.timeconqueror.lootgames.common.config;
 
 import java.util.EnumSet;
+
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class ConfigGOL extends Config {
+
     public int weight;
 
     public int startDigitAmount;
@@ -24,13 +27,25 @@ public class ConfigGOL extends Config {
     public ConfigGOL() {
         super(Names.CATEGORY_GAME_OF_LIGHT);
         stage1 = new StageConfig(
-                getKey(), "stage_1", "Regulates characteristics of stage 1.", new DefaultData(5, false, 24));
+                getKey(),
+                "stage_1",
+                "Regulates characteristics of stage 1.",
+                new DefaultData(5, false, 24));
         stage2 = new StageConfig(
-                getKey(), "stage_2", "Regulates characteristics of stage 2.", new DefaultData(5, false, 16));
+                getKey(),
+                "stage_2",
+                "Regulates characteristics of stage 2.",
+                new DefaultData(5, false, 16));
         stage3 = new StageConfig(
-                getKey(), "stage_3", "Regulates characteristics of stage 3.", new DefaultData(5, false, 12));
+                getKey(),
+                "stage_3",
+                "Regulates characteristics of stage 3.",
+                new DefaultData(5, false, 12));
         stage4 = new StageConfig(
-                getKey(), "stage_4", "Regulates characteristics of stage 4.", new DefaultData(5, true, 12));
+                getKey(),
+                "stage_4",
+                "Regulates characteristics of stage 4.",
+                new DefaultData(5, true, 12));
     }
 
     @Override
@@ -134,6 +149,7 @@ public class ConfigGOL extends Config {
 
     // used for migration
     public static class Names {
+
         public static final String CATEGORY_GAME_OF_LIGHT = "game_of_light";
 
         public static final String ATTEMPT_COUNT = "attempt_count";
@@ -150,6 +166,7 @@ public class ConfigGOL extends Config {
     }
 
     public static class StageConfig extends ConfigSection {
+
         public int rounds;
         public boolean randomizeSequence;
         public int displayTime;
@@ -187,6 +204,7 @@ public class ConfigGOL extends Config {
     }
 
     private static class DefaultData {
+
         private final int rounds;
         private final boolean randomizeSequence;
         private final int displayTime;

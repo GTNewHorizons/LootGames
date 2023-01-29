@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 public class RandHelper {
+
     public static final Random RAND = new Random();
 
     /**
-     * Returns {@code a} with 50% chance otherwise return {@code b}
-     * Uses built-in random instance.
+     * Returns {@code a} with 50% chance otherwise return {@code b} Uses built-in random instance.
      */
     public static <T> T flipCoin(T a, T b) {
         return flipCoin(RAND, a, b);
@@ -23,8 +23,7 @@ public class RandHelper {
     }
 
     /**
-     * Returns {@code a} with {@code chance}% (from 0 to 100) otherwise return {@code b}
-     * Uses built-in random instance.
+     * Returns {@code a} with {@code chance}% (from 0 to 100) otherwise return {@code b} Uses built-in random instance.
      *
      * @throws IllegalArgumentException if provided chance is more than 100.
      */
@@ -42,8 +41,7 @@ public class RandHelper {
     }
 
     /**
-     * Returns true with {@code chance}% (from 0 to 100).
-     * Uses built-in random instance.
+     * Returns true with {@code chance}% (from 0 to 100). Uses built-in random instance.
      *
      * @throws IllegalArgumentException if provided chance is more than 100.
      */
@@ -77,8 +75,7 @@ public class RandHelper {
     }
 
     /**
-     * Chooses with equal probability.
-     * Uses built-in random instance.
+     * Chooses with equal probability. Uses built-in random instance.
      *
      * @throws IllegalArgumentException if empty array is provided.
      */
@@ -88,8 +85,7 @@ public class RandHelper {
     }
 
     /**
-     * Chooses with equal probability.
-     * Doesn't check for duplicates in the list.
+     * Chooses with equal probability. Doesn't check for duplicates in the list.
      *
      * @throws IllegalArgumentException if empty list is provided.
      */
@@ -101,9 +97,7 @@ public class RandHelper {
     }
 
     /**
-     * Chooses with equal probability.
-     * Doesn't check for duplicates in the list.
-     * Uses built-in random instance.
+     * Chooses with equal probability. Doesn't check for duplicates in the list. Uses built-in random instance.
      *
      * @throws IllegalArgumentException if empty list is provided.
      */
@@ -112,9 +106,7 @@ public class RandHelper {
     }
 
     /**
-     * Chooses with equal probability.
-     * Doesn't check for duplicates.
-     * Complexity: O(n).
+     * Chooses with equal probability. Doesn't check for duplicates. Complexity: O(n).
      *
      * @throws IllegalArgumentException if empty collection is provided.
      */
@@ -138,10 +130,7 @@ public class RandHelper {
     }
 
     /**
-     * Chooses with equal probability.
-     * Doesn't check for duplicates.
-     * Complexity: O(n).
-     * Uses built-in random instance.
+     * Chooses with equal probability. Doesn't check for duplicates. Complexity: O(n). Uses built-in random instance.
      *
      * @throws IllegalArgumentException if empty collection is provided.
      */

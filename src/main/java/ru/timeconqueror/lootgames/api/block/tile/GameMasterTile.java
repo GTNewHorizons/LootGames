@@ -3,12 +3,14 @@ package ru.timeconqueror.lootgames.api.block.tile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 import ru.timeconqueror.timecore.api.common.tile.SyncableTile;
 
 public abstract class GameMasterTile<T extends LootGame<?, T>> extends SyncableTile {
+
     protected T game;
     private long age;
 
@@ -34,9 +36,8 @@ public abstract class GameMasterTile<T extends LootGame<?, T>> extends SyncableT
     }
 
     /**
-     * Called when TileEntityGameMaster or BlockSubordinate should be broken.
-     * Block with TileEntity still exists at this point.
-     * This method implies destroying of all game blocks.
+     * Called when TileEntityGameMaster or BlockSubordinate should be broken. Block with TileEntity still exists at this
+     * point. This method implies destroying of all game blocks.
      */
     public void onDestroy() {
         game.onDestroy();
