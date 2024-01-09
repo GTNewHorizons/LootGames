@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.Message;
 
+import eu.usrv.legacylootgames.StructureGenerator;
 import ru.timeconqueror.lootgames.api.Marker;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.api.packet.IClientGamePacket;
@@ -42,7 +43,6 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
 import ru.timeconqueror.timecore.api.util.Pair;
-import eu.usrv.legacylootgames.StructureGenerator;
 
 public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<STAGE, G>> {
 

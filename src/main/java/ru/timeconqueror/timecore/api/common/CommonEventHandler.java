@@ -3,10 +3,10 @@ package ru.timeconqueror.timecore.api.common;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ru.timeconqueror.lootgames.api.block.ILeftInteractible;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.sanity.InteractSide;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class CommonEventHandler {
 

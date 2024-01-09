@@ -8,6 +8,13 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.relauncher.Side;
+import eu.usrv.legacylootgames.LootGamesLegacy;
+import eu.usrv.legacylootgames.command.LootGamesCommand;
 import ru.timeconqueror.lootgames.api.minigame.FieldManager;
 import ru.timeconqueror.lootgames.api.minigame.GameManager;
 import ru.timeconqueror.lootgames.client.ClientEventHandler;
@@ -26,13 +33,6 @@ import ru.timeconqueror.lootgames.registry.LGGames;
 import ru.timeconqueror.timecore.api.common.CommonEventHandler;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.util.Hacks;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.relauncher.Side;
-import eu.usrv.legacylootgames.LootGamesLegacy;
-import eu.usrv.legacylootgames.command.LootGamesCommand;
 
 @Mod(
         modid = LootGames.MODID,

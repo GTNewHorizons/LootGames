@@ -2,11 +2,11 @@ package ru.timeconqueror.lootgames.api.util;
 
 import net.minecraft.world.World;
 
+import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.BlockState;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
-import eu.usrv.legacylootgames.blocks.DungeonBrick;
 
 public class LootGameCleaner {
 

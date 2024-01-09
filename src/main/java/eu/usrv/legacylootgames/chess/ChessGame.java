@@ -4,13 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-import ru.timeconqueror.lootgames.LootGames;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import eu.usrv.legacylootgames.ILootGame;
 import eu.usrv.legacylootgames.chess.blocks.BlockChessBlock;
 import eu.usrv.legacylootgames.chess.entities.*;
 import eu.usrv.legacylootgames.chess.tiles.TEChessMasterBlock;
+import ru.timeconqueror.lootgames.LootGames;
 
 public class ChessGame implements ILootGame {
 

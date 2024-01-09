@@ -6,6 +6,7 @@ import com.jamesswafford.chess4j.board.squares.File;
 import com.jamesswafford.chess4j.board.squares.Rank;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.pieces.Piece;
+
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class DrawBoard {

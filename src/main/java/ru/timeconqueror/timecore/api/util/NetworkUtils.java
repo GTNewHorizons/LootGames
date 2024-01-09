@@ -8,8 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IChatComponent;
 
-import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import cpw.mods.fml.common.FMLCommonHandler;
+import ru.timeconqueror.lootgames.utils.future.BlockPos;
 
 public class NetworkUtils {
 

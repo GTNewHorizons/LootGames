@@ -6,9 +6,9 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.config.Configuration;
 
-import ru.timeconqueror.lootgames.LegacyMigrator;
 import eu.usrv.yamcore.auxiliary.IntHelper;
 import eu.usrv.yamcore.config.ConfigManager;
+import ru.timeconqueror.lootgames.LegacyMigrator;
 
 public class LegacyLGConfig extends ConfigManager {
 

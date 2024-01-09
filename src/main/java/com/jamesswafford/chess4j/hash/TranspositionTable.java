@@ -2,6 +2,7 @@ package com.jamesswafford.chess4j.hash;
 
 import com.jamesswafford.chess4j.Constants;
 import com.jamesswafford.chess4j.board.Move;
+
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class TranspositionTable {

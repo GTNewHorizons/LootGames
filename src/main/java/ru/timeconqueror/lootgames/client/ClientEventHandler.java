@@ -5,11 +5,11 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 
-import ru.timeconqueror.lootgames.registry.LGBlocks;
-import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ru.timeconqueror.lootgames.registry.LGBlocks;
+import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 
 public class ClientEventHandler {
 

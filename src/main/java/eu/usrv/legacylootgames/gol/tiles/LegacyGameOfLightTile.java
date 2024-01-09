@@ -10,12 +10,12 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
+import eu.usrv.legacylootgames.auxiliary.ExtendedDirections;
+import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import ru.timeconqueror.lootgames.LegacyMigrator;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
-import eu.usrv.legacylootgames.auxiliary.ExtendedDirections;
-import eu.usrv.legacylootgames.blocks.DungeonBrick;
 
 public class LegacyGameOfLightTile extends TileEntity {
 
