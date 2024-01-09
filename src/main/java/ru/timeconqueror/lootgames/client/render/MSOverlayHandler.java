@@ -1,6 +1,6 @@
 package ru.timeconqueror.lootgames.client.render;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,6 +14,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
@@ -22,7 +23,6 @@ import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MSOverlayHandler {
 

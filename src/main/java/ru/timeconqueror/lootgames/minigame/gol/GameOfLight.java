@@ -1,6 +1,10 @@
 package ru.timeconqueror.lootgames.minigame.gol;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;

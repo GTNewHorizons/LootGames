@@ -13,6 +13,9 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import com.google.common.collect.Iterables;
+
+import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.BoardBorderBlock;
 import ru.timeconqueror.lootgames.api.block.IGameField;
@@ -27,9 +30,6 @@ import ru.timeconqueror.timecore.api.util.BlockPosUtils;
 import ru.timeconqueror.timecore.api.util.CollectionUtils;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
-
-import com.google.common.collect.Iterables;
-import eu.usrv.legacylootgames.blocks.DungeonBrick;
 
 /**
  * Can be accessed via {@link LootGamesAPI#getFieldManager()}.

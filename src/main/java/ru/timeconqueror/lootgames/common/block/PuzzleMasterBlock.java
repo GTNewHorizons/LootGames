@@ -13,6 +13,8 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
@@ -23,8 +25,6 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Particles;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 // TODO check surface before placing game block
 // TODO add animation, which places block below

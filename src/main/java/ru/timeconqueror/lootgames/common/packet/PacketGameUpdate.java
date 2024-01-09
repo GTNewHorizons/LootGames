@@ -6,6 +6,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
@@ -16,11 +21,6 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.ThreeConsumer;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.client.ClientProxy;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import io.netty.buffer.ByteBuf;
 
 public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessage {
 

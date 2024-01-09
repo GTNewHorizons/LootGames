@@ -9,11 +9,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkDataEvent;
 
-import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import eu.usrv.legacylootgames.LootGamesLegacy;
+import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 // Borrowed from
 // https://github.com/jtmnf/SimpleOreGenerator/blob/master/src/main/java/com/jtmnf/simpleoregen/handler/RetroGenWorld.java

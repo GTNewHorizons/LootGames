@@ -8,10 +8,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-import ru.timeconqueror.lootgames.client.IconLoader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eu.usrv.legacylootgames.gol.tiles.LegacyGameOfLightTile;
+import ru.timeconqueror.lootgames.client.IconLoader;
 
 public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
 

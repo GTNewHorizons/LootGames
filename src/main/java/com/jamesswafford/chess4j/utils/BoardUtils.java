@@ -5,7 +5,12 @@ import java.util.List;
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.squares.Square;
-import com.jamesswafford.chess4j.pieces.*;
+import com.jamesswafford.chess4j.pieces.Bishop;
+import com.jamesswafford.chess4j.pieces.Knight;
+import com.jamesswafford.chess4j.pieces.Pawn;
+import com.jamesswafford.chess4j.pieces.Piece;
+import com.jamesswafford.chess4j.pieces.Queen;
+import com.jamesswafford.chess4j.pieces.Rook;
 
 public class BoardUtils {
 

@@ -6,12 +6,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import ru.timeconqueror.lootgames.registry.LGBlocks;
-import ru.timeconqueror.timecore.api.util.RandHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import eu.usrv.legacylootgames.blocks.DungeonLightSource;
+import ru.timeconqueror.lootgames.registry.LGBlocks;
+import ru.timeconqueror.timecore.api.util.RandHelper;
 
 public class StructureGenerator {
 

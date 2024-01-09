@@ -1,6 +1,10 @@
 package ru.timeconqueror.lootgames.common.config;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 

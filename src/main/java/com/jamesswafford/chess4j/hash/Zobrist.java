@@ -1,12 +1,24 @@
 package com.jamesswafford.chess4j.hash;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import com.jamesswafford.chess4j.Color;
 import com.jamesswafford.chess4j.board.Board;
 import com.jamesswafford.chess4j.board.CastlingRights;
 import com.jamesswafford.chess4j.board.squares.Square;
-import com.jamesswafford.chess4j.pieces.*;
+import com.jamesswafford.chess4j.pieces.Bishop;
+import com.jamesswafford.chess4j.pieces.King;
+import com.jamesswafford.chess4j.pieces.Knight;
+import com.jamesswafford.chess4j.pieces.Pawn;
+import com.jamesswafford.chess4j.pieces.Piece;
+import com.jamesswafford.chess4j.pieces.Queen;
+import com.jamesswafford.chess4j.pieces.Rook;
 import com.jamesswafford.chess4j.utils.PieceFactory;
 
 public final class Zobrist {

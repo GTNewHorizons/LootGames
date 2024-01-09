@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import ru.timeconqueror.lootgames.LootGames;
-
 import com.jamesswafford.chess4j.exceptions.IllegalMoveException;
 import com.jamesswafford.chess4j.exceptions.ParseException;
 import com.jamesswafford.chess4j.io.InputParser;
+
+import ru.timeconqueror.lootgames.LootGames;
 
 interface IChessEventListener {
 

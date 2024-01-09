@@ -1,6 +1,17 @@
 package com.jamesswafford.chess4j.board;
 
-import com.jamesswafford.chess4j.board.squares.*;
+import com.jamesswafford.chess4j.board.squares.Direction;
+import com.jamesswafford.chess4j.board.squares.East;
+import com.jamesswafford.chess4j.board.squares.File;
+import com.jamesswafford.chess4j.board.squares.North;
+import com.jamesswafford.chess4j.board.squares.NorthEast;
+import com.jamesswafford.chess4j.board.squares.NorthWest;
+import com.jamesswafford.chess4j.board.squares.Rank;
+import com.jamesswafford.chess4j.board.squares.South;
+import com.jamesswafford.chess4j.board.squares.SouthEast;
+import com.jamesswafford.chess4j.board.squares.SouthWest;
+import com.jamesswafford.chess4j.board.squares.Square;
+import com.jamesswafford.chess4j.board.squares.West;
 
 public class Bitboard {
 

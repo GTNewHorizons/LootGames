@@ -13,10 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-import ru.timeconqueror.lootgames.LootGames;
-import ru.timeconqueror.timecore.api.util.RandHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ru.timeconqueror.lootgames.LootGames;
+import ru.timeconqueror.timecore.api.util.RandHelper;
 
 public class DungeonLightSource extends Block {
 

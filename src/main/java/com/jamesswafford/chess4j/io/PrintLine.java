@@ -3,6 +3,7 @@ package com.jamesswafford.chess4j.io;
 import java.util.List;
 
 import com.jamesswafford.chess4j.board.Move;
+
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public class PrintLine {

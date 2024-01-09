@@ -8,14 +8,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.tile.GameMasterTile;
 import ru.timeconqueror.lootgames.client.IconLoader;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.WorldUtils;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Subordinate block for minigames. Will find master block and notify it. The master block must be at the north-west

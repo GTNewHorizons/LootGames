@@ -13,7 +13,13 @@ import com.jamesswafford.chess4j.board.squares.Rank;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.hash.PawnTranspositionTable;
 import com.jamesswafford.chess4j.hash.PawnTranspositionTableEntry;
-import com.jamesswafford.chess4j.pieces.*;
+import com.jamesswafford.chess4j.pieces.Bishop;
+import com.jamesswafford.chess4j.pieces.King;
+import com.jamesswafford.chess4j.pieces.Knight;
+import com.jamesswafford.chess4j.pieces.Pawn;
+import com.jamesswafford.chess4j.pieces.Piece;
+import com.jamesswafford.chess4j.pieces.Queen;
+import com.jamesswafford.chess4j.pieces.Rook;
 import com.jamesswafford.chess4j.utils.OrderedPair;
 import com.jamesswafford.chess4j.utils.PawnUtils;
 

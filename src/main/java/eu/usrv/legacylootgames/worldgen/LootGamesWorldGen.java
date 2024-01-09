@@ -5,10 +5,10 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
-import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import cpw.mods.fml.common.IWorldGenerator;
 import eu.usrv.legacylootgames.LootGamesLegacy;
 import eu.usrv.legacylootgames.StructureGenerator;
+import ru.timeconqueror.lootgames.common.config.LGConfigs;
 
 public class LootGamesWorldGen implements IWorldGenerator {
 

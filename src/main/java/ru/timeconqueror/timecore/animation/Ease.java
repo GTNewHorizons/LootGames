@@ -2,7 +2,9 @@ package ru.timeconqueror.timecore.animation;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.pow;
-import static net.minecraft.util.MathHelper.*;
+import static net.minecraft.util.MathHelper.cos;
+import static net.minecraft.util.MathHelper.sin;
+import static net.minecraft.util.MathHelper.sqrt_double;
 
 /**
  * Easings from https://easings.net/.

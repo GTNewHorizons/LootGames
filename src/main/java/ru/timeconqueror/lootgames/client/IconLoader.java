@@ -4,8 +4,8 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
 
-import ru.timeconqueror.lootgames.LootGames;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import ru.timeconqueror.lootgames.LootGames;
 
 public class IconLoader {
 

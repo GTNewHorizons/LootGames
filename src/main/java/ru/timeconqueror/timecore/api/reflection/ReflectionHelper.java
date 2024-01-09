@@ -9,9 +9,9 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import ru.timeconqueror.lootgames.LootGames;
-
 import com.google.common.base.Joiner;
+
+import ru.timeconqueror.lootgames.LootGames;
 
 public class ReflectionHelper {
 

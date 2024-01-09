@@ -16,6 +16,7 @@ import com.jamesswafford.chess4j.hash.TranspositionTableEntry;
 import com.jamesswafford.chess4j.hash.TranspositionTableEntryType;
 import com.jamesswafford.chess4j.io.PrintLine;
 import com.jamesswafford.chess4j.utils.GameStatusChecker;
+
 import eu.usrv.yamcore.auxiliary.LogHelper;
 
 public final class Search {

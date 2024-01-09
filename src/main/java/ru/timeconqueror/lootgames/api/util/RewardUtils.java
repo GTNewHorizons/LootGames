@@ -8,6 +8,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ChestGenHooks;
 
+import eu.usrv.legacylootgames.blocks.DungeonLightSource;
+import eu.usrv.yamcore.auxiliary.ItemDescriptor;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.common.config.base.RewardConfig;
@@ -19,8 +21,6 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.timecore.api.util.HorizontalDirection;
 import ru.timeconqueror.timecore.api.util.MathUtils;
 import ru.timeconqueror.timecore.api.util.RandHelper;
-import eu.usrv.legacylootgames.blocks.DungeonLightSource;
-import eu.usrv.yamcore.auxiliary.ItemDescriptor;
 
 public class RewardUtils {
 
