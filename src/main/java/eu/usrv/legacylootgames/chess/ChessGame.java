@@ -8,7 +8,12 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import eu.usrv.legacylootgames.ILootGame;
 import eu.usrv.legacylootgames.chess.blocks.BlockChessBlock;
-import eu.usrv.legacylootgames.chess.entities.*;
+import eu.usrv.legacylootgames.chess.entities.EntityBishopFigure;
+import eu.usrv.legacylootgames.chess.entities.EntityKingFigure;
+import eu.usrv.legacylootgames.chess.entities.EntityKnightFigure;
+import eu.usrv.legacylootgames.chess.entities.EntityPawnFigure;
+import eu.usrv.legacylootgames.chess.entities.EntityQueenFigure;
+import eu.usrv.legacylootgames.chess.entities.EntityRookFigure;
 import eu.usrv.legacylootgames.chess.tiles.TEChessMasterBlock;
 import ru.timeconqueror.lootgames.LootGames;
 

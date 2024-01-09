@@ -1,6 +1,10 @@
 package eu.usrv.legacylootgames.auxiliary;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class ProfilingStorage {
 

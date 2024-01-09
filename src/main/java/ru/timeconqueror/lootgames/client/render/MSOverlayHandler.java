@@ -1,6 +1,6 @@
 package ru.timeconqueror.lootgames.client.render;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -4,11 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jamesswafford.chess4j.Color;
-import com.jamesswafford.chess4j.board.*;
+import com.jamesswafford.chess4j.board.AttackDetector;
+import com.jamesswafford.chess4j.board.Bitboard;
+import com.jamesswafford.chess4j.board.Board;
+import com.jamesswafford.chess4j.board.Magic;
+import com.jamesswafford.chess4j.board.Move;
 import com.jamesswafford.chess4j.board.squares.Direction;
 import com.jamesswafford.chess4j.board.squares.Square;
 import com.jamesswafford.chess4j.eval.Eval;
-import com.jamesswafford.chess4j.pieces.*;
+import com.jamesswafford.chess4j.pieces.Bishop;
+import com.jamesswafford.chess4j.pieces.King;
+import com.jamesswafford.chess4j.pieces.Knight;
+import com.jamesswafford.chess4j.pieces.Pawn;
+import com.jamesswafford.chess4j.pieces.Piece;
+import com.jamesswafford.chess4j.pieces.Queen;
+import com.jamesswafford.chess4j.pieces.Rook;
 
 public class SEE {
 
