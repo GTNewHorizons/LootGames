@@ -64,7 +64,7 @@ public class ProfilingCommand implements ICommand {
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        return this.getCommandName().compareTo(((ICommand) o).getCommandName());
     }
 
     @Override
