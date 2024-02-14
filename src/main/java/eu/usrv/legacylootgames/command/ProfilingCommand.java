@@ -63,11 +63,6 @@ public class ProfilingCommand implements ICommand {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
-
-    @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return null;
     }
