@@ -63,6 +63,11 @@ public class ProfilingCommand implements ICommand {
     }
 
     @Override
+    public int compareTo(Object o) {
+        return this.getCommandName().compareTo(((ICommand) o).getCommandName());
+    }
+
+    @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
         return null;
     }
