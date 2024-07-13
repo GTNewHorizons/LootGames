@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
-import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,9 +12,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ru.timeconqueror.lootgames.LootGames;
-import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.util.MathUtils;
@@ -25,7 +25,8 @@ import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
 
 public class MSOverlayHandler {
 
-    private static final Map<BlockPos, WeakReference<GameMineSweeper>> ACTIVE_GAMES = Maps.newHashMapWithExpectedSize(1);
+    private static final Map<BlockPos, WeakReference<GameMineSweeper>> ACTIVE_GAMES = Maps
+            .newHashMapWithExpectedSize(1);
 
     private static final TexturedRect FIRST_SLOT_START = new TexturedRect(3 * 1.5F, 16 * 1.5F, 15, 0, 3, 16);
     private static final TexturedRect FIRST_SLOT_REPEAT = new TexturedRect(26 * 1.5F, 16 * 1.5F, 18, 0, 26, 16);
