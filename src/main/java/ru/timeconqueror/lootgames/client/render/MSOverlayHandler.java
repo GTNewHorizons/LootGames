@@ -2,10 +2,9 @@ package ru.timeconqueror.lootgames.client.render;
 
 import java.awt.Color;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +25,7 @@ import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
 
 public class MSOverlayHandler {
 
-    private static final ArrayList<WeakReference<MSMasterTile>> MS_MASTERS = new ArrayList<>(1);
+    private static final Map<BlockPos, WeakReference<GameMineSweeper>> ACTIVE_GAMES = Maps.newHashMapWithExpectedSize(1);
 
     private static final TexturedRect FIRST_SLOT_START = new TexturedRect(3 * 1.5F, 16 * 1.5F, 15, 0, 3, 16);
     private static final TexturedRect FIRST_SLOT_REPEAT = new TexturedRect(26 * 1.5F, 16 * 1.5F, 18, 0, 26, 16);
@@ -42,7 +41,7 @@ public class MSOverlayHandler {
     public void renderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.type == RenderGameOverlayEvent.ElementType.HOTBAR) {
             renderNearbyGameBombs();
-            MS_MASTERS.clear();
+            ACTIVE_GAMES.clear();
         }
     }
 
@@ -50,17 +49,18 @@ public class MSOverlayHandler {
         EntityPlayer player = ClientProxy.player();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-        List<MSMasterTile> masters = new ArrayList<>(1);
-        Iterator<WeakReference<MSMasterTile>> iterator = MS_MASTERS.iterator();
-        while (iterator.hasNext()) {
-            MSMasterTile master = iterator.next().get();
+        List<GameMineSweeper> games = new ArrayList<>(1);
 
-            if (master == null) {
+        Iterator<Map.Entry<BlockPos, WeakReference<GameMineSweeper>>> iterator = ACTIVE_GAMES.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<BlockPos, WeakReference<GameMineSweeper>> e = iterator.next();
+            GameMineSweeper game = e.getValue().get();
+
+            if (game == null) {
                 iterator.remove();
                 continue;
             }
 
-            GameMineSweeper game = master.getGame();
             BlockPos gamePos = game.getGameCenter();
 
             if (MathUtils.distSqr(gamePos, player) > game.getBroadcastDistance() * game.getBroadcastDistance()) {
@@ -68,16 +68,15 @@ public class MSOverlayHandler {
                 continue;
             }
 
-            masters.add(master);
+            games.add(game);
         }
 
-        if (masters.isEmpty()) return;
+        if (games.isEmpty()) return;
 
-        boolean extendedInfo = masters.size() > 1;
+        boolean extendedInfo = games.size() > 1;
 
         float maxRectWidth = 0;
-        for (MSMasterTile msMaster : masters) {
-            GameMineSweeper game = msMaster.getGame();
+        for (GameMineSweeper game : games) {
             String toDisplay = getBombDisplayString(game, extendedInfo);
 
             maxRectWidth = Math.max(maxRectWidth, fontRenderer.getStringWidth(toDisplay) + 5.5F * 2);
@@ -87,9 +86,8 @@ public class MSOverlayHandler {
 
         GL11.glColor4f(1, 1, 1, 1);
 
-        for (int i = 0; i < masters.size(); i++) {
-            MSMasterTile msMaster = masters.get(i);
-            GameMineSweeper game = msMaster.getGame();
+        for (int i = 0; i < games.size(); i++) {
+            GameMineSweeper game = games.get(i);
 
             Color color = game.getStage() instanceof GameMineSweeper.StageDetonating
                     || game.getStage() instanceof GameMineSweeper.StageExploding ? Color.RED : Color.WHITE;
@@ -144,9 +142,9 @@ public class MSOverlayHandler {
                 + gamePos.getZ() : "x" + bombDisplay;
     }
 
-    public static void addSupportedMaster(MSMasterTile master) {
+    public static void addSupportedMaster(BlockPos pos, GameMineSweeper game) {
         if (!Minecraft.getMinecraft().gameSettings.hideGUI || Minecraft.getMinecraft().currentScreen != null) {
-            MS_MASTERS.add(new WeakReference<>(master));
+            ACTIVE_GAMES.put(pos, new WeakReference<>(game));
         }
     }
 }
