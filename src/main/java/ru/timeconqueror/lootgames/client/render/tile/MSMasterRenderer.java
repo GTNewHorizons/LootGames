@@ -116,6 +116,6 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
 
-        MSOverlayHandler.addSupportedMaster(te);
+        MSOverlayHandler.addSupportedMaster(te.getBlockPos(), te.getGame());
     }
 }
