@@ -319,6 +319,10 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
                 save();
 
+                // If another revealField call within revealAllNeighbors already ran the win check,
+                // the board might already be reset
+                if (!board.isGenerated()) return;
+
                 if (board.checkWin()) {
                     onLevelSuccessfullyFinished();
                 }
