@@ -186,31 +186,33 @@ public class SudokuRenderer extends TileEntitySpecialRenderer {
                         color = puzzleVal != 0 ? 0x808080 : 0xFFFFFF;
                     }
 
-                    float stringWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(Integer.toString(actualVal));
-                    // 计算中心X
-                    float centerX = 0.5f - (stringWidth/2);
-                    float centerY = 0.5f - ((float) Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT /2);
+                    String text = Integer.toString(actualVal);
+                    Minecraft mc = Minecraft.getMinecraft();
+
+                    float stringWidth = mc.fontRenderer.getStringWidth(text);
+                    float stringHeight = mc.fontRenderer.FONT_HEIGHT;
+
+                    float scale = 0.08f;
+                    float offsetX = -stringWidth * scale / 2f;
+                    float offsetY = -stringHeight * scale / 2f;
+
                     GL11.glPushMatrix();
                     GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    GL11.glTranslatef(cx + 0.25f, cz + 0.175f, -0.02f);
-                    GL11.glScalef(0.08f, 0.08f, 0.08f);
-                    Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(actualVal), 0, 0, color, false);
+                    GL11.glTranslatef(cx + 0.525f, cz + 0.55f, -0.02f);
+                    GL11.glScalef(scale, scale, scale);
+                    GL11.glTranslatef(offsetX / scale, offsetY / scale, 0);
+                    mc.fontRenderer.drawString(text, 0, 0, color, false);
                     GL11.glPopMatrix();
 
                     GL11.glPushMatrix();
-                    GL11.glTranslatef(cx+0.25f+0.025f, cz+0.175f+0.025f, -0.01f);
-                    GL11.glScalef(0.08f, 0.08f, 0.08f);
-                    color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
-                    Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(actualVal), 0, 0, color, false);
+                    GL11.glTranslatef(cx + 0.525f + 0.025f, cz + 0.55f + 0.025f, -0.01f);
+                    GL11.glScalef(scale, scale, scale);
+                    GL11.glTranslatef(offsetX / scale, offsetY / scale, 0);
+                    int shadowColor = (color & 0xfcfcfc) >> 2;
+                    mc.fontRenderer.drawString(text, 0, 0, shadowColor, false);
                     GL11.glPopMatrix();
-                    // DrawHelper.drawStringWithShadow(
-                    //     Minecraft.getMinecraft().fontRenderer,
-                    //     Integer.toString(actualVal),
-                    //     0,
-                    //     0,
-                    //     color);
+
                     GL11.glDisable(GL11.GL_DEPTH_TEST);
-                    // GL11.glPopMatrix();
                 }
             }
         }
