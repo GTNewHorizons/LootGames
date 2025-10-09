@@ -27,7 +27,8 @@ public class BishopEntityRender extends RenderCreeper {
     @Override
     protected void preRenderCallback(EntityLivingBase pEntity, float pPartialTick) {
         super.preRenderCallback(pEntity, pPartialTick);
-        float scale = ((IChessFigure) pEntity).getFiguresData().getRenderScale();
+        float scale = ((IChessFigure) pEntity).getFiguresData()
+            .getRenderScale();
         this.shadowSize = 0.5F * scale;
         GL11.glScalef(scale, scale, scale);
     }

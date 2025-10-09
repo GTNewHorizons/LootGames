@@ -32,7 +32,8 @@ public abstract class GamePacketRegistry {
         }
 
         public Key getKey(Class<? extends T> packetClass) {
-            Key info = packets.inverse().get(packetClass);
+            Key info = packets.inverse()
+                .get(packetClass);
             if (info == null) {
                 throw new NullPointerException(String.format("The packet %s wasn't registered.", packetClass));
             }
@@ -49,7 +50,7 @@ public abstract class GamePacketRegistry {
                 }
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException(
-                        String.format("Packet %s has been already registered.", packetClass.getName()));
+                    String.format("Packet %s has been already registered.", packetClass.getName()));
             }
         }
     }

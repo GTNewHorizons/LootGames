@@ -68,21 +68,22 @@ public class FieldManager {
     }
 
     public boolean canReplaceAreaWithBoard(World world, BlockPos cornerPos, int xSize, int ySize, int zSize,
-            @Nullable BlockPos except) {
+        @Nullable BlockPos except) {
         Iterable<BlockPos> positions = Iterables.concat(
-                BlockPosUtils.between(cornerPos, xSize, 1, zSize), // board positions
-                // second area is smaller because we don't need to check if the player can fit the place in the corner
-                // blocks above the border.
-                BlockPosUtils.between(cornerPos.offset(1, 1, 1), xSize - 2, ySize - 1, zSize - 2) // positions above the
-                                                                                                  // board
+            BlockPosUtils.between(cornerPos, xSize, 1, zSize), // board positions
+            // second area is smaller because we don't need to check if the player can fit the place in the corner
+            // blocks above the border.
+            BlockPosUtils.between(cornerPos.offset(1, 1, 1), xSize - 2, ySize - 1, zSize - 2) // positions above the
+                                                                                              // board
         );
 
         return CollectionUtils.allMatch(positions, (pos) -> {
             BlockState state = WorldExt.getBlockState(world, pos);
             return (state.getBlock() == LGBlocks.DUNGEON_WALL
-                    && state.getMeta() == DungeonBrick.Type.FLOOR_SHIELDED.ordinal())
-                    || state.getBlock().getMaterial().isReplaceable()
-                    || pos.equals(except);
+                && state.getMeta() == DungeonBrick.Type.FLOOR_SHIELDED.ordinal()) || state.getBlock()
+                    .getMaterial()
+                    .isReplaceable()
+                || pos.equals(except);
         });
     }
 
@@ -96,20 +97,20 @@ public class FieldManager {
      * @return true if field placed.
      */
     public GenerationChain trySetupBoard(WorldServer world, BlockPos centerPos, int xSize, int height, int zSize,
-            Block masterBlock, @Nullable EntityPlayer player) {
+        Block masterBlock, @Nullable EntityPlayer player) {
         BlockPos cornerPos = centerPos.offset(-xSize / 2 - 1, 0, -zSize / 2 - 1);
         BlockPos.Mutable borderPos = cornerPos.mutable();
         if (!canReplaceAreaWithBoard(world, borderPos, xSize + 2, height + 1, zSize + 2, centerPos)) {
             if (player != null) {
                 NetworkUtils.sendMessage(
-                        player,
-                        ChatComponentExt.withStyle(
-                                new ChatComponentTranslation(
-                                        "msg.lootgames.field.not_enough_space",
-                                        xSize + 2,
-                                        height + 1,
-                                        zSize + 2),
-                                NotifyColor.FAIL.getColor()));
+                    player,
+                    ChatComponentExt.withStyle(
+                        new ChatComponentTranslation(
+                            "msg.lootgames.field.not_enough_space",
+                            xSize + 2,
+                            height + 1,
+                            zSize + 2),
+                        NotifyColor.FAIL.getColor()));
                 WorldExt.playSoundServerly(world, centerPos, LGSounds.GAME_LOSE, 0.4F, 1.0F);
             }
             return new GenerationChain(null, null, false);
@@ -161,7 +162,7 @@ public class FieldManager {
 
     public void clearBoard(WorldServer world, BlockPos start, int sizeX, int sizeZ) {
         Iterable<BlockPos> gameBlocks = BlockPos
-                .betweenClosed(start.offset(-1, 0, -1), start.offset(sizeX + 1, 0, sizeZ + 1));
+            .betweenClosed(start.offset(-1, 0, -1), start.offset(sizeX + 1, 0, sizeZ + 1));
 
         for (BlockPos pos : gameBlocks) {
             if (WorldExt.getBlock(world, pos) instanceof IGameField) {

@@ -119,27 +119,33 @@ public final class Board {
             whiteKingSquare = m.to();
             clearCastlingRight(CastlingRights.WHITE_KINGSIDE);
             clearCastlingRight(CastlingRights.WHITE_QUEENSIDE);
-            if (m.from().equals(Square.valueOf(File.FILE_E, Rank.RANK_1))) {
-                if (m.to().equals(Square.valueOf(File.FILE_G, Rank.RANK_1))) {
+            if (m.from()
+                .equals(Square.valueOf(File.FILE_E, Rank.RANK_1))) {
+                if (m.to()
+                    .equals(Square.valueOf(File.FILE_G, Rank.RANK_1))) {
                     fiftyCounter = 0;
                     movePiece(Square.valueOf(File.FILE_H, Rank.RANK_1), Square.valueOf(File.FILE_F, Rank.RANK_1));
-                } else if (m.to().equals(Square.valueOf(File.FILE_C, Rank.RANK_1))) {
-                    fiftyCounter = 0;
-                    movePiece(Square.valueOf(File.FILE_A, Rank.RANK_1), Square.valueOf(File.FILE_D, Rank.RANK_1));
-                }
+                } else if (m.to()
+                    .equals(Square.valueOf(File.FILE_C, Rank.RANK_1))) {
+                        fiftyCounter = 0;
+                        movePiece(Square.valueOf(File.FILE_A, Rank.RANK_1), Square.valueOf(File.FILE_D, Rank.RANK_1));
+                    }
             }
         } else {
             blackKingSquare = m.to();
             clearCastlingRight(CastlingRights.BLACK_KINGSIDE);
             clearCastlingRight(CastlingRights.BLACK_QUEENSIDE);
-            if (m.from().equals(Square.valueOf(File.FILE_E, Rank.RANK_8))) {
-                if (m.to().equals(Square.valueOf(File.FILE_G, Rank.RANK_8))) {
+            if (m.from()
+                .equals(Square.valueOf(File.FILE_E, Rank.RANK_8))) {
+                if (m.to()
+                    .equals(Square.valueOf(File.FILE_G, Rank.RANK_8))) {
                     fiftyCounter = 0;
                     movePiece(Square.valueOf(File.FILE_H, Rank.RANK_8), Square.valueOf(File.FILE_F, Rank.RANK_8));
-                } else if (m.to().equals(Square.valueOf(File.FILE_C, Rank.RANK_8))) {
-                    fiftyCounter = 0;
-                    movePiece(Square.valueOf(File.FILE_A, Rank.RANK_8), Square.valueOf(File.FILE_D, Rank.RANK_8));
-                }
+                } else if (m.to()
+                    .equals(Square.valueOf(File.FILE_C, Rank.RANK_8))) {
+                        fiftyCounter = 0;
+                        movePiece(Square.valueOf(File.FILE_A, Rank.RANK_8), Square.valueOf(File.FILE_D, Rank.RANK_8));
+                    }
             }
         }
     }
@@ -154,16 +160,20 @@ public final class Board {
             fiftyCounter++;
         } else {
             fiftyCounter = 0;
-            if (m.to().equals(Square.valueOf(File.FILE_H, Rank.RANK_1))) {
+            if (m.to()
+                .equals(Square.valueOf(File.FILE_H, Rank.RANK_1))) {
                 clearCastlingRight(CastlingRights.WHITE_KINGSIDE);
-            } else if (m.to().equals(Square.valueOf(File.FILE_A, Rank.RANK_1))) {
-                clearCastlingRight(CastlingRights.WHITE_QUEENSIDE);
-            }
-            if (m.to().equals(Square.valueOf(File.FILE_H, Rank.RANK_8))) {
+            } else if (m.to()
+                .equals(Square.valueOf(File.FILE_A, Rank.RANK_1))) {
+                    clearCastlingRight(CastlingRights.WHITE_QUEENSIDE);
+                }
+            if (m.to()
+                .equals(Square.valueOf(File.FILE_H, Rank.RANK_8))) {
                 clearCastlingRight(CastlingRights.BLACK_KINGSIDE);
-            } else if (m.to().equals(Square.valueOf(File.FILE_A, Rank.RANK_8))) {
-                clearCastlingRight(CastlingRights.BLACK_QUEENSIDE);
-            }
+            } else if (m.to()
+                .equals(Square.valueOf(File.FILE_A, Rank.RANK_8))) {
+                    clearCastlingRight(CastlingRights.BLACK_QUEENSIDE);
+                }
         }
 
         Piece p = clearSquare(m.from());
@@ -190,55 +200,93 @@ public final class Board {
     private void applyPawnMove(Piece p, Move m, Square oldEPSquare) {
         fiftyCounter = 0;
         if (p.isWhite()) {
-            if (m.from().rank().equals(Rank.RANK_2) && m.to().rank().equals(Rank.RANK_4)) {
+            if (m.from()
+                .rank()
+                .equals(Rank.RANK_2)
+                && m.to()
+                    .rank()
+                    .equals(Rank.RANK_4)) {
                 addPiece(p, m.to());
-                epSquare = Square.valueOf(m.to().file(), m.to().rank().south());
+                epSquare = Square.valueOf(
+                    m.to()
+                        .file(),
+                    m.to()
+                        .rank()
+                        .south());
                 zobristKey ^= Zobrist.getEnPassantKey(epSquare);
-            } else if (m.to().equals(oldEPSquare)) {
-                clearSquare(Square.valueOf(oldEPSquare.file(), oldEPSquare.rank().south()));
-                addPiece(p, m.to());
-            } else if (m.to().rank().equals(Rank.RANK_8)) {
-                clearSquare(m.to());
-                addPiece(m.promotion(), m.to());
-            } else {
-                clearSquare(m.to());
-                addPiece(p, m.to());
-            }
+            } else if (m.to()
+                .equals(oldEPSquare)) {
+                    clearSquare(
+                        Square.valueOf(
+                            oldEPSquare.file(),
+                            oldEPSquare.rank()
+                                .south()));
+                    addPiece(p, m.to());
+                } else if (m.to()
+                    .rank()
+                    .equals(Rank.RANK_8)) {
+                        clearSquare(m.to());
+                        addPiece(m.promotion(), m.to());
+                    } else {
+                        clearSquare(m.to());
+                        addPiece(p, m.to());
+                    }
         } else {
-            if (m.from().rank().equals(Rank.RANK_7) && m.to().rank().equals(Rank.RANK_5)) {
+            if (m.from()
+                .rank()
+                .equals(Rank.RANK_7)
+                && m.to()
+                    .rank()
+                    .equals(Rank.RANK_5)) {
                 addPiece(p, m.to());
-                epSquare = Square.valueOf(m.to().file(), m.to().rank().north());
+                epSquare = Square.valueOf(
+                    m.to()
+                        .file(),
+                    m.to()
+                        .rank()
+                        .north());
                 zobristKey ^= Zobrist.getEnPassantKey(epSquare);
-            } else if (m.to().equals(oldEPSquare)) {
-                clearSquare(Square.valueOf(oldEPSquare.file(), oldEPSquare.rank().north()));
-                addPiece(p, m.to());
-            } else if (m.to().rank().equals(Rank.RANK_1)) {
-                clearSquare(m.to());
-                addPiece(m.promotion(), m.to());
-            } else {
-                clearSquare(m.to());
-                addPiece(p, m.to());
-            }
+            } else if (m.to()
+                .equals(oldEPSquare)) {
+                    clearSquare(
+                        Square.valueOf(
+                            oldEPSquare.file(),
+                            oldEPSquare.rank()
+                                .north()));
+                    addPiece(p, m.to());
+                } else if (m.to()
+                    .rank()
+                    .equals(Rank.RANK_1)) {
+                        clearSquare(m.to());
+                        addPiece(m.promotion(), m.to());
+                    } else {
+                        clearSquare(m.to());
+                        addPiece(p, m.to());
+                    }
         }
     }
 
     private void applyRookSpecialCases(Move m) {
         if (playerToMove.isWhite()) {
-            if (m.from().equals(Square.valueOf(File.FILE_H, Rank.RANK_1))) {
+            if (m.from()
+                .equals(Square.valueOf(File.FILE_H, Rank.RANK_1))) {
                 fiftyCounter = 0;
                 clearCastlingRight(CastlingRights.WHITE_KINGSIDE);
-            } else if (m.from().equals(Square.valueOf(File.FILE_A, Rank.RANK_1))) {
-                fiftyCounter = 0;
-                clearCastlingRight(CastlingRights.WHITE_QUEENSIDE);
-            }
+            } else if (m.from()
+                .equals(Square.valueOf(File.FILE_A, Rank.RANK_1))) {
+                    fiftyCounter = 0;
+                    clearCastlingRight(CastlingRights.WHITE_QUEENSIDE);
+                }
         } else {
-            if (m.from().equals(Square.valueOf(File.FILE_H, Rank.RANK_8))) {
+            if (m.from()
+                .equals(Square.valueOf(File.FILE_H, Rank.RANK_8))) {
                 fiftyCounter = 0;
                 clearCastlingRight(CastlingRights.BLACK_KINGSIDE);
-            } else if (m.from().equals(Square.valueOf(File.FILE_A, Rank.RANK_8))) {
-                fiftyCounter = 0;
-                clearCastlingRight(CastlingRights.BLACK_QUEENSIDE);
-            }
+            } else if (m.from()
+                .equals(Square.valueOf(File.FILE_A, Rank.RANK_8))) {
+                    fiftyCounter = 0;
+                    clearCastlingRight(CastlingRights.BLACK_QUEENSIDE);
+                }
         }
     }
 
@@ -247,14 +295,14 @@ public final class Board {
             return false;
         }
         boolean pathIsClear = isEmpty(Square.valueOf(File.FILE_F, Rank.RANK_8))
-                && isEmpty(Square.valueOf(File.FILE_G, Rank.RANK_8));
+            && isEmpty(Square.valueOf(File.FILE_G, Rank.RANK_8));
         if (!pathIsClear) {
             return false;
         }
 
         Color opponent = Color.swap(playerToMove);
         boolean wouldCrossCheck = AttackDetector.attacked(this, Square.valueOf(File.FILE_E, Rank.RANK_8), opponent)
-                || AttackDetector.attacked(this, Square.valueOf(File.FILE_F, Rank.RANK_8), opponent);
+            || AttackDetector.attacked(this, Square.valueOf(File.FILE_F, Rank.RANK_8), opponent);
         return !wouldCrossCheck;
     }
 
@@ -264,15 +312,15 @@ public final class Board {
         }
 
         boolean pathIsClear = isEmpty(Square.valueOf(File.FILE_D, Rank.RANK_8))
-                && isEmpty(Square.valueOf(File.FILE_C, Rank.RANK_8))
-                && isEmpty(Square.valueOf(File.FILE_B, Rank.RANK_8));
+            && isEmpty(Square.valueOf(File.FILE_C, Rank.RANK_8))
+            && isEmpty(Square.valueOf(File.FILE_B, Rank.RANK_8));
         if (!pathIsClear) {
             return false;
         }
 
         Color opponent = Color.swap(playerToMove);
         boolean wouldCrossCheck = AttackDetector.attacked(this, Square.valueOf(File.FILE_E, Rank.RANK_8), opponent)
-                || AttackDetector.attacked(this, Square.valueOf(File.FILE_D, Rank.RANK_8), opponent);
+            || AttackDetector.attacked(this, Square.valueOf(File.FILE_D, Rank.RANK_8), opponent);
         return !wouldCrossCheck;
     }
 
@@ -435,7 +483,8 @@ public final class Board {
         if (!this.castlingRights.equals(otherBoard.castlingRights)) {
             return false;
         }
-        if (!this.getPlayerToMove().equals(otherBoard.getPlayerToMove())) {
+        if (!this.getPlayerToMove()
+            .equals(otherBoard.getPlayerToMove())) {
             return false;
         }
         if (this.epSquare == null) {
@@ -671,18 +720,30 @@ public final class Board {
         hash = hash * 31 + (epSquare == null ? 0 : epSquare.hashCode());
         hash = hash * 17 + (whiteKingSquare == null ? 0 : whiteKingSquare.hashCode());
         hash = hash * 13 + (blackKingSquare == null ? 0 : blackKingSquare.hashCode());
-        hash = hash * 23 + Long.valueOf(whitePawns).hashCode();
-        hash = hash * 29 + Long.valueOf(blackPawns).hashCode();
-        hash = hash * 31 + Long.valueOf(whiteKnights).hashCode();
-        hash = hash * 37 + Long.valueOf(blackKnights).hashCode();
-        hash = hash * 43 + Long.valueOf(whiteBishops).hashCode();
-        hash = hash * 47 + Long.valueOf(blackBishops).hashCode();
-        hash = hash * 53 + Long.valueOf(whiteRooks).hashCode();
-        hash = hash * 59 + Long.valueOf(blackRooks).hashCode();
-        hash = hash * 61 + Long.valueOf(whiteQueens).hashCode();
-        hash = hash * 67 + Long.valueOf(blackQueens).hashCode();
-        hash = hash * 71 + Long.valueOf(whitePieces).hashCode();
-        hash = hash * 73 + Long.valueOf(blackPieces).hashCode();
+        hash = hash * 23 + Long.valueOf(whitePawns)
+            .hashCode();
+        hash = hash * 29 + Long.valueOf(blackPawns)
+            .hashCode();
+        hash = hash * 31 + Long.valueOf(whiteKnights)
+            .hashCode();
+        hash = hash * 37 + Long.valueOf(blackKnights)
+            .hashCode();
+        hash = hash * 43 + Long.valueOf(whiteBishops)
+            .hashCode();
+        hash = hash * 47 + Long.valueOf(blackBishops)
+            .hashCode();
+        hash = hash * 53 + Long.valueOf(whiteRooks)
+            .hashCode();
+        hash = hash * 59 + Long.valueOf(blackRooks)
+            .hashCode();
+        hash = hash * 61 + Long.valueOf(whiteQueens)
+            .hashCode();
+        hash = hash * 67 + Long.valueOf(blackQueens)
+            .hashCode();
+        hash = hash * 71 + Long.valueOf(whitePieces)
+            .hashCode();
+        hash = hash * 73 + Long.valueOf(blackPieces)
+            .hashCode();
 
         if (strict) {
             hash = hash * 17 + moveCounter;
@@ -796,22 +857,36 @@ public final class Board {
 
     private void undoKingMove(Undo u, Piece p) {
         if (p.isWhite()) {
-            whiteKingSquare = u.getMove().from();
-            if (u.getMove().from().equals(Square.valueOf(File.FILE_E, Rank.RANK_1))) {
-                if (u.getMove().to().equals(Square.valueOf(File.FILE_G, Rank.RANK_1))) {
+            whiteKingSquare = u.getMove()
+                .from();
+            if (u.getMove()
+                .from()
+                .equals(Square.valueOf(File.FILE_E, Rank.RANK_1))) {
+                if (u.getMove()
+                    .to()
+                    .equals(Square.valueOf(File.FILE_G, Rank.RANK_1))) {
                     movePiece(Square.valueOf(File.FILE_F, Rank.RANK_1), Square.valueOf(File.FILE_H, Rank.RANK_1));
-                } else if (u.getMove().to().equals(Square.valueOf(File.FILE_C, Rank.RANK_1))) {
-                    movePiece(Square.valueOf(File.FILE_D, Rank.RANK_1), Square.valueOf(File.FILE_A, Rank.RANK_1));
-                }
+                } else if (u.getMove()
+                    .to()
+                    .equals(Square.valueOf(File.FILE_C, Rank.RANK_1))) {
+                        movePiece(Square.valueOf(File.FILE_D, Rank.RANK_1), Square.valueOf(File.FILE_A, Rank.RANK_1));
+                    }
             }
         } else {
-            blackKingSquare = u.getMove().from();
-            if (u.getMove().from().equals(Square.valueOf(File.FILE_E, Rank.RANK_8))) {
-                if (u.getMove().to().equals(Square.valueOf(File.FILE_G, Rank.RANK_8))) {
+            blackKingSquare = u.getMove()
+                .from();
+            if (u.getMove()
+                .from()
+                .equals(Square.valueOf(File.FILE_E, Rank.RANK_8))) {
+                if (u.getMove()
+                    .to()
+                    .equals(Square.valueOf(File.FILE_G, Rank.RANK_8))) {
                     movePiece(Square.valueOf(File.FILE_F, Rank.RANK_8), Square.valueOf(File.FILE_H, Rank.RANK_8));
-                } else if (u.getMove().to().equals(Square.valueOf(File.FILE_C, Rank.RANK_8))) {
-                    movePiece(Square.valueOf(File.FILE_D, Rank.RANK_8), Square.valueOf(File.FILE_A, Rank.RANK_8));
-                }
+                } else if (u.getMove()
+                    .to()
+                    .equals(Square.valueOf(File.FILE_C, Rank.RANK_8))) {
+                        movePiece(Square.valueOf(File.FILE_D, Rank.RANK_8), Square.valueOf(File.FILE_A, Rank.RANK_8));
+                    }
             }
         }
     }
@@ -827,8 +902,11 @@ public final class Board {
         fiftyCounter = u.getFiftyCounter();
         castlingRights.setValue(u.getCastlingRights());
 
-        Piece p = clearSquare(u.getMove().to());
-        if (u.getMove().promotion() != null) {
+        Piece p = clearSquare(
+            u.getMove()
+                .to());
+        if (u.getMove()
+            .promotion() != null) {
             undoPromotion(u);
         } else if (p instanceof Pawn) {
             undoPawnMove(u, p);
@@ -836,8 +914,15 @@ public final class Board {
             if (p instanceof King) {
                 undoKingMove(u, p);
             }
-            addPiece(u.getMove().captured(), u.getMove().to());
-            addPiece(p, u.getMove().from());
+            addPiece(
+                u.getMove()
+                    .captured(),
+                u.getMove()
+                    .to());
+            addPiece(
+                p,
+                u.getMove()
+                    .from());
         }
 
         zobristKey = u.getZobristKey();
@@ -846,27 +931,70 @@ public final class Board {
 
     private void undoPawnMove(Undo u, Piece p) {
         if (p.isWhite()) {
-            if (u.getMove().to().equals(epSquare)) {
-                addPiece(u.getMove().captured(), Square.valueOf(epSquare.file(), epSquare.rank().south()));
-                addPiece(p, u.getMove().from());
+            if (u.getMove()
+                .to()
+                .equals(epSquare)) {
+                addPiece(
+                    u.getMove()
+                        .captured(),
+                    Square.valueOf(
+                        epSquare.file(),
+                        epSquare.rank()
+                            .south()));
+                addPiece(
+                    p,
+                    u.getMove()
+                        .from());
             } else {
-                addPiece(u.getMove().captured(), u.getMove().to());
-                addPiece(p, u.getMove().from());
+                addPiece(
+                    u.getMove()
+                        .captured(),
+                    u.getMove()
+                        .to());
+                addPiece(
+                    p,
+                    u.getMove()
+                        .from());
             }
         } else {
-            if (u.getMove().to().equals(epSquare)) {
-                addPiece(u.getMove().captured(), Square.valueOf(epSquare.file(), epSquare.rank().north()));
-                addPiece(p, u.getMove().from());
+            if (u.getMove()
+                .to()
+                .equals(epSquare)) {
+                addPiece(
+                    u.getMove()
+                        .captured(),
+                    Square.valueOf(
+                        epSquare.file(),
+                        epSquare.rank()
+                            .north()));
+                addPiece(
+                    p,
+                    u.getMove()
+                        .from());
             } else {
-                addPiece(u.getMove().captured(), u.getMove().to());
-                addPiece(p, u.getMove().from());
+                addPiece(
+                    u.getMove()
+                        .captured(),
+                    u.getMove()
+                        .to());
+                addPiece(
+                    p,
+                    u.getMove()
+                        .from());
             }
         }
     }
 
     private void undoPromotion(Undo u) {
-        addPiece(u.getMove().captured(), u.getMove().to());
-        addPiece(playerToMove.equals(Color.WHITE) ? Pawn.WHITE_PAWN : Pawn.BLACK_PAWN, u.getMove().from());
+        addPiece(
+            u.getMove()
+                .captured(),
+            u.getMove()
+                .to());
+        addPiece(
+            playerToMove.equals(Color.WHITE) ? Pawn.WHITE_PAWN : Pawn.BLACK_PAWN,
+            u.getMove()
+                .from());
     }
 
     private boolean whiteCanCastleKingSide() {
@@ -875,14 +1003,14 @@ public final class Board {
         }
 
         boolean pathIsClear = isEmpty(Square.valueOf(File.FILE_F, Rank.RANK_1))
-                && isEmpty(Square.valueOf(File.FILE_G, Rank.RANK_1));
+            && isEmpty(Square.valueOf(File.FILE_G, Rank.RANK_1));
         if (!pathIsClear) {
             return false;
         }
 
         Color opponent = Color.swap(playerToMove);
         boolean wouldCrossCheck = AttackDetector.attacked(this, Square.valueOf(File.FILE_E, Rank.RANK_1), opponent)
-                || AttackDetector.attacked(this, Square.valueOf(File.FILE_F, Rank.RANK_1), opponent);
+            || AttackDetector.attacked(this, Square.valueOf(File.FILE_F, Rank.RANK_1), opponent);
         return !wouldCrossCheck;
     }
 
@@ -892,15 +1020,15 @@ public final class Board {
         }
 
         boolean pathIsClear = isEmpty(Square.valueOf(File.FILE_D, Rank.RANK_1))
-                && isEmpty(Square.valueOf(File.FILE_C, Rank.RANK_1))
-                && isEmpty(Square.valueOf(File.FILE_B, Rank.RANK_1));
+            && isEmpty(Square.valueOf(File.FILE_C, Rank.RANK_1))
+            && isEmpty(Square.valueOf(File.FILE_B, Rank.RANK_1));
         if (!pathIsClear) {
             return false;
         }
 
         Color opponent = Color.swap(playerToMove);
         boolean wouldCrossCheck = AttackDetector.attacked(this, Square.valueOf(File.FILE_E, Rank.RANK_1), opponent)
-                || AttackDetector.attacked(this, Square.valueOf(File.FILE_D, Rank.RANK_1), opponent);
+            || AttackDetector.attacked(this, Square.valueOf(File.FILE_D, Rank.RANK_1), opponent);
         return !wouldCrossCheck;
     }
 
@@ -927,10 +1055,16 @@ public final class Board {
         if (epSquare != null) {
             if (playerToMove == Color.BLACK) {
                 assert (epSquare.rank() == Rank.RANK_3);
-                assert (getPiece(North.getInstance().next(epSquare)) == Pawn.WHITE_PAWN);
+                assert (getPiece(
+                    North.getInstance()
+                        .next(epSquare))
+                    == Pawn.WHITE_PAWN);
             } else {
                 assert (epSquare.rank() == Rank.RANK_6);
-                assert (getPiece(South.getInstance().next(epSquare)) == Pawn.BLACK_PAWN);
+                assert (getPiece(
+                    South.getInstance()
+                        .next(epSquare))
+                    == Pawn.BLACK_PAWN);
             }
         }
 

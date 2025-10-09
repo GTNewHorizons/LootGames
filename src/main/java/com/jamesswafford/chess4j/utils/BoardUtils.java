@@ -20,7 +20,8 @@ public class BoardUtils {
         List<Square> squares = Square.allSquares();
         for (Square sq : squares) {
             Piece p = board.getPiece(sq);
-            if (p instanceof Pawn && p.getColor().equals(sideToMove)) {
+            if (p instanceof Pawn && p.getColor()
+                .equals(sideToMove)) {
                 numPawns++;
             }
         }
@@ -34,8 +35,8 @@ public class BoardUtils {
         List<Square> squares = Square.allSquares();
         for (Square sq : squares) {
             Piece p = board.getPiece(sq);
-            if ((p instanceof Queen || p instanceof Rook || p instanceof Bishop || p instanceof Knight)
-                    && p.getColor().equals(sideToMove)) {
+            if ((p instanceof Queen || p instanceof Rook || p instanceof Bishop || p instanceof Knight) && p.getColor()
+                .equals(sideToMove)) {
                 n++;
             }
         }
@@ -44,6 +45,9 @@ public class BoardUtils {
     }
 
     public static boolean isDiagonal(Square sq1, Square sq2) {
-        return sq1.rank().distance(sq2.rank()) == sq1.file().distance(sq2.file());
+        return sq1.rank()
+            .distance(sq2.rank())
+            == sq1.file()
+                .distance(sq2.file());
     }
 }

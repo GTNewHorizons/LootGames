@@ -23,15 +23,16 @@ public class SudokuActivatorBlock extends GameBlock {
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float hitX,
-            float hitY, float hitZ) {
+        float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             BlockPos pos = new BlockPos(x, y, z);
             // snapshot for Sudoku
             ConfigSudoku.ConfigSudokuSnapshot snapshot = LGConfigs.SUDOKU.snapshot();
             // Setup board area: using allocatedSize as both width and height
             boolean succeed = LootGamesAPI.getFieldManager()
-                    .trySetupBoard((WorldServer) worldIn, pos, 9, 1, 9, LGBlocks.SDK_MASTER, player)
-                    .forTileIfSucceed(SudokuTile.class, master -> master.init(snapshot)).isSucceed();
+                .trySetupBoard((WorldServer) worldIn, pos, 9, 1, 9, LGBlocks.SDK_MASTER, player)
+                .forTileIfSucceed(SudokuTile.class, master -> master.init(snapshot))
+                .isSucceed();
 
             if (succeed) {
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.MS_START_GAME, 0.6F, 1.0F);

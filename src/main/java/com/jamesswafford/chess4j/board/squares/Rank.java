@@ -39,7 +39,8 @@ public enum Rank {
 
     public static Rank rank(String value) {
         for (Rank r : Rank.values()) {
-            if (r.getLabel().equalsIgnoreCase(value)) {
+            if (r.getLabel()
+                .equalsIgnoreCase(value)) {
                 return r;
             }
         }

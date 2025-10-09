@@ -24,23 +24,25 @@ public class MSActivatorBlock extends GameBlock {
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
-            float subY, float subZ) {
+        float subY, float subZ) {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
 
             ConfigMS.Snapshot snapshot = LGConfigs.MINESWEEPER.snapshot();
-            int allocatedSize = snapshot.getStage4().getBoardSize();
+            int allocatedSize = snapshot.getStage4()
+                .getBoardSize();
 
             boolean succeed = LootGamesAPI.getFieldManager()
-                    .trySetupBoard(
-                            ((WorldServer) worldIn),
-                            pos,
-                            allocatedSize,
-                            2,
-                            allocatedSize,
-                            LGBlocks.MS_MASTER,
-                            player)
-                    .forTileIfSucceed(MSMasterTile.class, master -> master.init(snapshot)).isSucceed();
+                .trySetupBoard(
+                    ((WorldServer) worldIn),
+                    pos,
+                    allocatedSize,
+                    2,
+                    allocatedSize,
+                    LGBlocks.MS_MASTER,
+                    player)
+                .forTileIfSucceed(MSMasterTile.class, master -> master.init(snapshot))
+                .isSucceed();
 
             if (succeed) {
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.MS_START_GAME, 0.6F, 1.0F);

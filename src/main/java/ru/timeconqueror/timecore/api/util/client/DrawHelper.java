@@ -29,7 +29,7 @@ public class DrawHelper {
      *                         above.
      */
     public static void drawTexturedRectByParts(float x0, float y0, float width, float height, float zLevel,
-            float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount) {
+        float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount) {
         float portionFactor = 1 / texturePartCount;
         drawTexturedRect(x0, y0, width, height, zLevel, textureX, textureY, textureWidth, textureHeight, portionFactor);
     }
@@ -56,28 +56,28 @@ public class DrawHelper {
      *                            texture must be divided in both axis. Part description is mentioned above.
      */
     private static void drawTexturedRect(float x0, float y0, float width, float height, float zLevel, float textureX,
-            float textureY, float textureWidth, float textureHeight, float textureDivideFactor) {
+        float textureY, float textureWidth, float textureHeight, float textureDivideFactor) {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
         tess.addVertexWithUV(x0, y0, zLevel, textureX * textureDivideFactor, textureY * textureDivideFactor);
         tess.addVertexWithUV(
-                x0,
-                y0 + height,
-                zLevel,
-                textureX * textureDivideFactor,
-                (textureY + textureHeight) * textureDivideFactor);
+            x0,
+            y0 + height,
+            zLevel,
+            textureX * textureDivideFactor,
+            (textureY + textureHeight) * textureDivideFactor);
         tess.addVertexWithUV(
-                x0 + width,
-                y0 + height,
-                zLevel,
-                (textureX + textureWidth) * textureDivideFactor,
-                (textureY + textureHeight) * textureDivideFactor);
+            x0 + width,
+            y0 + height,
+            zLevel,
+            (textureX + textureWidth) * textureDivideFactor,
+            (textureY + textureHeight) * textureDivideFactor);
         tess.addVertexWithUV(
-                x0 + width,
-                y0,
-                zLevel,
-                (textureX + textureWidth) * textureDivideFactor,
-                textureY * textureDivideFactor);
+            x0 + width,
+            y0,
+            zLevel,
+            (textureX + textureWidth) * textureDivideFactor,
+            textureY * textureDivideFactor);
         tess.draw();
     }
 
@@ -104,21 +104,21 @@ public class DrawHelper {
      * @param argbColor        color which will be applied to the texture
      */
     public static void drawTexturedRectByParts(float x0, float y0, float width, float height, float zLevel,
-            float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount,
-            int argbColor) {
+        float textureX, float textureY, float textureWidth, float textureHeight, float texturePartCount,
+        int argbColor) {
         float portionFactor = 1 / texturePartCount;
         drawTexturedRect(
-                x0,
-                y0,
-                width,
-                height,
-                zLevel,
-                textureX,
-                textureY,
-                textureWidth,
-                textureHeight,
-                portionFactor,
-                argbColor);
+            x0,
+            y0,
+            width,
+            height,
+            zLevel,
+            textureX,
+            textureY,
+            textureWidth,
+            textureHeight,
+            portionFactor,
+            argbColor);
     }
 
     /**
@@ -144,7 +144,7 @@ public class DrawHelper {
      * @param argbColor           color which will be applied to the texture
      */
     private static void drawTexturedRect(float x0, float y0, float width, float height, float zLevel, float textureX,
-            float textureY, float textureWidth, float textureHeight, float textureDivideFactor, int argbColor) {
+        float textureY, float textureWidth, float textureHeight, float textureDivideFactor, int argbColor) {
         int r = getRed(argbColor);
         int g = getGreen(argbColor);
         int b = getBlue(argbColor);
@@ -157,23 +157,23 @@ public class DrawHelper {
 
         tess.addVertexWithUV(x0, y0, zLevel, textureX * textureDivideFactor, textureY * textureDivideFactor);
         tess.addVertexWithUV(
-                x0,
-                y0 + height,
-                zLevel,
-                textureX * textureDivideFactor,
-                (textureY + textureHeight) * textureDivideFactor);
+            x0,
+            y0 + height,
+            zLevel,
+            textureX * textureDivideFactor,
+            (textureY + textureHeight) * textureDivideFactor);
         tess.addVertexWithUV(
-                x0 + width,
-                y0 + height,
-                zLevel,
-                (textureX + textureWidth) * textureDivideFactor,
-                (textureY + textureHeight) * textureDivideFactor);
+            x0 + width,
+            y0 + height,
+            zLevel,
+            (textureX + textureWidth) * textureDivideFactor,
+            (textureY + textureHeight) * textureDivideFactor);
         tess.addVertexWithUV(
-                x0 + width,
-                y0,
-                zLevel,
-                (textureX + textureWidth) * textureDivideFactor,
-                textureY * textureDivideFactor);
+            x0 + width,
+            y0,
+            zLevel,
+            (textureX + textureWidth) * textureDivideFactor,
+            textureY * textureDivideFactor);
 
         tess.draw();
     }
@@ -204,34 +204,34 @@ public class DrawHelper {
      */
     // TODO improve draw calls
     public static void drawWidthExpandableTexturedRect(float x0, float y0, float requiredWidth, float zLevel,
-            TexturedRect startElement, TexturedRect repeatElement, TexturedRect endElement, float texturePartCount) {
+        TexturedRect startElement, TexturedRect repeatElement, TexturedRect endElement, float texturePartCount) {
         float startWidth = startElement.width;
         float endWidth = endElement.width;
         float minWidth = startWidth + endWidth;
 
         if (requiredWidth <= minWidth) {
             DrawHelper.drawTexturedRectByParts(
-                    x0,
-                    y0,
-                    startWidth,
-                    startElement.height,
-                    zLevel,
-                    startElement.textureX,
-                    startElement.textureY,
-                    startElement.textureWidth,
-                    startElement.textureHeight,
-                    texturePartCount);
+                x0,
+                y0,
+                startWidth,
+                startElement.height,
+                zLevel,
+                startElement.textureX,
+                startElement.textureY,
+                startElement.textureWidth,
+                startElement.textureHeight,
+                texturePartCount);
             DrawHelper.drawTexturedRectByParts(
-                    x0 + startWidth,
-                    y0,
-                    endWidth,
-                    endElement.height,
-                    zLevel,
-                    endElement.textureX,
-                    endElement.textureY,
-                    endElement.textureWidth,
-                    endElement.textureHeight,
-                    texturePartCount);
+                x0 + startWidth,
+                y0,
+                endWidth,
+                endElement.height,
+                zLevel,
+                endElement.textureX,
+                endElement.textureY,
+                endElement.textureWidth,
+                endElement.textureHeight,
+                texturePartCount);
         } else {
             float remainingWidth = requiredWidth - minWidth;
             float repeatWidth = repeatElement.width;
@@ -241,57 +241,57 @@ public class DrawHelper {
             float fracPart = repeatTimes - (int) repeatTimes;
 
             DrawHelper.drawTexturedRectByParts(
-                    x0,
-                    y0,
-                    startWidth,
-                    startElement.height,
-                    zLevel,
-                    startElement.textureX,
-                    startElement.textureY,
-                    startElement.textureWidth,
-                    startElement.textureHeight,
-                    texturePartCount);
+                x0,
+                y0,
+                startWidth,
+                startElement.height,
+                zLevel,
+                startElement.textureX,
+                startElement.textureY,
+                startElement.textureWidth,
+                startElement.textureHeight,
+                texturePartCount);
 
             float extraX = startWidth;
             for (int i = 0; i < fullTimes; i++) {
                 DrawHelper.drawTexturedRectByParts(
-                        x0 + extraX,
-                        y0,
-                        repeatElement.width,
-                        repeatElement.height,
-                        zLevel,
-                        repeatElement.textureX,
-                        repeatElement.textureY,
-                        repeatElement.textureWidth,
-                        repeatElement.textureHeight,
-                        texturePartCount);
-                extraX += repeatElement.width;
-            }
-
-            DrawHelper.drawTexturedRectByParts(
                     x0 + extraX,
                     y0,
-                    repeatWidth * fracPart,
+                    repeatElement.width,
                     repeatElement.height,
                     zLevel,
                     repeatElement.textureX,
                     repeatElement.textureY,
-                    repeatElement.textureWidth * fracPart,
+                    repeatElement.textureWidth,
                     repeatElement.textureHeight,
                     texturePartCount);
+                extraX += repeatElement.width;
+            }
+
+            DrawHelper.drawTexturedRectByParts(
+                x0 + extraX,
+                y0,
+                repeatWidth * fracPart,
+                repeatElement.height,
+                zLevel,
+                repeatElement.textureX,
+                repeatElement.textureY,
+                repeatElement.textureWidth * fracPart,
+                repeatElement.textureHeight,
+                texturePartCount);
             extraX += repeatWidth * fracPart;
 
             DrawHelper.drawTexturedRectByParts(
-                    x0 + extraX,
-                    y0,
-                    endWidth,
-                    endElement.height,
-                    zLevel,
-                    endElement.textureX,
-                    endElement.textureY,
-                    endElement.textureWidth,
-                    endElement.textureHeight,
-                    texturePartCount);
+                x0 + extraX,
+                y0,
+                endWidth,
+                endElement.height,
+                zLevel,
+                endElement.textureX,
+                endElement.textureY,
+                endElement.textureWidth,
+                endElement.textureHeight,
+                texturePartCount);
         }
     }
 
@@ -344,7 +344,7 @@ public class DrawHelper {
      * @param color HTML color. Example: 0xFF0000 -> red.
      */
     public static void drawYCenteredStringWithShadow(FontRenderer fontRendererIn, String text, int x, int y,
-            int color) {
+        int color) {
         drawStringWithShadow(fontRendererIn, text, x, y - fontRendererIn.FONT_HEIGHT / 2, color);
     }
 
@@ -450,7 +450,7 @@ public class DrawHelper {
         private final float textureHeight;
 
         public TexturedRect(float width, float height, float textureX, float textureY, float textureWidth,
-                float textureHeight) {
+            float textureHeight) {
             this.width = width;
             this.height = height;
             this.textureX = textureX;

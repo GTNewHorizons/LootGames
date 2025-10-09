@@ -47,7 +47,9 @@ public class MoveOrderer {
             if (hashMove != null) {
                 int ind = MoveUtils.indexOf(moves, hashMove, startIndex);
                 if (ind != -1) {
-                    assert (Arrays.asList(moves).subList(startIndex, moves.length).contains(hashMove));
+                    assert (Arrays.asList(moves)
+                        .subList(startIndex, moves.length)
+                        .contains(hashMove));
                     MoveUtils.swap(moves, startIndex, ind);
                     lastMoveOrderStage = MoveOrderStage.HASH_MOVE;
                     return hashMove;

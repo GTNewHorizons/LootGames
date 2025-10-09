@@ -31,21 +31,25 @@ public final class Search {
     private Search() {}
 
     public static int search(List<Move> parentPV, int alpha, int beta, Board board, int depth, SearchStats stats,
-            boolean showThinking) {
+        boolean showThinking) {
 
         assert (depth > 0);
         assert (beta > alpha);
 
         stats.incNodes();
-        stats.getFirstLine().clear();
+        stats.getFirstLine()
+            .clear();
 
         List<Move> moves = MoveGen.genLegalMoves(board);
-        TranspositionTableEntry te = TranspositionTable.getInstance().probe(board.getZobristKey());
+        TranspositionTableEntry te = TranspositionTable.getInstance()
+            .probe(board.getZobristKey());
 
         List<Move> pv = new ArrayList<Move>();
         int numMovesSearched = 0;
         int totalMoves = moves.size();
-        Move pvMove = stats.getLastPV().size() > 0 ? stats.getLastPV().get(0) : null;
+        Move pvMove = stats.getLastPV()
+            .size() > 0 ? stats.getLastPV()
+                .get(0) : null;
         Move hashMove = te == null ? null : te.getMove();
         MoveOrderer mo = new MoveOrderer(board, moves, pvMove, hashMove, null, null);
 
@@ -67,16 +71,16 @@ public final class Search {
                 // -searchHelper(pv,-(alpha+1),-alpha,board,depth-1+extend,1,false,givesCheck,(extend==0),stats);
                 // if (score > alpha && score < beta) {
                 score = -searchHelper(
-                        pv,
-                        -beta,
-                        -alpha,
-                        board,
-                        depth - 1 + extend,
-                        1,
-                        false,
-                        givesCheck,
-                        (extend == 0),
-                        stats);
+                    pv,
+                    -beta,
+                    -alpha,
+                    board,
+                    depth - 1 + extend,
+                    1,
+                    false,
+                    givesCheck,
+                    (extend == 0),
+                    stats);
                 // }
             }
             numMovesSearched++;
@@ -111,7 +115,7 @@ public final class Search {
     }
 
     private static int searchHelper(List<Move> parentPV, int alpha, int beta, Board board, int depth, int ply,
-            boolean pvNode, boolean inCheck, boolean isNullMoveOK, SearchStats stats) {
+        boolean pvNode, boolean inCheck, boolean isNullMoveOK, SearchStats stats) {
 
         assert (ply > 0);
         assert (alpha < beta);
@@ -145,7 +149,8 @@ public final class Search {
         }
 
         // probe the hash table. maybe we won't have to do any work at all!
-        TranspositionTableEntry te = TranspositionTable.getInstance().probe(board.getZobristKey());
+        TranspositionTableEntry te = TranspositionTable.getInstance()
+            .probe(board.getZobristKey());
         if (te != null && te.getDepth() >= depth) {
             if (te.getType() == TranspositionTableEntryType.LOWER_BOUND) {
                 if (te.getScore() >= beta) {
@@ -167,10 +172,10 @@ public final class Search {
         // The idea here is that if my position is so good that, if by giving the opponent an extra turn they
         // can't raise their score to alpha, then when I actually do make a move I will almost surely fail high.
         if (!pvNode && !inCheck
-                && isNullMoveOK
-                && depth >= 3
-                && beta < Constants.INFINITY
-                && !ZugzwangDetector.isZugzwang(board)) {
+            && isNullMoveOK
+            && depth >= 3
+            && beta < Constants.INFINITY
+            && !ZugzwangDetector.isZugzwang(board)) {
 
             Square nullEP = board.clearEPSquare();
             board.swapPlayer();
@@ -180,16 +185,16 @@ public final class Search {
                 nullDepth = 1;
             } // don't drop into q-search
             int nullScore = -searchHelper(
-                    parentPV,
-                    0 - beta,
-                    1 - beta,
-                    board,
-                    nullDepth,
-                    ply,
-                    false,
-                    false,
-                    false,
-                    stats);
+                parentPV,
+                0 - beta,
+                1 - beta,
+                board,
+                nullDepth,
+                ply,
+                false,
+                false,
+                false,
+                stats);
 
             board.swapPlayer();
             if (nullEP != null) {
@@ -212,15 +217,19 @@ public final class Search {
         List<Move> pv = new ArrayList<Move>(50);
         int numMovesApplied = 0, numMovesSearched = 0;
         int totalMoves = moves.size();
-        Move pvMove = (pvNode && stats.getLastPV().size() > ply) ? stats.getLastPV().get(ply) : null;
+        Move pvMove = (pvNode && stats.getLastPV()
+            .size() > ply) ? stats.getLastPV()
+                .get(ply) : null;
         Move hashMove = te == null ? null : te.getMove();
         MoveOrderer mo = new MoveOrderer(
-                board,
-                moves,
-                pvMove,
-                hashMove,
-                KillerMoves.getInstance().getKiller1(ply),
-                KillerMoves.getInstance().getKiller2(ply));
+            board,
+            moves,
+            pvMove,
+            hashMove,
+            KillerMoves.getInstance()
+                .getKiller1(ply),
+            KillerMoves.getInstance()
+                .getKiller2(ply));
         Move bestMove = null;
 
         while (numMovesApplied < totalMoves) {
@@ -244,40 +253,44 @@ public final class Search {
             if (numMovesSearched == 0) {
                 // this is a PV node.
                 score = -searchHelper(
-                        pv,
-                        -beta,
-                        -alpha,
-                        board,
-                        depth - 1 + extend,
-                        ply + 1,
-                        pvNode,
-                        givesCheck,
-                        !pvNode,
-                        stats);
+                    pv,
+                    -beta,
+                    -alpha,
+                    board,
+                    depth - 1 + extend,
+                    ply + 1,
+                    pvNode,
+                    givesCheck,
+                    !pvNode,
+                    stats);
             } else {
                 // if we've searched enough moves and haven't gotten a fail high yet, this is likely
                 // a fail-low node. reduce the remaining moves. if the score comes back above alpha,
                 // then our assumption was wrong and we need to research at full depth.
                 if (numMovesSearched >= 4 && depth >= 3
-                        && !pvNode
-                        && !inCheck
-                        && !givesCheck
-                        && extend == 0
-                        && move.captured() == null
-                        && move.promotion() == null
-                        && !move.equals(KillerMoves.getInstance().getKiller1(ply))
-                        && !move.equals(KillerMoves.getInstance().getKiller2(ply))) {
+                    && !pvNode
+                    && !inCheck
+                    && !givesCheck
+                    && extend == 0
+                    && move.captured() == null
+                    && move.promotion() == null
+                    && !move.equals(
+                        KillerMoves.getInstance()
+                            .getKiller1(ply))
+                    && !move.equals(
+                        KillerMoves.getInstance()
+                            .getKiller2(ply))) {
                     score = -searchHelper(
-                            pv,
-                            -(alpha + 1),
-                            -alpha,
-                            board,
-                            depth - 2,
-                            ply + 1,
-                            false,
-                            false,
-                            true,
-                            stats);
+                        pv,
+                        -(alpha + 1),
+                        -alpha,
+                        board,
+                        depth - 2,
+                        ply + 1,
+                        false,
+                        false,
+                        true,
+                        stats);
                 } else {
                     score = alpha + 1; // ensure a full depth search
                 }
@@ -289,16 +302,16 @@ public final class Search {
                     // -searchHelper(pv,-(alpha+1),-alpha,board,depth-1+extend,ply+1,false,givesCheck,(extend==0),stats);
                     // if (score > alpha && score < beta) {
                     score = -searchHelper(
-                            pv,
-                            -beta,
-                            -alpha,
-                            board,
-                            depth - 1 + extend,
-                            ply + 1,
-                            false,
-                            givesCheck,
-                            (extend == 0),
-                            stats);
+                        pv,
+                        -beta,
+                        -alpha,
+                        board,
+                        depth - 1 + extend,
+                        ply + 1,
+                        false,
+                        givesCheck,
+                        (extend == 0),
+                        stats);
                     // }
                 }
             }
@@ -314,9 +327,10 @@ public final class Search {
             if (score > alpha) {
                 if (score >= beta) {
                     TranspositionTable.getInstance()
-                            .store(TranspositionTableEntryType.LOWER_BOUND, board.getZobristKey(), beta, depth, move);
+                        .store(TranspositionTableEntryType.LOWER_BOUND, board.getZobristKey(), beta, depth, move);
                     if (move.captured() == null && move.promotion() == null) {
-                        KillerMoves.getInstance().addKiller(ply, move);
+                        KillerMoves.getInstance()
+                            .addKiller(ply, move);
                     }
                     return beta;
                 }
@@ -325,7 +339,8 @@ public final class Search {
                 setParentPV(parentPV, move, pv);
             }
         }
-        assert (numMovesSearched == MoveGen.genLegalMoves(board).size());
+        assert (numMovesSearched == MoveGen.genLegalMoves(board)
+            .size());
         assert (alpha >= origAlpha);
 
         alpha = adjustFinalScoreForMates(board, alpha, numMovesSearched, ply);
@@ -335,8 +350,9 @@ public final class Search {
                                                                                                        // didn't find a
                                                                                                        // move
                                                                                                        // > alpha
-                TranspositionTableEntryType.EXACT_MATCH;
-        TranspositionTable.getInstance().store(tet, board.getZobristKey(), alpha, depth, bestMove);
+            TranspositionTableEntryType.EXACT_MATCH;
+        TranspositionTable.getInstance()
+            .store(tet, board.getZobristKey(), alpha, depth, bestMove);
 
         return alpha;
     }
@@ -380,8 +396,8 @@ public final class Search {
 
             // if not a promising capture just skip
             if (!inCheck && mv.promotion() == null
-                    && Eval.getPieceValue(board.getPiece(mv.to())) > Eval.getPieceValue(mv.captured())
-                    && SEE.see(board, mv) < 0) {
+                && Eval.getPieceValue(board.getPiece(mv.to())) > Eval.getPieceValue(mv.captured())
+                && SEE.see(board, mv) < 0) {
                 board.undoLastMove();
                 continue;
             }
@@ -409,7 +425,8 @@ public final class Search {
 
     private static void recordFirstLine(boolean isPVNode, int numMovesSearched, SearchStats stats, Move move) {
         if (isPVNode && numMovesSearched == 0) {
-            stats.getFirstLine().add(move);
+            stats.getFirstLine()
+                .add(move);
         }
     }
 

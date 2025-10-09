@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 public class EntityRookFigure extends EntityIronGolem implements IChessFigure {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-            new ResourceLocation("LootGames:textures/entity/rook_golem/black.png"),
-            new ResourceLocation("LootGames:textures/entity/rook_golem/white.png") };
+        new ResourceLocation("LootGames:textures/entity/rook_golem/black.png"),
+        new ResourceLocation("LootGames:textures/entity/rook_golem/white.png") };
 
     private FiguresData _mFiguresData;
 

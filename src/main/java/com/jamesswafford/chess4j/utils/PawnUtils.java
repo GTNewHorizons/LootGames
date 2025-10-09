@@ -17,23 +17,35 @@ public class PawnUtils {
         for (int i = 0; i < 64; i++) {
             isolated[i] = 0;
             Square sq = Square.valueOf(i);
-            if (sq.file().getValue() > File.FILE_A.getValue()) {
-                isolated[i] |= Bitboard.files[sq.file().getValue() - 1];
+            if (sq.file()
+                .getValue() > File.FILE_A.getValue()) {
+                isolated[i] |= Bitboard.files[sq.file()
+                    .getValue() - 1];
             }
-            if (sq.file().getValue() < File.FILE_H.getValue()) {
-                isolated[i] |= Bitboard.files[sq.file().getValue() + 1];
+            if (sq.file()
+                .getValue() < File.FILE_H.getValue()) {
+                isolated[i] |= Bitboard.files[sq.file()
+                    .getValue() + 1];
             }
 
-            passed[i][Color.WHITE.ordinal()] = Bitboard.rays[i][North.getInstance().value()];
-            passed[i][Color.BLACK.ordinal()] = Bitboard.rays[i][South.getInstance().value()];
+            passed[i][Color.WHITE.ordinal()] = Bitboard.rays[i][North.getInstance()
+                .value()];
+            passed[i][Color.BLACK.ordinal()] = Bitboard.rays[i][South.getInstance()
+                .value()];
 
-            if (sq.file().getValue() > File.FILE_A.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i - 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i - 1][South.getInstance().value()];
+            if (sq.file()
+                .getValue() > File.FILE_A.getValue()) {
+                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i - 1][North.getInstance()
+                    .value()];
+                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i - 1][South.getInstance()
+                    .value()];
             }
-            if (sq.file().getValue() < File.FILE_H.getValue()) {
-                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i + 1][North.getInstance().value()];
-                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i + 1][South.getInstance().value()];
+            if (sq.file()
+                .getValue() < File.FILE_H.getValue()) {
+                passed[i][Color.WHITE.ordinal()] |= Bitboard.rays[i + 1][North.getInstance()
+                    .value()];
+                passed[i][Color.BLACK.ordinal()] |= Bitboard.rays[i + 1][South.getInstance()
+                    .value()];
             }
         }
     }
@@ -54,7 +66,8 @@ public class PawnUtils {
 
     public static boolean isDoubled(Board board, Square pawnSq, boolean isWhite) {
 
-        long fileMask = Bitboard.files[pawnSq.file().getValue()] ^ Bitboard.squares[pawnSq.value()];
+        long fileMask = Bitboard.files[pawnSq.file()
+            .getValue()] ^ Bitboard.squares[pawnSq.value()];
         if (isWhite) {
             return (fileMask & board.getWhitePawns()) != 0;
         } else {

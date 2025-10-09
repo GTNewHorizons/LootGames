@@ -31,10 +31,14 @@ public final class PGNParser {
         moveText = moveText.replaceAll("\\d+\\.", "");
 
         // get rid of game end indicator
-        moveText = moveText.replaceAll("1-0", "").replaceAll("0-1", "").replaceAll("1/2-1/2", "").replaceAll("\\*", "");
+        moveText = moveText.replaceAll("1-0", "")
+            .replaceAll("0-1", "")
+            .replaceAll("1/2-1/2", "")
+            .replaceAll("\\*", "");
 
         // get rid of extra white space
-        moveText = moveText.replaceAll("\\s+", " ").trim();
+        moveText = moveText.replaceAll("\\s+", " ")
+            .trim();
 
         String[] mvs = moveText.split(" ");
         MoveParser mp = new MoveParser();
@@ -56,7 +60,10 @@ public final class PGNParser {
         Pattern p = Pattern.compile("\\[(.*)?\\]");
         Matcher m = p.matcher(pgn);
 
-        return m.replaceAll("").replaceAll("\n", " ").replaceAll("\r", " ").trim();
+        return m.replaceAll("")
+            .replaceAll("\n", " ")
+            .replaceAll("\r", " ")
+            .trim();
     }
 
     private List<PGNTag> getPGNTags(String pgn) {
@@ -74,17 +81,21 @@ public final class PGNParser {
 
     private PGNResult getResult(String pgn) throws ParseException {
         PGNResult result;
-        if (pgn.trim().endsWith("1-0")) {
+        if (pgn.trim()
+            .endsWith("1-0")) {
             result = PGNResult.WHITE_WINS;
-        } else if (pgn.trim().endsWith("0-1")) {
-            result = PGNResult.BLACK_WINS;
-        } else if (pgn.trim().endsWith("1/2-1/2")) {
-            result = PGNResult.DRAW;
-        } else if (pgn.trim().endsWith("*")) {
-            result = PGNResult.ADJOURNED;
-        } else {
-            throw new ParseException("Could not determine game result.");
-        }
+        } else if (pgn.trim()
+            .endsWith("0-1")) {
+                result = PGNResult.BLACK_WINS;
+            } else if (pgn.trim()
+                .endsWith("1/2-1/2")) {
+                    result = PGNResult.DRAW;
+                } else if (pgn.trim()
+                    .endsWith("*")) {
+                        result = PGNResult.ADJOURNED;
+                    } else {
+                        throw new ParseException("Could not determine game result.");
+                    }
 
         return result;
     }

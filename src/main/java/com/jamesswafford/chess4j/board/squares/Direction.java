@@ -15,8 +15,14 @@ public abstract class Direction {
     }
 
     private static Direction directionTo(Square from, Square to) {
-        int fDiff = from.file().getValue() - to.file().getValue();
-        int rDiff = from.rank().getValue() - to.rank().getValue();
+        int fDiff = from.file()
+            .getValue()
+            - to.file()
+                .getValue();
+        int rDiff = from.rank()
+            .getValue()
+            - to.rank()
+                .getValue();
 
         if (fDiff == 0) {
             // same file

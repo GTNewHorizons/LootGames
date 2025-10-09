@@ -8,10 +8,12 @@ public class GamePacketRegister {
     private static int serverIncrement = 0;
 
     public static void regClientPacket(Class<? extends IClientGamePacket> packetClass) {
-        GamePacketRegistry.clientStorage().regPacket(LootGames.MODID, clientIncrement++, packetClass);
+        GamePacketRegistry.clientStorage()
+            .regPacket(LootGames.MODID, clientIncrement++, packetClass);
     }
 
     public static void regServerPacket(Class<? extends IServerGamePacket> packetClass) {
-        GamePacketRegistry.serverStorage().regPacket(LootGames.MODID, serverIncrement++, packetClass);
+        GamePacketRegistry.serverStorage()
+            .regPacket(LootGames.MODID, serverIncrement++, packetClass);
     }
 }

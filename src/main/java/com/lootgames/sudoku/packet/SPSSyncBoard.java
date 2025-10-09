@@ -25,7 +25,9 @@ public class SPSSyncBoard extends NBTGamePacket {
     @Override
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> genericGame) {
         GameSudoku game = (GameSudoku) genericGame;
-        NBTTagCompound boardTag = Objects.requireNonNull(getCompound()).getCompoundTag("board");
-        game.getBoard().readNBT(boardTag);
+        NBTTagCompound boardTag = Objects.requireNonNull(getCompound())
+            .getCompoundTag("board");
+        game.getBoard()
+            .readNBT(boardTag);
     }
 }

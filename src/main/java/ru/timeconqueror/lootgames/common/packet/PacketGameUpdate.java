@@ -50,9 +50,8 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
                 gamePacket.decode(buffer);
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(
-                        "Can't decode received game packet, due to lack of public nullary constructor in "
-                                + packetClass,
-                        e);
+                    "Can't decode received game packet, due to lack of public nullary constructor in " + packetClass,
+                    e);
             }
 
             setMasterPos(masterPos);
@@ -104,7 +103,7 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
     public abstract Storage<T> getStorage();
 
     public static class Handler<T extends IGamePacket, P extends PacketGameUpdate<T>>
-            implements IMessageHandler<P, IMessage> {
+        implements IMessageHandler<P, IMessage> {
 
         private final ThreeConsumer<MessageContext, LootGame<?, ?>, T> gameUpdater;
 
@@ -121,9 +120,10 @@ public abstract class PacketGameUpdate<T extends IGamePacket> implements IMessag
                 gameUpdater.accept(ctx, master.getGame(), packet.getGamePacket());
             } else {
                 LootGames.LOGGER.error(
-                        "Something went wrong. Can't find TileEntityMaster on pos " + packet.getMasterPos()
-                                + " for packet "
-                                + packet.getGamePacketClass().getName());
+                    "Something went wrong. Can't find TileEntityMaster on pos " + packet.getMasterPos()
+                        + " for packet "
+                        + packet.getGamePacketClass()
+                            .getName());
             }
 
             return null;

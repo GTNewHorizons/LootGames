@@ -57,31 +57,31 @@ public final class Eval {
     public static final int KING_SAFETY_PAWN_FAR_AWAY = -30;
     public static final int KING_SAFETY_MIDDLE_OPEN_FILE = -50;
     public static final int[] BISHOP_PST = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0,
-            0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 7, 7, 7, 7, 7, 0,
-            0, 0, 0, 0, 0, 0, 0, 0 };
+        0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 20, 20, 15, 7, 0, 0, 7, 15, 15, 15, 15, 7, 0, 0, 7, 7, 7, 7, 7, 7, 0, 0,
+        0, 0, 0, 0, 0, 0, 0 };
     public static final int[] KNIGHT_PST = { -5, -5, -5, -5, -5, -5, -5, -5, -5, 0, 10, 10, 10, 10, 0, -5, -5, 0, 15,
-            20, 20, 15, 0, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 0, 8, 0, 0, 8, 0, -5, -5,
-            0, 0, 5, 5, 0, 0, -5, -10, -10, -5, -5, -5, -5, -10, -10 };
+        20, 20, 15, 0, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 5, 10, 15, 15, 10, 5, -5, -5, 0, 8, 0, 0, 8, 0, -5, -5, 0,
+        0, 5, 5, 0, 0, -5, -10, -10, -5, -5, -5, -5, -10, -10 };
 
     // A8 ... H8
     // ...
     // A1 ... H1
     public static final int[] PAWN_PST = { 0, 0, 0, 0, 0, 0, 0, 0, 30, 30, 30, 30, 30, 30, 30, 30, 14, 14, 14, 18, 18,
-            14, 14, 14, 7, 7, 7, 10, 10, 7, 7, 7, 5, 5, 5, 7, 7, 5, 5, 5, 3, 3, 3, 5, 5, 3, 3, 3, 0, 0, 0, -3, -3, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        14, 14, 14, 7, 7, 7, 10, 10, 7, 7, 7, 5, 5, 5, 7, 7, 5, 5, 5, 3, 3, 3, 5, 5, 3, 3, 3, 0, 0, 0, -3, -3, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0 };
     public static final int[] ROOK_PST = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, -5, -5,
-            0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0,
-            0, 0, 0, 0, 0 };
+        0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0,
+        0, 0, 0, 0 };
     public static final int[] KING_PST = { -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30,
-            -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30,
-            -30, -30, -30, -30, -20, -20, -20, -20, -20, -20, -20, -20, -10, -10, -10, -10, -10, -10, -10, -10, 0, 10,
-            20, -25, 0, -25, 20, 0 };
+        -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30, -30,
+        -30, -30, -30, -20, -20, -20, -20, -20, -20, -20, -20, -10, -10, -10, -10, -10, -10, -10, -10, 0, 10, 20, -25,
+        0, -25, 20, 0 };
     public static final int[] KING_ENDGAME_PST = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 10, 20, 20,
-            20, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0,
-            10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        20, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 25, 25, 20, 10, 0, 0, 10, 20, 20, 20, 20, 10, 0, 0, 10,
+        10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     public static final int[] QUEEN_PST = { -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 1, 1, 1, 1,
-            0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 0, 0, 0, 0, 0,
-            -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 2, 2, 1, 0, -1, -1, 0, 1, 1, 1, 1, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1 };
     private static Map<Class<?>, Integer> pieceValMap;
 
     static {
@@ -102,7 +102,8 @@ public final class Eval {
         OrderedPair<Integer, Integer> matPScore = getPawnMaterialScore(board);
 
         int score = matNPScore.getE1() - matNPScore.getE2() + matPScore.getE1() - matPScore.getE2();
-        assert ((board.getPlayerToMove().equals(Color.WHITE) ? score : -score) == evalMaterial(board));
+        assert ((board.getPlayerToMove()
+            .equals(Color.WHITE) ? score : -score) == evalMaterial(board));
 
         score += evalPawns(board);
         score += evalKnights(board);
@@ -111,7 +112,8 @@ public final class Eval {
         score += evalQueens(board);
         score += evalKings(board, matNPScore);
 
-        return board.getPlayerToMove().equals(Color.WHITE) ? score : -score;
+        return board.getPlayerToMove()
+            .equals(Color.WHITE) ? score : -score;
     }
 
     private static int evalBishops(Board board) {
@@ -137,7 +139,9 @@ public final class Eval {
     }
 
     private static int evalBishop(boolean isWhite, Square sq) {
-        return BISHOP_PST[isWhite ? sq.value() : sq.flipVertical().value()];
+        return BISHOP_PST[isWhite ? sq.value()
+            : sq.flipVertical()
+                .value()];
     }
 
     private static int evalKnights(Board board) {
@@ -163,20 +167,24 @@ public final class Eval {
     }
 
     private static int evalKnight(boolean isWhite, Square sq) {
-        return KNIGHT_PST[isWhite ? sq.value() : sq.flipVertical().value()];
+        return KNIGHT_PST[isWhite ? sq.value()
+            : sq.flipVertical()
+                .value()];
     }
 
     private static int evalPawns(Board board) {
 
         // try the pawn hash
-        PawnTranspositionTableEntry pte = PawnTranspositionTable.getInstance().probe(board.getPawnKey());
+        PawnTranspositionTableEntry pte = PawnTranspositionTable.getInstance()
+            .probe(board.getPawnKey());
         if (pte != null) {
             assert (pte.getScore() == evalPawnsNoHash(board));
             return pte.getScore();
         }
 
         int score = evalPawnsNoHash(board);
-        PawnTranspositionTable.getInstance().store(board.getPawnKey(), score);
+        PawnTranspositionTable.getInstance()
+            .store(board.getPawnKey(), score);
 
         return score;
     }
@@ -206,7 +214,9 @@ public final class Eval {
     private static int evalPawn(Board board, boolean isWhite, Square sq) {
         int score = 0;
 
-        score += PAWN_PST[isWhite ? sq.value() : sq.flipVertical().value()];
+        score += PAWN_PST[isWhite ? sq.value()
+            : sq.flipVertical()
+                .value()];
         if (PawnUtils.isPassedPawn(board, sq, isWhite)) {
             score += PASSED_PAWN;
         }
@@ -223,7 +233,11 @@ public final class Eval {
     private static int evalConnectedMajorOn7th(Board board, boolean isWhite, Square sq) {
         int score = 0;
 
-        long rookMoves = Magic.getRookMoves(board, sq.value(), Bitboard.rays[sq.value()][East.getInstance().value()]);
+        long rookMoves = Magic.getRookMoves(
+            board,
+            sq.value(),
+            Bitboard.rays[sq.value()][East.getInstance()
+                .value()]);
 
         if (isWhite) {
             if ((rookMoves & (board.getWhiteRooks() | board.getWhiteQueens())) != 0) {
@@ -242,12 +256,14 @@ public final class Eval {
         int score = 0;
 
         if (isWhite) {
-            if (sq.rank() == Rank.RANK_7 && board.getKingSquare(Color.BLACK).rank() == Rank.RANK_8) {
+            if (sq.rank() == Rank.RANK_7 && board.getKingSquare(Color.BLACK)
+                .rank() == Rank.RANK_8) {
                 score += ROOK_ON_7TH;
                 score += evalConnectedMajorOn7th(board, isWhite, sq);
             }
         } else {
-            if (sq.rank() == Rank.RANK_2 && board.getKingSquare(Color.WHITE).rank() == Rank.RANK_1) {
+            if (sq.rank() == Rank.RANK_2 && board.getKingSquare(Color.WHITE)
+                .rank() == Rank.RANK_1) {
                 score += ROOK_ON_7TH;
                 score += evalConnectedMajorOn7th(board, isWhite, sq);
             }
@@ -268,7 +284,8 @@ public final class Eval {
             enemies = board.getWhitePawns();
         }
 
-        long fileMask = Bitboard.files[sq.file().getValue()] ^ Bitboard.squares[sq.value()];
+        long fileMask = Bitboard.files[sq.file()
+            .getValue()] ^ Bitboard.squares[sq.value()];
         if ((fileMask & friends) == 0) {
             if ((fileMask & enemies) != 0) {
                 score += ROOK_HALF_OPEN_FILE;
@@ -303,7 +320,9 @@ public final class Eval {
     }
 
     private static int evalRook(Board board, boolean isWhite, Square sq) {
-        int score = ROOK_PST[isWhite ? sq.value() : sq.flipVertical().value()];
+        int score = ROOK_PST[isWhite ? sq.value()
+            : sq.flipVertical()
+                .value()];
         score += evalMajorOn7th(board, isWhite, sq);
         score += evalRookOpenFile(board, isWhite, sq);
         return score;
@@ -326,10 +345,12 @@ public final class Eval {
             score += KING_ENDGAME_PST[whiteKingSq.value()];
         }
         if (matNPScore.getE1() >= ENDGAME_THRESHOLD) {
-            score -= KING_PST[blackKingSq.flipVertical().value()];
+            score -= KING_PST[blackKingSq.flipVertical()
+                .value()];
             score -= scale(evalKingSafety(false, b), matNPScore.getE1());
         } else {
-            score -= KING_ENDGAME_PST[blackKingSq.flipVertical().value()];
+            score -= KING_ENDGAME_PST[blackKingSq.flipVertical()
+                .value()];
         }
 
         return score;
@@ -343,7 +364,8 @@ public final class Eval {
         if (isWhite) {
             kingSq = board.getKingSquare(Color.WHITE);
             // which side are we on?
-            if (kingSq.file().eastOf(File.FILE_E)) {
+            if (kingSq.file()
+                .eastOf(File.FILE_E)) {
                 // check that pawns on f,g,h are not too far away
                 if (board.getPiece(Square.valueOf(File.FILE_F, Rank.RANK_2)) == Pawn.WHITE_PAWN);
                 else if (board.getPiece(Square.valueOf(File.FILE_F, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
@@ -372,43 +394,46 @@ public final class Eval {
                     score += KING_SAFETY_PAWN_FAR_AWAY / 2;
                 }
 
-            } else if (kingSq.file().westOf(File.FILE_D)) {
-                if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_2)) == Pawn.WHITE_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY;
-                } else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY;
-                } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY;
-                }
+            } else if (kingSq.file()
+                .westOf(File.FILE_D)) {
+                    if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_2)) == Pawn.WHITE_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY;
+                    }
 
-                if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_2)) == Pawn.WHITE_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY;
-                } else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY;
-                } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY;
-                }
+                    if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_2)) == Pawn.WHITE_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY;
+                    }
 
-                if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_2)) == Pawn.WHITE_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY / 2;
-                } else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY / 2;
+                    if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_2)) == Pawn.WHITE_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_3)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY / 2;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_4)) == Pawn.WHITE_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY / 2;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY / 2;
+                    }
                 } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY / 2;
+                    // check if open file
+                    if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file()
+                        .getValue()]) == 0) {
+                        score += KING_SAFETY_MIDDLE_OPEN_FILE;
+                    }
                 }
-            } else {
-                // check if open file
-                if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file().getValue()]) == 0) {
-                    score += KING_SAFETY_MIDDLE_OPEN_FILE;
-                }
-            }
             // scale down with material?
         } else {
             kingSq = board.getKingSquare(Color.BLACK);
-            if (kingSq.file().eastOf(File.FILE_E)) {
+            if (kingSq.file()
+                .eastOf(File.FILE_E)) {
                 if (board.getPiece(Square.valueOf(File.FILE_F, Rank.RANK_7)) == Pawn.BLACK_PAWN);
                 else if (board.getPiece(Square.valueOf(File.FILE_F, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
                     score += KING_SAFETY_PAWN_ONE_AWAY;
@@ -435,39 +460,41 @@ public final class Eval {
                 } else {
                     score += KING_SAFETY_PAWN_FAR_AWAY / 2;
                 }
-            } else if (kingSq.file().westOf(File.FILE_D)) {
-                if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_7)) == Pawn.BLACK_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY;
-                } else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY;
-                } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY;
-                }
+            } else if (kingSq.file()
+                .westOf(File.FILE_D)) {
+                    if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_7)) == Pawn.BLACK_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_C, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY;
+                    }
 
-                if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_7)) == Pawn.BLACK_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY;
-                } else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY;
-                } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY;
-                }
+                    if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_7)) == Pawn.BLACK_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_B, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY;
+                    }
 
-                if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_7)) == Pawn.BLACK_PAWN);
-                else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_ONE_AWAY / 2;
-                } else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
-                    score += KING_SAFETY_PAWN_TWO_AWAY / 2;
+                    if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_7)) == Pawn.BLACK_PAWN);
+                    else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_6)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_ONE_AWAY / 2;
+                    } else if (board.getPiece(Square.valueOf(File.FILE_A, Rank.RANK_5)) == Pawn.BLACK_PAWN) {
+                        score += KING_SAFETY_PAWN_TWO_AWAY / 2;
+                    } else {
+                        score += KING_SAFETY_PAWN_FAR_AWAY / 2;
+                    }
                 } else {
-                    score += KING_SAFETY_PAWN_FAR_AWAY / 2;
+                    // check if open file
+                    if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file()
+                        .getValue()]) == 0) {
+                        score += KING_SAFETY_MIDDLE_OPEN_FILE;
+                    }
                 }
-            } else {
-                // check if open file
-                if (((board.getWhitePawns() | board.getBlackPawns()) & Bitboard.files[kingSq.file().getValue()]) == 0) {
-                    score += KING_SAFETY_MIDDLE_OPEN_FILE;
-                }
-            }
         }
 
         return score;
@@ -496,7 +523,9 @@ public final class Eval {
     }
 
     private static int evalQueen(Board board, boolean isWhite, Square sq) {
-        int score = QUEEN_PST[isWhite ? sq.value() : sq.flipVertical().value()];
+        int score = QUEEN_PST[isWhite ? sq.value()
+            : sq.flipVertical()
+                .value()];
         score += evalMajorOn7th(board, isWhite, sq);
         return score;
     }
@@ -507,18 +536,18 @@ public final class Eval {
 
     public static OrderedPair<Integer, Integer> getPawnMaterialScore(Board board) {
         return new OrderedPair<Integer, Integer>(
-                board.getNumPieces(Pawn.WHITE_PAWN) * PAWN_VAL,
-                board.getNumPieces(Pawn.BLACK_PAWN) * PAWN_VAL);
+            board.getNumPieces(Pawn.WHITE_PAWN) * PAWN_VAL,
+            board.getNumPieces(Pawn.BLACK_PAWN) * PAWN_VAL);
     }
 
     public static OrderedPair<Integer, Integer> getNonPawnMaterialScore(Board board) {
         int wScore = board.getNumPieces(Queen.WHITE_QUEEN) * QUEEN_VAL + board.getNumPieces(Rook.WHITE_ROOK) * ROOK_VAL
-                + board.getNumPieces(Knight.WHITE_KNIGHT) * KNIGHT_VAL
-                + board.getNumPieces(Bishop.WHITE_BISHOP) * BISHOP_VAL;
+            + board.getNumPieces(Knight.WHITE_KNIGHT) * KNIGHT_VAL
+            + board.getNumPieces(Bishop.WHITE_BISHOP) * BISHOP_VAL;
 
         int bScore = board.getNumPieces(Queen.BLACK_QUEEN) * QUEEN_VAL + board.getNumPieces(Rook.BLACK_ROOK) * ROOK_VAL
-                + board.getNumPieces(Knight.BLACK_KNIGHT) * KNIGHT_VAL
-                + board.getNumPieces(Bishop.BLACK_BISHOP) * BISHOP_VAL;
+            + board.getNumPieces(Knight.BLACK_KNIGHT) * KNIGHT_VAL
+            + board.getNumPieces(Bishop.BLACK_BISHOP) * BISHOP_VAL;
 
         return new OrderedPair<Integer, Integer>(wScore, bScore);
     }
@@ -537,7 +566,8 @@ public final class Eval {
             }
         }
 
-        return board.getPlayerToMove().equals(Color.WHITE) ? score : -score;
+        return board.getPlayerToMove()
+            .equals(Color.WHITE) ? score : -score;
     }
 
     public static int scale(int score, int material) {

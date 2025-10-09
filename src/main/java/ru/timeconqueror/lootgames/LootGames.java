@@ -30,11 +30,11 @@ import ru.timeconqueror.timecore.api.common.CommonEventHandler;
 import ru.timeconqueror.timecore.api.common.config.Config;
 
 @Mod(
-        modid = LootGames.MODID,
-        dependencies = "required-after:Forge@[10.13.4.1614,);" + "required-after:YAMCore@[0.5.76,);",
-        name = LootGames.MODNAME,
-        version = LootGames.VERSION,
-        certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")
+    modid = LootGames.MODID,
+    dependencies = "required-after:Forge@[10.13.4.1614,);" + "required-after:YAMCore@[0.5.76,);",
+    name = LootGames.MODNAME,
+    version = LootGames.VERSION,
+    certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")
 public class LootGames {
 
     public static final String MODID = Tags.MODID;
@@ -52,8 +52,8 @@ public class LootGames {
     };
 
     @SidedProxy(
-            clientSide = "ru.timeconqueror.lootgames.ClientProxy",
-            serverSide = "ru.timeconqueror.lootgames.CommonProxy")
+        clientSide = "ru.timeconqueror.lootgames.ClientProxy",
+        serverSide = "ru.timeconqueror.lootgames.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.Instance(LootGames.MODID)

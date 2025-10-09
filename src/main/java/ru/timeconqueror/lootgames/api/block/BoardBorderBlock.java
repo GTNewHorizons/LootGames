@@ -99,7 +99,7 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
         if (!worldIn.isRemote) {
             BlockPos pos = BlockPos.of(x, y, z);
             LootGamesAPI.getFieldManager()
-                    .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, pos, BlockState.of(blockBroken, meta)));
+                .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, pos, BlockState.of(blockBroken, meta)));
         }
 
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
@@ -118,7 +118,7 @@ public class BoardBorderBlock extends GameBlock implements IGameField {
 
         public static Type byMeta(int meta) {
             if (meta >= VALUES.length) throw new IllegalArgumentException(
-                    String.format("Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
+                String.format("Provided meta (%s) which is more than type storage size (%s)", meta, VALUES.length));
             return VALUES[meta];
         }
     }

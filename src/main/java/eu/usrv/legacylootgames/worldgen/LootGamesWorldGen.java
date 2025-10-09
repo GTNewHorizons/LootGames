@@ -21,7 +21,7 @@ public class LootGamesWorldGen implements IWorldGenerator {
 
     @Override
     public void generate(Random pRandom, int pChunkX, int pChunkZ, World pWorld, IChunkProvider pChunkGenerator,
-            IChunkProvider pChunkProvider) {
+        IChunkProvider pChunkProvider) {
         long tStart = System.currentTimeMillis();
         LootGamesLegacy.DungeonLogger.trace("WorldGen => Generate()");
         if (!checkSpawnConditions(pChunkX, pChunkZ, pWorld)) {
@@ -41,20 +41,20 @@ public class LootGamesWorldGen implements IWorldGenerator {
 
         if (LGConfigs.GENERAL.worldGen.disableDungeonGen) {
             LootGamesLegacy.DungeonLogger
-                    .trace("WorldGen => Generate() => checkSpawnConditions() => WorldGen is DISABLED");
+                .trace("WorldGen => Generate() => checkSpawnConditions() => WorldGen is DISABLED");
             tState = false;
         }
 
         if (tState && !LGConfigs.GENERAL.worldGen.isDimensionEnabledForWG(pWorld.provider.dimensionId)) {
             LootGamesLegacy.DungeonLogger.trace(
-                    "WorldGen => Generate() => checkSpawnConditions() => Dim %d is not Whitelisted",
-                    pWorld.provider.dimensionId);
+                "WorldGen => Generate() => checkSpawnConditions() => Dim %d is not Whitelisted",
+                pWorld.provider.dimensionId);
             tState = false;
         }
 
         if (tState && !canSpawnInChunk_v3(pChunkX, pChunkZ, pWorld)) {
             LootGamesLegacy.DungeonLogger
-                    .trace("WorldGen => Generate() => checkSpawnConditions() => Location not suitable");
+                .trace("WorldGen => Generate() => checkSpawnConditions() => Location not suitable");
             tState = false;
         }
 

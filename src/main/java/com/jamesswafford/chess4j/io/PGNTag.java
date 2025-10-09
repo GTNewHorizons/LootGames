@@ -28,8 +28,10 @@ public class PGNTag {
         if (!(obj instanceof PGNTag)) return false;
 
         PGNTag that = (PGNTag) obj;
-        if (!this.getTagName().equals(that.getTagName())) return false;
-        return this.getTagValue().equals(that.getTagValue());
+        if (!this.getTagName()
+            .equals(that.getTagName())) return false;
+        return this.getTagValue()
+            .equals(that.getTagValue());
     }
 
     @Override

@@ -33,7 +33,7 @@ public class RewardUtils {
      * @param rewardConfig reward part of your game's config
      */
     public static void spawnFourStagedReward(WorldServer world, LootGame<?, ?> game, BlockPos centralPos,
-            int rewardLevel, FourStagedRewardConfig rewardConfig) {
+        int rewardLevel, FourStagedRewardConfig rewardConfig) {
         BlockState state = BlockState.of(LGBlocks.DUNGEON_LAMP, DungeonLightSource.State.NORMAL.ordinal());
         WorldExt.setBlockState(world, centralPos.offset(1, 0, 1), state);
         WorldExt.setBlockState(world, centralPos.offset(1, 0, -1), state);
@@ -48,10 +48,10 @@ public class RewardUtils {
                 if (counter >= rewardLevel) break;
 
                 spawnLootChest(
-                        world,
-                        centralPos,
-                        direction,
-                        SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(counter)));
+                    world,
+                    centralPos,
+                    direction,
+                    SpawnChestData.fromRewardConfig(game, rewardConfig.getStageByIndex(counter)));
                 counter++;
             }
         }
@@ -68,7 +68,7 @@ public class RewardUtils {
      * @param chestData           data which contains the rules of setting chest content
      */
     public static void spawnLootChest(WorldServer world, BlockPos centralPos, HorizontalDirection horizontalDirection,
-            SpawnChestData chestData) {
+        SpawnChestData chestData) {
         EnumFacing direction = horizontalDirection.get();
         String lootTable = chestData.getLootTableKey();
 
@@ -81,19 +81,19 @@ public class RewardUtils {
         if (chestTile != null) {
             if (randomLoot.length == 0) {
                 LootGames.LOGGER.error(
-                        "Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash",
-                        lootTable,
-                        chestData.getGameName());
+                    "Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash",
+                    lootTable,
+                    chestData.getGameName());
                 ItemDescriptor sorryItem = ItemDescriptor.fromString("minecraft:stone");
                 String lore = String.join(
-                        "\",\"",
-                        "Modpack creator failed to configure",
-                        "the Loot Tables properly.",
-                        String.format("Please report that Loot Table [%s]", lootTable),
-                        String.format("for %s stage is broken.", chestData.getGameName()),
-                        "Thank you!");
+                    "\",\"",
+                    "Modpack creator failed to configure",
+                    "the Loot Tables properly.",
+                    String.format("Please report that Loot Table [%s]", lootTable),
+                    String.format("for %s stage is broken.", chestData.getGameName()),
+                    "Thank you!");
                 ItemStack sorryStack = sorryItem
-                        .getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
+                    .getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
                 chestTile.setInventorySlotContents(0, sorryStack);
             } else {
                 int count = RandHelper.RAND.nextInt(chestData.getMaxItems()) + chestData.getMinItems();
@@ -111,10 +111,10 @@ public class RewardUtils {
 
         public static SpawnChestData fromRewardConfig(LootGame<?, ?> game, RewardConfig rewardConfig) {
             return new SpawnChestData(
-                    game,
-                    rewardConfig.getLootTable(game.getWorld()),
-                    rewardConfig.minItems,
-                    rewardConfig.maxItems);
+                game,
+                rewardConfig.getLootTable(game.getWorld()),
+                rewardConfig.minItems,
+                rewardConfig.maxItems);
         }
 
         /**
@@ -131,7 +131,8 @@ public class RewardUtils {
             this.lootTableRL = lootTableRL;
             this.minItems = minItems;
             this.maxItems = maxItems;
-            this.gameName = game.getClass().getSimpleName();
+            this.gameName = game.getClass()
+                .getSimpleName();
         }
 
         private String getGameName() {

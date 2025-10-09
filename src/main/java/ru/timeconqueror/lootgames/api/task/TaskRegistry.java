@@ -21,7 +21,7 @@ public abstract class TaskRegistry {
     public static <T extends ITask> void registerTaskFactory(Class<T> taskClass, ITask.ITaskFactory<T> factory) {
         if (TASK_FACTORIES.put(taskClass, factory) != null) {
             throw new IllegalArgumentException(
-                    "The factory for task class " + taskClass + " has been already registered.");
+                "The factory for task class " + taskClass + " has been already registered.");
         }
     }
 }

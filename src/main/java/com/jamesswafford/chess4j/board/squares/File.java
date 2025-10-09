@@ -39,7 +39,8 @@ public enum File {
 
     public static File file(String value) {
         for (File f : File.values()) {
-            if (f.getLabel().equalsIgnoreCase(value)) {
+            if (f.getLabel()
+                .equalsIgnoreCase(value)) {
                 return f;
             }
         }

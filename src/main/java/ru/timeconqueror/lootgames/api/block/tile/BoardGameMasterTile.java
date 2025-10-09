@@ -43,8 +43,10 @@ public class BoardGameMasterTile<T extends BoardLootGame<T>> extends GameMasterT
 
     @SideOnly(Side.CLIENT)
     public static void prepareMatrix(BoardGameMasterTile<?> master) {
-        BlockPos boardOrigin = master.getGame().getBoardOrigin();
-        Vector3i originOffset = boardOrigin.subtract(master.getBlockPos()).offset(0, 1, 0);
+        BlockPos boardOrigin = master.getGame()
+            .getBoardOrigin();
+        Vector3i originOffset = boardOrigin.subtract(master.getBlockPos())
+            .offset(0, 1, 0);
 
         GL11.glTranslatef(originOffset.getX(), originOffset.getY(), originOffset.getZ());
         GL11.glRotatef(90, 1, 0, 0);

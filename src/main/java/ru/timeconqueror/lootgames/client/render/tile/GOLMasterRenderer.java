@@ -110,7 +110,7 @@ public class GOLMasterRenderer extends TileEntitySpecialRenderer {
 
         if (game.getStage() instanceof StageUnderExpanding) {
             float progress = Ease
-                    .inOutQuart((float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
+                .inOutQuart((float) MathUtils.coerceInRange(ticks, 0, MAX_TICKS_EXPANDING) / MAX_TICKS_EXPANDING);
 
             length = MathUtils.lerp(progress, 1, 3);
             textureStart = 16F - 16F * progress;
@@ -119,16 +119,16 @@ public class GOLMasterRenderer extends TileEntitySpecialRenderer {
 
         GL11.glTranslatef(3 / 2F, 3 / 2F, 0);
         DrawHelper.drawTexturedRectByParts(
-                -length / 2,
-                -length / 2,
-                length,
-                length,
-                -0.005F,
-                textureStart,
-                textureStart,
-                textureLength,
-                textureLength,
-                48);
+            -length / 2,
+            -length / 2,
+            length,
+            length,
+            -0.005F,
+            textureStart,
+            textureStart,
+            textureLength,
+            textureLength,
+            48);
         GL11.glTranslatef(-3 / 2F, -3 / 2F, 0);
     }
 }

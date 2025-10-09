@@ -49,25 +49,24 @@ public class PuzzleMasterBlock extends GameBlock {
         int particleCount = rand.nextInt(30);
         for (int i = 0; i <= particleCount; i++) {
             worldIn.spawnParticle(
-                    Particles.ENCHANT,
-                    x + 0.5D + rand.nextGaussian() * 0.8D,
-                    y + rand.nextFloat(),
-                    z + 0.5D + rand.nextGaussian() * 0.8D,
-                    rand.nextGaussian() * 0.02D,
-                    0.5D + rand.nextGaussian() * 0.02D,
-                    rand.nextGaussian() * 0.02D);
+                Particles.ENCHANT,
+                x + 0.5D + rand.nextGaussian() * 0.8D,
+                y + rand.nextFloat(),
+                z + 0.5D + rand.nextGaussian() * 0.8D,
+                rand.nextGaussian() * 0.02D,
+                0.5D + rand.nextGaussian() * 0.02D,
+                rand.nextGaussian() * 0.02D);
         }
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
-            float subY, float subZ) {
+        float subY, float subZ) {
         if (!worldIn.isRemote) {
             try {
                 if (LGConfigs.GENERAL.disableMinigames) {
-                    NetworkUtils.sendMessage(
-                            player,
-                            new ChatComponentTranslation("msg.lootgames.puzzle_master.turned_off"));
+                    NetworkUtils
+                        .sendMessage(player, new ChatComponentTranslation("msg.lootgames.puzzle_master.turned_off"));
                     return true;
                 }
 
@@ -76,7 +75,8 @@ public class PuzzleMasterBlock extends GameBlock {
 
                 WorldExt.setBlock(worldIn, pos, Blocks.air);
 
-                Optional<String> error = LootGamesAPI.getGameManager().generateRandomGame(worldIn, pos);
+                Optional<String> error = LootGamesAPI.getGameManager()
+                    .generateRandomGame(worldIn, pos);
                 if (!error.isPresent()) {
                     LGAchievements.FIND_DUNGEON.trigger(player);
                 } else {

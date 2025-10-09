@@ -67,36 +67,80 @@ public class Bitboard {
         for (int i = 0; i < 64; i++) {
             knightMoves[i] = 0;
             Square sq = Square.valueOf(i);
-            if (sq.file().eastOf(File.FILE_A)) {
-                if (sq.rank().southOf(Rank.RANK_7)) {
-                    knightMoves[i] |= squares[North.getInstance().next(NorthWest.getInstance().next(sq)).value()];
+            if (sq.file()
+                .eastOf(File.FILE_A)) {
+                if (sq.rank()
+                    .southOf(Rank.RANK_7)) {
+                    knightMoves[i] |= squares[North.getInstance()
+                        .next(
+                            NorthWest.getInstance()
+                                .next(sq))
+                        .value()];
                 }
-                if (sq.rank().northOf(Rank.RANK_2)) {
-                    knightMoves[i] |= squares[South.getInstance().next(SouthWest.getInstance().next(sq)).value()];
-                }
-            }
-            if (sq.file().eastOf(File.FILE_B)) {
-                if (sq.rank().southOf(Rank.RANK_8)) {
-                    knightMoves[i] |= squares[NorthWest.getInstance().next(West.getInstance().next(sq)).value()];
-                }
-                if (sq.rank().northOf(Rank.RANK_1)) {
-                    knightMoves[i] |= squares[SouthWest.getInstance().next(West.getInstance().next(sq)).value()];
-                }
-            }
-            if (sq.file().westOf(File.FILE_G)) {
-                if (sq.rank().southOf(Rank.RANK_8)) {
-                    knightMoves[i] |= squares[NorthEast.getInstance().next(East.getInstance().next(sq)).value()];
-                }
-                if (sq.rank().northOf(Rank.RANK_1)) {
-                    knightMoves[i] |= squares[SouthEast.getInstance().next(East.getInstance().next(sq)).value()];
+                if (sq.rank()
+                    .northOf(Rank.RANK_2)) {
+                    knightMoves[i] |= squares[South.getInstance()
+                        .next(
+                            SouthWest.getInstance()
+                                .next(sq))
+                        .value()];
                 }
             }
-            if (sq.file().westOf(File.FILE_H)) {
-                if (sq.rank().southOf(Rank.RANK_7)) {
-                    knightMoves[i] |= squares[North.getInstance().next(NorthEast.getInstance().next(sq)).value()];
+            if (sq.file()
+                .eastOf(File.FILE_B)) {
+                if (sq.rank()
+                    .southOf(Rank.RANK_8)) {
+                    knightMoves[i] |= squares[NorthWest.getInstance()
+                        .next(
+                            West.getInstance()
+                                .next(sq))
+                        .value()];
                 }
-                if (sq.rank().northOf(Rank.RANK_2)) {
-                    knightMoves[i] |= squares[South.getInstance().next(SouthEast.getInstance().next(sq)).value()];
+                if (sq.rank()
+                    .northOf(Rank.RANK_1)) {
+                    knightMoves[i] |= squares[SouthWest.getInstance()
+                        .next(
+                            West.getInstance()
+                                .next(sq))
+                        .value()];
+                }
+            }
+            if (sq.file()
+                .westOf(File.FILE_G)) {
+                if (sq.rank()
+                    .southOf(Rank.RANK_8)) {
+                    knightMoves[i] |= squares[NorthEast.getInstance()
+                        .next(
+                            East.getInstance()
+                                .next(sq))
+                        .value()];
+                }
+                if (sq.rank()
+                    .northOf(Rank.RANK_1)) {
+                    knightMoves[i] |= squares[SouthEast.getInstance()
+                        .next(
+                            East.getInstance()
+                                .next(sq))
+                        .value()];
+                }
+            }
+            if (sq.file()
+                .westOf(File.FILE_H)) {
+                if (sq.rank()
+                    .southOf(Rank.RANK_7)) {
+                    knightMoves[i] |= squares[North.getInstance()
+                        .next(
+                            NorthEast.getInstance()
+                                .next(sq))
+                        .value()];
+                }
+                if (sq.rank()
+                    .northOf(Rank.RANK_2)) {
+                    knightMoves[i] |= squares[South.getInstance()
+                        .next(
+                            SouthEast.getInstance()
+                                .next(sq))
+                        .value()];
                 }
             }
         }
@@ -107,29 +151,53 @@ public class Bitboard {
         for (int i = 0; i < 64; i++) {
             kingMoves[i] = 0;
             Square sq = Square.valueOf(i);
-            if (sq.rank().southOf(Rank.RANK_8)) {
-                if (sq.file().eastOf(File.FILE_A)) {
-                    kingMoves[i] |= squares[NorthWest.getInstance().next(sq).value()];
+            if (sq.rank()
+                .southOf(Rank.RANK_8)) {
+                if (sq.file()
+                    .eastOf(File.FILE_A)) {
+                    kingMoves[i] |= squares[NorthWest.getInstance()
+                        .next(sq)
+                        .value()];
                 }
-                kingMoves[i] |= squares[North.getInstance().next(sq).value()];
-                if (sq.file().westOf(File.FILE_H)) {
-                    kingMoves[i] |= squares[NorthEast.getInstance().next(sq).value()];
-                }
-            }
-            if (sq.file().westOf(File.FILE_H)) {
-                kingMoves[i] |= squares[East.getInstance().next(sq).value()];
-            }
-            if (sq.rank().northOf(Rank.RANK_1)) {
-                if (sq.file().westOf(File.FILE_H)) {
-                    kingMoves[i] |= squares[SouthEast.getInstance().next(sq).value()];
-                }
-                kingMoves[i] |= squares[South.getInstance().next(sq).value()];
-                if (sq.file().eastOf(File.FILE_A)) {
-                    kingMoves[i] |= squares[SouthWest.getInstance().next(sq).value()];
+                kingMoves[i] |= squares[North.getInstance()
+                    .next(sq)
+                    .value()];
+                if (sq.file()
+                    .westOf(File.FILE_H)) {
+                    kingMoves[i] |= squares[NorthEast.getInstance()
+                        .next(sq)
+                        .value()];
                 }
             }
-            if (sq.file().eastOf(File.FILE_A)) {
-                kingMoves[i] |= squares[West.getInstance().next(sq).value()];
+            if (sq.file()
+                .westOf(File.FILE_H)) {
+                kingMoves[i] |= squares[East.getInstance()
+                    .next(sq)
+                    .value()];
+            }
+            if (sq.rank()
+                .northOf(Rank.RANK_1)) {
+                if (sq.file()
+                    .westOf(File.FILE_H)) {
+                    kingMoves[i] |= squares[SouthEast.getInstance()
+                        .next(sq)
+                        .value()];
+                }
+                kingMoves[i] |= squares[South.getInstance()
+                    .next(sq)
+                    .value()];
+                if (sq.file()
+                    .eastOf(File.FILE_A)) {
+                    kingMoves[i] |= squares[SouthWest.getInstance()
+                        .next(sq)
+                        .value()];
+                }
+            }
+            if (sq.file()
+                .eastOf(File.FILE_A)) {
+                kingMoves[i] |= squares[West.getInstance()
+                    .next(sq)
+                    .value()];
             }
         }
     }
@@ -185,7 +253,8 @@ public class Bitboard {
             } else {
                 sb.append("1");
             }
-            if (Square.valueOf(i).file() == File.FILE_H) {
+            if (Square.valueOf(i)
+                .file() == File.FILE_H) {
                 sb.append("\n");
             }
         }
