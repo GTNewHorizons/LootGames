@@ -45,7 +45,8 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         setupInitialStage(new StageWaiting());
         if (isServerSide()) {
             configSnapshot = LGConfigs.SUDOKU.snapshot();
-            int blanks = configSnapshot.getStage1().blanksCount();
+            int blanks = configSnapshot.getStage1()
+                .blanksCount();
             board.generate(blanks);
         }
         super.onPlace();
@@ -85,7 +86,8 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
             WorldExt.playSoundServerly(getWorld(), getGameCenter(), Sounds.PLAYER_LEVELUP, 0.75F, 1.0F);
 
             currentLevel++;
-            int blanks = configSnapshot.getStageByIndex(currentLevel).blanksCount();
+            int blanks = configSnapshot.getStageByIndex(currentLevel)
+                .blanksCount();
             board.generate(blanks);
             saveAndSync();
         } else {
@@ -97,24 +99,24 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
     protected void triggerGameWin() {
         super.triggerGameWin();
         RewardUtils.spawnFourStagedReward(
-                (WorldServer) getWorld(),
-                this,
-                getGameCenter(),
-                currentLevel - 1,
-                LGConfigs.REWARDS.rewardsMinesweeper);
+            (WorldServer) getWorld(),
+            this,
+            getGameCenter(),
+            currentLevel - 1,
+            LGConfigs.REWARDS.rewardsSudoku);
     }
 
     @Override
     protected void triggerGameLose() {
         super.triggerGameLose();
         WorldExt.explode(
-                getWorld(),
-                null,
-                getGameCenter().getX(),
-                getGameCenter().getY() + 1.5,
-                getGameCenter().getZ(),
-                9,
-                true);
+            getWorld(),
+            null,
+            getGameCenter().getX(),
+            getGameCenter().getY() + 1.5,
+            getGameCenter().getZ(),
+            9,
+            true);
     }
 
     @Override
@@ -155,7 +157,8 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         protected void onClick(EntityPlayer player, Pos2i pos, MouseClickType type) {
             if (!isServerSide()) return;
             if (!board.isGenerated()) {
-                int blanks = configSnapshot.getStageByIndex(currentLevel).blanksCount();
+                int blanks = configSnapshot.getStageByIndex(currentLevel)
+                    .blanksCount();
                 board.generate(blanks);
                 sendUpdatePacketToNearby(new SPSSyncBoard(GameSudoku.this, board));
                 board.setLastClickTime(getWorld().getTotalWorldTime());
@@ -177,8 +180,8 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         @Override
         public void onTick() {
             if (isServerSide()) {
-                if (board.getLastClickTime() > 0 && getWorld().getTotalWorldTime() - board.getLastClickTime()
-                        >= LGConfigs.SUDOKU.timeout * 20L) {
+                if (board.getLastClickTime() > 0
+                    && getWorld().getTotalWorldTime() - board.getLastClickTime() >= LGConfigs.SUDOKU.timeout * 20L) {
                     if (currentLevel > 1) {
                         triggerGameWin();
                     } else {
