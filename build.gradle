@@ -3,3 +3,9 @@
 plugins {
     id 'com.gtnewhorizons.gtnhconvention'
 }
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    implementation 'org.ow2.asm:asm-commons:9.2'
+}
