@@ -186,6 +186,10 @@ public class SudokuRenderer extends TileEntitySpecialRenderer {
                         color = puzzleVal != 0 ? 0x808080 : 0xFFFFFF;
                     }
 
+                    float stringWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(Integer.toString(actualVal));
+                    // 计算中心X
+                    float centerX = 0.5f - (stringWidth/2);
+                    float centerY = 0.5f - ((float) Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT /2);
                     GL11.glPushMatrix();
                     GL11.glEnable(GL11.GL_DEPTH_TEST);
                     GL11.glTranslatef(cx + 0.25f, cz + 0.175f, -0.02f);
