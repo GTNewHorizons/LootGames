@@ -9,6 +9,7 @@ public class ConfigRewards extends Config {
 
     public final StagedRewardConfig.FourStagedRewardConfig rewardsGol;
     public final StagedRewardConfig.FourStagedRewardConfig rewardsMinesweeper;
+    public final StagedRewardConfig.FourStagedRewardConfig rewardsSudoku;
 
     public ConfigRewards() {
         super(Names.CATEGORY_REWARDS);
@@ -20,6 +21,8 @@ public class ConfigRewards extends Config {
             LGConfigs.MINESWEEPER.getKey(),
             "Minesweeper Rewards",
             StagedRewards.fourStagedDefaults());
+        rewardsSudoku = StagedRewardConfig
+            .fourStaged(getKey(), LGConfigs.SUDOKU.getKey(), "Sudoku Rewards", StagedRewards.fourStagedDefaults());
     }
 
     public static class Names {
@@ -31,6 +34,7 @@ public class ConfigRewards extends Config {
     public void init() {
         rewardsGol.init(config);
         rewardsMinesweeper.init(config);
+        rewardsSudoku.init(config);
     }
 
     @Override

@@ -103,7 +103,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
             this,
             getGameCenter(),
             currentLevel - 1,
-            LGConfigs.REWARDS.rewardsMinesweeper);
+            LGConfigs.REWARDS.rewardsSudoku);
     }
 
     @Override
