@@ -1,5 +1,7 @@
 package ru.timeconqueror.lootgames.registry;
 
+import com.lootgames.sudoku.sudoku.GameSudoku;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.task.TaskCreateExplosion;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
@@ -14,5 +16,6 @@ public class LGGames {
         for (int i = 0; i < LGConfigs.GOL.weight; i++) LootGamesAPI.registerGameGenerator(new GameOfLight.Factory());
         for (int i = 0; i < LGConfigs.MINESWEEPER.weight; i++)
             LootGamesAPI.registerGameGenerator(new GameMineSweeper.Factory());
+        for (int i = 0; i < LGConfigs.SUDOKU.weight; i++) LootGamesAPI.registerGameGenerator(new GameSudoku.Factory());
     }
 }

@@ -1,5 +1,10 @@
 package ru.timeconqueror.lootgames.registry;
 
+import com.lootgames.sudoku.packet.SPSSyncBoard;
+import com.lootgames.sudoku.packet.SPSSyncCell;
+import com.lootgames.sudoku.packet.SPSudokuResetNumber;
+import com.lootgames.sudoku.packet.SPSudokuSpawnLevelBeatParticles;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.common.packet.game.CPGOLSymbolsShown;
 import ru.timeconqueror.lootgames.common.packet.game.SPChangeStage;
@@ -27,5 +32,10 @@ public class LGGamePackets {
         LootGamesAPI.regClientPacket(CPGOLSymbolsShown.class);
         LootGamesAPI.regServerPacket(SPGOLDrawMark.class);
         LootGamesAPI.regServerPacket(SPGOLSpawnStageUpParticles.class);
+
+        LootGamesAPI.regServerPacket(SPSSyncCell.class);
+        LootGamesAPI.regServerPacket(SPSSyncBoard.class);
+        LootGamesAPI.regServerPacket(SPSudokuSpawnLevelBeatParticles.class);
+        LootGamesAPI.regServerPacket(SPSudokuResetNumber.class);
     }
 }
