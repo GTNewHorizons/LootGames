@@ -188,16 +188,25 @@ public class SudokuRenderer extends TileEntitySpecialRenderer {
 
                     GL11.glPushMatrix();
                     GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    GL11.glTranslatef(cx + 0.25f, cz + 0.175f, -0.01f);
+                    GL11.glTranslatef(cx + 0.25f, cz + 0.175f, -0.02f);
                     GL11.glScalef(0.08f, 0.08f, 0.08f);
-                    DrawHelper.drawStringWithShadow(
-                        Minecraft.getMinecraft().fontRenderer,
-                        Integer.toString(actualVal),
-                        0,
-                        0,
-                        color);
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
+                    Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(actualVal), 0, 0, color, false);
                     GL11.glPopMatrix();
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslatef(cx+0.25f+0.025f, cz+0.175f+0.025f, -0.01f);
+                    GL11.glScalef(0.08f, 0.08f, 0.08f);
+                    color = (color & 0xfcfcfc) >> 2 | color & 0xff000000;
+                    Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(actualVal), 0, 0, color, false);
+                    GL11.glPopMatrix();
+                    // DrawHelper.drawStringWithShadow(
+                    //     Minecraft.getMinecraft().fontRenderer,
+                    //     Integer.toString(actualVal),
+                    //     0,
+                    //     0,
+                    //     color);
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
+                    // GL11.glPopMatrix();
                 }
             }
         }
