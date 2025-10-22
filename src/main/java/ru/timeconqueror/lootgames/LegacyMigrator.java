@@ -111,6 +111,9 @@ public class LegacyMigrator {
                     .getCategoryName()),
             cfgRewards.getCategory(
                 LGConfigs.REWARDS.rewardsMinesweeper.getStage1()
+                    .getCategoryName()),
+            cfgRewards.getCategory(
+                LGConfigs.REWARDS.rewardsSudoku.getStage1()
                     .getCategoryName()));
         rounds = processStageConfig(
             rounds,
@@ -121,6 +124,9 @@ public class LegacyMigrator {
                     .getCategoryName()),
             cfgRewards.getCategory(
                 LGConfigs.REWARDS.rewardsMinesweeper.getStage2()
+                    .getCategoryName()),
+            cfgRewards.getCategory(
+                LGConfigs.REWARDS.rewardsSudoku.getStage1()
                     .getCategoryName()));
         rounds = processStageConfig(
             rounds,
@@ -131,6 +137,9 @@ public class LegacyMigrator {
                     .getCategoryName()),
             cfgRewards.getCategory(
                 LGConfigs.REWARDS.rewardsMinesweeper.getStage3()
+                    .getCategoryName()),
+            cfgRewards.getCategory(
+                LGConfigs.REWARDS.rewardsSudoku.getStage1()
                     .getCategoryName()));
         processStageConfig(
             rounds,
@@ -141,6 +150,9 @@ public class LegacyMigrator {
                     .getCategoryName()),
             cfgRewards.getCategory(
                 LGConfigs.REWARDS.rewardsMinesweeper.getStage4()
+                    .getCategoryName()),
+            cfgRewards.getCategory(
+                LGConfigs.REWARDS.rewardsSudoku.getStage1()
                     .getCategoryName()));
 
         LOGGER.info("Successfully migrated old config file!");
@@ -150,7 +162,8 @@ public class LegacyMigrator {
     }
 
     private static int processStageConfig(int startDigits, LegacyLGConfig.LootStageConfig legacyStage,
-        ConfigCategory catStage, ConfigCategory catGolRewards, ConfigCategory catMsRewards) {
+        ConfigCategory catStage, ConfigCategory catGolRewards, ConfigCategory catMsRewards,
+        ConfigCategory catSudokuRewards) {
         int roundsStage2 = Math.max(legacyStage.MinDigitsRequired - startDigits, 1);
         catStage.get(ConfigGOL.Names.ROUNDS)
             .set(roundsStage2);
@@ -179,6 +192,19 @@ public class LegacyMigrator {
         catMsRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE)
             .set(legacyStage.LootTable);
         catMsRewards.get(RewardConfig.Names.PER_DIM_CONFIGS)
+            .set(
+                legacyStage.DimensionalLoots.entrySet()
+                    .stream()
+                    .map(e -> e.getKey() + "|" + e.getValue().LootTable)
+                    .toArray(String[]::new));
+
+        catSudokuRewards.get(RewardConfig.Names.MIN_ITEMS)
+            .set(legacyStage.MinItems);
+        catSudokuRewards.get(RewardConfig.Names.MAX_ITEMS)
+            .set(legacyStage.MaxItems);
+        catSudokuRewards.get(RewardConfig.Names.DEFAULT_LOOT_TABLE)
+            .set(legacyStage.LootTable);
+        catSudokuRewards.get(RewardConfig.Names.PER_DIM_CONFIGS)
             .set(
                 legacyStage.DimensionalLoots.entrySet()
                     .stream()
