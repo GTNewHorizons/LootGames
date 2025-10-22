@@ -8,6 +8,7 @@ import com.github.bsideup.jabel.Desugar;
 import lombok.Getter;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.timecore.api.common.config.Config;
+import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class ConfigSudoku extends Config {
 
@@ -21,10 +22,10 @@ public class ConfigSudoku extends Config {
 
     public ConfigSudoku() {
         super("sudoku");
-        level1 = new StageConfig(getKey(), "stage_1", "Easy", 35);
-        level2 = new StageConfig(getKey(), "stage_2", "Normal", 45);
-        level3 = new StageConfig(getKey(), "stage_3", "Hard", 55);
-        level4 = new StageConfig(getKey(), "stage_4", "Expert", 64);
+        level1 = new StageConfig(getKey(), "stage_1", "Regulates characteristics of stage 1.", 35);
+        level2 = new StageConfig(getKey(), "stage_2", "Regulates characteristics of stage 2.", 45);
+        level3 = new StageConfig(getKey(), "stage_3", "Regulates characteristics of stage 3.", 55);
+        level4 = new StageConfig(getKey(), "stage_4", "Regulates characteristics of stage 4.", 64);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class ConfigSudoku extends Config {
         return new ConfigSudokuSnapshot(level1.snapshot(), level2.snapshot(), level3.snapshot(), level4.snapshot());
     }
 
-    public static class StageConfig extends ru.timeconqueror.timecore.api.common.config.ConfigSection {
+    public static class StageConfig extends ConfigSection {
 
         public int blanksCount;
         public int defaultBlanks;
