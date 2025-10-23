@@ -12,8 +12,7 @@ public enum Marker {
     @Nullable
     public static Marker byName(String name) {
         for (Marker marker : VALUES) {
-            if (marker.name()
-                .equals(name)) {
+            if (marker.name().equals(name)) {
                 return marker;
             }
         }

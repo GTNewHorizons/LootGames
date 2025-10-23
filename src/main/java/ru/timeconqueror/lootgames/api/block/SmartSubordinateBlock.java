@@ -27,7 +27,7 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         if (!worldIn.isRemote) {
             LootGamesAPI.getFieldManager()
-                .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, BlockPos.of(x, y, z)));
+                    .onFieldBlockBroken(worldIn, () -> getMasterPos(worldIn, BlockPos.of(x, y, z)));
         }
 
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
@@ -35,7 +35,7 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
-        float subY, float subZ) {
+            float subY, float subZ) {
         BlockPos pos = BlockPos.of(x, y, z);
         forMasterTile(player, worldIn, pos, (master, blockPos) -> master.onBlockRightClick(player, pos));
 
@@ -53,14 +53,14 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
     }
 
     private void forMasterTile(EntityPlayer player, World world, BlockPos pos,
-        BiConsumer<GameMasterTile<?>, BlockPos> action) {
+            BiConsumer<GameMasterTile<?>, BlockPos> action) {
         BlockPos masterPos = getMasterPos(world, pos);
         WorldUtils.forTypedTileWithWarn(
-            player,
-            world,
-            masterPos,
-            GameMasterTile.class,
-            master -> action.accept(master, masterPos));
+                player,
+                world,
+                masterPos,
+                GameMasterTile.class,
+                master -> action.accept(master, masterPos));
     }
 
     public static BlockPos getMasterPos(World world, BlockPos pos) {
@@ -80,8 +80,7 @@ public class SmartSubordinateBlock extends GameBlock implements ILeftInteractibl
         currentPos.move(0, 0, 1);
 
         // moving to corner, because master is there
-        return currentPos.move(-1, 0, -1)
-            .immutable();
+        return currentPos.move(-1, 0, -1).immutable();
     }
 
     @Override

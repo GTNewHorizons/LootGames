@@ -16,8 +16,7 @@ public class ProfilingStorage {
 
     public String[] getUniqueItems() {
         String[] tValues = null;
-        mProfilingMap.keySet()
-            .toArray(tValues);
+        mProfilingMap.keySet().toArray(tValues);
         return tValues;
     }
 

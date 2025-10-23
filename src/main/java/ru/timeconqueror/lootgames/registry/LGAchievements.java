@@ -32,9 +32,9 @@ public enum LGAchievements {
     }
 
     LGAchievements(String name, ItemStack displayStack, int x, int y, boolean isSpecial,
-        @Nullable LGAchievements parent) {
+            @Nullable LGAchievements parent) {
         this.achievement = new Achievement(name, name, x, y, displayStack, parent != null ? parent.get() : null)
-            .registerStat();
+                .registerStat();
         if (parent == null) achievement.initIndependentStat();
 
         if (isSpecial) achievement.setSpecial();
@@ -42,11 +42,9 @@ public enum LGAchievements {
 
     public static void init() {
         AchievementPage.registerAchievementPage(
-            new AchievementPage(
-                StatCollector.translateToLocal("lootgames.achievement_page.name"),
-                Arrays.stream(LGAchievements.values())
-                    .map(LGAchievements::get)
-                    .toArray(Achievement[]::new)));
+                new AchievementPage(
+                        StatCollector.translateToLocal("lootgames.achievement_page.name"),
+                        Arrays.stream(LGAchievements.values()).map(LGAchievements::get).toArray(Achievement[]::new)));
     }
 
     public Achievement get() {

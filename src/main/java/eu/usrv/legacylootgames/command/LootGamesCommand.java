@@ -59,7 +59,7 @@ public class LootGamesCommand extends CommandBase {
         private final String command;
 
         private static final String[] COMMANDS = CollectionUtils
-            .mapArray(values(), String[]::new, subCommand -> subCommand.command);
+                .mapArray(values(), String[]::new, subCommand -> subCommand.command);
 
         SubCommand(String command) {
             this.command = command;

@@ -45,8 +45,7 @@ public class Undo {
         }
 
         Undo that = (Undo) obj;
-        if (!this.getMove()
-            .equals(that.getMove())) {
+        if (!this.getMove().equals(that.getMove())) {
             return false;
         }
         if (this.getFiftyCounter() != that.getFiftyCounter()) {
@@ -60,8 +59,7 @@ public class Undo {
                 return false;
             }
         } else {
-            if (!this.getEpSquare()
-                .equals(that.getEpSquare())) {
+            if (!this.getEpSquare().equals(that.getEpSquare())) {
                 return false;
             }
         }
@@ -82,14 +80,14 @@ public class Undo {
     @Override
     public String toString() {
         return "Undo [move=" + getMove()
-            + ", fiftyCounter="
-            + getFiftyCounter()
-            + ", castlingRights="
-            + getCastlingRights()
-            + ", epSquare="
-            + getEpSquare()
-            + ", zobristKey="
-            + getZobristKey()
-            + "]";
+                + ", fiftyCounter="
+                + getFiftyCounter()
+                + ", castlingRights="
+                + getCastlingRights()
+                + ", epSquare="
+                + getEpSquare()
+                + ", zobristKey="
+                + getZobristKey()
+                + "]";
     }
 }

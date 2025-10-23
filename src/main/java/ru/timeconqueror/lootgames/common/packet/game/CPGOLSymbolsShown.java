@@ -19,7 +19,7 @@ public class CPGOLSymbolsShown implements IClientGamePacket {
 
     @Override
     public <STAGE extends LootGame.Stage, G extends LootGame<STAGE, G>> void runOnServer(EntityPlayerMP sender,
-        LootGame<STAGE, G> game) {
+            LootGame<STAGE, G> game) {
         if (game instanceof GameOfLight && game.getStage() instanceof GameOfLight.StageShowSequence) {
             ((GameOfLight.StageShowSequence) game.getStage()).onSequenceShown();
         }

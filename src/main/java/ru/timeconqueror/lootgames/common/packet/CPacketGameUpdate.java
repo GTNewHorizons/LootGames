@@ -19,6 +19,7 @@ public class CPacketGameUpdate extends PacketGameUpdate<IClientGamePacket> {
 
     public static Handler<IClientGamePacket, CPacketGameUpdate> makeHandler() {
         return new Handler<>(
-            (context, lootGame, packet) -> lootGame.onFeedbackPacket(context.getServerHandler().playerEntity, packet));
+                (context, lootGame, packet) -> lootGame
+                        .onFeedbackPacket(context.getServerHandler().playerEntity, packet));
     }
 }

@@ -54,12 +54,10 @@ public class Move {
             return false;
         }
         Move mv = (Move) obj;
-        if (!mv.from()
-            .equals(this.from())) {
+        if (!mv.from().equals(this.from())) {
             return false;
         }
-        if (!mv.to()
-            .equals(this.to())) {
+        if (!mv.to().equals(this.to())) {
             return false;
         }
         if (mv.captured() == null) {
@@ -67,16 +65,14 @@ public class Move {
                 return false;
             }
         } else {
-            if (!mv.captured()
-                .equals(this.captured())) {
+            if (!mv.captured().equals(this.captured())) {
                 return false;
             }
         }
         if (mv.promotion() == null) {
             return this.promotion() == null;
         } else {
-            return mv.promotion()
-                .equals(this.promotion());
+            return mv.promotion().equals(this.promotion());
         }
     }
 

@@ -22,15 +22,13 @@ public final class MoveParser {
 
     private Move getCastlingMove() {
         if (strMove.equalsIgnoreCase("O-O") || strMove.equals("0-0")) {
-            if (board.getPlayerToMove()
-                .equals(Color.WHITE)) {
+            if (board.getPlayerToMove().equals(Color.WHITE)) {
                 return new Move(Square.valueOf(File.FILE_E, Rank.RANK_1), Square.valueOf(File.FILE_G, Rank.RANK_1));
             } else {
                 return new Move(Square.valueOf(File.FILE_E, Rank.RANK_8), Square.valueOf(File.FILE_G, Rank.RANK_8));
             }
         } else if (strMove.equalsIgnoreCase("O-O-O") || strMove.equals("0-0-0")) {
-            if (board.getPlayerToMove()
-                .equals(Color.WHITE)) {
+            if (board.getPlayerToMove().equals(Color.WHITE)) {
                 return new Move(Square.valueOf(File.FILE_E, Rank.RANK_1), Square.valueOf(File.FILE_C, Rank.RANK_1));
             } else {
                 return new Move(Square.valueOf(File.FILE_E, Rank.RANK_8), Square.valueOf(File.FILE_C, Rank.RANK_8));
@@ -55,7 +53,7 @@ public final class MoveParser {
     }
 
     private Move getMatchingMove(File srcFile, Rank srcRank, Square dstSquare, Piece piece, Piece promo)
-        throws IllegalMoveException {
+            throws IllegalMoveException {
 
         Move move = null;
         int nMatches = 0;
@@ -76,12 +74,8 @@ public final class MoveParser {
     private Piece getMovingPiece() {
         Piece piece = null;
         char p = strMove.charAt(0);
-        if (isPieceChar(p) && String.valueOf(p)
-            .equals(
-                String.valueOf(p)
-                    .toUpperCase())) {
-            boolean wtm = board.getPlayerToMove()
-                .equals(Color.WHITE);
+        if (isPieceChar(p) && String.valueOf(p).equals(String.valueOf(p).toUpperCase())) {
+            boolean wtm = board.getPlayerToMove().equals(Color.WHITE);
             piece = PieceFactory.getPiece(p, wtm);
             strMove = strMove.substring(1);
         }
@@ -90,45 +84,28 @@ public final class MoveParser {
 
     private Move getPawnPush(Square dst, Piece promotion) throws ParseException {
 
-        boolean wtm = board.getPlayerToMove()
-            .equals(Color.WHITE);
+        boolean wtm = board.getPlayerToMove().equals(Color.WHITE);
         if (wtm) {
-            if (dst.rank()
-                .equals(Rank.RANK_8) && promotion == null) {
+            if (dst.rank().equals(Rank.RANK_8) && promotion == null) {
                 throw new ParseException("white pawn promotion with no promotion piece.");
             }
-            Square sq = Square.valueOf(
-                dst.file(),
-                dst.rank()
-                    .south());
+            Square sq = Square.valueOf(dst.file(), dst.rank().south());
             if (Pawn.WHITE_PAWN.equals(board.getPiece(sq))) {
                 return new Move(sq, dst, null, promotion);
             }
-            sq = Square.valueOf(
-                dst.file(),
-                dst.rank()
-                    .south()
-                    .south());
+            sq = Square.valueOf(dst.file(), dst.rank().south().south());
             if (Pawn.WHITE_PAWN.equals(board.getPiece(sq))) {
                 return new Move(sq, dst);
             }
         } else {
-            if (dst.rank()
-                .equals(Rank.RANK_1) && promotion == null) {
+            if (dst.rank().equals(Rank.RANK_1) && promotion == null) {
                 throw new ParseException("black pawn promotion with no promotion piece.");
             }
-            Square sq = Square.valueOf(
-                dst.file(),
-                dst.rank()
-                    .north());
+            Square sq = Square.valueOf(dst.file(), dst.rank().north());
             if (Pawn.BLACK_PAWN.equals(board.getPiece(sq))) {
                 return new Move(sq, dst, null, promotion);
             }
-            sq = Square.valueOf(
-                dst.file(),
-                dst.rank()
-                    .north()
-                    .north());
+            sq = Square.valueOf(dst.file(), dst.rank().north().north());
             if (Pawn.BLACK_PAWN.equals(board.getPiece(sq))) {
                 return new Move(sq, dst);
             }
@@ -141,8 +118,7 @@ public final class MoveParser {
 
         char p = strMove.charAt(strMove.length() - 1);
         if (isPieceChar(p)) {
-            boolean wtm = board.getPlayerToMove()
-                .equals(Color.WHITE);
+            boolean wtm = board.getPlayerToMove().equals(Color.WHITE);
             promo = PieceFactory.getPiece(p, wtm);
             strMove = strMove.substring(0, strMove.length() - 1);
         }
@@ -156,15 +132,11 @@ public final class MoveParser {
     }
 
     private boolean isMatchToMove(File srcFile, Rank srcRank, Square dstSquare, Piece piece, Piece promo,
-        Move legalMove) {
-        if (srcFile != null && !srcFile.equals(
-            legalMove.from()
-                .file())) {
+            Move legalMove) {
+        if (srcFile != null && !srcFile.equals(legalMove.from().file())) {
             return false;
         }
-        if (srcRank != null && !srcRank.equals(
-            legalMove.from()
-                .rank())) {
+        if (srcRank != null && !srcRank.equals(legalMove.from().rank())) {
             return false;
         }
         if (!dstSquare.equals(legalMove.to())) {
@@ -244,8 +216,7 @@ public final class MoveParser {
                 Square srcSq = Square.valueOf(srcFile, srcRank);
                 myPiece = board.getPiece(srcSq);
             } else {
-                boolean wtm = board.getPlayerToMove()
-                    .equals(Color.WHITE);
+                boolean wtm = board.getPlayerToMove().equals(Color.WHITE);
                 myPiece = wtm ? Pawn.WHITE_PAWN : Pawn.BLACK_PAWN;
             }
         }

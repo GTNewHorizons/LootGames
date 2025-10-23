@@ -51,26 +51,20 @@ public class ProfilingCommand implements ICommand {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender pCommandSender) {
-        if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER
-            && !FMLCommonHandler.instance()
-                .getMinecraftServerInstance()
-                .isDedicatedServer())
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER
+                && !FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
             return true;
 
         if (pCommandSender instanceof EntityPlayerMP) {
             EntityPlayerMP tEP = (EntityPlayerMP) pCommandSender;
-            return MinecraftServer.getServer()
-                .getConfigurationManager()
-                .func_152596_g(tEP.getGameProfile());
+            return MinecraftServer.getServer().getConfigurationManager().func_152596_g(tEP.getGameProfile());
         }
         return false;
     }
 
     @Override
     public int compareTo(Object o) {
-        return this.getCommandName()
-            .compareTo(((ICommand) o).getCommandName());
+        return this.getCommandName().compareTo(((ICommand) o).getCommandName());
     }
 
     @Override

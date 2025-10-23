@@ -43,19 +43,17 @@ public class SudokuOverlayHandler {
         FontRenderer font = Minecraft.getMinecraft().fontRenderer;
         List<GameSudoku> visible = new ArrayList<>();
 
-        Iterator<Map.Entry<BlockPos, WeakReference<GameSudoku>>> it = ACTIVE_GAMES.entrySet()
-            .iterator();
+        Iterator<Map.Entry<BlockPos, WeakReference<GameSudoku>>> it = ACTIVE_GAMES.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<BlockPos, WeakReference<GameSudoku>> e = it.next();
-            GameSudoku game = e.getValue()
-                .get();
+            GameSudoku game = e.getValue().get();
             if (game == null) {
                 it.remove();
                 continue;
             }
             BlockPos gamePos = game.getGameCenter();
             if (game.getBroadcastDistance() * game.getBroadcastDistance()
-                < player.getDistanceSq(gamePos.getX(), gamePos.getY(), gamePos.getZ())) {
+                    < player.getDistanceSq(gamePos.getX(), gamePos.getY(), gamePos.getZ())) {
                 it.remove();
                 continue;
             }
@@ -66,48 +64,42 @@ public class SudokuOverlayHandler {
 
         // Only show one game's remaining blanks
         GameSudoku game = visible.get(0);
-        int totalBlanks = game.getBoard()
-            .countTotalBlanks();
-        int filled = game.getBoard()
-            .countFilledCells();
+        int totalBlanks = game.getBoard().countTotalBlanks();
+        int filled = game.getBoard().countFilledCells();
         int remaining = totalBlanks - filled;
-        long lastTime = game.getBoard()
-            .getLastClickTime() >= 0
-                ? (player.worldObj.getTotalWorldTime() - game.getBoard()
-                    .getLastClickTime()) / 20
+        long lastTime = game.getBoard().getLastClickTime() >= 0
+                ? (player.worldObj.getTotalWorldTime() - game.getBoard().getLastClickTime()) / 20
                 : 0;
 
         String textRemaining = String.format(StatCollector.translateToLocal("msg.lootgames.sdk.renaming"), remaining);
         String textLastTime = String
-            .format(StatCollector.translateToLocal("msg.lootgames.sdk.last_click_time"), lastTime);
+                .format(StatCollector.translateToLocal("msg.lootgames.sdk.last_click_time"), lastTime);
         int widthRemaining = font.getStringWidth(textRemaining);
         int widthLastTime = font.getStringWidth(textLastTime);
 
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
-        Minecraft.getMinecraft()
-            .getTextureManager()
-            .bindTexture(OVERLAY);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(OVERLAY);
 
         DrawHelper.drawTexturedRectByParts(5, 5, 15 * 1.5F, 16 * 1.5F, 0, 0, 0, 15, 16, 48);
         DrawHelper.drawWidthExpandableTexturedRect(
-            5 + 15 * 1.5F,
-            5,
-            widthRemaining + widthLastTime + 20,
-            0,
-            FIRST_SLOT_START,
-            FIRST_SLOT_REPEAT,
-            FIRST_SLOT_END,
-            48);
+                5 + 15 * 1.5F,
+                5,
+                widthRemaining + widthLastTime + 20,
+                0,
+                FIRST_SLOT_START,
+                FIRST_SLOT_REPEAT,
+                FIRST_SLOT_END,
+                48);
 
         DrawHelper.drawStringWithShadow(Minecraft.getMinecraft().fontRenderer, textRemaining, 33, 13, 0xFFFFFF);
         DrawHelper.drawStringWithShadow(
-            Minecraft.getMinecraft().fontRenderer,
-            textLastTime,
-            widthRemaining + 40,
-            13,
-            0xFFFFFF);
+                Minecraft.getMinecraft().fontRenderer,
+                textLastTime,
+                widthRemaining + 40,
+                13,
+                0xFFFFFF);
 
         GL11.glPopMatrix();
 
@@ -115,24 +107,24 @@ public class SudokuOverlayHandler {
     }
 
     public static DrawHelper.TexturedRect FIRST_SLOT_START = new DrawHelper.TexturedRect(
-        3 * 1.5F,
-        16 * 1.5F,
-        15,
-        0,
-        3,
-        16);
+            3 * 1.5F,
+            16 * 1.5F,
+            15,
+            0,
+            3,
+            16);
     public static DrawHelper.TexturedRect FIRST_SLOT_REPEAT = new DrawHelper.TexturedRect(
-        26 * 1.5F,
-        16 * 1.5F,
-        18,
-        0,
-        26,
-        16);
+            26 * 1.5F,
+            16 * 1.5F,
+            18,
+            0,
+            26,
+            16);
     public static DrawHelper.TexturedRect FIRST_SLOT_END = new DrawHelper.TexturedRect(
-        4 * 1.5F,
-        16 * 1.5F,
-        44,
-        0,
-        4,
-        16);
+            4 * 1.5F,
+            16 * 1.5F,
+            44,
+            0,
+            4,
+            16);
 }

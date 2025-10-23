@@ -36,8 +36,7 @@ public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
 
         // is this move already in the list?
         for (BookMove bm : bms) {
-            if (bm.getMove()
-                .equals(move)) {
+            if (bm.getMove().equals(move)) {
                 bm.setFrequency(bm.getFrequency() + 1);
                 return;
             }
@@ -71,8 +70,7 @@ public class OpeningBookInMemoryImpl extends AbstractOpeningBook {
 
         Set<Long> keys = movesMap.keySet();
         for (Long key : keys) {
-            cnt += movesMap.get(key)
-                .size();
+            cnt += movesMap.get(key).size();
         }
 
         return cnt;

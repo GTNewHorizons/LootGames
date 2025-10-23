@@ -34,13 +34,12 @@ public abstract class BoardLootGame<G extends BoardLootGame<G>> extends LootGame
         super.setMasterTileEntity(masterTileEntity);
 
         if (EnvironmentUtils.isInDev() && !disableMasterCheckWarning
-            && !(masterTileEntity instanceof BoardGameMasterTile<?>)) {
+                && !(masterTileEntity instanceof BoardGameMasterTile<?>)) {
             LOGGER.warn(
-                "You probably forgot that {} needs to extend {} to handle {} properly.",
-                masterTileEntity.getClass()
-                    .getSimpleName(),
-                BoardGameMasterTile.class.getSimpleName(),
-                BoardLootGame.class.getSimpleName());
+                    "You probably forgot that {} needs to extend {} to handle {} properly.",
+                    masterTileEntity.getClass().getSimpleName(),
+                    BoardGameMasterTile.class.getSimpleName(),
+                    BoardLootGame.class.getSimpleName());
         }
     }
 
@@ -61,8 +60,11 @@ public abstract class BoardLootGame<G extends BoardLootGame<G>> extends LootGame
 
     @Override
     public void onDestroy() {
-        LootGamesAPI.getFieldManager()
-            .clearBoard(((WorldServer) getWorld()), getMasterPos(), getAllocatedBoardSize(), getAllocatedBoardSize());
+        LootGamesAPI.getFieldManager().clearBoard(
+                ((WorldServer) getWorld()),
+                getMasterPos(),
+                getAllocatedBoardSize(),
+                getAllocatedBoardSize());
     }
 
     public Pos2i convertToGamePos(BlockPos subordinatePos) {
@@ -76,10 +78,7 @@ public abstract class BoardLootGame<G extends BoardLootGame<G>> extends LootGame
 
     public BlockPos getBoardOrigin() {
         int offset = getAllocatedBoardSize() - getCurrentBoardSize();
-        return getMasterPos().mutable()
-            .move(1, 0, 1)
-            .move(offset / 2, 0, offset / 2)
-            .immutable();
+        return getMasterPos().mutable().move(1, 0, 1).move(offset / 2, 0, offset / 2).immutable();
     }
 
     public void onClick(EntityPlayer player, Pos2i pos, MouseClickType type) {

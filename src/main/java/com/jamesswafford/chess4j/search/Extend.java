@@ -10,15 +10,8 @@ import com.jamesswafford.chess4j.pieces.Piece;
 public class Extend {
 
     public static int extendDepth(Board b) {
-        assert (b.getUndos()
-            .size() > 0);
-        return extendDepth(
-            b,
-            b.getUndos()
-                .get(
-                    b.getUndos()
-                        .size() - 1)
-                .getMove());
+        assert (b.getUndos().size() > 0);
+        return extendDepth(b, b.getUndos().get(b.getUndos().size() - 1).getMove());
     }
 
     /**
@@ -33,12 +26,7 @@ public class Extend {
     }
 
     public static int extendDepth(Board b, Move lastMove, boolean inCheck) {
-        assert (b.getUndos()
-            .get(
-                b.getUndos()
-                    .size() - 1)
-            .getMove()
-            .equals(lastMove));
+        assert (b.getUndos().get(b.getUndos().size() - 1).getMove().equals(lastMove));
 
         if (inCheck) return 1;
         if (lastMove.promotion() != null) return 1;
@@ -55,29 +43,21 @@ public class Extend {
         if (!(p instanceof Pawn)) return 0;
 
         if (p.isWhite()) {
-            if (lastMove.to()
-                .rank() == Rank.RANK_7) return 1;
+            if (lastMove.to().rank() == Rank.RANK_7) return 1;
         } else {
-            if (lastMove.to()
-                .rank() == Rank.RANK_2) return 1;
+            if (lastMove.to().rank() == Rank.RANK_2) return 1;
         }
 
         return 0;
     }
 
     private static int recaptureExtension(Board b, Move lastMove) {
-        if (b.getUndos()
-            .size() < 2) return 0;
+        if (b.getUndos().size() < 2) return 0;
 
         Piece captured1 = lastMove.captured();
         if (captured1 == null) return 0;
 
-        Piece captured2 = b.getUndos()
-            .get(
-                b.getUndos()
-                    .size() - 2)
-            .getMove()
-            .captured();
+        Piece captured2 = b.getUndos().get(b.getUndos().size() - 2).getMove().captured();
         if (captured2 == null) return 0;
 
         int val1 = Eval.getPieceValue(captured1);

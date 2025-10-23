@@ -22,8 +22,7 @@ public class SPMSSpawnLevelBeatParticles implements IServerGamePacket {
         BlockPos boardOrigin = ms.getBoardOrigin();
         for (int x = 0; x < ms.getCurrentBoardSize() + 1; x++) {
             for (int z = 0; z < ms.getCurrentBoardSize() + 1; z++) {
-                ms.getWorld()
-                    .spawnParticle(
+                ms.getWorld().spawnParticle(
                         Particles.HAPPY_VILLAGER,
                         boardOrigin.getX() + x,
                         boardOrigin.getY() + 1.1F,

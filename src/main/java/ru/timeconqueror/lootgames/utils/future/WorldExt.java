@@ -12,8 +12,8 @@ public class WorldExt {
 
     public static BlockState getBlockState(World world, BlockPos pos) {
         return new BlockState(
-            world.getBlock(pos.getX(), pos.getY(), pos.getZ()),
-            world.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()));
+                world.getBlock(pos.getX(), pos.getY(), pos.getZ()),
+                world.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     public static Block getBlock(World world, BlockPos pos) {
@@ -49,17 +49,17 @@ public class WorldExt {
     }
 
     public static void playSoundCliently(World world, BlockPos pos, String sound, float volume, float pitch,
-        boolean distanceDelay) {
+            boolean distanceDelay) {
         world.playSound(pos.getX(), pos.getY(), pos.getZ(), sound, volume, pitch, distanceDelay);
     }
 
     public static void explode(World world, @Nullable Entity exploder, BlockPos pos, float strength,
-        boolean affectBlocks) {
+            boolean affectBlocks) {
         explode(world, exploder, pos.getX(), pos.getY(), pos.getZ(), strength, affectBlocks);
     }
 
     public static void explode(World world, @Nullable Entity exploder, double x, double y, double z, float strength,
-        boolean affectBlocks) {
+            boolean affectBlocks) {
         world.createExplosion(exploder, x, y, z, strength, affectBlocks);
     }
 

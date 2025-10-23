@@ -117,8 +117,7 @@ public class InputParser {
     }
 
     private void bkmoves() {
-        List<BookMove> bookMoves = ChessEngineApp.getOpeningBook()
-            .getMoves(Board.INSTANCE);
+        List<BookMove> bookMoves = ChessEngineApp.getOpeningBook().getMoves(Board.INSTANCE);
         mLog.info("book moves:");
         for (BookMove bookMove : bookMoves) {
             mLog.info("\t" + bookMove);
@@ -131,8 +130,7 @@ public class InputParser {
 
     private void eval() {
         int eval = Eval.eval(Board.INSTANCE);
-        ChessEngineProxy.getInstance()
-            .publishAnswer("eval=" + eval);
+        ChessEngineProxy.getInstance().publishAnswer("eval=" + eval);
         // logger.info( "eval=" + eval );
     }
 
@@ -223,8 +221,7 @@ public class InputParser {
 
         try {
             if (!dryRun) {
-                ChessEngineApp.getOpeningBook()
-                    .dropIndexes();
+                ChessEngineApp.getOpeningBook().dropIndexes();
             }
 
             FileInputStream fis = new FileInputStream(f);
@@ -235,16 +232,14 @@ public class InputParser {
                     System.out.println(".");
                 }
                 if (!dryRun) {
-                    ChessEngineApp.getOpeningBook()
-                        .addToBook(pgnGame);
+                    ChessEngineApp.getOpeningBook().addToBook(pgnGame);
                 }
                 n++;
             }
             fis.close();
         } finally {
             if (!dryRun) {
-                ChessEngineApp.getOpeningBook()
-                    .addIndexes();
+                ChessEngineApp.getOpeningBook().addIndexes();
             }
         }
 
@@ -336,15 +331,12 @@ public class InputParser {
         StringBuilder sb = new StringBuilder();
         for (Undo undo : undos) {
             gameMoves.add(undo.getMove());
-            sb.append(
-                undo.getMove()
-                    .toString() + " ");
+            sb.append(undo.getMove().toString() + " ");
         }
 
         mLog.info("# game moves: " + sb);
 
-        ChessEngineApp.getOpeningBook()
-            .learn(gameMoves, engineColor, gameResult);
+        ChessEngineApp.getOpeningBook().learn(gameMoves, engineColor, gameResult);
     }
 
     /**

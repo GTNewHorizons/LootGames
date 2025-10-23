@@ -31,20 +31,20 @@ public class ConfigSudoku extends Config {
     @Override
     public void init() {
         weight = config.getInt(
-            "weight",
-            getKey(),
-            1,
-            0,
-            Integer.MAX_VALUE,
-            "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
+                "weight",
+                getKey(),
+                1,
+                0,
+                Integer.MAX_VALUE,
+                "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
         timeout = config.getInt(
-            "timeout",
-            getKey(),
-            30,
-            10,
-            Integer.MAX_VALUE,
-            "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");
+                "timeout",
+                getKey(),
+                30,
+                10,
+                Integer.MAX_VALUE,
+                "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");
 
         level1.init(config);
         level2.init(config);
@@ -108,18 +108,18 @@ public class ConfigSudoku extends Config {
 
         public static ConfigSudokuSnapshot deserialize(NBTTagCompound tag) {
             return new ConfigSudokuSnapshot(
-                LevelSnapshot.deserialize(tag.getCompoundTag("stage_1")),
-                LevelSnapshot.deserialize(tag.getCompoundTag("stage_2")),
-                LevelSnapshot.deserialize(tag.getCompoundTag("stage_3")),
-                LevelSnapshot.deserialize(tag.getCompoundTag("stage_4")));
+                    LevelSnapshot.deserialize(tag.getCompoundTag("stage_1")),
+                    LevelSnapshot.deserialize(tag.getCompoundTag("stage_2")),
+                    LevelSnapshot.deserialize(tag.getCompoundTag("stage_3")),
+                    LevelSnapshot.deserialize(tag.getCompoundTag("stage_4")));
         }
 
         public static ConfigSudokuSnapshot stub() {
             return new ConfigSudokuSnapshot(
-                LevelSnapshot.stub(),
-                LevelSnapshot.stub(),
-                LevelSnapshot.stub(),
-                LevelSnapshot.stub());
+                    LevelSnapshot.stub(),
+                    LevelSnapshot.stub(),
+                    LevelSnapshot.stub(),
+                    LevelSnapshot.stub());
         }
 
         public LevelSnapshot getStageByIndex(int idx) {

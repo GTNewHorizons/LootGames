@@ -68,6 +68,6 @@ public abstract class AbstractOpeningBook {
         }
 
         throw new RuntimeException(
-            "Error in getMoveWeihtedRandomByFrequency().  totalWeight=" + totalWeight + ", val=" + val);
+                "Error in getMoveWeihtedRandomByFrequency().  totalWeight=" + totalWeight + ", val=" + val);
     }
 }

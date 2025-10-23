@@ -62,20 +62,14 @@ public class MVVLVA implements Comparator<Move> {
     }
 
     private static int scorePromotion(Move m) {
-        int promoVal = pieceMap.get(
-            m.promotion()
-                .getClass());
+        int promoVal = pieceMap.get(m.promotion().getClass());
 
         return 10000 + promoVal;
     }
 
     private static int scoreCapture(Board b, Move m) {
-        int capturedVal = pieceMap.get(
-            m.captured()
-                .getClass());
-        int moverVal = pieceMap.get(
-            b.getPiece(m.from())
-                .getClass());
+        int capturedVal = pieceMap.get(m.captured().getClass());
+        int moverVal = pieceMap.get(b.getPiece(m.from()).getClass());
         return 1000 + (capturedVal * 10) - moverVal;
     }
 

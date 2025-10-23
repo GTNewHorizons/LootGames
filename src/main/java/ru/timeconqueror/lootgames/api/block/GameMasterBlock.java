@@ -25,12 +25,12 @@ public class GameMasterBlock extends GameBlock implements IGameField {
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
-        float subY, float subZ) {
+            float subY, float subZ) {
         WorldUtils.forTypedTileWithWarn(
-            worldIn,
-            BlockPos.of(x, y, z),
-            GameMasterTile.class,
-            te -> te.onBlockRightClick(player, BlockPos.of(x, y, z)));
+                worldIn,
+                BlockPos.of(x, y, z),
+                GameMasterTile.class,
+                te -> te.onBlockRightClick(player, BlockPos.of(x, y, z)));
 
         return true;
     }

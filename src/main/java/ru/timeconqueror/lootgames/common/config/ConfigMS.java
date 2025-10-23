@@ -33,27 +33,27 @@ public class ConfigMS extends Config {
     @Override
     public void init() {
         weight = config.getInt(
-            "weight",
-            getKey(),
-            1,
-            0,
-            Integer.MAX_VALUE,
-            "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
+                "weight",
+                getKey(),
+                1,
+                0,
+                Integer.MAX_VALUE,
+                "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
         detonationTime = config.getInt(
-            "detonation_time",
-            getKey(),
-            3 * 20,
-            0,
-            600,
-            "The time until bombs start to explode. Represented in ticks.");
+                "detonation_time",
+                getKey(),
+                3 * 20,
+                0,
+                600,
+                "The time until bombs start to explode. Represented in ticks.");
         attemptCount = config.getInt(
-            "attempt_count",
-            getKey(),
-            3,
-            1,
-            Integer.MAX_VALUE,
-            "It represents the number of attempts the player has to beat the game successfully.");
+                "attempt_count",
+                getKey(),
+                3,
+                1,
+                Integer.MAX_VALUE,
+                "It represents the number of attempts the player has to beat the game successfully.");
 
         stage1.init(config);
         stage2.init(config);
@@ -79,7 +79,7 @@ public class ConfigMS extends Config {
                 return stage4;
             default:
                 throw new RuntimeException(
-                    "Provided unknown stage config index " + index + ", please contact with mod author.");
+                        "Provided unknown stage config index " + index + ", please contact with mod author.");
         }
     }
 
@@ -110,33 +110,33 @@ public class ConfigMS extends Config {
 
         public void init(Configuration config) {
             boardRadius = config.getInt(
-                "board_radius",
-                getCategoryName(),
-                defData.boardRadius,
-                2,
-                9,
-                "The radius of Minesweeper board. " + NO_CHANGE_FOR_GENERATED);
+                    "board_radius",
+                    getCategoryName(),
+                    defData.boardRadius,
+                    2,
+                    9,
+                    "The radius of Minesweeper board. " + NO_CHANGE_FOR_GENERATED);
             bombCount = config.getInt(
-                "bomb_count",
-                getCategoryName(),
-                defData.bombCount,
-                1,
-                Integer.MAX_VALUE,
-                "The amount of bombs on the board. Bomb count must be strictly less than amount of game fields (board_radius ^ 2). ",
-                NO_CHANGE_FOR_GENERATED);
+                    "bomb_count",
+                    getCategoryName(),
+                    defData.bombCount,
+                    1,
+                    Integer.MAX_VALUE,
+                    "The amount of bombs on the board. Bomb count must be strictly less than amount of game fields (board_radius ^ 2). ",
+                    NO_CHANGE_FOR_GENERATED);
 
             int boardSize = getBoardSize();
 
             if (bombCount > boardSize * boardSize - 1) {
                 LootGames.LOGGER.warn(
-                    "Bomb count must be strictly less than amount of game fields. "
-                        + "Current values: bomb count = {}, field count: {} (board size = {}, board radius = {})\n "
-                        + "Bomb count was switched to {}.",
-                    bombCount,
-                    boardSize * boardSize,
-                    boardSize,
-                    boardSize * boardSize - 2,
-                    boardRadius);
+                        "Bomb count must be strictly less than amount of game fields. "
+                                + "Current values: bomb count = {}, field count: {} (board size = {}, board radius = {})\n "
+                                + "Bomb count was switched to {}.",
+                        bombCount,
+                        boardSize * boardSize,
+                        boardSize,
+                        boardSize * boardSize - 2,
+                        boardRadius);
                 this.bombCount = boardSize * boardSize - 2; // at least 1 field with no bomb
             }
 
@@ -184,10 +184,10 @@ public class ConfigMS extends Config {
 
         public static Snapshot deserialize(NBTTagCompound serialized) {
             return new Snapshot(
-                StageSnapshot.deserialize(serialized.getCompoundTag("stage_1")),
-                StageSnapshot.deserialize(serialized.getCompoundTag("stage_2")),
-                StageSnapshot.deserialize(serialized.getCompoundTag("stage_3")),
-                StageSnapshot.deserialize(serialized.getCompoundTag("stage_4")));
+                    StageSnapshot.deserialize(serialized.getCompoundTag("stage_1")),
+                    StageSnapshot.deserialize(serialized.getCompoundTag("stage_2")),
+                    StageSnapshot.deserialize(serialized.getCompoundTag("stage_3")),
+                    StageSnapshot.deserialize(serialized.getCompoundTag("stage_4")));
         }
 
         public static Snapshot stub() {
@@ -260,7 +260,7 @@ public class ConfigMS extends Config {
                     return stage4;
                 default:
                     throw new RuntimeException(
-                        "Provided unknown stage snapshot index " + index + ", please contact with mod author.");
+                            "Provided unknown stage snapshot index " + index + ", please contact with mod author.");
             }
         }
     }

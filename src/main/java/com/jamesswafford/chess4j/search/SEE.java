@@ -50,9 +50,7 @@ public class SEE {
     }
 
     private static int scorePromotion(Move m) {
-        int promoVal = pieceMap.get(
-            m.promotion()
-                .getClass());
+        int promoVal = pieceMap.get(m.promotion().getClass());
 
         return 10000 + promoVal;
     }
@@ -78,8 +76,7 @@ public class SEE {
             // add any x-ray attackers back in, behind currentPiece in
             // the direction of m.to -> currentSq
             if (!(currentPiece instanceof Knight) && !(currentPiece instanceof King)) {
-                Direction dir = Direction.directionTo[m.to()
-                    .value()][currentSq.value()];
+                Direction dir = Direction.directionTo[m.to().value()][currentSq.value()];
 
                 assert (dir != null);
                 long targetSquares = Bitboard.rays[currentSq.value()][dir.value()];
@@ -87,10 +84,10 @@ public class SEE {
                 long xrays;
                 if (dir.isDiagonal()) {
                     xrays = Magic.getBishopMoves(b, currentSq.value(), targetSquares)
-                        & (b.getWhiteBishops() | b.getWhiteQueens() | b.getBlackBishops() | b.getBlackQueens());
+                            & (b.getWhiteBishops() | b.getWhiteQueens() | b.getBlackBishops() | b.getBlackQueens());
                 } else {
                     xrays = Magic.getRookMoves(b, currentSq.value(), targetSquares)
-                        & (b.getWhiteRooks() | b.getWhiteQueens() | b.getBlackRooks() | b.getBlackQueens());
+                            & (b.getWhiteRooks() | b.getWhiteQueens() | b.getBlackRooks() | b.getBlackQueens());
                 }
                 if ((xrays & b.getWhitePieces()) != 0) {
                     whiteAttackersMap |= xrays;

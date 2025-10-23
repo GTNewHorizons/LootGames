@@ -30,23 +30,41 @@ public class ChessGame implements ILootGame {
         GameRegistry.registerBlock(GameBlock, "ChessMasterBlock");
 
         int id = 0;
+        EntityRegistry.registerModEntity(
+                EntityBishopFigure.class,
+                "LootGamesChessBishop",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
         EntityRegistry
-            .registerModEntity(EntityBishopFigure.class, "LootGamesChessBishop", id++, LootGames.INSTANCE, 1, 5, false);
+                .registerModEntity(EntityKingFigure.class, "LootGamesChessKing", id++, LootGames.INSTANCE, 1, 5, false);
+        EntityRegistry.registerModEntity(
+                EntityKnightFigure.class,
+                "LootGamesChessKnight",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
         EntityRegistry
-            .registerModEntity(EntityKingFigure.class, "LootGamesChessKing", id++, LootGames.INSTANCE, 1, 5, false);
+                .registerModEntity(EntityPawnFigure.class, "LootGamesChessPawn", id++, LootGames.INSTANCE, 1, 5, false);
+        EntityRegistry.registerModEntity(
+                EntityQueenFigure.class,
+                "LootGamesChessQueen",
+                id++,
+                LootGames.INSTANCE,
+                1,
+                5,
+                false);
         EntityRegistry
-            .registerModEntity(EntityKnightFigure.class, "LootGamesChessKnight", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry
-            .registerModEntity(EntityPawnFigure.class, "LootGamesChessPawn", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry
-            .registerModEntity(EntityQueenFigure.class, "LootGamesChessQueen", id++, LootGames.INSTANCE, 1, 5, false);
-        EntityRegistry
-            .registerModEntity(EntityRookFigure.class, "LootGamesChessRook", id++, LootGames.INSTANCE, 1, 5, false);
+                .registerModEntity(EntityRookFigure.class, "LootGamesChessRook", id++, LootGames.INSTANCE, 1, 5, false);
     }
 
     @Override
     public boolean onGenerateBlock(World pWorldObject, int pMaxXZ, int pMaxY, int pCenterX, int pBottom, int pCenterZ,
-        int pOffsetX, int pOffsetY, int pOffsetZ) {
+            int pOffsetX, int pOffsetY, int pOffsetZ) {
         boolean tPlaced = false;
         Block tTBP = Blocks.nether_brick;
 

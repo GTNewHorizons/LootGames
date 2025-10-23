@@ -77,7 +77,8 @@ public class DungeonBrick extends Block {
         if (metadata == Type.CEILING.ordinal() || metadata == Type.FLOOR.ordinal() || metadata == Type.WALL.ordinal())
             tHarvestLevel = 4;
         else if (metadata == Type.CEILING_CRACKED.ordinal() || metadata == Type.FLOOR_CRACKED.ordinal()
-            || metadata == Type.WALL_CRACKED.ordinal()) tHarvestLevel = 2;
+                || metadata == Type.WALL_CRACKED.ordinal())
+            tHarvestLevel = 2;
 
         return tHarvestLevel;
     }
@@ -94,7 +95,8 @@ public class DungeonBrick extends Block {
 
         if (tMeta == Type.FLOOR_SHIELDED.ordinal()) tBlockHardness = -1F;
         else if (tMeta == Type.CEILING_CRACKED.ordinal() || tMeta == Type.FLOOR_CRACKED.ordinal()
-            || tMeta == Type.WALL_CRACKED.ordinal()) tBlockHardness = 2.0F;
+                || tMeta == Type.WALL_CRACKED.ordinal())
+            tBlockHardness = 2.0F;
 
         return tBlockHardness;
     }

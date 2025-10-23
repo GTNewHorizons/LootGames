@@ -111,16 +111,19 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
     private void failGame(boolean dueTimeout) {
         WorldExt.playSoundServerly(
-            getWorld(),
-            getGameCenter(),
-            LGSounds.GOL_SEQUENCE_WRONG,
-            dueTimeout ? 0.2F : 0.75F,
-            1.0F);
+                getWorld(),
+                getGameCenter(),
+                LGSounds.GOL_SEQUENCE_WRONG,
+                dueTimeout ? 0.2F : 0.75F,
+                1.0F);
         sendToNearby(new ChatComponentTranslation("msg.lootgames.gol.wrong_block"), NotifyColor.FAIL);
         sendUpdatePacketToNearby(SPGOLDrawMark.denied());
 
-        DEBUG_LOG
-            .debug(DEBUG_MARKER, "The run was failed! Current attempt: {} / {}", attempt, LGConfigs.GOL.attemptCount);
+        DEBUG_LOG.debug(
+                DEBUG_MARKER,
+                "The run was failed! Current attempt: {} / {}",
+                attempt,
+                LGConfigs.GOL.attemptCount);
 
         if (attempt >= LGConfigs.GOL.attemptCount) {
             DEBUG_LOG.debug(DEBUG_MARKER, "Attempts are over! Forcing switch to game end...");
@@ -133,11 +136,11 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
             attempt++;
 
             WorldExt.playSoundServerly(
-                getWorld(),
-                getGameCenter(),
-                LGSounds.GOL_START_GAME,
-                dueTimeout ? 0.2F : 0.75F,
-                1.0F);
+                    getWorld(),
+                    getGameCenter(),
+                    LGSounds.GOL_START_GAME,
+                    dueTimeout ? 0.2F : 0.75F,
+                    1.0F);
             switchStage(new StageWaitingStart());
         }
     }
@@ -174,12 +177,12 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
         }
 
         WorldExt.playSoundCliently(
-            getWorld(),
-            getGameCenter(),
-            Sounds.NOTE_BLOCK_HARP,
-            3.0F,
-            getPitchForNote(note, octave),
-            false);
+                getWorld(),
+                getGameCenter(),
+                Sounds.NOTE_BLOCK_HARP,
+                3.0F,
+                getPitchForNote(note, octave),
+                false);
     }
 
     private float getPitchForNote(NoteBlockEvent.Note note, NoteBlockEvent.Octave octave) {
@@ -205,11 +208,11 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
             for (int i = 0; i < 10; i++) {
                 EntityZombie zombie = new EntityZombie(world);
                 zombie.setLocationAndAngles(
-                    center.getX() + RandHelper.RAND.nextFloat() * 2,
-                    center.getY() + 1,
-                    center.getZ() + RandHelper.RAND.nextFloat() * 2,
-                    MathHelper.wrapAngleTo180_float(RandHelper.RAND.nextFloat() * 360.0F),
-                    0);
+                        center.getX() + RandHelper.RAND.nextFloat() * 2,
+                        center.getY() + 1,
+                        center.getZ() + RandHelper.RAND.nextFloat() * 2,
+                        MathHelper.wrapAngleTo180_float(RandHelper.RAND.nextFloat() * 360.0F),
+                        0);
                 world.spawnEntityInWorld(zombie);
 
                 if (RandHelper.RAND.nextBoolean()) {
@@ -222,8 +225,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
                 mutable.set(center.getX(), center.getY(), center.getZ());
 
                 Block block = WorldExt.getBlock(world, mutable.move(x, y, z));
-                if (block.getMaterial()
-                    .isReplaceable()) {
+                if (block.getMaterial().isReplaceable()) {
                     WorldExt.setBlock(world, center.offset(x, y, z), Blocks.lava);
                 }
             }
@@ -238,9 +240,9 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
         forEachPlayerNearby(player -> {
             sendTo(
-                player,
-                new ChatComponentTranslation("msg.lootgames.gol.reward_level_info", stage, maxReachedStage),
-                NotifyColor.SUCCESS);
+                    player,
+                    new ChatComponentTranslation("msg.lootgames.gol.reward_level_info", stage, maxReachedStage),
+                    NotifyColor.SUCCESS);
 
             if (maxReachedStage >= 3) {
                 LGAchievements.GOL_MASTER_LEVEL3.trigger(player);
@@ -252,11 +254,11 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
         });
 
         RewardUtils.spawnFourStagedReward(
-            ((WorldServer) getWorld()),
-            this,
-            getGameCenter(),
-            maxReachedStage,
-            LGConfigs.REWARDS.rewardsGol);
+                ((WorldServer) getWorld()),
+                this,
+                getGameCenter(),
+                maxReachedStage,
+                LGConfigs.REWARDS.rewardsGol);
     }
 
     @Override
@@ -271,7 +273,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
     @Override
     public @Nullable BoardStage createStageFromNBT(String id, NBTTagCompound stageNBT,
-        SerializationType serializationType) {
+            SerializationType serializationType) {
         switch (id) {
             case StageUnderExpanding.ID:
                 return new StageUnderExpanding(stageNBT.getInteger("ticks"));
@@ -279,10 +281,10 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
                 return new StageWaitingStart();
             case StageShowSequence.ID:
                 return serializationType != SerializationType.SAVE ? new StageShowSequence(stageNBT)
-                    : new StageWaitingStart(); /* resetting if world was reloaded while game was in show mode */
+                        : new StageWaitingStart(); /* resetting if world was reloaded while game was in show mode */
             case StageWaitingForSequence.ID:
                 return serializationType == SerializationType.SAVE ? new StageWaitingForSequence(stageNBT)
-                    : new StageWaitingForSequence(Collections.emptyList());
+                        : new StageWaitingForSequence(Collections.emptyList());
             default:
                 throw new IllegalArgumentException("Unknown state with id: " + id + "!");
         }
@@ -332,13 +334,13 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
         if (isClientSide()) {
             for (int i = 0; i < 20; i++) {
                 getWorld().spawnParticle(
-                    particleName,
-                    pos.getX() + RandHelper.RAND.nextFloat(),
-                    pos.getY() + 1F + RandHelper.RAND.nextFloat() / 2,
-                    pos.getZ() + RandHelper.RAND.nextFloat(),
-                    RandHelper.RAND.nextGaussian() * 0.02D,
-                    (0.02D + RandHelper.RAND.nextGaussian()) * 0.02D,
-                    RandHelper.RAND.nextGaussian() * 0.02D);
+                        particleName,
+                        pos.getX() + RandHelper.RAND.nextFloat(),
+                        pos.getY() + 1F + RandHelper.RAND.nextFloat() / 2,
+                        pos.getZ() + RandHelper.RAND.nextFloat(),
+                        RandHelper.RAND.nextGaussian() * 0.02D,
+                        (0.02D + RandHelper.RAND.nextGaussian()) * 0.02D,
+                        RandHelper.RAND.nextGaussian() * 0.02D);
             }
         }
     }
@@ -480,7 +482,7 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
                 // if it's a last symbol we don't need to wait for pause.
                 if ((symbolIndex == sequence.size() - 1 && ticks > displayTime)
-                    || (ticks > displayTime + TICKS_PAUSE_BETWEEN_SYMBOLS)) {
+                        || (ticks > displayTime + TICKS_PAUSE_BETWEEN_SYMBOLS)) {
                     ticks = 0;
                     symbolIndex++;
                     showParticles = true;
@@ -613,12 +615,12 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
                 Symbol chosen = Symbol.byPos(pos);
 
                 DEBUG_LOG.debug(
-                    DEBUG_MARKER,
-                    "{}: Chosen symbol: {} ({} ns, {} ms)",
-                    player.getDisplayName(),
-                    chosen,
-                    System.nanoTime(),
-                    System.currentTimeMillis());
+                        DEBUG_MARKER,
+                        "{}: Chosen symbol: {} ({} ns, {} ms)",
+                        player.getDisplayName(),
+                        chosen,
+                        System.nanoTime(),
+                        System.currentTimeMillis());
 
                 playFeedbackSound(player, chosen);
                 if (isClientSide()) {
@@ -629,11 +631,11 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
                     Symbol correct = sequence.get(currentSymbol);
                     if (chosen != correct) {
                         DEBUG_LOG.debug(
-                            DEBUG_MARKER,
-                            "{}: Symbol {} was denied. The correct one is {}",
-                            player.getDisplayName(),
-                            chosen,
-                            correct);
+                                DEBUG_MARKER,
+                                "{}: Symbol {} was denied. The correct one is {}",
+                                player.getDisplayName(),
+                                chosen,
+                                correct);
                         failGame(false);
                         return;
                     }
@@ -718,19 +720,15 @@ public class GameOfLight extends BoardLootGame<GameOfLight> {
 
     public QMarkAppearance.State getMarkState() {
         return specialMarkAppearance != null ? specialMarkAppearance.getState()
-            : getStage() instanceof StageShowSequence ? QMarkAppearance.State.SHOWING : QMarkAppearance.State.NONE;
+                : getStage() instanceof StageShowSequence ? QMarkAppearance.State.SHOWING : QMarkAppearance.State.NONE;
     }
 
     private static List<Symbol> deserializeSequence(int[] data) {
-        return Arrays.stream(data)
-            .mapToObj(Symbol::byIndex)
-            .collect(Collectors.toList());
+        return Arrays.stream(data).mapToObj(Symbol::byIndex).collect(Collectors.toList());
     }
 
     private static int[] serializeSequence(List<Symbol> sequence) {
-        return sequence.stream()
-            .mapToInt(Symbol::getIndex)
-            .toArray();
+        return sequence.stream().mapToInt(Symbol::getIndex).toArray();
     }
 
     public static class Factory implements ILootGameFactory {

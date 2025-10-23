@@ -11,9 +11,9 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 public class LootGameCleaner {
 
     private static final BlockState DUNGEON_FLOOR = BlockState
-        .of(LGBlocks.DUNGEON_WALL, DungeonBrick.Type.FLOOR.ordinal());
+            .of(LGBlocks.DUNGEON_WALL, DungeonBrick.Type.FLOOR.ordinal());
     private static final BlockState SHIELDED_FLOOR = BlockState
-        .of(LGBlocks.DUNGEON_WALL, DungeonBrick.Type.FLOOR_SHIELDED.ordinal());
+            .of(LGBlocks.DUNGEON_WALL, DungeonBrick.Type.FLOOR_SHIELDED.ordinal());
 
     // TODO make it called only when in structure
     public static void resetUnbreakablePlayField(World world, BlockPos floorPos) {

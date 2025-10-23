@@ -44,13 +44,13 @@ public class Magic {
                 Square sq2 = Square.valueOf(j);
                 if (i != j) {
                     if ((sq2.rank() == sq.rank() && sq2.file() != File.FILE_A && sq2.file() != File.FILE_H)
-                        || (sq2.file() == sq.file() && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8)) {
+                            || (sq2.file() == sq.file() && sq2.rank() != Rank.RANK_1 && sq2.rank() != Rank.RANK_8)) {
                         rookMasks[i] |= Bitboard.squares[j];
                     }
                     if (BoardUtils.isDiagonal(sq, sq2) && sq2.rank() != Rank.RANK_1
-                        && sq2.rank() != Rank.RANK_8
-                        && sq2.file() != File.FILE_A
-                        && sq2.file() != File.FILE_H) {
+                            && sq2.rank() != Rank.RANK_8
+                            && sq2.file() != File.FILE_A
+                            && sq2.file() != File.FILE_H) {
                         bishopMasks[i] |= Bitboard.squares[j];
                     }
                 }
@@ -81,48 +81,40 @@ public class Magic {
                 }
 
                 // create the attack set. that's the first "blocker" in every direction
-                Square toSq = North.getInstance()
-                    .next(Square.valueOf(sq));
+                Square toSq = North.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((rookOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         rookAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = North.getInstance()
-                        .next(toSq);
+                    toSq = North.getInstance().next(toSq);
                 }
 
-                toSq = South.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = South.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((rookOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         rookAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = South.getInstance()
-                        .next(toSq);
+                    toSq = South.getInstance().next(toSq);
                 }
 
-                toSq = East.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = East.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((rookOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         rookAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = East.getInstance()
-                        .next(toSq);
+                    toSq = East.getInstance().next(toSq);
                 }
 
-                toSq = West.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = West.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((rookOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         rookAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = West.getInstance()
-                        .next(toSq);
+                    toSq = West.getInstance().next(toSq);
                 }
             }
         }
@@ -151,48 +143,40 @@ public class Magic {
                 }
 
                 // create the attack set. that's the first "blocker" in every direction
-                Square toSq = NorthEast.getInstance()
-                    .next(Square.valueOf(sq));
+                Square toSq = NorthEast.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((bishopOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         bishopAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = NorthEast.getInstance()
-                        .next(toSq);
+                    toSq = NorthEast.getInstance().next(toSq);
                 }
 
-                toSq = SouthEast.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = SouthEast.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((bishopOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         bishopAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = SouthEast.getInstance()
-                        .next(toSq);
+                    toSq = SouthEast.getInstance().next(toSq);
                 }
 
-                toSq = SouthWest.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = SouthWest.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((bishopOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         bishopAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = SouthWest.getInstance()
-                        .next(toSq);
+                    toSq = SouthWest.getInstance().next(toSq);
                 }
 
-                toSq = NorthWest.getInstance()
-                    .next(Square.valueOf(sq));
+                toSq = NorthWest.getInstance().next(Square.valueOf(sq));
                 while (toSq != null) {
                     if ((bishopOcc[sq][i] & Bitboard.squares[toSq.value()]) != 0) {
                         bishopAttacks[sq][i] |= Bitboard.squares[toSq.value()];
                         break;
                     }
-                    toSq = NorthWest.getInstance()
-                        .next(toSq);
+                    toSq = NorthWest.getInstance().next(toSq);
                 }
             }
         }
@@ -300,9 +284,9 @@ public class Magic {
             for (int i = 0; i < numVariations; i++) {
                 int magicInd = (int) ((rookOcc[sqVal][i] * magicNumbersRooks[sqVal]) >>> magicNumbersShiftRooks[sqVal]);
                 magicRookMoves[sqVal][magicInd] = genMovesMask(sq, rookOcc[sqVal][i], North.getInstance())
-                    | genMovesMask(sq, rookOcc[sqVal][i], South.getInstance())
-                    | genMovesMask(sq, rookOcc[sqVal][i], East.getInstance())
-                    | genMovesMask(sq, rookOcc[sqVal][i], West.getInstance());
+                        | genMovesMask(sq, rookOcc[sqVal][i], South.getInstance())
+                        | genMovesMask(sq, rookOcc[sqVal][i], East.getInstance())
+                        | genMovesMask(sq, rookOcc[sqVal][i], West.getInstance());
             }
         }
 
@@ -313,11 +297,11 @@ public class Magic {
 
             for (int i = 0; i < numVariations; i++) {
                 int magicInd = (int) ((bishopOcc[sqVal][i] * magicNumbersBishops[sqVal])
-                    >>> magicNumbersShiftBishops[sqVal]);
+                        >>> magicNumbersShiftBishops[sqVal]);
                 magicBishopMoves[sqVal][magicInd] = genMovesMask(sq, bishopOcc[sqVal][i], NorthEast.getInstance())
-                    | genMovesMask(sq, bishopOcc[sqVal][i], SouthEast.getInstance())
-                    | genMovesMask(sq, bishopOcc[sqVal][i], SouthWest.getInstance())
-                    | genMovesMask(sq, bishopOcc[sqVal][i], NorthWest.getInstance());
+                        | genMovesMask(sq, bishopOcc[sqVal][i], SouthEast.getInstance())
+                        | genMovesMask(sq, bishopOcc[sqVal][i], SouthWest.getInstance())
+                        | genMovesMask(sq, bishopOcc[sqVal][i], NorthWest.getInstance());
             }
         }
     }

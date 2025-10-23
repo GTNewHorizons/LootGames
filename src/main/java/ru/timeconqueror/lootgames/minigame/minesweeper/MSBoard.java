@@ -136,9 +136,9 @@ public class MSBoard {
         int emptyPlaces = size * size - bombCount;
 
         if (emptyPlaces < 0) throw new IllegalStateException(
-            "How is that possible, that board square is less or equal to bomb count? Square = " + (size * size)
-                + ", bomb count = "
-                + bombCount);
+                "How is that possible, that board square is less or equal to bomb count? Square = " + (size * size)
+                        + ", bomb count = "
+                        + bombCount);
 
         int safeDistance;
         if (emptyPlaces >= 13) {
@@ -151,32 +151,29 @@ public class MSBoard {
 
         Wrapper<Integer> count = new Wrapper<>(0);
 
-        return IntStream.range(0, fieldSize)
-            .filter(index -> {
-                if (count.get() > emptyPlaces) {
-                    return true;
-                }
+        return IntStream.range(0, fieldSize).filter(index -> {
+            if (count.get() > emptyPlaces) {
+                return true;
+            }
 
-                Pos2i pos = toPos(index); // TODO optimize
+            Pos2i pos = toPos(index); // TODO optimize
 
-                if (start.manhattanDistanceTo(pos) <= safeDistance) {
-                    count.set(count.get() + 1);
-                    return false;
-                } else {
-                    return true;
-                }
-            })
-            .boxed()
-            .collect(Collectors.toList());
+            if (start.manhattanDistanceTo(pos) <= safeDistance) {
+                count.set(count.get() + 1);
+                return false;
+            } else {
+                return true;
+            }
+        }).boxed().collect(Collectors.toList());
     }
 
     public void generate(Pos2i startFieldPos) {
         if (toIndex(startFieldPos) > (size * size) - 1) {
             throw new IllegalArgumentException(
-                String.format(
-                    "Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d",
-                    startFieldPos,
-                    size));
+                    String.format(
+                            "Start Pos must be strictly less than Board size. Current values: start pos = %1$s, boardSize = %2$d",
+                            startFieldPos,
+                            size));
         }
 
         board = new MSField[size][size];
@@ -393,9 +390,10 @@ public class MSBoard {
             @Override
             public MSField decode(NBTTagCompound nbt) {
                 return new MSField(
-                    forSync && !nbt.hasKey("type") ? Type.EMPTY : Type.CODEC.decode((NBTTagByte) nbt.getTag("type")),
-                    nbt.getBoolean("hidden"),
-                    Mark.CODEC.decode((NBTTagByte) nbt.getTag("mark")));
+                        forSync && !nbt.hasKey("type") ? Type.EMPTY
+                                : Type.CODEC.decode((NBTTagByte) nbt.getTag("type")),
+                        nbt.getBoolean("hidden"),
+                        Mark.CODEC.decode((NBTTagByte) nbt.getTag("mark")));
             }
         }
     }

@@ -50,8 +50,7 @@ public class TranspositionTableEntry {
         if (this.getMove() == null) {
             return that.getMove() == null;
         } else {
-            return this.getMove()
-                .equals(that.getMove());
+            return this.getMove().equals(that.getMove());
         }
     }
 
@@ -60,9 +59,7 @@ public class TranspositionTableEntry {
         int hc = (int) this.getZobristKey();
         hc = hc * 31 + this.getScore();
         hc = hc * 17 + this.getDepth();
-        hc = hc * 31 + (this.getMove() == null ? 0
-            : this.getMove()
-                .hashCode());
+        hc = hc * 31 + (this.getMove() == null ? 0 : this.getMove().hashCode());
 
         return hc;
     }

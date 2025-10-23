@@ -23,8 +23,7 @@ public class SPSudokuSpawnLevelBeatParticles implements IServerGamePacket {
         BlockPos boardOrigin = sdk.getBoardOrigin();
         for (int x = 0; x < sdk.getCurrentBoardSize() + 1; x++) {
             for (int z = 0; z < sdk.getCurrentBoardSize() + 1; z++) {
-                sdk.getWorld()
-                    .spawnParticle(
+                sdk.getWorld().spawnParticle(
                         Particles.HAPPY_VILLAGER,
                         boardOrigin.getX() + x,
                         boardOrigin.getY() + 1.1F,

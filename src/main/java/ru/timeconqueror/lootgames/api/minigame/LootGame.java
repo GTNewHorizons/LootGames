@@ -232,10 +232,10 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         serializeStage(this, nbt, type);
         DEBUG_LOG.debug(
-            DEBUG_MARKER,
-            formatLogMessage("stage '{}' was serialized for {}."),
-            getStage(),
-            type == SerializationType.SAVE ? "saving" : "syncing");
+                DEBUG_MARKER,
+                formatLogMessage("stage '{}' was serialized for {}."),
+                getStage(),
+                type == SerializationType.SAVE ? "saving" : "syncing");
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -249,10 +249,10 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         setStage(deserializeStage(this, nbt, type));
         DEBUG_LOG.debug(
-            DEBUG_MARKER,
-            formatLogMessage("stage '{}' was deserialized {}."),
-            getStage(),
-            type == SerializationType.SAVE ? "from saved file" : "on client");
+                DEBUG_MARKER,
+                formatLogMessage("stage '{}' was deserialized {}."),
+                getStage(),
+                type == SerializationType.SAVE ? "from saved file" : "on client");
 
         justPlaced = false;
 
@@ -269,17 +269,14 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         BlockPos masterPos = getMasterPos();
         Trackers.forPlayersWatchingChunk(
-            ((WorldServer) getWorld()),
-            masterPos.getX() >> 4,
-            masterPos.getZ() >> 4,
-            entityPlayerMP -> { LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP); });
+                ((WorldServer) getWorld()),
+                masterPos.getX() >> 4,
+                masterPos.getZ() >> 4,
+                entityPlayerMP -> { LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP); });
 
         DEBUG_LOG.debug(
-            DEBUG_MARKER,
-            () -> logMessage(
-                "update packet '{}' was sent.",
-                packet.getClass()
-                    .getSimpleName()));
+                DEBUG_MARKER,
+                () -> logMessage("update packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     public void sendUpdatePacketToNearbyExcept(EntityPlayerMP excepting, IServerGamePacket packet) {
@@ -289,24 +286,21 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         BlockPos masterPos = getMasterPos();
         Trackers.forPlayersWatchingChunk(
-            ((WorldServer) getWorld()),
-            masterPos.getX() >> 4,
-            masterPos.getZ() >> 4,
-            entityPlayerMP -> {
-                if (!entityPlayerMP.getUniqueID()
-                    .equals(excepting.getUniqueID())) {
-                    LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP);
-                }
-            });
+                ((WorldServer) getWorld()),
+                masterPos.getX() >> 4,
+                masterPos.getZ() >> 4,
+                entityPlayerMP -> {
+                    if (!entityPlayerMP.getUniqueID().equals(excepting.getUniqueID())) {
+                        LGNetwork.INSTANCE.sendTo(new SPacketGameUpdate(this, packet), entityPlayerMP);
+                    }
+                });
 
         DEBUG_LOG.debug(
-            DEBUG_MARKER,
-            () -> logMessage(
-                "update packet '{}' to all tracking except {} was sent.",
-                packet.getClass()
-                    .getSimpleName(),
-                excepting.getGameProfile()
-                    .getName()));
+                DEBUG_MARKER,
+                () -> logMessage(
+                        "update packet '{}' to all tracking except {} was sent.",
+                        packet.getClass().getSimpleName(),
+                        excepting.getGameProfile().getName()));
     }
 
     /**
@@ -326,11 +320,8 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
         LGNetwork.INSTANCE.sendToServer(new CPacketGameUpdate(this, packet));
         DEBUG_LOG.debug(
-            DEBUG_MARKER,
-            () -> logMessage(
-                "feedback packet '{}' was sent.",
-                packet.getClass()
-                    .getSimpleName()));
+                DEBUG_MARKER,
+                () -> logMessage("feedback packet '{}' was sent.", packet.getClass().getSimpleName()));
     }
 
     /**
@@ -376,8 +367,8 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
             if (shouldDelayPacketSending) {
                 pendingStageUpdate = Pair.of(oldStage, newStage);
                 DEBUG_LOG.debug(
-                    DEBUG_MARKER,
-                    () -> logMessage("update packet '{}' was delayed for sending till the next tick."));
+                        DEBUG_MARKER,
+                        () -> logMessage("update packet '{}' was delayed for sending till the next tick."));
             } else {
                 sendUpdatePacketToNearby(new SPChangeStage(this));
             }
@@ -477,7 +468,7 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
     }
 
     public static <STAGE extends Stage> void serializeStage(LootGame<STAGE, ?> game, NBTTagCompound nbt,
-        SerializationType serializationType) {
+            SerializationType serializationType) {
         Stage stage = game.getStage();
         if (stage != null) {
             NBTTagCompound stageWrapper = new NBTTagCompound();
@@ -489,13 +480,13 @@ public abstract class LootGame<STAGE extends LootGame.Stage, G extends LootGame<
 
     @Nullable
     public static <S extends Stage, T extends LootGame<S, T>> S deserializeStage(LootGame<S, T> game,
-        NBTTagCompound nbt, SerializationType serializationType) {
+            NBTTagCompound nbt, SerializationType serializationType) {
         if (nbt.hasKey("stage_wrapper")) {
             NBTTagCompound stageWrapper = nbt.getCompoundTag("stage_wrapper");
             return game.createStageFromNBT(
-                stageWrapper.getString("id"),
-                stageWrapper.getCompoundTag("stage"),
-                serializationType);
+                    stageWrapper.getString("id"),
+                    stageWrapper.getCompoundTag("stage"),
+                    serializationType);
         } else {
             return null;
         }

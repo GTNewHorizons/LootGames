@@ -40,8 +40,7 @@ public class SPDelayedChangeStage extends SPChangeStage {
 
     @Override
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> game) {
-        String currentStageId = game.getStage() != null ? game.getStage()
-            .getID() : null;
+        String currentStageId = game.getStage() != null ? game.getStage().getID() : null;
         if (Objects.equals(currentStageId, this.prevStageId)) {
             super.runOnClient(game);
         }

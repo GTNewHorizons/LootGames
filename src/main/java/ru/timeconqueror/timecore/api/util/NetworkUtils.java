@@ -41,14 +41,11 @@ public class NetworkUtils {
      */
     public static List<EntityPlayerMP> getPlayersNearby(BlockPos fromPos, double distanceIn) {
         @SuppressWarnings("unchecked")
-        List<EntityPlayerMP> players = FMLCommonHandler.instance()
-            .getMinecraftServerInstance()
-            .getConfigurationManager().playerEntityList;
-        return players.stream()
-            .filter(player -> {
-                double distanceSq = player.getDistanceSq(fromPos.getX(), fromPos.getY(), fromPos.getZ());
-                return distanceIn * distanceIn >= distanceSq;
-            })
-            .collect(Collectors.toList());
+        List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance()
+                .getConfigurationManager().playerEntityList;
+        return players.stream().filter(player -> {
+            double distanceSq = player.getDistanceSq(fromPos.getX(), fromPos.getY(), fromPos.getZ());
+            return distanceIn * distanceIn >= distanceSq;
+        }).collect(Collectors.toList());
     }
 }

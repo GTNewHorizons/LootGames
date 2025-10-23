@@ -43,7 +43,6 @@ public class SPMSFieldChanged implements IServerGamePacket {
 
     @Override
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> game) {
-        ((GameMineSweeper) game).getBoard()
-            .cSetField(pos, field);
+        ((GameMineSweeper) game).getBoard().cSetField(pos, field);
     }
 }

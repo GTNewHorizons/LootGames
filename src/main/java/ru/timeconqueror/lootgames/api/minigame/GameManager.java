@@ -37,8 +37,7 @@ public class GameManager {
      */
     public Optional<String> generateRandomGame(World world, BlockPos puzzleMasterPos) {
         if (!isGameListEmpty()) {
-            GAME_GEN_LIST.get(world.rand.nextInt(GAME_GEN_LIST.size()))
-                .genOnPuzzleMasterClick(world, puzzleMasterPos);
+            GAME_GEN_LIST.get(world.rand.nextInt(GAME_GEN_LIST.size())).genOnPuzzleMasterClick(world, puzzleMasterPos);
         } else {
             return Optional.of("Can't generate any game on pos" + puzzleMasterPos + ", because game list is empty.");
         }

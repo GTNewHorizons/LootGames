@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 public class EntityKnightFigure extends EntityZombie implements IChessFigure {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-        new ResourceLocation("LootGames:textures/entity/knight_zombie/black.png"),
-        new ResourceLocation("LootGames:textures/entity/knight_zombie/white.png") };
+            new ResourceLocation("LootGames:textures/entity/knight_zombie/black.png"),
+            new ResourceLocation("LootGames:textures/entity/knight_zombie/white.png") };
 
     private FiguresData _mFiguresData;
 

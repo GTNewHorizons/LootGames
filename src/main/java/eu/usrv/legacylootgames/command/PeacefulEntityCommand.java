@@ -57,11 +57,11 @@ public class PeacefulEntityCommand implements ICommand {
                 zombie.forceSpawn = true;
                 zombie.tasks.taskEntries.clear();
                 zombie.setLocationAndAngles(
-                    ((EntityPlayer) pCmdSender).posX,
-                    ((EntityPlayer) pCmdSender).posY + 1,
-                    ((EntityPlayer) pCmdSender).posZ,
-                    MathHelper.wrapAngleTo180_float(LootGamesLegacy.Rnd.nextFloat() * 360.0F),
-                    0.0F);
+                        ((EntityPlayer) pCmdSender).posX,
+                        ((EntityPlayer) pCmdSender).posY + 1,
+                        ((EntityPlayer) pCmdSender).posZ,
+                        MathHelper.wrapAngleTo180_float(LootGamesLegacy.Rnd.nextFloat() * 360.0F),
+                        0.0F);
                 zombie.rotationYawHead = zombie.rotationYaw;
                 zombie.renderYawOffset = zombie.rotationYaw;
                 ((EntityPlayer) pCmdSender).worldObj.spawnEntityInWorld(zombie);
@@ -89,9 +89,8 @@ public class PeacefulEntityCommand implements ICommand {
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         if (sender instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) sender;
-            boolean opped = MinecraftServer.getServer()
-                .getConfigurationManager()
-                .func_152596_g(player.getGameProfile());
+            boolean opped = MinecraftServer.getServer().getConfigurationManager()
+                    .func_152596_g(player.getGameProfile());
             boolean inCreative = player.capabilities.isCreativeMode;
             return opped && inCreative;
         } else return sender instanceof MinecraftServer;

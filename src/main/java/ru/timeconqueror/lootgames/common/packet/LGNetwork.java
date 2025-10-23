@@ -8,7 +8,7 @@ import ru.timeconqueror.lootgames.LootGames;
 public class LGNetwork {
 
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE
-        .newSimpleChannel(LootGames.MODID + "2");
+            .newSimpleChannel(LootGames.MODID + "2");
 
     public static void init() {
         INSTANCE.registerMessage(SPacketGameUpdate.makeHandler(), SPacketGameUpdate.class, 0, Side.CLIENT);

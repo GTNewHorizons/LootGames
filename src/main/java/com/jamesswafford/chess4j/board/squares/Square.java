@@ -41,8 +41,7 @@ public final class Square {
                 Set<Square> intersection = new HashSet<Square>(FILE_SQUARES.get(file));
                 intersection.retainAll(RANK_SQUARES.get(rank));
                 assert (intersection.size() == 1);
-                Square sq = intersection.iterator()
-                    .next();
+                Square sq = intersection.iterator().next();
 
                 SQUARES.add(sq);
                 squares_arr[file.getValue()][rank.getValue()] = sq;
@@ -119,10 +118,7 @@ public final class Square {
             return false;
         }
         Square sq = (Square) o;
-        return sq.file()
-            .equals(file)
-            && sq.rank()
-                .equals(rank);
+        return sq.file().equals(file) && sq.rank().equals(rank);
     }
 
     @Override

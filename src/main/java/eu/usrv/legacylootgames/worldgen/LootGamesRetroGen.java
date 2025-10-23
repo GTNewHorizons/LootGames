@@ -54,8 +54,7 @@ public class LootGamesRetroGen {
     public void chunkLoadEvent(ChunkDataEvent.Load pEvent) {
         int tDimensionID = pEvent.world.provider.dimensionId;
 
-        NBTTagCompound tTagCompound = (NBTTagCompound) pEvent.getData()
-            .getTag(NBTMODID);
+        NBTTagCompound tTagCompound = (NBTTagCompound) pEvent.getData().getTag(NBTMODID);
 
         boolean tRetronGen = tTagCompound != null && !tTagCompound.hasKey(NBTGENERATED);
 
@@ -75,13 +74,11 @@ public class LootGamesRetroGen {
 
     @SubscribeEvent
     public void chunkSaveEvent(ChunkDataEvent.Save pEvent) {
-        NBTTagCompound tagCompound = pEvent.getData()
-            .getCompoundTag(NBTMODID);
+        NBTTagCompound tagCompound = pEvent.getData().getCompoundTag(NBTMODID);
         if (!tagCompound.hasKey(NBTGENERATED)) {
             tagCompound.setBoolean(NBTGENERATED, true);
         }
-        pEvent.getData()
-            .setTag(NBTMODID, tagCompound);
+        pEvent.getData().setTag(NBTMODID, tagCompound);
     }
 
     public static class ChunkInfo {

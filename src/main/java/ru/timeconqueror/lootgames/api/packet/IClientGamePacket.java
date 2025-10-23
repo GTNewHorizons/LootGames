@@ -10,5 +10,5 @@ public interface IClientGamePacket extends IGamePacket {
      * Do action on the main server thread upon packet receiving.
      */
     <STAGE extends LootGame.Stage, G extends LootGame<STAGE, G>> void runOnServer(EntityPlayerMP sender,
-        LootGame<STAGE, G> game);
+            LootGame<STAGE, G> game);
 }

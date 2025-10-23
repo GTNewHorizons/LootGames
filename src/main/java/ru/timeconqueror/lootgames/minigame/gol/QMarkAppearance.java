@@ -20,8 +20,7 @@ public class QMarkAppearance {
     }
 
     public boolean isFinished() {
-        return ClientProxy.world()
-            .getTotalWorldTime() > startTime + 16L;
+        return ClientProxy.world().getTotalWorldTime() > startTime + 16L;
     }
 
     public State getState() {

@@ -56,10 +56,7 @@ public class TETaskScheduler implements INBTSerializable<NBTTagList> {
 
             element.setTag("task", wrapper.task.serializeNBT());
             element.setInteger("time", wrapper.timeBeforeStart);
-            element.setString(
-                "name",
-                wrapper.task.getClass()
-                    .getName());
+            element.setString("name", wrapper.task.getClass().getName());
 
             out.appendTag(element);
         }
@@ -91,8 +88,9 @@ public class TETaskScheduler implements INBTSerializable<NBTTagList> {
                 LootGames.LOGGER.error("Restored class name {} doesn't inherit {}. Skipping...", clazz, ITask.class);
                 e.printStackTrace();
             } catch (NotExistsException e) {
-                LootGames.LOGGER
-                    .error("Mod author didn't register factory for task class {} in TaskRegistry. Skipping...", clazz);
+                LootGames.LOGGER.error(
+                        "Mod author didn't register factory for task class {} in TaskRegistry. Skipping...",
+                        clazz);
                 e.printStackTrace();
             }
         }

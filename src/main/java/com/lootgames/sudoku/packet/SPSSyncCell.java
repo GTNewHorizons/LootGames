@@ -41,9 +41,7 @@ public class SPSSyncCell implements IServerGamePacket {
     @Override
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> genericGame) {
         GameSudoku game = (GameSudoku) genericGame;
-        game.getBoard()
-            .cSetPlayerValue(pos, value);
-        game.getBoard()
-            .setLastClickTime(lastTime);
+        game.getBoard().cSetPlayerValue(pos, value);
+        game.getBoard().setLastClickTime(lastTime);
     }
 }

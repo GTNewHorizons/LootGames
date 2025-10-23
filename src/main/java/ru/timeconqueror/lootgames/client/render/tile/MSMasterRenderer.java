@@ -48,11 +48,9 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
         } else {
             for (int xL = 0; xL < boardSize; xL++) {
                 for (int zL = 0; zL < boardSize; zL++) {
-                    boolean isHidden = game.getBoard()
-                        .isHidden(xL, zL);
+                    boolean isHidden = game.getBoard().isHidden(xL, zL);
 
-                    Type type = game.getBoard()
-                        .getType(xL, zL);
+                    Type type = game.getBoard().getType(xL, zL);
 
                     if (!isHidden && type == Type.BOMB) {
                         int max = stage instanceof StageDetonating ? ((StageDetonating) stage).getDetonationTicks() : 1;
@@ -66,7 +64,7 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
                                                                              // explode at red state that comes on half
                         // period.
                         double alphaFactor = stage instanceof StageExploding ? 1
-                            : Math.abs(Math.sin(Math.toRadians(ticks / extendedPeriod * 180F)));
+                                : Math.abs(Math.sin(Math.toRadians(ticks / extendedPeriod * 180F)));
                         int alphaColor = DrawHelper.changeAlpha(0xFFFFFFFF, (int) (alphaFactor * 255));
 
                         // brightened
@@ -82,8 +80,7 @@ public class MSMasterRenderer extends TileEntitySpecialRenderer {
                         GL11.glDisable(GL11.GL_ALPHA_TEST);
                     } else {
 
-                        Mark mark = game.getBoard()
-                            .getMark(xL, zL);
+                        Mark mark = game.getBoard().getMark(xL, zL);
 
                         int textureX;
                         int textureY;
