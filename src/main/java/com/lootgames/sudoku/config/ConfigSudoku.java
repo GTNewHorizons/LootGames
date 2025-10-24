@@ -41,7 +41,7 @@ public class ConfigSudoku extends Config {
         timeout = config.getInt(
                 "timeout",
                 getKey(),
-                30,
+                45,
                 10,
                 Integer.MAX_VALUE,
                 "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");

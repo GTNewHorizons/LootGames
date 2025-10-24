@@ -181,7 +181,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         public void onTick() {
             if (isServerSide()) {
                 if (board.getLastClickTime() > 0
-                    && getWorld().getTotalWorldTime() - board.getLastClickTime() >= LGConfigs.SUDOKU.timeout * 20L) {
+                    && getWorld().getTotalWorldTime() - board.getLastClickTime() >= LGConfigs.SUDOKU.timeout * 20L * currentLevel) {
                     if (currentLevel > 1) {
                         triggerGameWin();
                     } else {
