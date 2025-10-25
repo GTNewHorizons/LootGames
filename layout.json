@@ -1,0 +1,13 @@
+{
+  "ideaDirPath": "E:/Github/LootGames-ABKQPO/.idea",
+  "modulesMap": {
+    "LootGames-ABKQPO": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.iml",
+    "LootGames-ABKQPO:api": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.api.iml",
+    "LootGames-ABKQPO:ideVirtualMain": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.ideVirtualMain.iml",
+    "LootGames-ABKQPO:injectedTags": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.injectedTags.iml",
+    "LootGames-ABKQPO:main": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.main.iml",
+    "LootGames-ABKQPO:mcLauncher": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.mcLauncher.iml",
+    "LootGames-ABKQPO:patchedMc": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.patchedMc.iml",
+    "LootGames-ABKQPO:test": "E:/Github/LootGames-ABKQPO/.idea/modules/LootGames-ABKQPO.test.iml"
+  }
+}
