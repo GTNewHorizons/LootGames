@@ -76,9 +76,9 @@ public class CollectionUtils {
 
         if (mapped.length != source.length) {
             throw new IllegalArgumentException(
-                    "Mapped array should have the same length (" + source.length
-                            + ") as source array. Provided length:"
-                            + mapped.length);
+                "Mapped array should have the same length (" + source.length
+                    + ") as source array. Provided length:"
+                    + mapped.length);
         }
 
         for (int i = 0; i < source.length; i++) {

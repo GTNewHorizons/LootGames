@@ -51,7 +51,7 @@ public class Vector3i implements Comparable<Vector3i> {
     public int compareTo(Vector3i p_compareTo_1_) {
         if (this.getY() == p_compareTo_1_.getY()) {
             return this.getZ() == p_compareTo_1_.getZ() ? this.getX() - p_compareTo_1_.getX()
-                    : this.getZ() - p_compareTo_1_.getZ();
+                : this.getZ() - p_compareTo_1_.getZ();
         } else {
             return this.getY() - p_compareTo_1_.getY();
         }
@@ -129,10 +129,10 @@ public class Vector3i implements Comparable<Vector3i> {
      */
     public Vector3i relative(EnumFacing facing, int n) {
         return n == 0 ? this
-                : new Vector3i(
-                        this.getX() + facing.getFrontOffsetX() * n,
-                        this.getY() + facing.getFrontOffsetY() * n,
-                        this.getZ() + facing.getFrontOffsetZ() * n);
+            : new Vector3i(
+                this.getX() + facing.getFrontOffsetX() * n,
+                this.getY() + facing.getFrontOffsetY() * n,
+                this.getZ() + facing.getFrontOffsetZ() * n);
     }
 
     /**
@@ -140,9 +140,9 @@ public class Vector3i implements Comparable<Vector3i> {
      */
     public Vector3i cross(Vector3i vec) {
         return new Vector3i(
-                this.getY() * vec.getZ() - this.getZ() * vec.getY(),
-                this.getZ() * vec.getX() - this.getX() * vec.getZ(),
-                this.getX() * vec.getY() - this.getY() * vec.getX());
+            this.getY() * vec.getZ() - this.getZ() * vec.getY(),
+            this.getZ() * vec.getX() - this.getX() * vec.getZ(),
+            this.getX() * vec.getY() - this.getY() * vec.getX());
     }
 
     public boolean closerThan(Vector3i vector, double distance) {

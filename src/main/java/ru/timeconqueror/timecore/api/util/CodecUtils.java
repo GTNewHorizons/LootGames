@@ -11,7 +11,7 @@ public class CodecUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T[][] read2DimArr(NBTTagCompound tableTag, Class<T> elementClass,
-            ICodec<T, NBTTagCompound> elementCodec) {
+        ICodec<T, NBTTagCompound> elementCodec) {
         int size = tableTag.getInteger("size");
 
         T[][] table = null;
@@ -47,7 +47,7 @@ public class CodecUtils {
     }
 
     public static <T> NBTTagCompound write2DimArr(T[][] objArr, ICodec<T, NBTTagCompound> elementCodec,
-            Predicate<T> writeElementIf) {
+        Predicate<T> writeElementIf) {
         NBTTagCompound tableTag = new NBTTagCompound();
 
         for (int i = 0; i < objArr.length; i++) {
@@ -87,7 +87,7 @@ public class CodecUtils {
         }
 
         public NotFoundException(String message, Throwable cause, boolean enableSuppression,
-                boolean writableStackTrace) {
+            boolean writableStackTrace) {
             super(message, cause, enableSuppression, writableStackTrace);
         }
     }

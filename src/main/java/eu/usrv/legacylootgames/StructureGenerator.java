@@ -28,7 +28,7 @@ public class StructureGenerator {
     private int _mDungeonBottom = -1;
 
     private final Material[] _mValidMaterials = { Material.wood, Material.water, Material.cactus, Material.snow,
-            Material.grass, Material.leaves, Material.plants, Material.air, Material.lava, Material.portal };
+        Material.grass, Material.leaves, Material.plants, Material.air, Material.lava, Material.portal };
 
     public static int getRoomWidth() {
         return PUZZLEROOM_CENTER_TO_BORDER * 2 + 1;
@@ -70,10 +70,10 @@ public class StructureGenerator {
                 for (int axisZ = (PUZZLEROOM_CENTER_TO_BORDER * -1); axisZ <= PUZZLEROOM_CENTER_TO_BORDER; axisZ++) {
                     if (!isValidSurfaceBlock(_mWorldObj.getBlock(axisX + pLocationX, tSurfaceY, axisZ + pLocationZ))) {
                         LootGamesLegacy.DungeonLogger.trace(
-                                "StructureGenerator => setSurfaceLevel(): y=%d has failed. Block is not valid: %s",
-                                tSurfaceY,
-                                GameRegistry.findUniqueIdentifierFor(_mWorldObj.getBlock(axisX, tSurfaceY, axisZ))
-                                        .toString());
+                            "StructureGenerator => setSurfaceLevel(): y=%d has failed. Block is not valid: %s",
+                            tSurfaceY,
+                            GameRegistry.findUniqueIdentifierFor(_mWorldObj.getBlock(axisX, tSurfaceY, axisZ))
+                                .toString());
                         tYLevelCheckPassed = false;
                     }
 
@@ -84,7 +84,7 @@ public class StructureGenerator {
 
             if (tYLevelCheckPassed) {
                 LootGamesLegacy.DungeonLogger
-                        .trace("StructureGenerator => setSurfaceLevel(): y=%d has passed", tSurfaceY);
+                    .trace("StructureGenerator => setSurfaceLevel(): y=%d has passed", tSurfaceY);
                 _mSurface = tSurfaceY;
                 _mDungeonTop = _mSurface - PUZZLEROOM_SURFACE_DISTANCE;
                 _mDungeonBottom = _mSurface - (PUZZLEROOM_HEIGHT + PUZZLEROOM_SURFACE_DISTANCE);
@@ -116,8 +116,8 @@ public class StructureGenerator {
             return false;
         }
         LootGamesLegacy.DungeonLogger.trace(
-                "StructureGenerator => generatePuzzleMicroDungeon() : Surface level found. Dungeon bottom at: y= %d",
-                _mDungeonBottom);
+            "StructureGenerator => generatePuzzleMicroDungeon() : Surface level found. Dungeon bottom at: y= %d",
+            _mDungeonBottom);
 
         if (checkForFreeSpace()) {
             for (int axisX = (PUZZLEROOM_CENTER_TO_BORDER * -1); axisX <= PUZZLEROOM_CENTER_TO_BORDER; axisX++) {
@@ -131,73 +131,73 @@ public class StructureGenerator {
                             _mWorldObj.setBlock(axisX + _mCenterX, axisY, axisZ + _mCenterZ, LGBlocks.PUZZLE_MASTER);
                         else if (axisY == _mDungeonBottom) // bottom layer of the dungeon
                             _mWorldObj.setBlock(
-                                    axisX + _mCenterX,
-                                    axisY,
-                                    axisZ + _mCenterZ,
-                                    LGBlocks.DUNGEON_WALL,
-                                    RandHelper.chance(
-                                            10,
-                                            DungeonBrick.Type.FLOOR_CRACKED.ordinal(),
-                                            DungeonBrick.Type.FLOOR.ordinal()),
-                                    2);
+                                axisX + _mCenterX,
+                                axisY,
+                                axisZ + _mCenterZ,
+                                LGBlocks.DUNGEON_WALL,
+                                RandHelper.chance(
+                                    10,
+                                    DungeonBrick.Type.FLOOR_CRACKED.ordinal(),
+                                    DungeonBrick.Type.FLOOR.ordinal()),
+                                2);
                         else if (axisY == _mDungeonTop) // Top layer of the dungeon
                             _mWorldObj.setBlock(
-                                    axisX + _mCenterX,
-                                    axisY,
-                                    axisZ + _mCenterZ,
-                                    LGBlocks.DUNGEON_WALL,
-                                    RandHelper.chance(
-                                            10,
-                                            DungeonBrick.Type.CEILING_CRACKED.ordinal(),
-                                            DungeonBrick.Type.CEILING.ordinal()),
-                                    2);
+                                axisX + _mCenterX,
+                                axisY,
+                                axisZ + _mCenterZ,
+                                LGBlocks.DUNGEON_WALL,
+                                RandHelper.chance(
+                                    10,
+                                    DungeonBrick.Type.CEILING_CRACKED.ordinal(),
+                                    DungeonBrick.Type.CEILING.ordinal()),
+                                2);
                         else if (axisY == _mDungeonBottom + 1) // Playfield placeholder to the player doesn't stand
                                                                // within generated
                             // blocks
                             _mWorldObj.setBlock(
+                                axisX + _mCenterX,
+                                axisY,
+                                axisZ + _mCenterZ,
+                                LGBlocks.DUNGEON_WALL,
+                                DungeonBrick.Type.FLOOR_SHIELDED.ordinal(),
+                                2);
+                        else {
+                            if (axisX == (PUZZLEROOM_CENTER_TO_BORDER * -1) || axisX == PUZZLEROOM_CENTER_TO_BORDER
+                                || axisZ == (PUZZLEROOM_CENTER_TO_BORDER * -1)
+                                || axisZ == PUZZLEROOM_CENTER_TO_BORDER) {
+                                if (axisY == (_mDungeonTop - (int) Math.floor((PUZZLEROOM_HEIGHT / 2))))
+                                    _mWorldObj.setBlock(
+                                        axisX + _mCenterX,
+                                        axisY,
+                                        axisZ + _mCenterZ,
+                                        LGBlocks.DUNGEON_LAMP,
+                                        RandHelper.chance(
+                                            10,
+                                            DungeonLightSource.State.BROKEN.ordinal(),
+                                            DungeonLightSource.State.NORMAL.ordinal()),
+                                        2);
+                                else _mWorldObj.setBlock(
                                     axisX + _mCenterX,
                                     axisY,
                                     axisZ + _mCenterZ,
                                     LGBlocks.DUNGEON_WALL,
-                                    DungeonBrick.Type.FLOOR_SHIELDED.ordinal(),
+                                    RandHelper.chance(
+                                        10,
+                                        DungeonBrick.Type.WALL_CRACKED.ordinal(),
+                                        DungeonBrick.Type.WALL.ordinal()),
                                     2);
-                        else {
-                            if (axisX == (PUZZLEROOM_CENTER_TO_BORDER * -1) || axisX == PUZZLEROOM_CENTER_TO_BORDER
-                                    || axisZ == (PUZZLEROOM_CENTER_TO_BORDER * -1)
-                                    || axisZ == PUZZLEROOM_CENTER_TO_BORDER) {
-                                if (axisY == (_mDungeonTop - (int) Math.floor((PUZZLEROOM_HEIGHT / 2))))
-                                    _mWorldObj.setBlock(
-                                            axisX + _mCenterX,
-                                            axisY,
-                                            axisZ + _mCenterZ,
-                                            LGBlocks.DUNGEON_LAMP,
-                                            RandHelper.chance(
-                                                    10,
-                                                    DungeonLightSource.State.BROKEN.ordinal(),
-                                                    DungeonLightSource.State.NORMAL.ordinal()),
-                                            2);
-                                else _mWorldObj.setBlock(
-                                        axisX + _mCenterX,
-                                        axisY,
-                                        axisZ + _mCenterZ,
-                                        LGBlocks.DUNGEON_WALL,
-                                        RandHelper.chance(
-                                                10,
-                                                DungeonBrick.Type.WALL_CRACKED.ordinal(),
-                                                DungeonBrick.Type.WALL.ordinal()),
-                                        2);
                             }
                         }
                     }
                 }
             }
             LootGamesLegacy.DungeonLogger.info(
-                    String.format(
-                            "PuzzleDungeon spawned at %d %d %d in Dimension %d",
-                            _mCenterX,
-                            _mDungeonBottom,
-                            _mCenterZ,
-                            pWorldObj.provider.dimensionId));
+                String.format(
+                    "PuzzleDungeon spawned at %d %d %d in Dimension %d",
+                    _mCenterX,
+                    _mDungeonBottom,
+                    _mCenterZ,
+                    pWorldObj.provider.dimensionId));
 
             // Generate entrance
             // Loop as long as the last "staircase" block is something different than air
@@ -214,27 +214,29 @@ public class StructureGenerator {
                 for (axisX = _mCenterX; axisX <= _mCenterX; axisX++)
                     for (axisY = (_mDungeonBottom + 2); axisY <= (_mDungeonBottom + 4); axisY++) {
                         Block tCurrentBlock = _mWorldObj
-                                .getBlock(axisX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ);
-                        if (tCurrentBlock.getMaterial().isSolid()) _mWorldObj
+                            .getBlock(axisX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ);
+                        if (tCurrentBlock.getMaterial()
+                            .isSolid())
+                            _mWorldObj
                                 .setBlockToAir(axisX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ);
                         else break;
                     }
 
                 tEntrance = _mWorldObj
-                        .getBlock(_mCenterX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ);
+                    .getBlock(_mCenterX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ);
 
                 if ((axisZ - PUZZLEROOM_CENTER_TO_BORDER) >= 15) break;
             } while (tEntrance != Blocks.air || !_mWorldObj
-                    .canBlockSeeTheSky(_mCenterX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ));
+                .canBlockSeeTheSky(_mCenterX, axisY + (axisZ - PUZZLEROOM_CENTER_TO_BORDER), axisZ + _mCenterZ));
 
             return true;
 
         } else {
             LootGamesLegacy.DungeonLogger.debug(
-                    String.format(
-                            "PuzzleDungeon not spawned, location at X/Z %d %d is not suitable",
-                            pLocationX,
-                            pLocationZ));
+                String.format(
+                    "PuzzleDungeon not spawned, location at X/Z %d %d is not suitable",
+                    pLocationX,
+                    pLocationZ));
             return false;
         }
     }
@@ -249,18 +251,17 @@ public class StructureGenerator {
 
                     // Skip TE check for GT Blockores
                     UniqueIdentifier tBlockID = GameRegistry.findUniqueIdentifierFor(tBlock);
-                    if (tBlockID.modId.equalsIgnoreCase("gregtech")
-                            && tBlockID.name.toLowerCase().contains("blockores"))
-                        continue;
+                    if (tBlockID.modId.equalsIgnoreCase("gregtech") && tBlockID.name.toLowerCase()
+                        .contains("blockores")) continue;
 
                     TileEntity tTE = _mWorldObj.getTileEntity(axisX + _mCenterX, axisY, axisZ + _mCenterZ);
                     if (tTE != null) {
                         LootGamesLegacy.DungeonLogger.debug(
-                                String.format(
-                                        "Block at %d %d %d is a TileEntitiy. Skipping dungeon generator",
-                                        axisX + _mCenterX,
-                                        axisY,
-                                        axisZ + _mCenterZ));
+                            String.format(
+                                "Block at %d %d %d is a TileEntitiy. Skipping dungeon generator",
+                                axisX + _mCenterX,
+                                axisY,
+                                axisZ + _mCenterZ));
                         tResult = false;
                         break;
                     }

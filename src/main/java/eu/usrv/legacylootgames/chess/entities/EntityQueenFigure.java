@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 public class EntityQueenFigure extends EntityWitch implements IChessFigure {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-            new ResourceLocation("LootGames:textures/entity/queen_witch/black.png"),
-            new ResourceLocation("LootGames:textures/entity/queen_witch/white.png") };
+        new ResourceLocation("LootGames:textures/entity/queen_witch/black.png"),
+        new ResourceLocation("LootGames:textures/entity/queen_witch/white.png") };
 
     private FiguresData _mFiguresData;
 

@@ -12,7 +12,10 @@ public final class West extends Direction {
 
     @Override
     public Square next(Square sq) {
-        return Square.valueOf(sq.file().west(), sq.rank());
+        return Square.valueOf(
+            sq.file()
+                .west(),
+            sq.rank());
     }
 
     @Override

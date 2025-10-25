@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 public class EntityBishopFigure extends EntityCreeper implements IChessFigure {
 
     public static final ResourceLocation[] TEXTURES = new ResourceLocation[] {
-            new ResourceLocation("LootGames:textures/entity/bishop_creeper/black.png"),
-            new ResourceLocation("LootGames:textures/entity/bishop_creeper/white.png") };
+        new ResourceLocation("LootGames:textures/entity/bishop_creeper/black.png"),
+        new ResourceLocation("LootGames:textures/entity/bishop_creeper/white.png") };
 
     private FiguresData _mFiguresData;
 

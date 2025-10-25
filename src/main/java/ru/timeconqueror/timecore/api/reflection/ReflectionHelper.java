@@ -117,10 +117,10 @@ public class ReflectionHelper {
      * @see #findMethod(Class, String, Class[])
      */
     public static <T> Optional<UnlockedMethod<T>> findMethodSoftly(Class<?> clazz, String methodName,
-            Class<?>... params) {
+        Class<?>... params) {
         for (Method declaredMethod : clazz.getDeclaredMethods()) {
-            if (declaredMethod.getName().equals(methodName)
-                    && Arrays.equals(declaredMethod.getParameterTypes(), params)) {
+            if (declaredMethod.getName()
+                .equals(methodName) && Arrays.equals(declaredMethod.getParameterTypes(), params)) {
                 return Optional.of(new UnlockedMethod<>(declaredMethod));
             }
         }
@@ -146,8 +146,8 @@ public class ReflectionHelper {
             return new UnlockedMethod<>(method);
         } catch (Throwable e) {
             throw new RuntimeException(
-                    "Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params),
-                    e);
+                "Can't retrieve method " + clazz.getName() + "#" + getPrettySignature(methodName, params),
+                e);
         }
     }
 
@@ -185,7 +185,10 @@ public class ReflectionHelper {
     }
 
     public static String getPrettySignature(String methodName, Class<?>... params) {
-        return methodName + "(" + Joiner.on(",").join(params) + ")";
+        return methodName + "("
+            + Joiner.on(",")
+                .join(params)
+            + ")";
     }
 
     public static String getDescriptorForClass(final Class<?> c) {
@@ -201,7 +204,8 @@ public class ReflectionHelper {
             if (c == void.class) return "V";
             throw new RuntimeException("Unrecognized primitive " + c);
         }
-        if (c.isArray()) return c.getName().replace('.', '/');
+        if (c.isArray()) return c.getName()
+            .replace('.', '/');
         return ('L' + c.getName() + ';').replace('.', '/');
     }
 

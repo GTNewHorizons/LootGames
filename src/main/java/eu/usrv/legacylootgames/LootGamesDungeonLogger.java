@@ -42,7 +42,7 @@ public class LootGamesDungeonLogger {
 
     public void debug(String pMessage) {
         if (LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("debug")
-                || LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("trace"))
+            || LGConfigs.GENERAL.worldGen.dungeonLogLevel.equalsIgnoreCase("trace"))
             _mLootgameLogger.log(Level.FINE, pMessage);
     }
 
@@ -70,9 +70,14 @@ public class LootGamesDungeonLogger {
 
         public String format(LogRecord record) {
             StringBuilder builder = new StringBuilder(1000);
-            builder.append(df.format(new Date(record.getMillis()))).append(" - ");
-            builder.append("[").append(record.getSourceClassName()).append("]");
-            builder.append("[").append(record.getLevel()).append("] - ");
+            builder.append(df.format(new Date(record.getMillis())))
+                .append(" - ");
+            builder.append("[")
+                .append(record.getSourceClassName())
+                .append("]");
+            builder.append("[")
+                .append(record.getLevel())
+                .append("] - ");
             builder.append(formatMessage(record));
             builder.append(System.lineSeparator());
             return builder.toString();

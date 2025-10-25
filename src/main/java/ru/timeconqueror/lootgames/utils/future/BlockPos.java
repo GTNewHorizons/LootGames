@@ -25,7 +25,7 @@ public class BlockPos extends Vector3i {
     public static final BlockPos ZERO = new BlockPos(0, 0, 0);
 
     private static final int PACKED_X_LENGTH = 1
-            + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
+        + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
     private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
     private static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
     private static final long PACKED_X_MASK = (1L << PACKED_X_LENGTH) - 1L;
@@ -94,7 +94,7 @@ public class BlockPos extends Vector3i {
      */
     public BlockPos offset(double x, double y, double z) {
         return x == 0.0D && y == 0.0D && z == 0.0D ? this
-                : new BlockPos((double) this.getX() + x, (double) this.getY() + y, (double) this.getZ() + z);
+            : new BlockPos((double) this.getX() + x, (double) this.getY() + y, (double) this.getZ() + z);
     }
 
     /**
@@ -207,9 +207,9 @@ public class BlockPos extends Vector3i {
      */
     public BlockPos relative(EnumFacing facing) {
         return new BlockPos(
-                this.getX() + facing.getFrontOffsetX(),
-                this.getY() + facing.getFrontOffsetY(),
-                this.getZ() + facing.getFrontOffsetZ());
+            this.getX() + facing.getFrontOffsetX(),
+            this.getY() + facing.getFrontOffsetY(),
+            this.getZ() + facing.getFrontOffsetZ());
     }
 
     /**
@@ -217,10 +217,10 @@ public class BlockPos extends Vector3i {
      */
     public BlockPos relative(EnumFacing facing, int n) {
         return n == 0 ? this
-                : new BlockPos(
-                        this.getX() + facing.getFrontOffsetX() * n,
-                        this.getY() + facing.getFrontOffsetY() * n,
-                        this.getZ() + facing.getFrontOffsetZ() * n);
+            : new BlockPos(
+                this.getX() + facing.getFrontOffsetX() * n,
+                this.getY() + facing.getFrontOffsetY() * n,
+                this.getZ() + facing.getFrontOffsetZ() * n);
     }
 
     /**
@@ -228,9 +228,9 @@ public class BlockPos extends Vector3i {
      */
     public BlockPos cross(Vector3i vec) {
         return new BlockPos(
-                this.getY() * vec.getZ() - this.getZ() * vec.getY(),
-                this.getZ() * vec.getX() - this.getX() * vec.getZ(),
-                this.getX() * vec.getY() - this.getY() * vec.getX());
+            this.getY() * vec.getZ() - this.getZ() * vec.getY(),
+            this.getZ() * vec.getX() - this.getX() * vec.getZ(),
+            this.getX() * vec.getY() - this.getY() * vec.getX());
     }
 
     /**
@@ -250,7 +250,7 @@ public class BlockPos extends Vector3i {
     }
 
     public static Iterable<BlockPos> randomBetweenClosed(Random rand, int amount, int minX, int minY, int minZ,
-            int maxX, int maxY, int maxZ) {
+        int maxX, int maxY, int maxZ) {
         int i = maxX - minX + 1;
         int j = maxY - minY + 1;
         int k = maxZ - minZ + 1;
@@ -265,7 +265,7 @@ public class BlockPos extends Vector3i {
                         return this.endOfData();
                     } else {
                         BlockPos blockpos = this.nextPos
-                                .set(minX + rand.nextInt(i), minY + rand.nextInt(j), minZ + rand.nextInt(k));
+                            .set(minX + rand.nextInt(i), minY + rand.nextInt(j), minZ + rand.nextInt(k));
                         --this.counter;
                         return blockpos;
                     }
@@ -334,8 +334,9 @@ public class BlockPos extends Vector3i {
     }
 
     public static Optional<BlockPos> findClosestMatch(BlockPos pos, int width, int height,
-            Predicate<BlockPos> posFilter) {
-        return withinManhattanStream(pos, width, height, width).filter(posFilter).findFirst();
+        Predicate<BlockPos> posFilter) {
+        return withinManhattanStream(pos, width, height, width).filter(posFilter)
+            .findFirst();
     }
 
     /**
@@ -348,12 +349,12 @@ public class BlockPos extends Vector3i {
 
     public static Iterable<BlockPos> betweenClosed(BlockPos firstPos, BlockPos secondPos) {
         return betweenClosed(
-                Math.min(firstPos.getX(), secondPos.getX()),
-                Math.min(firstPos.getY(), secondPos.getY()),
-                Math.min(firstPos.getZ(), secondPos.getZ()),
-                Math.max(firstPos.getX(), secondPos.getX()),
-                Math.max(firstPos.getY(), secondPos.getY()),
-                Math.max(firstPos.getZ(), secondPos.getZ()));
+            Math.min(firstPos.getX(), secondPos.getX()),
+            Math.min(firstPos.getY(), secondPos.getY()),
+            Math.min(firstPos.getZ(), secondPos.getZ()),
+            Math.max(firstPos.getX(), secondPos.getX()),
+            Math.max(firstPos.getY(), secondPos.getY()),
+            Math.max(firstPos.getZ(), secondPos.getZ()));
     }
 
     public static Stream<BlockPos> betweenClosedStream(BlockPos firstPos, BlockPos secondPos) {
@@ -457,9 +458,9 @@ public class BlockPos extends Vector3i {
 
         public BlockPos.Mutable setWithOffset(Vector3i pos, EnumFacing directionIn) {
             return this.set(
-                    pos.getX() + directionIn.getFrontOffsetX(),
-                    pos.getY() + directionIn.getFrontOffsetY(),
-                    pos.getZ() + directionIn.getFrontOffsetZ());
+                pos.getX() + directionIn.getFrontOffsetX(),
+                pos.getY() + directionIn.getFrontOffsetY(),
+                pos.getZ() + directionIn.getFrontOffsetZ());
         }
 
         public BlockPos.Mutable setWithOffset(Vector3i pos, int offsetX, int offsetY, int offsetZ) {
@@ -472,9 +473,9 @@ public class BlockPos extends Vector3i {
 
         public BlockPos.Mutable move(EnumFacing facing, int n) {
             return this.set(
-                    this.getX() + facing.getFrontOffsetX() * n,
-                    this.getY() + facing.getFrontOffsetY() * n,
-                    this.getZ() + facing.getFrontOffsetZ() * n);
+                this.getX() + facing.getFrontOffsetX() * n,
+                this.getY() + facing.getFrontOffsetY() * n,
+                this.getZ() + facing.getFrontOffsetZ() * n);
         }
 
         public BlockPos.Mutable move(int xIn, int yIn, int zIn) {
@@ -482,10 +483,8 @@ public class BlockPos extends Vector3i {
         }
 
         public BlockPos.Mutable move(Vector3i vector3i_) {
-            return this.set(
-                    this.getX() + vector3i_.getX(),
-                    this.getY() + vector3i_.getY(),
-                    this.getZ() + vector3i_.getZ());
+            return this
+                .set(this.getX() + vector3i_.getX(), this.getY() + vector3i_.getY(), this.getZ() + vector3i_.getZ());
         }
 
         /**

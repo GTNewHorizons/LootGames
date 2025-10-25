@@ -23,7 +23,8 @@ public class DrawBoard {
                 board.append(p == null ? "-" : p.toString());
                 if (f.equals(File.FILE_H)) {
                     if (r.equals(Rank.RANK_7)) {
-                        if (b.getPlayerToMove().isWhite()) {
+                        if (b.getPlayerToMove()
+                            .isWhite()) {
                             board.append("\twhite to move");
                         } else {
                             board.append("\tblack to move");

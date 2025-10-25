@@ -45,7 +45,8 @@ public class ChessEngineProxy {
 
     private boolean sendCommand(String pCommand) {
         try {
-            InputParser.getInstance().parseCommand(pCommand);
+            InputParser.getInstance()
+                .parseCommand(pCommand);
         } catch (IllegalMoveException ime) {
             LootGames.LOGGER.error("Illegal move");
         } catch (ParseException pe) {

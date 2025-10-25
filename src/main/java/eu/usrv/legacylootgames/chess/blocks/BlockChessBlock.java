@@ -59,7 +59,7 @@ public class BlockChessBlock extends Block implements ITileEntityProvider {
 
     @Override
     public boolean onBlockActivated(World pWorld, int pX, int pY, int pZ, EntityPlayer pPlayer, int pSide, float pSubX,
-            float pSubY, float pSubZ) {
+        float pSubY, float pSubZ) {
         if (pWorld.isRemote) return true;
         else {
             if (!pWorld.isRemote && pWorld.getTileEntity(pX, pY, pZ) instanceof TEChessMasterBlock) {

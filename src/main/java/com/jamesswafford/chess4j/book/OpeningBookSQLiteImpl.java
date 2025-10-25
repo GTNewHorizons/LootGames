@@ -90,7 +90,10 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
                 int draws = rs.getInt("draws");
 
                 for (Move legalMove : legalMoves) {
-                    if (legalMove.from().value() == fromsq && legalMove.to().value() == tosq) {
+                    if (legalMove.from()
+                        .value() == fromsq
+                        && legalMove.to()
+                            .value() == tosq) {
                         bookMoves.add(new BookMove(legalMove, freq, wins, losses, draws));
                     }
                 }
@@ -137,7 +140,7 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
     @Override
     public void learn(List<Move> moves, Color engineColor, GameResult gameResult) {
         if (!(GameResult.WIN.equals(gameResult) || GameResult.LOSS.equals(gameResult)
-                || GameResult.DRAW.equals(gameResult))) {
+            || GameResult.DRAW.equals(gameResult))) {
             return;
         }
 
@@ -145,7 +148,8 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
         try {
             for (Move move : moves) {
-                if (Board.INSTANCE.getPlayerToMove().equals(engineColor)) {
+                if (Board.INSTANCE.getPlayerToMove()
+                    .equals(engineColor)) {
                     learn(move, gameResult);
                 }
                 Board.INSTANCE.applyMove(move);
@@ -159,14 +163,15 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
         List<BookMove> bookMoves = getMoves(Board.INSTANCE);
 
         for (BookMove bookMove : bookMoves) {
-            if (bookMove.getMove().equals(move)) {
+            if (bookMove.getMove()
+                .equals(move)) {
                 update(
-                        Board.INSTANCE,
-                        move,
-                        bookMove.getFrequency(),
-                        bookMove.getWins() + (GameResult.WIN.equals(gameResult) ? 1 : 0),
-                        bookMove.getLosses() + (GameResult.LOSS.equals(gameResult) ? 1 : 0),
-                        bookMove.getDraws() + (GameResult.DRAW.equals(gameResult) ? 1 : 0));
+                    Board.INSTANCE,
+                    move,
+                    bookMove.getFrequency(),
+                    bookMove.getWins() + (GameResult.WIN.equals(gameResult) ? 1 : 0),
+                    bookMove.getLosses() + (GameResult.LOSS.equals(gameResult) ? 1 : 0),
+                    bookMove.getDraws() + (GameResult.DRAW.equals(gameResult) ? 1 : 0));
             }
         }
     }
@@ -203,7 +208,7 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
     private void createTables() throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute(
-                "create table book_moves (key int not null,fromsq int not null,tosq int not null,frequency int default 1,wins int,losses int,draws int)");
+            "create table book_moves (key int not null,fromsq int not null,tosq int not null,frequency int default 1,wins int,losses int,draws int)");
         stmt.execute("create index idx_book_moves_key on book_moves(key)");
         stmt.execute("create table zobrist_keys (id integer primary key autoincrement,key int not null)");
         stmt.close();
@@ -215,8 +220,14 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setLong(1, board.getZobristKey());
-        ps.setInt(2, move.from().value());
-        ps.setInt(3, move.to().value());
+        ps.setInt(
+            2,
+            move.from()
+                .value());
+        ps.setInt(
+            3,
+            move.to()
+                .value());
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             freq = rs.getInt("frequency");
@@ -230,8 +241,14 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
         String sql = "insert into book_moves (key,fromsq,tosq,frequency) values (?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setLong(1, board.getZobristKey());
-        ps.setInt(2, move.from().value());
-        ps.setInt(3, move.to().value());
+        ps.setInt(
+            2,
+            move.from()
+                .value());
+        ps.setInt(
+            3,
+            move.to()
+                .value());
         ps.setInt(4, 1);
         ps.executeUpdate();
         ps.close();
@@ -245,8 +262,14 @@ public class OpeningBookSQLiteImpl extends AbstractOpeningBook {
         ps.setInt(3, losses);
         ps.setInt(4, draws);
         ps.setLong(5, board.getZobristKey());
-        ps.setInt(6, move.from().value());
-        ps.setInt(7, move.to().value());
+        ps.setInt(
+            6,
+            move.from()
+                .value());
+        ps.setInt(
+            7,
+            move.to()
+                .value());
         ps.executeUpdate();
         ps.close();
     }

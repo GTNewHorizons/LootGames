@@ -77,7 +77,8 @@ public class FiguresData {
         try {
             ResourceLocation[] newTextures = new ResourceLocation[_mTextures.length];
             for (int i = newTextures.length; i-- > 0;) {
-                if (!_mTextures[i].toString().equals(tex[i])) {
+                if (!_mTextures[i].toString()
+                    .equals(tex[i])) {
                     this._mUpdateTextures = true;
                     newTextures[i] = new ResourceLocation(tex[i]);
                 } else {

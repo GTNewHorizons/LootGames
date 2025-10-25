@@ -46,8 +46,11 @@ public class PGNGame {
 
         PGNGame that = (PGNGame) obj;
 
-        if (!this.getTags().equals(that.getTags())) return false;
-        if (!this.getMoves().equals(that.getMoves())) return false;
-        return this.getResult().equals(that.getResult());
+        if (!this.getTags()
+            .equals(that.getTags())) return false;
+        if (!this.getMoves()
+            .equals(that.getMoves())) return false;
+        return this.getResult()
+            .equals(that.getResult());
     }
 }

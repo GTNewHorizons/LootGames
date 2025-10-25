@@ -53,9 +53,9 @@ public enum ExtendedDirections {
     UNKNOWN(0, 0, 0);
 
     public static final ExtendedDirections[] VALID_DIRECTIONS = { DOWN, UP, NORTH, SOUTH, WEST, EAST, NORTHEAST,
-            NORTHWEST, SOUTHEAST, SOUTHWEST };
+        NORTHWEST, SOUTHEAST, SOUTHWEST };
     public static final List<ExtendedDirections> HORIZONTAL = Lists
-            .newArrayList(NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST);
+        .newArrayList(NORTH, SOUTH, WEST, EAST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST);
     public static final int[] OPPOSITES = { 1, 0, 3, 2, 5, 4, 9, 8, 7, 6, 10 };
     public final int offsetX;
     public final int offsetY;
