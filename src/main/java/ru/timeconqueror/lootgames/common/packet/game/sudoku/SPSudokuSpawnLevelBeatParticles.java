@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.common.packet.game.sudoku;
 
 import net.minecraft.network.PacketBuffer;
+
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.api.packet.IServerGamePacket;
 import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;

@@ -1,20 +1,22 @@
 package ru.timeconqueror.lootgames;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import eu.usrv.legacylootgames.config.LegacyLGConfig;
+import java.io.File;
+import java.io.IOException;
+
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import eu.usrv.legacylootgames.config.LegacyLGConfig;
 import ru.timeconqueror.lootgames.common.config.ConfigGOL;
 import ru.timeconqueror.lootgames.common.config.ConfigGeneral;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.common.config.base.RewardConfig;
 import ru.timeconqueror.timecore.api.common.config.Config;
-
-import java.io.File;
-import java.io.IOException;
 
 public class LegacyMigrator {
 

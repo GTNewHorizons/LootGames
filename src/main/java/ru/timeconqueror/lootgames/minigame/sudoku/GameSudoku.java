@@ -1,12 +1,13 @@
 package ru.timeconqueror.lootgames.minigame.sudoku;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
+import lombok.Getter;
+import lombok.Setter;
 import ru.timeconqueror.lootgames.api.minigame.BoardLootGame;
 import ru.timeconqueror.lootgames.api.minigame.ILootGameFactory;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
@@ -23,7 +24,7 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Sounds;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 
-//TODO maybe allow players to choose rewards of the prev level, if they cannot beat the current one
+// TODO maybe allow players to choose rewards of the prev level, if they cannot beat the current one
 public class GameSudoku extends BoardLootGame<GameSudoku> {
 
     public int currentLevel = 1;
@@ -42,8 +43,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         setupInitialStage(new StageWaiting());
         if (isServerSide()) {
             configSnapshot = LGConfigs.SUDOKU.snapshot();
-            int blanks = configSnapshot.getStage1()
-                .blanksCount();
+            int blanks = configSnapshot.getStage1().blanksCount();
             board.generate(blanks);
         }
         super.onPlace();
@@ -83,8 +83,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
             WorldExt.playSoundServerly(getWorld(), getGameCenter(), Sounds.PLAYER_LEVELUP, 0.75F, 1.0F);
 
             currentLevel++;
-            int blanks = configSnapshot.getStageByIndex(currentLevel)
-                .blanksCount();
+            int blanks = configSnapshot.getStageByIndex(currentLevel).blanksCount();
             board.generate(blanks);
             saveAndSync();
         } else {
@@ -96,11 +95,11 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
     protected void triggerGameWin() {
         super.triggerGameWin();
         RewardUtils.spawnFourStagedReward(
-            (WorldServer) getWorld(),
-            this,
-            getGameCenter(),
-            currentLevel,
-            LGConfigs.REWARDS.rewardsSudoku);
+                (WorldServer) getWorld(),
+                this,
+                getGameCenter(),
+                currentLevel,
+                LGConfigs.REWARDS.rewardsSudoku);
     }
 
     @Override
@@ -133,8 +132,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
         protected void onClick(EntityPlayer player, Pos2i pos, MouseClickType type) {
             if (!isServerSide()) return;
             if (!board.isGenerated()) {
-                int blanks = configSnapshot.getStageByIndex(currentLevel)
-                    .blanksCount();
+                int blanks = configSnapshot.getStageByIndex(currentLevel).blanksCount();
                 board.generate(blanks);
                 sendUpdatePacketToNearby(new SPSSyncBoard(board));
                 return;

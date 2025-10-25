@@ -1,25 +1,28 @@
 package ru.timeconqueror.lootgames.client.render;
 
-import com.google.common.collect.Maps;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Maps;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ru.timeconqueror.lootgames.ClientProxy;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class SudokuOverlayHandler {
 

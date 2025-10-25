@@ -1,9 +1,11 @@
 package ru.timeconqueror.lootgames.common.config;
 
-import com.github.bsideup.jabel.Desugar;
-import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
+
+import com.github.bsideup.jabel.Desugar;
+
+import lombok.Getter;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 

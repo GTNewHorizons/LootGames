@@ -1,12 +1,13 @@
 package ru.timeconqueror.lootgames.common.packet.game.sudoku;
 
+import java.util.Objects;
+
 import net.minecraft.nbt.NBTTagCompound;
+
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
 import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.minigame.sudoku.SudokuBoard;
-
-import java.util.Objects;
 
 public class SPSSyncBoard extends NBTGamePacket {
 

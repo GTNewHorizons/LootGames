@@ -1,10 +1,17 @@
 package ru.timeconqueror.lootgames.client.render;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.block.tile.BoardGameMasterTile;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
@@ -12,11 +19,6 @@ import ru.timeconqueror.lootgames.common.block.tile.SudokuTile;
 import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.minigame.sudoku.SudokuBoard;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class SudokuRenderer extends TileEntitySpecialRenderer {
 

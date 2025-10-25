@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.common.config;
 
 import net.minecraftforge.common.config.Configuration;
+
 import ru.timeconqueror.lootgames.LootGames;
 
 public class LGConfigs {
