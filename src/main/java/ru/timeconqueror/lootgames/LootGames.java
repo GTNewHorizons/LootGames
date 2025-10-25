@@ -8,26 +8,18 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.relauncher.Side;
 import eu.usrv.legacylootgames.LootGamesLegacy;
 import eu.usrv.legacylootgames.command.LootGamesCommand;
+import ru.timeconqueror.Tags;
 import ru.timeconqueror.lootgames.api.minigame.FieldManager;
 import ru.timeconqueror.lootgames.api.minigame.GameManager;
-import ru.timeconqueror.lootgames.client.ClientEventHandler;
-import ru.timeconqueror.lootgames.client.IconLoader;
-import ru.timeconqueror.lootgames.client.render.MSOverlayHandler;
-import ru.timeconqueror.lootgames.client.render.tile.GOLMasterRenderer;
-import ru.timeconqueror.lootgames.client.render.tile.MSMasterRenderer;
-import ru.timeconqueror.lootgames.common.block.tile.GOLMasterTile;
-import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.common.packet.LGNetwork;
 import ru.timeconqueror.lootgames.registry.LGAchievements;
@@ -36,7 +28,6 @@ import ru.timeconqueror.lootgames.registry.LGGamePackets;
 import ru.timeconqueror.lootgames.registry.LGGames;
 import ru.timeconqueror.timecore.api.common.CommonEventHandler;
 import ru.timeconqueror.timecore.api.common.config.Config;
-import ru.timeconqueror.timecore.api.util.Hacks;
 
 @Mod(
         modid = LootGames.MODID,
@@ -46,9 +37,9 @@ import ru.timeconqueror.timecore.api.util.Hacks;
         certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")
 public class LootGames {
 
-    public static final String MODID = "lootgames";
-    public static final String MODNAME = "LootGames";
-    public static final String VERSION = "GRADLETOKEN_VERSION";
+    public static final String MODID = Tags.MODID;
+    public static final String MODNAME = Tags.MODNAME;
+    public static final String VERSION = Tags.VERSION;
 
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -60,6 +51,11 @@ public class LootGames {
         }
     };
 
+    @SidedProxy(
+            clientSide = "ru.timeconqueror.lootgames.ClientProxy",
+            serverSide = "ru.timeconqueror.lootgames.CommonProxy")
+    public static CommonProxy proxy;
+
     @Mod.Instance(LootGames.MODID)
     public static LootGames INSTANCE;
 
@@ -68,11 +64,7 @@ public class LootGames {
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            MinecraftForge.EVENT_BUS.register(new IconLoader());
-            MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-            MinecraftForge.EVENT_BUS.register(new MSOverlayHandler());
-        }
+        proxy.preInit(event);
 
         MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
 
@@ -81,11 +73,6 @@ public class LootGames {
         LGConfigs.load();
         LGBlocks.register();
 
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            ClientRegistry.bindTileEntitySpecialRenderer(GOLMasterTile.class, Hacks.safeCast(new GOLMasterRenderer()));
-            ClientRegistry.bindTileEntitySpecialRenderer(MSMasterTile.class, Hacks.safeCast(new MSMasterRenderer()));
-        }
-
         LootGamesLegacy.PreLoad(event);
 
         LegacyMigrator.onPreInit(event);
@@ -93,6 +80,7 @@ public class LootGames {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        proxy.init(event);
         LGNetwork.init();
         LGGames.register();
         LGGamePackets.register();

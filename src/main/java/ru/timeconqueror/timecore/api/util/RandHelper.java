@@ -1,8 +1,6 @@
 package ru.timeconqueror.timecore.api.util;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class RandHelper {
 
@@ -136,5 +134,25 @@ public class RandHelper {
      */
     public static <T> T chooseEqually(Collection<T> items) {
         return chooseEqually(RAND, items);
+    }
+
+    /**
+     * Generates a shuffled list of consecutive integers within the specified range.
+     *
+     * @throws IllegalArgumentException if {@code start > end}
+     */
+    public static List<Integer> shuffledList(int start, int end) {
+        if (start > end) {
+            int oldStart = start;
+            start = end;
+            end = oldStart;
+        }
+
+        List<Integer> list = new ArrayList<>(end - start + 1);
+        for (int i = start; i <= end; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list, RandHelper.RAND);
+        return list;
     }
 }

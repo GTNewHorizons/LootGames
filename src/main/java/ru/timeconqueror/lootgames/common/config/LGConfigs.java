@@ -1,7 +1,6 @@
 package ru.timeconqueror.lootgames.common.config;
 
 import net.minecraftforge.common.config.Configuration;
-
 import ru.timeconqueror.lootgames.LootGames;
 
 public class LGConfigs {
@@ -9,6 +8,7 @@ public class LGConfigs {
     public static final ConfigGeneral GENERAL = new ConfigGeneral();
     public static final ConfigMS MINESWEEPER = new ConfigMS();
     public static final ConfigGOL GOL = new ConfigGOL();
+    public static final ConfigSudoku SUDOKU = new ConfigSudoku();
     public static final ConfigRewards REWARDS = new ConfigRewards();
 
     public static String resolve(String path) {
@@ -23,6 +23,7 @@ public class LGConfigs {
         GENERAL.load();
         MINESWEEPER.load();
         GOL.load();
+        SUDOKU.load();
         REWARDS.load();
     }
 }
