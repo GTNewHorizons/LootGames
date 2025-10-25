@@ -1,20 +1,22 @@
-package com.lootgames.sudoku.packet;
+package ru.timeconqueror.lootgames.common.packet.game.sudoku;
+
+import net.minecraft.nbt.NBTTagCompound;
+import ru.timeconqueror.lootgames.api.minigame.LootGame;
+import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
+import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
+import ru.timeconqueror.lootgames.minigame.sudoku.SudokuBoard;
 
 import java.util.Objects;
 
-import net.minecraft.nbt.NBTTagCompound;
-
-import com.lootgames.sudoku.sudoku.GameSudoku;
-import com.lootgames.sudoku.sudoku.SudokuBoard;
-
-import ru.timeconqueror.lootgames.api.minigame.LootGame;
-import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
-
 public class SPSSyncBoard extends NBTGamePacket {
 
+    /**
+     * Only for using via reflection
+     */
+    @Deprecated
     public SPSSyncBoard() {}
 
-    public SPSSyncBoard(GameSudoku game, SudokuBoard board) {
+    public SPSSyncBoard(SudokuBoard board) {
         super(() -> {
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setTag("board", board.writeNBT());

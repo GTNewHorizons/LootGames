@@ -1,14 +1,13 @@
-package com.lootgames.sudoku.block;
+package ru.timeconqueror.lootgames.common.block;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
-import com.lootgames.sudoku.config.ConfigSudoku;
-
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
+import ru.timeconqueror.lootgames.common.block.tile.SudokuTile;
+import ru.timeconqueror.lootgames.common.config.ConfigSudoku;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.registry.LGSounds;

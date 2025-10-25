@@ -1,9 +1,8 @@
-package com.lootgames.sudoku.block;
-
-import com.lootgames.sudoku.config.ConfigSudoku;
-import com.lootgames.sudoku.sudoku.GameSudoku;
+package ru.timeconqueror.lootgames.common.block.tile;
 
 import ru.timeconqueror.lootgames.api.block.tile.BoardGameMasterTile;
+import ru.timeconqueror.lootgames.common.config.ConfigSudoku;
+import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 
 public class SudokuTile extends BoardGameMasterTile<GameSudoku> {
 

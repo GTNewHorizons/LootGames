@@ -1,12 +1,11 @@
 package ru.timeconqueror.lootgames.registry;
 
-import com.lootgames.sudoku.sudoku.GameSudoku;
-
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.task.TaskCreateExplosion;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.minigame.gol.GameOfLight;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
+import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 
 public class LGGames {
 

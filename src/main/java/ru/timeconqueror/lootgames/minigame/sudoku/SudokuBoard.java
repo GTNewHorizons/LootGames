@@ -1,21 +1,16 @@
-package com.lootgames.sudoku.sudoku;
-
-import java.util.List;
-
-import net.minecraft.nbt.NBTTagCompound;
+package ru.timeconqueror.lootgames.minigame.sudoku;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.nbt.NBTTagCompound;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 import ru.timeconqueror.timecore.api.util.CodecUtils;
 import ru.timeconqueror.timecore.api.util.RandHelper;
 
-public class SudokuBoard {
+import java.util.List;
 
-    @Getter
-    @Setter
-    public long lastClickTime = -1;
+public class SudokuBoard {
     public static final int SIZE = 9;
     @Getter
     @Setter

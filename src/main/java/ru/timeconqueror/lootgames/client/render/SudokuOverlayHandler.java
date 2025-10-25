@@ -1,27 +1,25 @@
-package com.lootgames.sudoku.sudoku;
+package ru.timeconqueror.lootgames.client.render;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-
 import org.lwjgl.opengl.GL11;
-
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ru.timeconqueror.lootgames.ClientProxy;
 import ru.timeconqueror.lootgames.LootGames;
+import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class SudokuOverlayHandler {
 
@@ -67,15 +65,9 @@ public class SudokuOverlayHandler {
         int totalBlanks = game.getBoard().countTotalBlanks();
         int filled = game.getBoard().countFilledCells();
         int remaining = totalBlanks - filled;
-        long lastTime = game.getBoard().getLastClickTime() >= 0
-                ? (player.worldObj.getTotalWorldTime() - game.getBoard().getLastClickTime()) / 20
-                : 0;
 
-        String textRemaining = String.format(StatCollector.translateToLocal("msg.lootgames.sdk.renaming"), remaining);
-        String textLastTime = String
-                .format(StatCollector.translateToLocal("msg.lootgames.sdk.last_click_time"), lastTime);
+        String textRemaining = String.format(StatCollector.translateToLocal("msg.lootgames.sdk.remaining"), remaining);
         int widthRemaining = font.getStringWidth(textRemaining);
-        int widthLastTime = font.getStringWidth(textLastTime);
 
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -86,7 +78,7 @@ public class SudokuOverlayHandler {
         DrawHelper.drawWidthExpandableTexturedRect(
                 5 + 15 * 1.5F,
                 5,
-                widthRemaining + widthLastTime + 20,
+                widthRemaining + 20,
                 0,
                 FIRST_SLOT_START,
                 FIRST_SLOT_REPEAT,
@@ -94,12 +86,6 @@ public class SudokuOverlayHandler {
                 48);
 
         DrawHelper.drawStringWithShadow(Minecraft.getMinecraft().fontRenderer, textRemaining, 33, 13, 0xFFFFFF);
-        DrawHelper.drawStringWithShadow(
-                Minecraft.getMinecraft().fontRenderer,
-                textLastTime,
-                widthRemaining + 40,
-                13,
-                0xFFFFFF);
 
         GL11.glPopMatrix();
 

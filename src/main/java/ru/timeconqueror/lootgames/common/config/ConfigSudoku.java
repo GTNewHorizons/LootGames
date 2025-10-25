@@ -1,19 +1,15 @@
-package com.lootgames.sudoku.config;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.config.Configuration;
+package ru.timeconqueror.lootgames.common.config;
 
 import com.github.bsideup.jabel.Desugar;
-
 import lombok.Getter;
-import ru.timeconqueror.lootgames.common.config.LGConfigs;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.config.Configuration;
 import ru.timeconqueror.timecore.api.common.config.Config;
 import ru.timeconqueror.timecore.api.common.config.ConfigSection;
 
 public class ConfigSudoku extends Config {
 
     public int weight;
-    public int timeout;
 
     public StageConfig level1;
     public StageConfig level2;
@@ -38,19 +34,11 @@ public class ConfigSudoku extends Config {
                 Integer.MAX_VALUE,
                 "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
-        timeout = config.getInt(
-                "timeout",
-                getKey(),
-                45,
-                10,
-                Integer.MAX_VALUE,
-                "How long does it take to timeout a game? Value is in seconds.\nIf player has been inactive for given time, the game will go to sleep. The next player can start the game from the beginning.");
-
         level1.init(config);
         level2.init(config);
         level3.init(config);
         level4.init(config);
-        config.setCategoryComment(getKey(), "Regulates 'Sudoku' minigame blank cell counts.");
+        config.setCategoryComment(getKey(), "Regulates 'Sudoku' minigame.");
     }
 
     @Override

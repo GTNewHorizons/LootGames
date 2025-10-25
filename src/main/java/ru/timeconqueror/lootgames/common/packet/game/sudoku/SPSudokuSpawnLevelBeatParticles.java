@@ -1,11 +1,9 @@
-package com.lootgames.sudoku.packet;
+package ru.timeconqueror.lootgames.common.packet.game.sudoku;
 
 import net.minecraft.network.PacketBuffer;
-
-import com.lootgames.sudoku.sudoku.GameSudoku;
-
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.api.packet.IServerGamePacket;
+import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.sanity.Particles;
 

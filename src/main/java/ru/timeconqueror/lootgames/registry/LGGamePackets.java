@@ -1,21 +1,11 @@
 package ru.timeconqueror.lootgames.registry;
 
-import com.lootgames.sudoku.packet.SPSSyncBoard;
-import com.lootgames.sudoku.packet.SPSSyncCell;
-import com.lootgames.sudoku.packet.SPSudokuResetNumber;
-import com.lootgames.sudoku.packet.SPSudokuSpawnLevelBeatParticles;
-
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
-import ru.timeconqueror.lootgames.common.packet.game.CPGOLSymbolsShown;
-import ru.timeconqueror.lootgames.common.packet.game.SPChangeStage;
-import ru.timeconqueror.lootgames.common.packet.game.SPDelayedChangeStage;
-import ru.timeconqueror.lootgames.common.packet.game.SPGOLDrawMark;
-import ru.timeconqueror.lootgames.common.packet.game.SPGOLSendDisplayedSymbol;
-import ru.timeconqueror.lootgames.common.packet.game.SPGOLSpawnStageUpParticles;
-import ru.timeconqueror.lootgames.common.packet.game.SPMSFieldChanged;
-import ru.timeconqueror.lootgames.common.packet.game.SPMSGenBoard;
-import ru.timeconqueror.lootgames.common.packet.game.SPMSResetFlags;
-import ru.timeconqueror.lootgames.common.packet.game.SPMSSpawnLevelBeatParticles;
+import ru.timeconqueror.lootgames.common.packet.game.*;
+import ru.timeconqueror.lootgames.common.packet.game.sudoku.SPSSyncBoard;
+import ru.timeconqueror.lootgames.common.packet.game.sudoku.SPSSyncCell;
+import ru.timeconqueror.lootgames.common.packet.game.sudoku.SPSudokuResetNumber;
+import ru.timeconqueror.lootgames.common.packet.game.sudoku.SPSudokuSpawnLevelBeatParticles;
 
 public class LGGamePackets {
 
