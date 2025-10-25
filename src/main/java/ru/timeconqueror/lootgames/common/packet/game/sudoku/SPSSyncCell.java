@@ -26,6 +26,7 @@ public class SPSSyncCell implements IServerGamePacket {
     public void encode(PacketBuffer buf) {
         buf.writeInt(pos.getX());
         buf.writeInt(pos.getY());
+        buf.writeInt(value);
     }
 
     @Override

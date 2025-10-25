@@ -191,13 +191,13 @@ public class SudokuBoard {
     public void cycleValueMinus(Pos2i pos) {
         int r = pos.getX(), c = pos.getY();
         if (puzzle[r][c] != 0) return;
-        player[r][c] = (player[r][c]+8) % 9 + 1;
+        player[r][c] = (player[r][c] + 9) % 10;
     }
 
     public void cycleValueAdd(Pos2i pos) {
         int r = pos.getX(), c = pos.getY();
         if (puzzle[r][c] != 0) return;
-        player[r][c] = (player[r][c]%9) + 1;
+        player[r][c] = (player[r][c] + 1) % 10;
     }
 
     public boolean checkWin() {
