@@ -1,5 +1,10 @@
 package ru.timeconqueror.lootgames.registry;
 
+import com.lootgames.sudoku.packet.SPSSyncBoard;
+import com.lootgames.sudoku.packet.SPSSyncCell;
+import com.lootgames.sudoku.packet.SPSudokuResetNumber;
+import com.lootgames.sudoku.packet.SPSudokuSpawnLevelBeatParticles;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.common.packet.game.*;
 import ru.timeconqueror.lootgames.common.packet.game.sudoku.SPSSyncBoard;

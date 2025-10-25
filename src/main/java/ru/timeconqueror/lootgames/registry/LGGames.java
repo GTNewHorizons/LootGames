@@ -1,5 +1,7 @@
 package ru.timeconqueror.lootgames.registry;
 
+import com.lootgames.sudoku.sudoku.GameSudoku;
+
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.task.TaskCreateExplosion;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;

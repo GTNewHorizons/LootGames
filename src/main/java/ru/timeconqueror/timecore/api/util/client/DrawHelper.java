@@ -3,6 +3,8 @@ package ru.timeconqueror.timecore.api.util.client;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 
+import org.lwjgl.opengl.GL11;
+
 public class DrawHelper {
 
     /**
@@ -356,6 +358,64 @@ public class DrawHelper {
      */
     public static void drawStringWithShadow(FontRenderer fontRendererIn, String text, int x, int y, int color) {
         fontRendererIn.drawStringWithShadow(text, x, y, color);
+    }
+
+    /**
+     * Draws the main grid lines for a Sudoku board using OpenGL.
+     * <p>
+     * This method renders both the vertical and horizontal lines at every third interval to visually separate 3x3
+     * subgrids. The lines are drawn as quads with the specified thickness to ensure consistent width regardless of
+     * scale.
+     * </p>
+     *
+     * <p>
+     * <b>Rendering Notes:</b>
+     * </p>
+     * <ul>
+     * <li>Texture mapping is disabled during rendering.</li>
+     * <li>Alpha blending is enabled for smooth line edges.</li>
+     * <li>Cull face is disabled to ensure both sides of the lines are visible.</li>
+     * <li>Lines are drawn slightly offset along the Z-axis (z = -0.01f) to prevent z-fighting with other elements
+     * rendered on the same plane.</li>
+     * </ul>
+     *
+     * @param size      the size of the grid (e.g., 9 for a 9x9 Sudoku board)
+     * @param thickness the thickness of each line in world units
+     */
+    public static void drawGridLines(int size, float thickness) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+
+        float z = -0.01f;
+        float half = thickness / 2.0f;
+
+        GL11.glBegin(GL11.GL_QUADS);
+
+        for (int i = 0; i <= size; i++) {
+            if (i % 3 == 0) {
+                GL11.glVertex3f(i - half, 0, z);
+                GL11.glVertex3f(i + half, 0, z);
+                GL11.glVertex3f(i + half, size, z);
+                GL11.glVertex3f(i - half, size, z);
+            }
+        }
+
+        for (int i = 0; i <= size; i++) {
+            if (i % 3 == 0) {
+                GL11.glVertex3f(0, i - half, z);
+                GL11.glVertex3f(size, i - half, z);
+                GL11.glVertex3f(size, i + half, z);
+                GL11.glVertex3f(0, i + half, z);
+            }
+        }
+
+        GL11.glEnd();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
     public static class TexturedRect {
