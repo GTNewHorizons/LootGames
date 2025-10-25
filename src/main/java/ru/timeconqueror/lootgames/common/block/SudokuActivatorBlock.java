@@ -1,18 +1,22 @@
 package ru.timeconqueror.lootgames.common.block;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
+import ru.timeconqueror.lootgames.api.minigame.NotifyColor;
 import ru.timeconqueror.lootgames.common.block.tile.SudokuTile;
 import ru.timeconqueror.lootgames.common.config.ConfigSudoku;
 import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.registry.LGSounds;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
+import ru.timeconqueror.lootgames.utils.future.ChatComponentExt;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
+import ru.timeconqueror.timecore.api.util.NetworkUtils;
 
 public class SudokuActivatorBlock extends GameBlock {
 
@@ -33,6 +37,11 @@ public class SudokuActivatorBlock extends GameBlock {
                     .forTileIfSucceed(SudokuTile.class, master -> master.init(snapshot)).isSucceed();
 
             if (succeed) {
+                NetworkUtils.sendMessage(
+                        player,
+                        ChatComponentExt.withStyle(
+                                new ChatComponentTranslation("msg.lootgames.sdk.start"),
+                                NotifyColor.NOTIFY.getColor()));
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.MS_START_GAME, 0.6F, 1.0F);
             }
         }

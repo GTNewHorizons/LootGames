@@ -1,28 +1,30 @@
 package ru.timeconqueror.lootgames.minigame.sudoku;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import net.minecraft.nbt.NBTTagCompound;
+
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.nbt.NBTTagCompound;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 import ru.timeconqueror.timecore.api.util.CodecUtils;
 import ru.timeconqueror.timecore.api.util.RandHelper;
 
-import java.util.List;
-
 public class SudokuBoard {
-    public static final int SIZE = 9;
 
-    @Getter @Setter
-    public int[][] solution = new int[SIZE][SIZE]; // Complete solution
-    public int[][] puzzle = new int[SIZE][SIZE];   // Puzzle after removing cells
-    public int[][] player = new int[SIZE][SIZE];   // Player's filled values
+    public static int SIZE = 9;
 
-    public boolean[][] usedRows = new boolean[SIZE][SIZE+1];
-    public boolean[][] usedCols = new boolean[SIZE][SIZE+1];
-    public boolean[][] usedBlocks = new boolean[SIZE][SIZE+1];
+    @Getter
+    @Setter
+    public Integer[][] solution = new Integer[SIZE][SIZE]; // Complete solution
+    public Integer[][] puzzle = new Integer[SIZE][SIZE]; // Puzzle after removing cells
+    public Integer[][] player = new Integer[SIZE][SIZE]; // Player's filled values
 
-    public static ICodec<Integer, NBTTagCompound> INT_CODEC = new ICodec<>() {
+    public static final ICodec<Integer, NBTTagCompound> INT_CODEC = new ICodec<>() {
+
         @Override
         public NBTTagCompound encode(Integer obj) {
             NBTTagCompound tag = new NBTTagCompound();
@@ -37,81 +39,66 @@ public class SudokuBoard {
     };
 
     public void generate(int blanks) {
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j <= SIZE; j++) {
-                usedRows[i][j] = false;
-                usedCols[i][j] = false;
-                usedBlocks[i][j] = false;
-            }
-
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 solution[i][j] = 0;
+            }
+        }
 
-        fillSolution(0,0);
+        fillSolution(0, 0);
         copySolutionToPuzzle();
         removeCells(blanks);
         resetPlayer();
-    }
-
-    public int blockIndex(int r, int c) {
-        return (r/3)*3 + (c/3);
     }
 
     public boolean fillSolution(int row, int col) {
         if (row == SIZE) return true;
         int nextRow = col == SIZE - 1 ? row + 1 : row;
         int nextCol = (col + 1) % SIZE;
-
-        int[] nums = new int[]{1,2,3,4,5,6,7,8,9};
-        shuffleArray(nums);
-
+        List<Integer> nums = shuffledList(1, 9);
         for (int n : nums) {
-            int b = blockIndex(row,col);
-            if (!usedRows[row][n] && !usedCols[col][n] && !usedBlocks[b][n]) {
+            if (canPlace(solution, row, col, n)) {
                 solution[row][col] = n;
-                usedRows[row][n] = true;
-                usedCols[col][n] = true;
-                usedBlocks[b][n] = true;
-
-                if (fillSolution(nextRow,nextCol)) return true;
-
+                if (fillSolution(nextRow, nextCol)) return true;
                 solution[row][col] = 0;
-                usedRows[row][n] = false;
-                usedCols[col][n] = false;
-                usedBlocks[b][n] = false;
             }
         }
         return false;
     }
 
-    public void shuffleArray(int[] arr) {
-        for (int i = arr.length-1; i>0; i--) {
-            int j = RandHelper.RAND.nextInt(i+1);
-            int tmp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tmp;
-        }
+    public boolean canPlace(Integer[][] g, int r, int c, int n) {
+        for (int i = 0; i < SIZE; i++) if (g[r][i] == n || g[i][c] == n) return false;
+        int br = (r / 3) * 3, bc = (c / 3) * 3;
+        for (int rr = br; rr < br + 3; rr++) for (int cc = bc; cc < bc + 3; cc++) if (g[rr][cc] == n) return false;
+        return true;
     }
 
     public void copySolutionToPuzzle() {
-        for (int i = 0; i < SIZE; i++)
-            System.arraycopy(solution[i], 0, puzzle[i], 0, SIZE);
+        for (int i = 0; i < SIZE; i++) System.arraycopy(solution[i], 0, puzzle[i], 0, SIZE);
     }
 
     public void removeCells(int blanks) {
-        List<Integer> pos = RandHelper.shuffledList(0, SIZE * SIZE - 1);
+        List<Integer> pos = shuffledList(0, SIZE * SIZE - 1);
         int removed = 0;
 
         for (int idx : pos) {
             int r = idx / SIZE;
             int c = idx % SIZE;
-            if (puzzle[r][c] == 0) continue;
 
             int backup = puzzle[r][c];
+            if (backup == 0) continue; // Skip if already empty
+
             puzzle[r][c] = 0;
 
-            if (countSolutions(0,0,0) != 1) {
+            // Create a deep copy of the current puzzle state for the solver
+            Integer[][] boardCopy = new Integer[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                System.arraycopy(puzzle[i], 0, boardCopy[i], 0, SIZE);
+            }
+
+            // Check if the puzzle has a unique solution
+            if (countSolutions(boardCopy, 0, 0) != 1) {
+                // Restore, this cell cannot be removed
                 puzzle[r][c] = backup;
             } else {
                 removed++;
@@ -120,44 +107,33 @@ public class SudokuBoard {
         }
     }
 
-    public int countSolutions(int row, int col, int total) {
-        if (total > 1) return total;
-        if (row == SIZE) return total+1;
+    public int countSolutions(Integer[][] board, int row, int col) {
+        if (row == SIZE) return 1;
 
-        int nextRow = col == SIZE-1 ? row+1 : row;
-        int nextCol = (col+1)%SIZE;
+        int nextRow = col == SIZE - 1 ? row + 1 : row;
+        int nextCol = (col + 1) % SIZE;
 
-        if (puzzle[row][col] != 0)
-            return countSolutions(nextRow, nextCol, total);
+        if (board[row][col] != null && board[row][col] != 0) {
+            return countSolutions(board, nextRow, nextCol);
+        }
 
+        int totalSolutions = 0;
         for (int n = 1; n <= 9; n++) {
-            if (canPlaceTemp(row,col,n)) {
-                puzzle[row][col] = n;
-                usedRows[row][n] = true;
-                usedCols[col][n] = true;
-                usedBlocks[blockIndex(row,col)][n] = true;
-
-                total = countSolutions(nextRow,nextCol,total);
-
-                puzzle[row][col] = 0;
-                usedRows[row][n] = false;
-                usedCols[col][n] = false;
-                usedBlocks[blockIndex(row,col)][n] = false;
-
-                if (total > 1) return total;
+            if (canPlace(board, row, col, n)) {
+                board[row][col] = n;
+                totalSolutions += countSolutions(board, nextRow, nextCol);
+                if (totalSolutions > 1) {
+                    board[row][col] = 0;
+                    return totalSolutions;
+                }
+                board[row][col] = 0;
             }
         }
-        return total;
-    }
-
-    public boolean canPlaceTemp(int r, int c, int n) {
-        int b = blockIndex(r,c);
-        return !usedRows[r][n] && !usedCols[c][n] && !usedBlocks[b][n];
+        return totalSolutions;
     }
 
     public void resetPlayer() {
-        for (int i = 0; i < SIZE; i++)
-            System.arraycopy(puzzle[i], 0, player[i], 0, SIZE);
+        for (int i = 0; i < SIZE; i++) System.arraycopy(puzzle[i], 0, player[i], 0, SIZE);
     }
 
     public boolean isGenerated() {
@@ -165,7 +141,8 @@ public class SudokuBoard {
     }
 
     public int getPlayerValue(int x, int y) {
-        return player[x][y];
+        Integer v = player[x][y];
+        return v != null ? v : 0;
     }
 
     public int getPlayerValue(Pos2i pos) {
@@ -173,7 +150,8 @@ public class SudokuBoard {
     }
 
     public int getSolutionValue(int x, int y) {
-        return solution[x][y];
+        Integer v = solution[x][y];
+        return v != null ? v : 0;
     }
 
     public int getSolutionValue(Pos2i pos) {
@@ -181,7 +159,8 @@ public class SudokuBoard {
     }
 
     public int getPuzzleValue(int x, int y) {
-        return puzzle[x][y];
+        Integer v = puzzle[x][y];
+        return v != null ? v : 0;
     }
 
     public int getPuzzleValue(Pos2i pos) {
@@ -201,33 +180,29 @@ public class SudokuBoard {
     }
 
     public boolean checkWin() {
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
-                if (player[i][j] == 0 || player[i][j] != solution[i][j])
-                    return false;
+        for (int i = 0; i < SIZE; i++) for (int j = 0; j < SIZE; j++) {
+            if (player[i][j] == null || player[i][j] == 0 || !player[i][j].equals(solution[i][j])) return false;
+        }
         return true;
     }
 
     public NBTTagCompound writeNBT() {
         NBTTagCompound t = new NBTTagCompound();
-        t.setTag("puzzle", CodecUtils.write2DimArr(boxIntArray(puzzle), INT_CODEC));
-        t.setTag("player", CodecUtils.write2DimArr(boxIntArray(player), INT_CODEC));
-        t.setTag("solution", CodecUtils.write2DimArr(boxIntArray(solution), INT_CODEC));
+        t.setTag("puzzle", CodecUtils.write2DimArr(puzzle, INT_CODEC));
+        t.setTag("player", CodecUtils.write2DimArr(player, INT_CODEC));
+        t.setTag("solution", CodecUtils.write2DimArr(solution, INT_CODEC));
         return t;
     }
 
     public void readNBT(NBTTagCompound t) {
-        Integer[][] puzzleBox = CodecUtils.read2DimArr(t.getCompoundTag("puzzle"), Integer.class, INT_CODEC);
-        Integer[][] playerBox = CodecUtils.read2DimArr(t.getCompoundTag("player"), Integer.class, INT_CODEC);
-        Integer[][] solutionBox = CodecUtils.read2DimArr(t.getCompoundTag("solution"), Integer.class, INT_CODEC);
-
-        puzzle = unboxIntArray(puzzleBox);
-        player = unboxIntArray(playerBox);
-        solution = unboxIntArray(solutionBox);
+        puzzle = CodecUtils.read2DimArr(t.getCompoundTag("puzzle"), Integer.class, INT_CODEC);
+        player = CodecUtils.read2DimArr(t.getCompoundTag("player"), Integer.class, INT_CODEC);
+        solution = CodecUtils.read2DimArr(t.getCompoundTag("solution"), Integer.class, INT_CODEC);
     }
 
     public void cSetPlayerValue(Pos2i pos, int value) {
         int r = pos.getX(), c = pos.getY();
+
         if (puzzle[r][c] == 0) {
             player[r][c] = value;
         }
@@ -235,41 +210,37 @@ public class SudokuBoard {
 
     public int countTotalBlanks() {
         int count = 0;
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
-                if (puzzle[i][j] == 0)
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (puzzle[i][j] != null && puzzle[i][j] == 0) {
                     count++;
+                }
+            }
+        }
         return count;
     }
 
     public int countFilledCells() {
         int count = 0;
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
-                if (puzzle[i][j] == 0 && player[i][j] != 0)
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (puzzle[i][j] != null && puzzle[i][j] == 0 && player[i][j] != null && player[i][j] != 0) {
                     count++;
+                }
+            }
+        }
         return count;
     }
 
-    public static Integer[][] boxIntArray(int[][] arr) {
-        Integer[][] boxed = new Integer[arr.length][];
-        for (int i = 0; i < arr.length; i++) {
-            boxed[i] = new Integer[arr[i].length];
-            for (int j = 0; j < arr[i].length; j++) {
-                boxed[i][j] = arr[i][j];
-            }
+    public static List<Integer> shuffledList(int start, int end) {
+        if (start > end) {
+            throw new IllegalArgumentException(String.format("Start (%d) must be <= end (%d)", start, end));
         }
-        return boxed;
-    }
-
-    public static int[][] unboxIntArray(Integer[][] arr) {
-        int[][] unboxed = new int[arr.length][];
-        for (int i = 0; i < arr.length; i++) {
-            unboxed[i] = new int[arr[i].length];
-            for (int j = 0; j < arr[i].length; j++) {
-                unboxed[i][j] = arr[i][j] != null ? arr[i][j] : 0;
-            }
+        List<Integer> list = new ArrayList<>(end - start + 1);
+        for (int i = start; i <= end; i++) {
+            list.add(i);
         }
-        return unboxed;
+        Collections.shuffle(list, RandHelper.RAND);
+        return list;
     }
 }
