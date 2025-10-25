@@ -1,8 +1,7 @@
 package ru.timeconqueror.lootgames.common.block;
 
-import java.util.Optional;
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +11,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.LootGamesAPI;
 import ru.timeconqueror.lootgames.api.block.GameBlock;
@@ -25,6 +21,9 @@ import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Particles;
 import ru.timeconqueror.timecore.api.util.NetworkUtils;
+
+import java.util.Optional;
+import java.util.Random;
 
 // TODO check surface before placing game block
 // TODO add animation, which places block below
@@ -77,6 +76,8 @@ public class PuzzleMasterBlock extends GameBlock {
                 WorldExt.setBlock(worldIn, pos, Blocks.air);
 
                 Optional<String> error = LootGamesAPI.getGameManager().generateRandomGame(worldIn, pos);
+                //TODO migrate the game reveal achievement here
+                //TODO sudoku reveal achievement
                 if (!error.isPresent()) {
                     LGAchievements.FIND_DUNGEON.trigger(player);
                 } else {

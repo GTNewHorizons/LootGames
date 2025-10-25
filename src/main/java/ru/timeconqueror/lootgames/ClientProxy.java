@@ -1,25 +1,23 @@
 package ru.timeconqueror.lootgames;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-
-import com.lootgames.sudoku.block.SudokuTile;
-import com.lootgames.sudoku.sudoku.SudokuOverlayHandler;
-import com.lootgames.sudoku.sudoku.SudokuRenderer;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import ru.timeconqueror.lootgames.client.ClientEventHandler;
 import ru.timeconqueror.lootgames.client.IconLoader;
 import ru.timeconqueror.lootgames.client.render.MSOverlayHandler;
+import ru.timeconqueror.lootgames.client.render.SudokuOverlayHandler;
+import ru.timeconqueror.lootgames.client.render.SudokuRenderer;
 import ru.timeconqueror.lootgames.client.render.tile.GOLMasterRenderer;
 import ru.timeconqueror.lootgames.client.render.tile.MSMasterRenderer;
 import ru.timeconqueror.lootgames.common.block.tile.GOLMasterTile;
 import ru.timeconqueror.lootgames.common.block.tile.MSMasterTile;
+import ru.timeconqueror.lootgames.common.block.tile.SudokuTile;
 import ru.timeconqueror.timecore.api.util.Hacks;
 
 public class ClientProxy extends CommonProxy {
