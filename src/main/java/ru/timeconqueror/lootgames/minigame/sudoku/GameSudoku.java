@@ -24,7 +24,6 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Sounds;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 
-// TODO maybe allow players to choose rewards of the prev level, if they cannot beat the current one
 public class GameSudoku extends BoardLootGame<GameSudoku> {
 
     public long endGameCheckTime;
