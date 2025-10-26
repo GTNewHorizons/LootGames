@@ -40,6 +40,8 @@ msg.lootgames.gol.rules=你只需要重复这些颜色.
 msg.lootgames.gol.not_ready=你觉得此结构现在没有准备好回复.
 msg.lootgames.gol.wrong_block=看来你选择了错误的颜色...
 msg.lootgames.gol.reward_level_info=当前奖励等级达到: %d (最高: %d)
+msg.lootgames.sdk.start=让我们开始吧！右键增大数字，蹲下右键减小数字，双击左键结束游戏！
+msg.lootgames.sdk.check_end=你确定要结束游戏吗？
 msg.lootgames.sdk.remaining=剩余：%d
 
 lootgames.achievement_page.name=奖励游戏

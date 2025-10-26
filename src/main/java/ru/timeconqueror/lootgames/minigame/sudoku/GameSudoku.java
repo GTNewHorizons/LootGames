@@ -24,10 +24,12 @@ import ru.timeconqueror.lootgames.utils.future.WorldExt;
 import ru.timeconqueror.lootgames.utils.sanity.Sounds;
 import ru.timeconqueror.timecore.api.common.tile.SerializationType;
 
-// TODO maybe allow players to choose rewards of the prev level, if they cannot beat the current one
 public class GameSudoku extends BoardLootGame<GameSudoku> {
 
+    public long endGameCheckTime;
+
     public int currentLevel = 1;
+
     @Getter
     public SudokuBoard board;
     @Getter
@@ -98,7 +100,7 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
                 (WorldServer) getWorld(),
                 this,
                 getGameCenter(),
-                currentLevel,
+                currentLevel - 1,
                 LGConfigs.REWARDS.rewardsSudoku);
     }
 
@@ -138,6 +140,17 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
                 return;
             }
             if (type == MouseClickType.LEFT) {
+                if (endGameCheckTime != 0 && System.currentTimeMillis() - endGameCheckTime <= 500) {
+                    if (currentLevel > 1) {
+                        triggerGameWin();
+                    } else {
+                        triggerGameLose();
+                    }
+                } else {
+                    sendToNearby(new ChatComponentTranslation("msg.lootgames.sdk.check_end"));
+                    endGameCheckTime = System.currentTimeMillis();
+                }
+            } else if (player.isSneaking() && type == MouseClickType.RIGHT) {
                 board.cycleValueMinus(pos);
             } else if (type == MouseClickType.RIGHT) {
                 board.cycleValueAdd(pos);
