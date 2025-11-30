@@ -79,12 +79,11 @@ public class GameSudoku extends BoardLootGame<GameSudoku> {
     }
 
     public void onLevelSuccessfullyFinished() {
-        if (currentLevel < 4) {
+        currentLevel++;
+        if (currentLevel <= 4) {
             sendUpdatePacketToNearby(new SPSudokuSpawnLevelBeatParticles());
             sendToNearby(new ChatComponentTranslation("msg.com.lootgames.stage_complete"));
             WorldExt.playSoundServerly(getWorld(), getGameCenter(), Sounds.PLAYER_LEVELUP, 0.75F, 1.0F);
-
-            currentLevel++;
             int blanks = configSnapshot.getStageByIndex(currentLevel).blanksCount();
             board.generate(blanks);
             saveAndSync();
