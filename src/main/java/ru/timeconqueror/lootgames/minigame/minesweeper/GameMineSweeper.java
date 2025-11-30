@@ -120,7 +120,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             currentLevel++;
 
             saveAndSync();
-        } else {
+        } else if (currentLevel == 4) {
             currentLevel++;
             triggerGameWin();
         }
