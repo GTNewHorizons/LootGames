@@ -25,7 +25,7 @@ public class DungeonBlockItem extends ItemBlockWithMetadata {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List tooltips, boolean p_77624_4_) {
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltips, boolean adv) {
         tooltips.add(EnumChatFormatting.DARK_GRAY + I18n.format("item.lootgames.dungeon_block.tooltip"));
     }
 }

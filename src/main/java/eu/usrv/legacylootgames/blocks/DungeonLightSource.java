@@ -62,11 +62,6 @@ public class DungeonLightSource extends Block {
     }
 
     @Override
-    public int quantityDropped(Random p_149745_1_) {
-        return 1;
-    }
-
-    @Override
     protected boolean canSilkHarvest() {
         return true;
     }

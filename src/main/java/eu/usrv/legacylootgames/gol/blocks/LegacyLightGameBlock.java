@@ -24,7 +24,7 @@ public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
+    public IIcon getIcon(int side, int meta) {
         return IconLoader.shieldedDungeonFloor;
     }
 
@@ -37,7 +37,7 @@ public class LegacyLightGameBlock extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World pWorld, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World pWorld, int meta) {
         return new LegacyGameOfLightTile();
     }
 }
