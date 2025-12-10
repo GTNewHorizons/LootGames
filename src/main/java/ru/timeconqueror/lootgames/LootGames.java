@@ -55,9 +55,6 @@ public class LootGames {
             serverSide = "ru.timeconqueror.lootgames.CommonProxy")
     public static CommonProxy proxy;
 
-    @Mod.Instance(LootGames.MODID)
-    public static LootGames INSTANCE;
-
     public static final GameManager gameManager = new GameManager();
     public static FieldManager fieldManager = new FieldManager();
 
