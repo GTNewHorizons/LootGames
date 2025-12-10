@@ -33,13 +33,12 @@ import ru.timeconqueror.timecore.api.common.config.Config;
         modid = LootGames.MODID,
         dependencies = "required-after:Forge@[10.13.4.1614,);" + "required-after:YAMCore@[0.5.76,);",
         name = LootGames.MODNAME,
-        version = LootGames.VERSION,
+        version = Tags.VERSION,
         certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")
 public class LootGames {
 
-    public static final String MODID = Tags.MODID;
-    public static final String MODNAME = Tags.MODNAME;
-    public static final String VERSION = Tags.VERSION;
+    public static final String MODID = "lootgames";
+    public static final String MODNAME = "LootGames";
 
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -55,9 +54,6 @@ public class LootGames {
             clientSide = "ru.timeconqueror.lootgames.ClientProxy",
             serverSide = "ru.timeconqueror.lootgames.CommonProxy")
     public static CommonProxy proxy;
-
-    @Mod.Instance(LootGames.MODID)
-    public static LootGames INSTANCE;
 
     public static final GameManager gameManager = new GameManager();
     public static FieldManager fieldManager = new FieldManager();
