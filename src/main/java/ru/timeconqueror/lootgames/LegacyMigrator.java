@@ -30,22 +30,21 @@ public class LegacyMigrator {
         File file = new File(event.getModConfigurationDirectory(), "LootGames/lootgames.cfg");
         if (file.exists()) {
             LOGGER.info("Detected legacy config file. Migrating...");
-            LegacyLGConfig legacyCfg = new LegacyLGConfig(
-                    event.getModConfigurationDirectory(),
-                    LootGames.MODNAME,
-                    LootGames.MODID);
-            if (!legacyCfg.LoadConfig()) {
+
+            try {
+                LegacyLGConfig.loadLegacy(new Configuration(file));
+            } catch (Exception e) {
                 try {
                     FileUtils.copyFile(file, new File(file.getParent(), "lootgames.cfg_old"), false);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ioError) {
+                    ioError.printStackTrace();
                 }
 
                 throw new RuntimeException(
                         "LootGames couldn't load legacy config from '{}'. Please make changes in new configs manually! We added '_old' postfix to the file extension to not trigger migrator again.");
             }
 
-            migrateConfigs(legacyCfg);
+            migrateConfigs();
 
             boolean cantDelete;
             try {
@@ -63,19 +62,19 @@ public class LegacyMigrator {
         }
     }
 
-    private static void migrateConfigs(LegacyLGConfig legacyCfg) {
+    private static void migrateConfigs() {
         Configuration cfgGeneral = LGConfigs.GENERAL.getConfig();
         ConfigCategory catWorldGen = cfgGeneral.getCategory(ConfigGeneral.Names.CATEGORY_WORLDGEN);
-        catWorldGen.get(ConfigGeneral.Names.DISABLE_DUNGEON_GEN).set(!legacyCfg.WorldGenEnabled);
-        catWorldGen.get(ConfigGeneral.Names.DUNGEON_LOG_LEVEL).set(legacyCfg.DungeonLoggerLogLevel);
+        catWorldGen.get(ConfigGeneral.Names.DISABLE_DUNGEON_GEN).set(!LegacyLGConfig.WorldGenEnabled);
+        catWorldGen.get(ConfigGeneral.Names.DUNGEON_LOG_LEVEL).set(LegacyLGConfig.DungeonLoggerLogLevel);
         catWorldGen.get(ConfigGeneral.Names.PER_DIMENSION_CONFIGS).set(
-                legacyCfg.DimensionWhitelist.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue())
+                LegacyLGConfig.DimensionWhitelist.entrySet().stream().map(e -> e.getKey() + "|" + e.getValue())
                         .toArray(String[]::new));
 
         ConfigCategory catMain = cfgGeneral.getCategory(ConfigGeneral.Names.CATEGORY_MAIN);
-        catMain.get(ConfigGeneral.Names.DISABLE_MINIGAMES).set(!legacyCfg.MinigamesEnabled);
+        catMain.get(ConfigGeneral.Names.DISABLE_MINIGAMES).set(!LegacyLGConfig.MinigamesEnabled);
 
-        LegacyLGConfig.GOLConfig legacyGol = legacyCfg.GolConfig;
+        LegacyLGConfig.GOLConfig legacyGol = LegacyLGConfig.GolConfig;
 
         Configuration cfgGol = LGConfigs.GOL.getConfig();
         ConfigCategory catGol = cfgGol.getCategory(ConfigGOL.Names.CATEGORY_GAME_OF_LIGHT);

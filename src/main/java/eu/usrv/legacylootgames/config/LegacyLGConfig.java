@@ -1,74 +1,69 @@
 package eu.usrv.legacylootgames.config;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.config.Configuration;
 
 import eu.usrv.yamcore.auxiliary.IntHelper;
-import eu.usrv.yamcore.config.ConfigManager;
 import ru.timeconqueror.lootgames.LegacyMigrator;
 
-public class LegacyLGConfig extends ConfigManager {
+public class LegacyLGConfig {
 
-    public boolean RetroGenDungeons; // ignored
-    public boolean WorldGenEnabled;
-    public String DungeonLoggerLogLevel;
-    public boolean MinigamesEnabled;
-    public GOLConfig GolConfig;
-    public HashMap<Integer, Integer> DimensionWhitelist = new HashMap<>();
+    public static boolean RetroGenDungeons; // ignored
+    public static boolean WorldGenEnabled;
+    public static String DungeonLoggerLogLevel;
+    public static boolean MinigamesEnabled;
+    public static GOLConfig GolConfig;
+    public static final HashMap<Integer, Integer> DimensionWhitelist = new HashMap<>();
 
-    public LegacyLGConfig(File pConfigBaseDirectory, String pModCollectionDirectory, String pModID) {
-        super(pConfigBaseDirectory, pModCollectionDirectory, pModID);
-    }
-
-    private void parseDimensionConfig(String[] pDimensionList) {
-        DimensionWhitelist = new HashMap<>();
+    private static void parseDimensionConfig(String[] pDimensionList) {
+        DimensionWhitelist.clear();
         for (String tEntry : pDimensionList) {
             // Skip Zero-Length entries
             if (tEntry.length() == 0) return;
 
             String[] tArray = tEntry.split(";");
             if (tArray.length == 2) {
-                if (IntHelper.tryParse(tArray[0]) && IntHelper.tryParse(tArray[1])) {
-                    Integer tDimID = Integer.parseInt(tArray[0]);
-                    Integer tRhombSize = Integer.parseInt(tArray[1]);
+                int tDimID, tRhombSize;
+                try {
+                    tDimID = Integer.parseInt(tArray[0]);
+                    tRhombSize = Integer.parseInt(tArray[1]);
+                } catch (NumberFormatException e) {
+                    LegacyMigrator.LOGGER.error(
+                            "Invalid DimensionWhitelist entry found: [{};]; DimensionID or Rhombus Size is not an Integer",
+                            tEntry);
+                    continue;
+                }
 
-                    if (tRhombSize < 5 || tRhombSize > 100) LegacyMigrator.LOGGER.error(
-                            String.format(
-                                    "Invalid DimensionWhitelist entry found: [%s;]; RhombusSize must be between 5 and 100",
-                                    tEntry));
-                    else {
-                        if (!DimensionWhitelist.containsKey(tDimID)) {
-                            DimensionWhitelist.put(tDimID, tRhombSize);
-                        } else LegacyMigrator.LOGGER.error(
-                                String.format(
-                                        "Invalid DimensionWhitelist entry found: [%s;]; DimensionID is already defined",
-                                        tEntry));
+                if (tRhombSize < 5 || tRhombSize > 100) {
+                    LegacyMigrator.LOGGER.error(
+                            "Invalid DimensionWhitelist entry found: [{};]; RhombusSize must be between 5 and 100",
+                            tEntry);
+                } else {
+                    if (!DimensionWhitelist.containsKey(tDimID)) {
+                        DimensionWhitelist.put(tDimID, tRhombSize);
+                    } else {
+                        LegacyMigrator.LOGGER.error(
+                                "Invalid DimensionWhitelist entry found: [{};]; DimensionID is already defined",
+                                tEntry);
                     }
-                } else LegacyMigrator.LOGGER.error(
-                        String.format(
-                                "Invalid DimensionWhitelist entry found: [%s;]; DimensionID or Rhombus Size is not an Integer",
-                                tEntry));
-            } else LegacyMigrator.LOGGER.error(
-                    String.format(
-                            "Invalid DimensionWhitelist entry found: [%s;]; Syntax is <DimensionID>;<Rhombus Size>",
-                            tEntry));
+                }
+            } else {
+                LegacyMigrator.LOGGER.error(
+                        "Invalid DimensionWhitelist entry found: [{};]; Syntax is <DimensionID>;<Rhombus Size>",
+                        tEntry);
+            }
         }
     }
 
-    @Override
-    protected void PreInit() {
+    public static void loadLegacy(Configuration _mainConfig) {
         GolConfig = new GOLConfig(_mainConfig);
         WorldGenEnabled = false;
 
         DungeonLoggerLogLevel = Level.INFO.toString();
         RetroGenDungeons = false;
-    }
 
-    @Override
-    protected void Init() {
         GolConfig.Init();
         MinigamesEnabled = _mainConfig.getBoolean(
                 "MinigamesEnabled",
@@ -94,8 +89,6 @@ public class LegacyLGConfig extends ConfigManager {
                 "LogLevel for the separate DungeonGenerator Logger. Valid options: info, debug, trace",
                 new String[] { "INFO", "DEBUG", "TRACE" });
     }
-
-    protected void PostInit() {}
 
     public static class GOLConfig {
 

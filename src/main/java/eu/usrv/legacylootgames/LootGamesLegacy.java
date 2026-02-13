@@ -13,6 +13,7 @@ import eu.usrv.legacylootgames.worldgen.LootGamesWorldGen;
 import ru.timeconqueror.lootgames.LootGames;
 
 public class LootGamesLegacy {
+
     public static LootGamesDungeonLogger DungeonLogger;
     public static ProfilingStorage Profiler;
 
