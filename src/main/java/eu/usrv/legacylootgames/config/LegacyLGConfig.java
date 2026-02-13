@@ -5,7 +5,6 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.config.Configuration;
 
-import eu.usrv.yamcore.auxiliary.IntHelper;
 import ru.timeconqueror.lootgames.LegacyMigrator;
 
 public class LegacyLGConfig {
@@ -287,31 +286,32 @@ public class LegacyLGConfig {
 
                 String[] tArray = tEntry.split(";");
                 if (tArray.length == 3) {
-                    if (IntHelper.tryParse(tArray[0]) && IntHelper.tryParse(tArray[2])) {
-                        Integer tDimID = Integer.parseInt(tArray[0]);
-                        Integer tAddDig = Integer.parseInt(tArray[2]);
-
-                        if (!DimensionalLoots.containsKey(tDimID))
-                            DimensionalLoots.put(tDimID, new DimensionalConfig(tArray[1], tAddDig));
-                        else LegacyMigrator.LOGGER.error(
-                                String.format(
-                                        "Invalid DimensionalLootConfig entry found: [%s;] DimensionID is already defined",
-                                        tEntry));
-                    } else LegacyMigrator.LOGGER.error(
-                            String.format(
-                                    "Invalid DimensionalLootConfig entry found: [%s;]; DimensionID is not an Integer",
-                                    tEntry));
-                } else LegacyMigrator.LOGGER.error(
-                        String.format(
-                                "Invalid DimensionalLootConfig entry found: [%s;]; Syntax is <DimensionID>;<LootTableName>;<AdditionalDigitsRequired> ",
-                                tEntry));
+                    int tDimID, tAddDig;
+                    try {
+                        tDimID = Integer.parseInt(tArray[0]);
+                        tAddDig = Integer.parseInt(tArray[2]);
+                    } catch (NumberFormatException e) {
+                        LegacyMigrator.LOGGER.error(
+                                "Invalid DimensionalLootConfig entry found: [{};]; DimensionID is not an Integer",
+                                tEntry);
+                        continue;
+                    }
+                    if (!DimensionalLoots.containsKey(tDimID)) {
+                        DimensionalLoots.put(tDimID, new DimensionalConfig(tArray[1], tAddDig));
+                    } else {
+                        LegacyMigrator.LOGGER.error(
+                                "Invalid DimensionalLootConfig entry found: [{};] DimensionID is already defined",
+                                tEntry);
+                    }
+                } else {
+                    LegacyMigrator.LOGGER.error(
+                            "Invalid DimensionalLootConfig entry found: [{};]; Syntax is <DimensionID>;<LootTableName>;<AdditionalDigitsRequired> ",
+                            tEntry);
+                }
             }
 
-            LegacyMigrator.LOGGER.info(
-                    String.format(
-                            "Loaded %d DimensionID based LootTables for StageID %d",
-                            DimensionalLoots.size(),
-                            LevelID));
+            LegacyMigrator.LOGGER
+                    .info("Loaded {} DimensionID based LootTables for StageID {}", DimensionalLoots.size(), LevelID);
         }
 
         public static class DimensionalConfig {
