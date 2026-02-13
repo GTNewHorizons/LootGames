@@ -31,7 +31,7 @@ import ru.timeconqueror.timecore.api.common.config.Config;
 
 @Mod(
         modid = LootGames.MODID,
-        dependencies = "required-after:Forge@[10.13.4.1614,);" + "required-after:YAMCore@[0.5.76,);",
+        dependencies = "required-after:Forge@[10.13.4.1614,);",
         name = LootGames.MODNAME,
         version = Tags.VERSION,
         certificateFingerprint = "1cca375192a26693475fb48268f350a462208dce")

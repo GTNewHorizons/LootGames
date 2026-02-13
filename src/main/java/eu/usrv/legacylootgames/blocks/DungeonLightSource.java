@@ -1,7 +1,6 @@
 package eu.usrv.legacylootgames.blocks;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -62,11 +61,6 @@ public class DungeonLightSource extends Block {
     }
 
     @Override
-    public int quantityDropped(Random p_149745_1_) {
-        return 1;
-    }
-
-    @Override
     protected boolean canSilkHarvest() {
         return true;
     }
@@ -80,7 +74,7 @@ public class DungeonLightSource extends Block {
     }
 
     @Override
-    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(item, 1, 0));
         list.add(new ItemStack(item, 1, 1));
     }

@@ -3,13 +3,15 @@ package ru.timeconqueror.lootgames.api.util;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ChestGenHooks;
 
 import eu.usrv.legacylootgames.blocks.DungeonLightSource;
-import eu.usrv.yamcore.auxiliary.ItemDescriptor;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.minigame.LootGame;
 import ru.timeconqueror.lootgames.common.config.base.RewardConfig;
@@ -84,16 +86,22 @@ public class RewardUtils {
                         "Received LootTable '{}' is empty for {} stage. Skipping Chest-Gen to avoid NPE Crash",
                         lootTable,
                         chestData.getGameName());
-                ItemDescriptor sorryItem = ItemDescriptor.fromString("minecraft:stone");
-                String lore = String.join(
-                        "\",\"",
-                        "Modpack creator failed to configure",
-                        "the Loot Tables properly.",
-                        String.format("Please report that Loot Table [%s]", lootTable),
-                        String.format("for %s stage is broken.", chestData.getGameName()),
-                        "Thank you!");
-                ItemStack sorryStack = sorryItem
-                        .getItemStackwNBT(1, String.format("{display:{Name:\"The Sorry-Stone\",Lore:[\"%s\"]}}", lore));
+
+                ItemStack sorryStack = new ItemStack(Blocks.stone);
+                NBTTagCompound nbt = new NBTTagCompound();
+                NBTTagCompound displayTag = new NBTTagCompound();
+                NBTTagList lore = new NBTTagList();
+
+                displayTag.setString("Name", "The Sorry-Stone");
+                lore.appendTag(new NBTTagString("Modpack creator failed to configure"));
+                lore.appendTag(new NBTTagString("the Loot Tables properly."));
+                lore.appendTag(new NBTTagString(String.format("Please report that Loot Table [%s]", lootTable)));
+                lore.appendTag(new NBTTagString(String.format("for %s stage is broken.", chestData.getGameName())));
+                lore.appendTag(new NBTTagString("Thank you!"));
+                displayTag.setTag("Lore", lore);
+                nbt.setTag("display", displayTag);
+                sorryStack.setTagCompound(nbt);
+
                 chestTile.setInventorySlotContents(0, sorryStack);
             } else {
                 int count = RandHelper.RAND.nextInt(chestData.getMaxItems()) + chestData.getMinItems();
