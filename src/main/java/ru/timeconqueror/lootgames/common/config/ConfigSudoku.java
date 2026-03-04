@@ -20,10 +20,10 @@ public class ConfigSudoku extends Config {
 
     public ConfigSudoku() {
         super("sudoku");
-        level1 = new StageConfig(getKey(), "stage_1", "Regulates characteristics of stage 1.", 35);
-        level2 = new StageConfig(getKey(), "stage_2", "Regulates characteristics of stage 2.", 45);
-        level3 = new StageConfig(getKey(), "stage_3", "Regulates characteristics of stage 3.", 55);
-        level4 = new StageConfig(getKey(), "stage_4", "Regulates characteristics of stage 4.", 64);
+        level1 = new StageConfig(getKey(), "stage_1", "Regulates characteristics of stage 1.", 25);
+        level2 = new StageConfig(getKey(), "stage_2", "Regulates characteristics of stage 2.", 31);
+        level3 = new StageConfig(getKey(), "stage_3", "Regulates characteristics of stage 3.", 37);
+        level4 = new StageConfig(getKey(), "stage_4", "Regulates characteristics of stage 4.", 43);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class ConfigSudoku extends Config {
                 "weight",
                 getKey(),
                 1,
-                0,
-                Integer.MAX_VALUE,
+                1,
+                9,
                 "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
         level1.init(config);
