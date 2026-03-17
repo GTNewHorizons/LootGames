@@ -362,16 +362,16 @@ public class MSBoard {
                 availableIndices.add(i);
             }
         }
-        int minesToFill = 0;
-        int minesToClear = 0;
+        int bombsToFill = 0;
+        int bombssToClear = 0;
         for (Pos2i pos : toFillOrEmpty) {
             availableIndices.remove(toIndex(pos));
-            if (isBomb(pos)) {minesToClear++;}
-            else {minesToFill++;}
+            if (isBomb(pos)) {bombssToClear++;}
+            else {bombsToFill++;}
         }
         Collections.shuffle(availableIndices);
-        int foundMines = minesToFill;
-        int foundClears = minesToClear;
+        int foundMines = bombsToFill;
+        int foundClears = bombssToClear;
         for (int i : availableIndices) {
             int x = i % this.size;
             int y = i / this.size;
@@ -381,10 +381,10 @@ public class MSBoard {
                 if (foundClears-- == 0) break;
             }
         }
-        // If we cannot find enough mines to fill or empty the given positions return null
+        // If we cannot find enough bombs to fill or empty the given positions return null
         if ((foundClears & foundMines) != 0) return null;
 
-        List<Integer> res = new ArrayList<>(minesToClear);
+        List<Integer> res = new ArrayList<>(bombssToClear);
         int startingBombs = bombCount;
         for (Pos2i p : toFillOrEmpty) {
             this.flipBomb(p);
@@ -396,7 +396,7 @@ public class MSBoard {
                 if (!isBomb(x, y)) {
                     res.add(i);
                     flipBomb(new Pos2i(x, y));
-                    if (minesToClear-- == 0) break;
+                    if (bombssToClear-- == 0) break;
                 }
             }
         } else {
@@ -406,7 +406,7 @@ public class MSBoard {
                 if (isBomb(x, y)) {
                     res.add(~i); // Use negative index so you can tell if the set was filled or emptied
                     flipBomb(new Pos2i(x, y));
-                    if (minesToFill-- == 0) break;
+                    if (bombsToFill-- == 0) break;
                 }
             }
         }

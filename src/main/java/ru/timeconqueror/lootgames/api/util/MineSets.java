@@ -37,10 +37,7 @@ public class MineSets {
             mask >>= 1;
             x--;
         }
-        set = LogicMineSet.setSetX(x)
-                | (LogicMineSet.setSetY((byte) y))
-                | LogicMineSet.setSetMask(mask)
-                | LogicMineSet.setSetMines(LogicMineSet.getSetMines((set)));
+        set = LogicMineSet.Set(x, y, mask, LogicMineSet.getSetBombs(set));
         this.sets.add(set);
         this.todo.add(set);
     }
@@ -49,7 +46,7 @@ public class MineSets {
         this.todo.remove(set);
     }
     public int getTodo() {
-        // Get and remove a set from the todo set
+        // Get and remove a set from the todoSet
         int res =  this.todo.first();
         this.todo.remove(res);
         return res;
@@ -124,7 +121,7 @@ public class MineSets {
             byte lowY = (byte) (Math.max(-2, -setY) + setY);
             byte highY = (byte) (Math.min(2, LogicMineSet.posBitMask-setY) + setY);
             int lowKey = LogicMineSet.setSetX((byte) (setX + dx)) | LogicMineSet.setSetY(lowY);
-            int highKey = LogicMineSet.setSetX((byte) (setX + dx)) | LogicMineSet.setSetY(highY) | 0xffff;;
+            int highKey = LogicMineSet.setSetX((byte) (setX + dx)) | LogicMineSet.setSetY(highY) | 0xffff;
             SortedSet<Integer> rawSets = this.sets.subSet(lowKey, highKey);
             sizeGuess += rawSets.size();
             sets.add(rawSets);
@@ -167,6 +164,7 @@ public class MineSets {
     }
 
     public int getRandomSet() {
+        // Todo change this to actually be random and not the highest left most set
         return this.sets.first();
     }
 }

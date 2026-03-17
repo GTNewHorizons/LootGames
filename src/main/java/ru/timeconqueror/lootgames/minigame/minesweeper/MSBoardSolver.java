@@ -75,8 +75,8 @@ public class MSBoardSolver {
                 isRevealedMine = true;
             } else {
 
-                // Create a mine set around this square
-                byte mines = cellType.getId();
+                // Create a bomb set around this square
+                byte bombs = cellType.getId();
                 int mask = 0;
                 int bit = 0b1;
                 for (int dy = -1; dy <= 1; dy++) {
@@ -91,14 +91,14 @@ public class MSBoardSolver {
                         if (adjField == Type.SOLVER_HIDDEN) {
                             mask = mask | bit;
                         } else if (adjField == Type.BOMB) {
-                            mines--;
+                            bombs--;
                         }
                         bit <<= 1;
 
                     }
                 }
                 if (mask != 0) {
-                    int set = LogicMineSet.Set(pos.getX() -1, pos.getY() - 1, mask, mines);
+                    int set = LogicMineSet.Set(pos.getX() -1, pos.getY() - 1, mask, bombs);
                     this.setStore.addSet(set);
                 }
             }
@@ -124,13 +124,13 @@ public class MSBoardSolver {
         boolean foundLogic = false;
         setLoop: while (this.setStore.hasTodo() && !foundLogic) {
             int todoSet = this.setStore.getTodo();
-            // Check if the set has no mines, or mines == bitCount(mask)
+            // Check if the set has no bombs, or bombs == bitCount(mask)
             // which are trivially known squares
-            byte todoMines = LogicMineSet.getSetMines(todoSet);
+            byte todoBombs = LogicMineSet.getSetBombs(todoSet);
 
             int todoSquares = LogicMineSet.getMaskSquareCount(LogicMineSet.getSetMask(todoSet));
-            if (todoMines == 0 || todoMines == todoSquares) {
-                this.revealSquares(todoSet, todoMines == todoSquares);
+            if (todoBombs == 0 || todoBombs == todoSquares) {
+                this.revealSquares(todoSet, todoBombs == todoSquares);
                 this.setStore.removeSet(todoSet);
                 foundLogic = true;
                 break;
@@ -144,15 +144,15 @@ public class MSBoardSolver {
                 int middleMask = this.setStore.setMunge(todoSet, otherSet, false);
                 int wing1Squares = LogicMineSet.getMaskSquareCount(wing1);
                 int wing2Squares = LogicMineSet.getMaskSquareCount(wing2);
-                int otherMines = LogicMineSet.getSetMines(otherSet);
+                int otherBombs = LogicMineSet.getSetBombs(otherSet);
 
-                // Check if the cardinality of one set's wing is the same as the difference between the sets mines
-                // then the wing of the set with more mines must be full, and the other wing empty
+                // Check if the cardinality of one set's wing is the same as the difference between the sets bombs
+                // then the wing of the set with more bombs must be full, and the other wing empty
                 if (
-                        wing1Squares == todoMines - otherMines ||
-                        wing2Squares == otherMines - todoMines
+                        wing1Squares == todoBombs - otherBombs ||
+                        wing2Squares == otherBombs - todoBombs
                 ) {
-                    boolean isWing1Mines = wing1Squares == todoMines - otherMines;
+                    boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(wing1, isWing1Mines);
                     revealSquares(wing2, !isWing1Mines);
                     int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
@@ -171,7 +171,7 @@ public class MSBoardSolver {
                     // setTodo is a subset of otherSet
                     this.setStore.removeSet(otherSet);
                     this.setStore.addSet(
-                            LogicMineSet.setSetMask(otherSet, wing2) - todoMines
+                            LogicMineSet.setSetMask(otherSet, wing2) - todoBombs
                     );
                     foundLogic = true;
                     break setLoop;
@@ -179,7 +179,7 @@ public class MSBoardSolver {
                     // otherSet is a subset of setTodo
                     this.setStore.removeSet(todoSet);
                     this.setStore.addSet(
-                            LogicMineSet.setSetMask(todoSet, wing1) - otherMines
+                            LogicMineSet.setSetMask(todoSet, wing1) - otherBombs
                     );
                     foundLogic = true;
                     break setLoop;
@@ -253,12 +253,12 @@ public class MSBoardSolver {
              * We have nothing left on our todolist, which means
              * all localised deductions have failed. Our next step
              * is to resort to global deduction based on the total
-             * mine count. This is computationally expensive
+             * bomb count. This is computationally expensive
              * compared to any of the above deductions, which is
              * why we only ever do it when all else fails, so that
              * hopefully it won't have to happen too often.
              *
-             * Start by scanning the grid the see how many mines and unknown squares are left.
+             * Start by scanning the grid the see how many bombs and unknown squares are left.
              */
             int hiddenSquares = 0;
             int unknownMines = this.board.getBombCount();
@@ -270,7 +270,7 @@ public class MSBoardSolver {
                 // We have revealed all squares we have solved the board
                 return 0;
             }
-            // Other simple cases, remaining squares are all mines or clear.
+            // Other simple cases, remaining squares are all bombs or clear.
             if (unknownMines == 0 || unknownMines == hiddenSquares) {
                 int x = 0;
                 int y = 0;
@@ -287,7 +287,7 @@ public class MSBoardSolver {
                 }
             }
 
-            // Brute force remaining mine layouts
+            // Brute force remaining bomb layouts
             int[] allSets = this.setStore.getAllSets();
             List<Integer> partitions = this.partitionSets(allSets);
             int partitionStart = 0;
@@ -300,7 +300,7 @@ public class MSBoardSolver {
                 Set<Integer> partitionIndices = this.findAvailableIndices(allSets, partitionStart, partitionEnd);
                 unseenSquares -= partitionIndices.size();
                 TreeMap<Integer, Map<Integer, Integer>> bruteForced = new TreeMap<>();
-                // A map of placed mines -> partitionIndex -> CanBeMine or CanBeClear (2 bits)
+                // A map of placed numBombs -> partitionIndex -> CanBeMine or CanBeClear (2 bits)
                 this.bruteForce(
                         bruteForced,
                         allSets, partitionStart, partitionEnd, unknownMines, unseenSquares, 0,
@@ -318,13 +318,26 @@ public class MSBoardSolver {
             for (Map.Entry<Integer, Integer> entry : prunedBruteForcedMines.entrySet()) {
                 if (entry.getValue() != 0b11) {
                     int index = entry.getKey();
-                    int x = index % this.board.size();
-                    int y = index / this.board.size();
-                    this.revealSquare(new Pos2i(x, y), entry.getValue() == 0b10);
+                    this.revealSquare(this.board.toPos(index), entry.getValue() == 0b10);
                 }
             }
 
-            if (knownSetMines[0] == unknownMines) {
+            if (knownSetMines[0] != -1 &&  (
+                knownSetMines[0] == unknownMines ||
+                unknownMines - knownSetMines[0] == unseenSquares
+            )) {
+                // The partitions all have a known bomb count which equals the bombs we have to place or
+                // leave all unseen as bombs.
+                // So all other cells must be safe to reveal
+
+                for (int i = 0; i < boardKnowledge.length; i++) {
+                    if (
+                        this.boardKnowledge[i] == Type.SOLVER_HIDDEN &&
+                        !prunedBruteForcedMines.containsKey(i)
+                    ) {
+                        this.revealSquare(this.board.toPos(i), knownSetMines[0] != unknownMines);
+                    }
+                }
 
             }
             if (!this.squaresTodo.isEmpty()) {
@@ -335,10 +348,12 @@ public class MSBoardSolver {
 
             // Brute force analysis could not find any safe squares, so perturb the underlying grid
             // to provide further logic. Do so by either filling or emptying a set from setStore
-            // We may have no sets at this point; there are 2+ unknown squares walled off by mines so no clue reaches them
+            // We may have no sets at this point; there are 2+ unknown squares walled off by bombs so no clue reaches them
             List<Pos2i> cellsToChange = new ArrayList<>();
             int backtrackDepth = 4;
             if (this.setStore.size() == 0) {
+                // We have no sets so backtrack until we can perturb the grid to be solvable
+                // TODO check if this produces unusually large clusters of bombs. May need to instead break the wall of bombs
                 for (int i = 0; i < this.boardKnowledge.length; i++) {
                     if (this.boardKnowledge[i] == Type.SOLVER_HIDDEN) cellsToChange.add(this.board.toPos(i));
                 }
@@ -353,7 +368,10 @@ public class MSBoardSolver {
                 }
             }
             List<Integer> changedOtherCells = this.board.perturbBombLocations(cellsToChange, this.boardKnowledge);
+            // The perturb may fail to fill or empty the provided cells to change,
+            // eg not enough bombs or safe squares outside the cells to change
             while (changedOtherCells == null) {
+                // In that case backtrack further in logic to provide more bombs or safe cells
                 this.backtrack(backtrackDepth);
                 backtrackDepth <<= 1;
                 changedOtherCells = this.board.perturbBombLocations(cellsToChange, this.boardKnowledge);
@@ -363,6 +381,7 @@ public class MSBoardSolver {
             // boundary of known and unknown tiles, so rebuild all the sets.
             if (backtrackDepth != 4) this.invalidateSets();
 
+            // The board returns a list of negative numbers if it filled cellsToChange with bombs
             boolean isCellsToChangeBomb = changedOtherCells.get(0) < 0;
             // Apply the perturb's changes to the solver's knowledge
             if (isCellsToChangeBomb) {
@@ -384,10 +403,10 @@ public class MSBoardSolver {
 
         }
 
-        return 0;
+        return -1;
     }
 
-    private void applyPerturb(int index, int mineDiff) {
+    private void applyPerturb(int index, int bombDiff) {
         Pos2i pos = this.board.toPos(index);
         byte adjacentMines = 0;
         for (int x = Math.max(0, pos.getX()-1); x < Math.min(pos.getX() + 1, this.board.size() - 1); x++) {
@@ -396,24 +415,24 @@ public class MSBoardSolver {
                 Type type = this.boardKnowledge[ii];
                 if (type == Type.BOMB) adjacentMines++;
                 else if (type != Type.SOLVER_HIDDEN) {
-                    this.boardKnowledge[ii] = Type.byId((byte) (type.getId() + mineDiff));
+                    this.boardKnowledge[ii] = Type.byId((byte) (type.getId() + bombDiff));
                 }
             }
         }
-        this.boardKnowledge[index] = mineDiff == 1 ? Type.BOMB : Type.byId((byte) (adjacentMines - 1));
+        this.boardKnowledge[index] = bombDiff == 1 ? Type.BOMB : Type.byId((byte) (adjacentMines - 1));
 
     }
     private void bruteForce(Map<Integer, Map<Integer, Integer>> res,
                             int[] sets, int start, int end,
-                            int unknownMines, int otherSquares,
-                            int minesPlaced, List<Integer> partitionIndices
+                            int unknownBombs, int otherSquares,
+                            int bombsPlaced, List<Integer> partitionIndices
     ) {
-        // If we have run out of mines to place or places to put them, this isn't a valid combination
-        if (unknownMines < 0 || unknownMines > otherSquares) return;
+        // If we have run out of bombs to place or places to put them, this isn't a valid combination
+        if (unknownBombs < 0 || unknownBombs > otherSquares) return;
         // Base case, we have found a satisfying filling of the partition's sets.
         if (start == end) {
-            // Go through the grid and mark each cell as either mine or clear
-            Map<Integer, Integer> cellPossibilities = res.containsKey(minesPlaced) ? res.get(minesPlaced) : new TreeMap<>();
+            // Go through the grid and mark each cell as either bomb or clear
+            Map<Integer, Integer> cellPossibilities = res.containsKey(bombsPlaced) ? res.get(bombsPlaced) : new TreeMap<>();
             if (cellPossibilities.isEmpty()) {
                 for (int i: partitionIndices) {
                     cellPossibilities.put(i, 0);
@@ -427,9 +446,9 @@ public class MSBoardSolver {
                 if (newPossibility != currentPossibility) cellPossibilities.put(i, newPossibility);
             }
         } else {
-            // Otherwise assign all combinations of filling the mine in the set
+            // Otherwise assign all combinations of filling the bomb in the set
             int set = sets[start];
-            int minesToPlace = LogicMineSet.getSetMines(set);
+            int bombsToPlace = LogicMineSet.getSetBombs(set);
             int availableCells = LogicMineSet.getMaskSquareCount(set);
             int x = LogicMineSet.getSetX(set);
             int y = LogicMineSet.getSetY(set);
@@ -442,16 +461,16 @@ public class MSBoardSolver {
                 int i = x_ + this.board.size() * y_;
                 setGridIndices[setii] = i;
                 setii++;
-                if (this.boardKnowledge[i] == Type.BOMB) minesToPlace--;
+                if (this.boardKnowledge[i] == Type.BOMB) bombsToPlace--;
             }
-            if (minesToPlace < 0) return; //Another set(s)'s mines have overfilled this set
+            if (bombsToPlace < 0) return; //Another set(s)'s bombs have overfilled this set
 
-            for (List<Integer> mineSpots : LogicMineSet.permutations(availableCells, minesToPlace)) {
-                for (int sGIi : mineSpots) {
+            for (List<Integer> bombSpots : LogicMineSet.permutations(availableCells, bombsToPlace)) {
+                for (int sGIi : bombSpots) {
                     this.boardKnowledge[setGridIndices[sGIi]] = Type.BOMB;
                 }
-                bruteForce(res, sets, start + 1, end, unknownMines - minesToPlace, otherSquares, minesPlaced + minesToPlace, partitionIndices);
-                for (int sGIi : mineSpots) {
+                bruteForce(res, sets, start + 1, end, unknownBombs - bombsToPlace, otherSquares, bombsPlaced + bombsToPlace, partitionIndices);
+                for (int sGIi : bombSpots) {
                     this.boardKnowledge[setGridIndices[sGIi]] = Type.SOLVER_HIDDEN;
                 }
 
@@ -475,14 +494,14 @@ public class MSBoardSolver {
 
                     int lowKey = -1;
                     int highKey = -1;
-                    for (int mines : p.keySet()) {
-                        if (mines + maxBrute < minPlace) {
-                            lowKey = mines;
+                    for (int bombs : p.keySet()) {
+                        if (bombs + maxBrute < minPlace) {
+                            lowKey = bombs;
                         } else break;
                     }
-                    for (int mines : p.descendingKeySet()) {
-                        if (mines + minBrute > maxPlace) {
-                            highKey = mines;
+                    for (int bombs : p.descendingKeySet()) {
+                        if (bombs + minBrute > maxPlace) {
+                            highKey = bombs;
                         }
                     }
                     pruned = pruned || lowKey != -1 || highKey != -1;

@@ -32,7 +32,7 @@ public class LogicMineSet {
         set = (set & 0xffff007f) | LogicMineSet.setSetMask(mask);
         return set;
     }
-    public static byte getSetMines(int set) {
+    public static byte getSetBombs(int set) {
         return (byte) (set & 0xf);
     }
     public static int setSetMines(byte count) {
