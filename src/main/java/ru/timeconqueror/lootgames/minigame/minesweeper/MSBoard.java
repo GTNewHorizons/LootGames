@@ -1,5 +1,6 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -320,6 +321,99 @@ public class MSBoard {
 
     void readNBTFromSave(NBTTagCompound boardTag) {
         setBoard(CodecUtils.read2DimArr(boardTag, MSField.class, MSField.SAVE_CODEC));
+    }
+
+    private void flipBomb(Pos2i pos) {
+        int x = pos.getX();
+        int y = pos.getY();
+        if (isBomb(x,y)) {
+            this.bombCount--;
+            int connectedBombs = 0;
+            for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
+                for (int yy = Math.max(0,y - 1); yy < Math.min(size - 1,y + 1); yy++) {
+                    MSField cell = this.board[xx][yy];
+                    if (cell.type != Type.BOMB) {
+                        cell.type = Type.byId((byte) (cell.type.getId() - 1));
+                    } else connectedBombs++;
+                }
+            }
+            // getConnectedBombCount assumes (x,y) is not a bomb.
+            this.board[x][y].type = Type.byId((byte) (connectedBombs - 1));
+        }
+        else {
+            this.bombCount++;
+            this.board[x][y].type = Type.BOMB;
+            for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
+                for (int yy = Math.max(0,y - 1); yy < Math.min(size - 1,y + 1); yy++) {
+                    MSField cell = this.board[xx][yy];
+                    if (cell.type != Type.BOMB) {
+                        cell.type = Type.byId((byte) (cell.type.getId() + 1));
+                    }
+                }
+            }
+        }
+
+    }
+
+    public List<Integer> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
+        List<Integer> availableIndices = new ArrayList<>(8);
+        for (int i = 0; i < currentKnowledge.length; i++){
+            if (currentKnowledge[i] == Type.SOLVER_HIDDEN) {
+                availableIndices.add(i);
+            }
+        }
+        int minesToFill = 0;
+        int minesToClear = 0;
+        for (Pos2i pos : toFillOrEmpty) {
+            availableIndices.remove(toIndex(pos));
+            if (isBomb(pos)) {minesToClear++;}
+            else {minesToFill++;}
+        }
+        Collections.shuffle(availableIndices);
+        int foundMines = minesToFill;
+        int foundClears = minesToClear;
+        for (int i : availableIndices) {
+            int x = i % this.size;
+            int y = i / this.size;
+            if (isBomb(x, y)) {
+                if (foundMines-- == 0) break;
+            } else {
+                if (foundClears-- == 0) break;
+            }
+        }
+        // If we cannot find enough mines to fill or empty the given positions return null
+        if ((foundClears & foundMines) != 0) return null;
+
+        List<Integer> res = new ArrayList<>(minesToClear);
+        int startingBombs = bombCount;
+        for (Pos2i p : toFillOrEmpty) {
+            this.flipBomb(p);
+        }
+        if (foundClears == 0) {
+            for (int i : availableIndices) {
+                int x = i % this.size;
+                int y = i / this.size;
+                if (!isBomb(x, y)) {
+                    res.add(i);
+                    flipBomb(new Pos2i(x, y));
+                    if (minesToClear-- == 0) break;
+                }
+            }
+        } else {
+            for (int i : availableIndices) {
+                int x = i % this.size;
+                int y = i / this.size;
+                if (isBomb(x, y)) {
+                    res.add(~i); // Use negative index so you can tell if the set was filled or emptied
+                    flipBomb(new Pos2i(x, y));
+                    if (minesToFill-- == 0) break;
+                }
+            }
+        }
+        assert startingBombs == getBombCount();
+
+
+        return res;
     }
 
     public static class MSField {

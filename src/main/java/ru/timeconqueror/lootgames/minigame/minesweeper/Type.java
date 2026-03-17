@@ -6,6 +6,7 @@ import ru.timeconqueror.lootgames.utils.future.ICodec;
 
 public enum Type {
 
+    SOLVER_HIDDEN((byte) -2),
     BOMB((byte) -1),
     EMPTY((byte) 0),
     ONE((byte) 1),
@@ -32,16 +33,16 @@ public enum Type {
     }
 
     static Type byId(byte id) {
-        if (id + 1 >= LOOKUP.length) {
+        if (id + 2 >= LOOKUP.length) {
             throw new IllegalArgumentException("Provided unknown id: " + id);
         }
-        return LOOKUP[id + 1];
+        return LOOKUP[id + 2];
     }
 
     static {
         LOOKUP = new Type[values().length];
         for (Type value : values()) {
-            LOOKUP[value.id + 1] = value;
+            LOOKUP[value.id + 2] = value;
         }
     }
 
