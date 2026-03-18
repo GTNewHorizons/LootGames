@@ -5,6 +5,37 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.List;
 
+/* Code adapted from https://github.com/ghewgill/puzzles/blob/master/mines.c
+
+Original License
+
+This software is copyright (c) 2004-2014 Simon Tatham.
+
+Portions copyright Richard Boulton, James Harvey, Mike Pinna, Jonas
+Kölker, Dariusz Olszewski, Michael Schierl, Lambros Lambrou, Bernd
+Schmidt, Steffen Bauer, Lennard Sprong and Rogier Goossens.
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation files
+(the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
 public class MineSets {
 
     private final TreeSet<Integer> sets;
@@ -83,26 +114,14 @@ public class MineSets {
             return 0;
         }
         if (diffX > 0) {
-            while (diffX > 0) {
-                diffX--;
-                maskB <<= 1;
-            }
+            maskB <<= diffX;
         } else  {
-            while (diffX < 0) {
-                diffX++;
-                maskB >>= 1;
-            }
+            maskB >>= -diffX;
         }
         if (diffY > 0) {
-            while (diffY > 0) {
-                diffY--;
-                maskB <<=3;
-            }
+            maskB <<=3 * diffY;
         } else  {
-            while (diffY < 0) {
-                diffY++;
-                maskB >>= 3;
-            }
+            maskB >>= 3 * (-diffY);
         }
         if (isDiff) {
             maskB = ~maskB;
