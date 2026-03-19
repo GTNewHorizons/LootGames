@@ -326,11 +326,11 @@ public class MSBoard {
     private void flipBomb(Pos2i pos) {
         int x = pos.getX();
         int y = pos.getY();
-        if (isBomb(x,y)) {
+        if (isBomb(x, y)) {
             this.bombCount--;
             int connectedBombs = 0;
             for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
-                for (int yy = Math.max(0,y - 1); yy < Math.min(size - 1,y + 1); yy++) {
+                for (int yy = Math.max(0, y - 1); yy < Math.min(size - 1, y + 1); yy++) {
                     MSField cell = this.board[xx][yy];
                     if (cell.type != Type.BOMB) {
                         cell.type = Type.byId((byte) (cell.type.getId() - 1));
@@ -339,12 +339,11 @@ public class MSBoard {
             }
             // getConnectedBombCount assumes (x,y) is not a bomb.
             this.board[x][y].type = Type.byId((byte) (connectedBombs - 1));
-        }
-        else {
+        } else {
             this.bombCount++;
             this.board[x][y].type = Type.BOMB;
             for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
-                for (int yy = Math.max(0,y - 1); yy < Math.min(size - 1,y + 1); yy++) {
+                for (int yy = Math.max(0, y - 1); yy < Math.min(size - 1, y + 1); yy++) {
                     MSField cell = this.board[xx][yy];
                     if (cell.type != Type.BOMB) {
                         cell.type = Type.byId((byte) (cell.type.getId() + 1));
@@ -357,7 +356,7 @@ public class MSBoard {
 
     public List<Integer> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
         List<Integer> availableIndices = new ArrayList<>(8);
-        for (int i = 0; i < currentKnowledge.length; i++){
+        for (int i = 0; i < currentKnowledge.length; i++) {
             if (currentKnowledge[i] == Type.SOLVER_HIDDEN) {
                 availableIndices.add(i);
             }
@@ -366,8 +365,11 @@ public class MSBoard {
         int bombssToClear = 0;
         for (Pos2i pos : toFillOrEmpty) {
             availableIndices.remove(toIndex(pos));
-            if (isBomb(pos)) {bombssToClear++;}
-            else {bombsToFill++;}
+            if (isBomb(pos)) {
+                bombssToClear++;
+            } else {
+                bombsToFill++;
+            }
         }
         Collections.shuffle(availableIndices);
         int foundMines = bombsToFill;
@@ -411,7 +413,6 @@ public class MSBoard {
             }
         }
         assert startingBombs == getBombCount();
-
 
         return res;
     }
