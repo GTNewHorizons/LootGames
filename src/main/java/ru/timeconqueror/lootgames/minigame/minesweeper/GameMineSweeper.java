@@ -287,6 +287,14 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
         public void generateBoard(EntityPlayerMP player, Pos2i clickedPos) {
             board.generate(clickedPos);
+            boolean configSolveBoard = true;
+            if (configSolveBoard) {
+                MSBoardSolver solver = new MSBoardSolver(board);
+                int solveInfo = solver.solve(clickedPos);
+                if (solveInfo == -1) {
+                    // Board failed to solve...
+                }
+            }
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));
             revealField(player, clickedPos);
 
