@@ -1,6 +1,11 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import ru.timeconqueror.lootgames.api.util.LogicMineSet;
 import ru.timeconqueror.lootgames.api.util.MineSets;
@@ -40,14 +45,13 @@ import ru.timeconqueror.lootgames.api.util.Pos2i;
  * <!-- spotless:on -->
  */
 
-
 public class MSBoardSolver {
 
-    private MSBoard board;
-    private ArrayList<Pos2i> squaresTodo;
-    private Type[] boardKnowledge;
-    private ArrayList<Pos2i> revealStack;
-    private MineSets setStore;
+    private final MSBoard board;
+    private final ArrayList<Pos2i> squaresTodo;
+    private final Type[] boardKnowledge;
+    private final ArrayList<Pos2i> revealStack;
+    private final MineSets setStore;
 
     public MSBoardSolver(MSBoard board) {
         if (board.size() > 125) {
@@ -572,7 +576,7 @@ public class MSBoardSolver {
     }
 
     private void invalidateSets() {
-        this.setStore = new MineSets();
+        this.setStore.clear();
 
     }
 }

@@ -289,10 +289,14 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             board.generate(clickedPos);
             boolean configSolveBoard = true;
             if (configSolveBoard) {
-                MSBoardSolver solver = new MSBoardSolver(board);
-                int solveInfo = solver.solve(clickedPos);
-                if (solveInfo == -1) {
-                    // Board failed to solve...
+                if (board.size() <= 125){
+                    MSBoardSolver solver = new MSBoardSolver(board);
+                    int solveInfo = solver.solve(clickedPos);
+                    if (solveInfo == -1) {
+                        // Board failed to solve...
+                    }
+                } else {
+                    // Put chat message
                 }
             }
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));

@@ -193,4 +193,9 @@ public class MineSets {
         // Todo change this to actually be random and not the highest left most set
         return this.sets.first();
     }
+
+    public void clear() {
+        this.sets.clear();
+        this.todo.clear();
+    }
 }
