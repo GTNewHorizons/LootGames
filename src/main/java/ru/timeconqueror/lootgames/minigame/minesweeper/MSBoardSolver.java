@@ -155,7 +155,7 @@ public class MSBoardSolver {
             List<Integer> modifiedSets = this.setStore.setOverlap((byte) pos.getX(), (byte) pos.getY());
             System.out.println("Removing revealed square from " + modifiedSets.size() + " known sets");
             for (int modSet : modifiedSets) {
-                // System.out.println("Found overlapping " + LogicMineSet.toString(modSet));
+//                 System.out.println("Found overlapping " + LogicMineSet.toString(modSet));
                 int newMask = this.setStore.setMunge(modSet, LogicMineSet.Set(pos.getX(), pos.getY(), 1, 0), true);
 
                 this.setStore.removeSet(modSet);
@@ -188,18 +188,18 @@ public class MSBoardSolver {
                     System.out.println("Processed Set has no bombs");
                 }
                 this.revealSquares(todoSet, todoBombs == todoSquares);
-                this.setStore.removeSet(todoSet);
+//                this.setStore.removeSet(todoSet);
                 foundLogic = true;
                 break;
             }
             // Otherwise find all overlapping sets and attempt deductions
             List<Integer> overlappingSets = this.setStore.setOverlap(todoSet);
             for (int otherSet : overlappingSets) {
-                if (otherSet == todoSet) continue;
+//                if (otherSet == todoSet) continue;
                 // Find the non overlapping parts of otherSet and todoSet
                 int wing1 = this.setStore.setMunge(todoSet, otherSet, true);
                 int wing2 = this.setStore.setMunge(otherSet, todoSet, true);
-                int middleMask = this.setStore.setMunge(todoSet, otherSet, false);
+//                int middleMask = this.setStore.setMunge(todoSet, otherSet, false);
                 int wing1Squares = LogicMineSet.getMaskSquareCount(wing1);
                 int wing2Squares = LogicMineSet.getMaskSquareCount(wing2);
                 int otherBombs = LogicMineSet.getSetBombs(otherSet);
@@ -211,14 +211,14 @@ public class MSBoardSolver {
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(LogicMineSet.setSetMask(todoSet, wing1), isWing1Mines);
                     revealSquares(LogicMineSet.setSetMask(otherSet, wing2), !isWing1Mines);
-                    int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
+//                    int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
                     // Processing todoSquares will clear the sets, but clear the current sets early
                     // this.setStore.removeSet(todoSet);
                     // this.setStore.removeSet(otherSet);
-                    this.setStore.addSet(LogicMineSet.setSetMask(todoSet, middleMask) - foundMines // since the count is
+//                    this.setStore.addSet(LogicMineSet.setSetMask(todoSet, middleMask) - foundMines // since the count is
                                                                                                    // the LSD can
                                                                                                    // directly subtract
-                    );
+//                    );
                     foundLogic = true;
                     continue;
                 }
@@ -230,7 +230,6 @@ public class MSBoardSolver {
                     // this.setStore.removeSet(otherSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(otherSet, wing2) - todoBombs);
                     foundLogic = true;
-                    break setLoop;
                 } else if (wing2Squares == 0 && wing1Squares != 0) {
                     System.out.println("Found wing2 subset; Other" + LogicMineSet.toString(otherSet));
                     // otherSet is a subset of setTodo
@@ -340,10 +339,7 @@ public class MSBoardSolver {
                 }
             }
             if (!this.squaresTodo.isEmpty()) continue;
-            loops += 999;
-            if (loops > 999) continue;
 
-            System.out.println("We should not get here");
 
             // Brute force remaining bomb layouts
             int[] allSets = this.setStore.getAllSets();
@@ -410,6 +406,8 @@ public class MSBoardSolver {
                 continue;
             }
 
+            loops += 999;
+            if (loops > 999) continue;
             // Brute force analysis could not find any safe squares, so perturb the underlying grid
             // to provide further logic. Do so by either filling or emptying a set from setStore
             // We may have no sets at this point; there are 2+ unknown squares walled off by bombs so no clue reaches
@@ -485,9 +483,9 @@ public class MSBoardSolver {
     private void bruteForce(Map<Integer, Map<Integer, Integer>> res, int[] sets, int start, int end, int unknownBombs,
             int otherSquares, int bombsPlaced, List<Integer> partitionIndices) {
         // If we have run out of bombs to place or places to put them, this isn't a valid combination
-        if (unknownBombs < 0 || unknownBombs > otherSquares) return;
         // Base case, we have found a satisfying filling of the partition's sets.
         if (start == end) {
+            if (unknownBombs < 0 || unknownBombs > otherSquares) return;
             // Go through the grid and mark each cell as either bomb or clear
             Map<Integer, Integer> cellPossibilities = res.containsKey(bombsPlaced) ? res.get(bombsPlaced)
                     : new TreeMap<>();
@@ -521,7 +519,7 @@ public class MSBoardSolver {
                 setii++;
                 if (this.boardKnowledge[i] == Type.BOMB) bombsToPlace--;
             }
-            if (bombsToPlace < 0) return; // Another set(s)'s bombs have overfilled this set
+            if (bombsToPlace < 0 || unknownBombs - bombsToPlace < 0) return; // Another set(s)'s bombs have overfilled this set, or we have run out of mines to fill this set
 
             for (List<Integer> bombSpots : LogicMineSet.permutations(availableCells, bombsToPlace)) {
                 for (int sGIi : bombSpots) {

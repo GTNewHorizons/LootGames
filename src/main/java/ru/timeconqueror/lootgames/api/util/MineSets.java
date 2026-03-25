@@ -54,7 +54,10 @@ public class MineSets {
 
     public void addSet(int set) {
         int mask = LogicMineSet.getSetMask(set);
-        assert (mask != 0);
+        if (mask == 0) {
+            System.out.println("Cannot add set with invalid mask. " + LogicMineSet.toString(set));
+            return;
+        }
         int x = LogicMineSet.getSetX(set);
         int y = LogicMineSet.getSetY(set);
         // System.out.println("Adding " + LogicMineSet.toString(set));
