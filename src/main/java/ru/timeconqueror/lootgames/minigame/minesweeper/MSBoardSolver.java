@@ -110,7 +110,7 @@ public class MSBoardSolver {
 
     private void processTodoSquares() {
         System.out.println("Processing " + squaresTodo.size() + " squares on todo list.");
-        for (int i = 0; i <  this.squaresTodo.size(); i++) {
+        for (int i = 0; i < this.squaresTodo.size(); i++) {
             Pos2i pos = this.squaresTodo.get(i);
             Type cellType = this.getKnownField(pos);
             boolean isRevealedMine = cellType == Type.BOMB;
@@ -143,7 +143,7 @@ public class MSBoardSolver {
                                     .getX() + " " + pos.getY() + " " + LogicMineSet.toString(set));
                     if (bombs == 0) {
                         this.revealSquares(set, false);
-                    } else if (bombs == LogicMineSet.getMaskSquareCount(mask)){
+                    } else if (bombs == LogicMineSet.getMaskSquareCount(mask)) {
                         this.revealSquares(set, true);
                     } else {
                         this.setStore.addSet(set);
@@ -152,8 +152,8 @@ public class MSBoardSolver {
             }
 
             // Remove the revealed square from the mask of all known sets
-            System.out.println("Removing revealed square from known sets");
             List<Integer> modifiedSets = this.setStore.setOverlap((byte) pos.getX(), (byte) pos.getY());
+            System.out.println("Removing revealed square from " + modifiedSets.size() + " known sets");
             for (int modSet : modifiedSets) {
                 // System.out.println("Found overlapping " + LogicMineSet.toString(modSet));
                 int newMask = this.setStore.setMunge(modSet, LogicMineSet.Set(pos.getX(), pos.getY(), 1, 0), true);
@@ -209,8 +209,8 @@ public class MSBoardSolver {
                 if (wing1Squares == todoBombs - otherBombs || wing2Squares == otherBombs - todoBombs) {
                     System.out.println("Found same cardinality wings; Other" + LogicMineSet.toString(otherSet));
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
-                    revealSquares(wing1, isWing1Mines);
-                    revealSquares(wing2, !isWing1Mines);
+                    revealSquares(LogicMineSet.setSetMask(todoSet, wing1), isWing1Mines);
+                    revealSquares(LogicMineSet.setSetMask(otherSet, wing2), !isWing1Mines);
                     int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
                     // Processing todoSquares will clear the sets, but clear the current sets early
                     // this.setStore.removeSet(todoSet);

@@ -293,23 +293,15 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 if (board.size() <= 125) {
                     MSBoardSolver solver = new MSBoardSolver(board);
                     try {
-                        Thread t = new Thread(() -> solver.solve(clickedPos));
-                        int solveInfo = 0;
-                        t.start();
+
+                        int solveInfo = solver.solve(clickedPos);
+
                         LocalTime start = LocalTime.now();
-
-                        while (t.isAlive()) {
-                            for (int i = 1_000_000; i > 0; i--) {
-
-                            }
-                            if (LocalTime.now().isAfter(start.plusNanos(1_000_000_000))) {
-                                t.interrupt();
-                                break;
-                            }
-                        }
                         if (solveInfo == -1) {
                             System.out.println("Solver failed to solve, dumping final knowledge");
                             System.out.print(solver.boardKnowledgeToString());
+                        } else {
+                            System.out.println("Solver solved board/ran out of logic");
                         }
                     } catch (Exception e) {
                         System.out.println(
