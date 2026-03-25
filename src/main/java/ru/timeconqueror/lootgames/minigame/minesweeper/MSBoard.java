@@ -356,24 +356,30 @@ public class MSBoard {
 
     public List<Integer> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
         List<Integer> availableIndices = new ArrayList<>(8);
+        if (toFillOrEmpty.isEmpty()) {
+            throw new IllegalArgumentException("Cells to perturb must not be empty");
+        }
         for (int i = 0; i < currentKnowledge.length; i++) {
             if (currentKnowledge[i] == Type.SOLVER_HIDDEN) {
                 availableIndices.add(i);
             }
         }
         int bombsToFill = 0;
-        int bombssToClear = 0;
+        int bombsToClear = 0;
         for (Pos2i pos : toFillOrEmpty) {
-            availableIndices.remove(toIndex(pos));
+            availableIndices.remove(Integer.valueOf(toIndex(pos)));
             if (isBomb(pos)) {
-                bombssToClear++;
+                bombsToClear++;
             } else {
                 bombsToFill++;
             }
         }
+        if (bombsToClear == 0 || bombsToFill == 0) {
+            throw new IllegalArgumentException("Given list of cells should not be all mines or all clear");
+        }
         Collections.shuffle(availableIndices);
         int foundMines = bombsToFill;
-        int foundClears = bombssToClear;
+        int foundClears = bombsToClear;
         for (int i : availableIndices) {
             int x = i % this.size;
             int y = i / this.size;
@@ -384,9 +390,9 @@ public class MSBoard {
             }
         }
         // If we cannot find enough bombs to fill or empty the given positions return null
-        if ((foundClears & foundMines) != 0) return null;
+        if (foundClears != 0 && foundMines != 0) return null;
 
-        List<Integer> res = new ArrayList<>(bombssToClear);
+        List<Integer> res = new ArrayList<>(bombsToClear);
         int startingBombs = bombCount;
         for (Pos2i p : toFillOrEmpty) {
             this.flipBomb(p);
@@ -398,7 +404,7 @@ public class MSBoard {
                 if (!isBomb(x, y)) {
                     res.add(i);
                     flipBomb(new Pos2i(x, y));
-                    if (bombssToClear-- == 0) break;
+                    if (bombsToClear-- == 0) break;
                 }
             }
         } else {

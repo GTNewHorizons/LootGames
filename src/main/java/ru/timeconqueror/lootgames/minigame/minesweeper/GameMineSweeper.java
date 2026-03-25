@@ -2,6 +2,7 @@ package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -291,9 +292,30 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             if (configSolveBoard) {
                 if (board.size() <= 125) {
                     MSBoardSolver solver = new MSBoardSolver(board);
-                    int solveInfo = solver.solve(clickedPos);
-                    if (solveInfo == -1) {
-                        // Board failed to solve...
+                    try {
+                        Thread t = new Thread(() -> solver.solve(clickedPos));
+                        int solveInfo = 0;
+                        t.start();
+                        LocalTime start = LocalTime.now();
+
+                        while (t.isAlive()) {
+                            for (int i = 1_000_000; i > 0; i--) {
+
+                            }
+                            if (LocalTime.now().isAfter(start.plusNanos(1_000_000_000))) {
+                                t.interrupt();
+                                break;
+                            }
+                        }
+                        if (solveInfo == -1) {
+                            System.out.println("Solver failed to solve, dumping final knowledge");
+                            System.out.print(solver.boardKnowledgeToString());
+                        }
+                    } catch (Exception e) {
+                        System.out.println(
+                                "Solving minesweeper board ran into an issue; dumping current board knowledge");
+                        System.out.print(solver.boardKnowledgeToString());
+                        throw e;
                     }
                 } else {
                     // Put chat message

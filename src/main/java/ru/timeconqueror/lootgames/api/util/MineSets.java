@@ -53,26 +53,30 @@ public class MineSets {
     }
 
     public void addSet(int set) {
-        short mask = LogicMineSet.getSetMask(set);
+        int mask = LogicMineSet.getSetMask(set);
         assert (mask != 0);
-        byte x = LogicMineSet.getSetX(set);
+        int x = LogicMineSet.getSetX(set);
         int y = LogicMineSet.getSetY(set);
+        // System.out.println("Adding " + LogicMineSet.toString(set));
 
-        // while ((mask & 0b111) != 0) {
+        // while ((mask & 0b111) == 0) {
         // mask >>= 3;
         // y--;
         // }
         int trailingZeros = Integer.numberOfTrailingZeros(mask);
-        y = y - (trailingZeros / 3);
+        y = y + (trailingZeros / 3);
         mask >>= 3 * (trailingZeros / 3);
 
-        while ((mask & 0b001001001) != 0) {
+        while ((mask & 0b001001001) == 0) {
             mask >>= 1;
-            x--;
+            x++;
         }
         set = LogicMineSet.Set(x, y, mask, LogicMineSet.getSetBombs(set));
-        this.sets.add(set);
-        this.todo.add(set);
+        // System.out.println("Adding " +LogicMineSet.toString(set));
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("Set mask contains illegal index");
+        }
+        if (this.sets.add(set)) this.todo.add(set);
     }
 
     public void removeSet(int set) {
@@ -102,8 +106,8 @@ public class MineSets {
     }
 
     public boolean setIncludes(int setA, int x, int y) {
-        int diffX = LogicMineSet.getSetX(setA) - x;
-        int diffY = LogicMineSet.getSetY(setA) - y;
+        int diffX = x - LogicMineSet.getSetX(setA);
+        int diffY = y - LogicMineSet.getSetY(setA);
         if (diffX < 0 || diffX > 2 || diffY < 0 || diffY > 2) return false;
         int bit = diffX + 3 * diffY;
         return (LogicMineSet.getSetMask(setA) & (1 << bit)) != 0;
@@ -111,26 +115,33 @@ public class MineSets {
 
     public int setMunge(int setA, int setB, boolean isDiff) {
         // Return the mask of the intersection or difference between two mine sets
-        int diffX = LogicMineSet.getSetX(setA) - LogicMineSet.getSetX(setB);
-        int diffY = LogicMineSet.getSetY(setA) - LogicMineSet.getSetY(setB);
+        int diffX = LogicMineSet.getSetX(setB) - LogicMineSet.getSetX(setA);
+        int diffY = LogicMineSet.getSetY(setB) - LogicMineSet.getSetY(setA);
         int maskA = LogicMineSet.getSetMask(setA);
         int maskB = LogicMineSet.getSetMask(setB);
         if (diffX >= 3 || diffX <= -3 || diffY >= 3 || diffY <= -3) {
             if (isDiff) return maskA;
             return 0;
         }
-        if (diffX > 0) {
-            maskB <<= diffX;
-        } else {
-            maskB >>= -diffX;
+        while (diffX > 0) {
+            maskB = maskB & ~(0b100100100);
+            maskB <<= 1;
+            diffX--;
         }
-        if (diffY > 0) {
-            maskB <<= 3 * diffY;
-        } else {
-            maskB >>= 3 * (-diffY);
+        while (diffX < 0) {
+            maskB = maskB & ~(0b001001001);
+            maskB >>= 1;
+            diffX++;
         }
-        if (isDiff) {
-            maskB = ~maskB;
+        while (diffY > 0) {
+            maskB = maskB & ~(0b111000000);
+            maskB <<= 3;
+            diffY--;
+        }
+        while (diffY < 0) {
+            maskB = maskB & ~(0b000000111);
+            maskB >>= 3;
+            diffY++;
         }
 
         return maskA & maskB;
@@ -139,8 +150,8 @@ public class MineSets {
     public List<Integer> setOverlap(int set) {
         // Find all the sets that overlap the given one in this's sets
         List<SortedSet<Integer>> sets = new ArrayList<>(5);
-        byte setX = LogicMineSet.getSetX(set);
-        byte setY = LogicMineSet.getSetY(set);
+        int setX = LogicMineSet.getSetX(set);
+        int setY = LogicMineSet.getSetY(set);
         int sizeGuess = 0;
         for (int dx = Math.max(-2, -setX); dx <= Math.min(2, LogicMineSet.posBitMask - setX); dx++) {
             byte lowY = (byte) (Math.max(-2, -setY) + setY);
@@ -187,6 +198,10 @@ public class MineSets {
 
     public int size() {
         return this.sets.size();
+    }
+
+    public int todoSize() {
+        return this.todo.size();
     }
 
     public int getRandomSet() {

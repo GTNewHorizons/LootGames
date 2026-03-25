@@ -22,16 +22,16 @@ public class LogicMineSet {
     }
 
     public static int setSetY(byte y) {
-        return y << 16;
+        return (y << 16) & 0x00ff0000;
     }
 
-    public static short getSetMask(int set) {
-        return (short) (set >> 7 & 0x1ff);
+    public static int getSetMask(int set) {
+        return ((set >> 7) & 0x1ff);
     }
 
     public static int setSetMask(int mask) {
         assert (mask <= 0x1ff && mask >= 0);
-        return (int) mask << 7;
+        return mask << 7;
     }
 
     public static int setSetMask(int set, int mask) {
@@ -86,6 +86,14 @@ public class LogicMineSet {
                 return index;
             }
         };
+    }
+
+    public static String toString(int set) {
+        int x = LogicMineSet.getSetX(set);
+        int y = LogicMineSet.getSetY(set);
+        int mask = LogicMineSet.getSetMask(set);
+        int bombs = LogicMineSet.getSetBombs(set);
+        return "Mineset {x: " + x + " y: " + y + " mask: " + Integer.toBinaryString(mask) + " bombs: " + bombs + "}";
     }
 
     // n choose k
