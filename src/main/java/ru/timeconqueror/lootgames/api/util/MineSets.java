@@ -58,21 +58,20 @@ public class MineSets {
         byte x = LogicMineSet.getSetX(set);
         int y = LogicMineSet.getSetY(set);
 
-        // while ((mask & 0b111) != 0) {
+        // while ((mask & 0b111) == 0) {
         // mask >>= 3;
-        // y--;
+        // y++;
         // }
         int trailingZeros = Integer.numberOfTrailingZeros(mask);
-        y = y - (trailingZeros / 3);
+        y = y + (trailingZeros / 3);
         mask >>= 3 * (trailingZeros / 3);
 
-        while ((mask & 0b001001001) != 0) {
+        while ((mask & 0b001001001) == 0) {
             mask >>= 1;
-            x--;
+            x++;
         }
         set = LogicMineSet.Set(x, y, mask, LogicMineSet.getSetBombs(set));
-        this.sets.add(set);
-        this.todo.add(set);
+        if (this.sets.add(set)) this.todo.add(set);
     }
 
     public void removeSet(int set) {
@@ -102,8 +101,8 @@ public class MineSets {
     }
 
     public boolean setIncludes(int setA, int x, int y) {
-        int diffX = LogicMineSet.getSetX(setA) - x;
-        int diffY = LogicMineSet.getSetY(setA) - y;
+        int diffX = x - LogicMineSet.getSetX(setA);
+        int diffY = y - LogicMineSet.getSetY(setA);
         if (diffX < 0 || diffX > 2 || diffY < 0 || diffY > 2) return false;
         int bit = diffX + 3 * diffY;
         return (LogicMineSet.getSetMask(setA) & (1 << bit)) != 0;
@@ -111,26 +110,37 @@ public class MineSets {
 
     public int setMunge(int setA, int setB, boolean isDiff) {
         // Return the mask of the intersection or difference between two mine sets
-        int diffX = LogicMineSet.getSetX(setA) - LogicMineSet.getSetX(setB);
-        int diffY = LogicMineSet.getSetY(setA) - LogicMineSet.getSetY(setB);
+        int diffX = LogicMineSet.getSetX(setB) - LogicMineSet.getSetX(setA);
+        int diffY = LogicMineSet.getSetY(setB) - LogicMineSet.getSetY(setA);
         int maskA = LogicMineSet.getSetMask(setA);
         int maskB = LogicMineSet.getSetMask(setB);
         if (diffX >= 3 || diffX <= -3 || diffY >= 3 || diffY <= -3) {
             if (isDiff) return maskA;
             return 0;
         }
-        if (diffX > 0) {
-            maskB <<= diffX;
-        } else {
-            maskB >>= -diffX;
+        while (diffX > 0) {
+            maskB = maskB & ~(0b100100100);
+            maskB = maskB << 1;
+            diffX--;
         }
-        if (diffY > 0) {
-            maskB <<= 3 * diffY;
-        } else {
-            maskB >>= 3 * (-diffY);
+        while (diffX < 0) {
+            maskB = maskB & ~(0b001001001);
+            maskB = maskB >> 1;
+            diffX++;
         }
+        while (diffY > 0) {
+            maskB = maskB & ~(0b000000111);
+            maskB = maskB << 3;
+            diffY--;
+        }
+        while (diffY < 0) {
+            maskB = maskB & ~(0b111000000);
+            maskB = maskB >> 3;
+            diffY++;
+        }
+
         if (isDiff) {
-            maskB = ~maskB;
+            maskB = maskB ^ 0b111111;
         }
 
         return maskA & maskB;
@@ -167,7 +177,7 @@ public class MineSets {
 
         int sizeGuess = 0;
         for (int dx = Math.max(-2, -x); dx <= 0; dx++) {
-            byte lowY = (byte) (Math.max(-2, -y) + y);
+            byte lowY = (byte) (Math.max(y - 2, 0));
             int lowKey = LogicMineSet.setSetX((byte) (x + dx)) | LogicMineSet.setSetY(lowY);
             int highKey = LogicMineSet.setSetX((byte) (x + dx)) | LogicMineSet.setSetY(y) | 0xffff;
             SortedSet<Integer> rawSets = this.sets.subSet(lowKey, highKey);

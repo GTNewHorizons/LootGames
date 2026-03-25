@@ -22,7 +22,7 @@ public class LogicMineSet {
     }
 
     public static int setSetY(byte y) {
-        return y << 16;
+        return (y << 16) & 0x00ff0000;
     }
 
     public static short getSetMask(int set) {

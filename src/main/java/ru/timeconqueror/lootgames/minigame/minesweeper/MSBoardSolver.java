@@ -106,12 +106,12 @@ public class MSBoardSolver {
     }
 
     private void processTodoSquares() {
-        for (Pos2i pos : this.squaresTodo) {
+
+        for (int i = 0; i < this.squaresTodo.size(); i++) {
+            Pos2i pos = this.squaresTodo.get(i);
             Type cellType = this.getKnownField(pos);
-            boolean isRevealedMine = false;
-            if (cellType == Type.BOMB) {
-                isRevealedMine = true;
-            } else {
+            boolean isRevealedMine = cellType == Type.BOMB;
+            if (!isRevealedMine) {
 
                 // Create a bomb set around this square
                 byte bombs = cellType.getId();
@@ -119,23 +119,28 @@ public class MSBoardSolver {
                 int bit = 0b1;
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dx = -1; dx <= 1; dx++) {
-                        if (pos.getX() + dx < 0 || pos.getX() + dx >= this.board.size()
+                        if (!(pos.getX() + dx < 0 || pos.getX() + dx >= this.board.size()
                                 || pos.getY() + dy < 0
-                                || pos.getY() + dy >= this.board.size())
-                            continue;
-                        Type adjField = this.getKnownField(pos);
-                        if (adjField == Type.SOLVER_HIDDEN) {
-                            mask = mask | bit;
-                        } else if (adjField == Type.BOMB) {
-                            bombs--;
+                                || pos.getY() + dy >= this.board.size())) {
+                            Type adjField = this.getKnownField(pos.add(dx, dy));
+                            if (adjField == Type.SOLVER_HIDDEN) {
+                                mask = mask | bit;
+                            } else if (adjField == Type.BOMB) {
+                                bombs--;
+                            }
                         }
                         bit <<= 1;
 
                     }
                 }
                 if (mask != 0) {
+
                     int set = LogicMineSet.Set(pos.getX() - 1, pos.getY() - 1, mask, bombs);
-                    this.setStore.addSet(set);
+                    if (bombs == 0 || LogicMineSet.getMaskSquareCount(mask) == bombs) {
+                        this.revealSquares(set, bombs != 0);
+                    } else {
+                        this.setStore.addSet(set);
+                    }
                 }
             }
 
@@ -158,7 +163,7 @@ public class MSBoardSolver {
 
     private boolean processTodoSets() {
         boolean foundLogic = false;
-        setLoop: while (this.setStore.hasTodo() && !foundLogic) {
+        setLoop: while (this.setStore.hasTodo()) {
             int todoSet = this.setStore.getTodo();
             // Check if the set has no bombs, or bombs == bitCount(mask)
             // which are trivially known squares
@@ -167,13 +172,14 @@ public class MSBoardSolver {
             int todoSquares = LogicMineSet.getMaskSquareCount(LogicMineSet.getSetMask(todoSet));
             if (todoBombs == 0 || todoBombs == todoSquares) {
                 this.revealSquares(todoSet, todoBombs == todoSquares);
-                this.setStore.removeSet(todoSet);
+                // this.setStore.removeSet(todoSet);
                 foundLogic = true;
-                break;
+                continue;
             }
             // Otherwise find all overlapping sets and attempt deductions
             List<Integer> overlappingSets = this.setStore.setOverlap(todoSet);
             for (int otherSet : overlappingSets) {
+                if (otherSet == todoSet) continue;
                 // Find the non overlapping parts of otherSet and todoSet
                 int wing1 = this.setStore.setMunge(todoSet, otherSet, true);
                 int wing2 = this.setStore.setMunge(otherSet, todoSet, true);
@@ -190,29 +196,26 @@ public class MSBoardSolver {
                     revealSquares(wing2, !isWing1Mines);
                     int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
                     // Processing todoSquares will clear the sets, but clear the current sets early
-                    this.setStore.removeSet(todoSet);
-                    this.setStore.removeSet(otherSet);
+                    // this.setStore.removeSet(todoSet);
+                    // this.setStore.removeSet(otherSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(todoSet, middleMask) - foundMines // since the count is
                                                                                                    // the LSD can
                                                                                                    // directly subtract
                     );
                     foundLogic = true;
-                    break setLoop;
                 }
 
                 // Otherwise check if one set is a subset of the other.
                 if (wing1Squares == 0) {
                     // setTodo is a subset of otherSet
-                    this.setStore.removeSet(otherSet);
+                    // this.setStore.removeSet(otherSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(otherSet, wing2) - todoBombs);
                     foundLogic = true;
-                    break setLoop;
                 } else if (wing2Squares == 0) {
                     // otherSet is a subset of setTodo
-                    this.setStore.removeSet(todoSet);
+                    // this.setStore.removeSet(todoSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(todoSet, wing1) - otherBombs);
                     foundLogic = true;
-                    break setLoop;
                 }
             }
         }
@@ -276,7 +279,8 @@ public class MSBoardSolver {
         for (int loops = 0; loops < 1000; loops++) {
             boolean doneSomething = !this.squaresTodo.isEmpty();
             this.processTodoSquares();
-            doneSomething = doneSomething || this.processTodoSets();
+            boolean t = this.processTodoSets();
+            doneSomething = t || doneSomething;
             if (doneSomething) continue;
 
             /*
@@ -312,6 +316,10 @@ public class MSBoardSolver {
                     }
                 }
             }
+            if (!squaresTodo.isEmpty()) continue;
+            loops += 999;
+            if (loops > 1000) break;
+            // Ignore NP brute forcing without unreachable code error
 
             // Brute force remaining bomb layouts
             int[] allSets = this.setStore.getAllSets();
