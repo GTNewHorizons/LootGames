@@ -76,8 +76,9 @@ public class MSBoardSolver {
         int bit = 0b1;
         int setMask = LogicMineSet.getSetMask(set);
         if (setMask == 0) return;
-        byte setX = LogicMineSet.getSetX(set);
-        byte setY = LogicMineSet.getSetY(set);
+        int setX = LogicMineSet.getSetX(set);
+        int setY = LogicMineSet.getSetY(set);
+        System.out.println("Revealing " + LogicMineSet.toString(set) + " to be " + (isMine ? "bomb" : "clear"));
         for (int dy = 0; dy < 3; dy++) {
             for (int dx = 0; dx < 3; dx++) {
                 if ((setMask & bit) != 0) {
@@ -97,6 +98,8 @@ public class MSBoardSolver {
             revealedSquare = this.board.getType(pos);
             // This will likely change when perturbations exist
         }
+        System.out.println(
+                "Revealing square at " + pos.getX() + ", " + pos.getY() + " to be " + revealedSquare.toString());
         this.boardKnowledge[this.board.toIndex(pos)] = revealedSquare;
         this.addSquareToDo(pos);
     }
@@ -106,8 +109,8 @@ public class MSBoardSolver {
     }
 
     private void processTodoSquares() {
-
-        for (int i = 0; i < this.squaresTodo.size(); i++) {
+        System.out.println("Processing " + squaresTodo.size() + " squares on todo list.");
+        for (int i = 0; i <  this.squaresTodo.size(); i++) {
             Pos2i pos = this.squaresTodo.get(i);
             Type cellType = this.getKnownField(pos);
             boolean isRevealedMine = cellType == Type.BOMB;
@@ -134,10 +137,14 @@ public class MSBoardSolver {
                     }
                 }
                 if (mask != 0) {
-
                     int set = LogicMineSet.Set(pos.getX() - 1, pos.getY() - 1, mask, bombs);
-                    if (bombs == 0 || LogicMineSet.getMaskSquareCount(mask) == bombs) {
-                        this.revealSquares(set, bombs != 0);
+                    System.out.println(
+                            "Creating set around square " + pos
+                                    .getX() + " " + pos.getY() + " " + LogicMineSet.toString(set));
+                    if (bombs == 0) {
+                        this.revealSquares(set, false);
+                    } else if (bombs == LogicMineSet.getMaskSquareCount(mask)){
+                        this.revealSquares(set, true);
                     } else {
                         this.setStore.addSet(set);
                     }
@@ -145,8 +152,10 @@ public class MSBoardSolver {
             }
 
             // Remove the revealed square from the mask of all known sets
+            System.out.println("Removing revealed square from known sets");
             List<Integer> modifiedSets = this.setStore.setOverlap((byte) pos.getX(), (byte) pos.getY());
             for (int modSet : modifiedSets) {
+                // System.out.println("Found overlapping " + LogicMineSet.toString(modSet));
                 int newMask = this.setStore.setMunge(modSet, LogicMineSet.Set(pos.getX(), pos.getY(), 1, 0), true);
 
                 this.setStore.removeSet(modSet);
@@ -162,6 +171,7 @@ public class MSBoardSolver {
     }
 
     private boolean processTodoSets() {
+        System.out.println("Processing " + setStore.todoSize() + " todo sets.");
         boolean foundLogic = false;
         setLoop: while (this.setStore.hasTodo()) {
             int todoSet = this.setStore.getTodo();
@@ -170,11 +180,17 @@ public class MSBoardSolver {
             byte todoBombs = LogicMineSet.getSetBombs(todoSet);
 
             int todoSquares = LogicMineSet.getMaskSquareCount(LogicMineSet.getSetMask(todoSet));
+            System.out.println("Processing " + LogicMineSet.toString(todoSet));
             if (todoBombs == 0 || todoBombs == todoSquares) {
+                if (todoBombs == todoSquares) {
+                    System.out.println("Processed Set has same cardinality as bombs");
+                } else {
+                    System.out.println("Processed Set has no bombs");
+                }
                 this.revealSquares(todoSet, todoBombs == todoSquares);
-                // this.setStore.removeSet(todoSet);
+                this.setStore.removeSet(todoSet);
                 foundLogic = true;
-                continue;
+                break;
             }
             // Otherwise find all overlapping sets and attempt deductions
             List<Integer> overlappingSets = this.setStore.setOverlap(todoSet);
@@ -191,6 +207,7 @@ public class MSBoardSolver {
                 // Check if the cardinality of one set's wing is the same as the difference between the sets bombs
                 // then the wing of the set with more bombs must be full, and the other wing empty
                 if (wing1Squares == todoBombs - otherBombs || wing2Squares == otherBombs - todoBombs) {
+                    System.out.println("Found same cardinality wings; Other" + LogicMineSet.toString(otherSet));
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(wing1, isWing1Mines);
                     revealSquares(wing2, !isWing1Mines);
@@ -203,15 +220,19 @@ public class MSBoardSolver {
                                                                                                    // directly subtract
                     );
                     foundLogic = true;
+                    continue;
                 }
 
                 // Otherwise check if one set is a subset of the other.
-                if (wing1Squares == 0) {
+                if (wing1Squares == 0 && wing2Squares != 0) {
+                    System.out.println("Found wing1 subset; Other" + LogicMineSet.toString(otherSet));
                     // setTodo is a subset of otherSet
                     // this.setStore.removeSet(otherSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(otherSet, wing2) - todoBombs);
                     foundLogic = true;
-                } else if (wing2Squares == 0) {
+                    break setLoop;
+                } else if (wing2Squares == 0 && wing1Squares != 0) {
+                    System.out.println("Found wing2 subset; Other" + LogicMineSet.toString(otherSet));
                     // otherSet is a subset of setTodo
                     // this.setStore.removeSet(todoSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(todoSet, wing1) - otherBombs);
@@ -228,6 +249,7 @@ public class MSBoardSolver {
      */
     private List<Integer> partitionSets(int[] sets) {
         List<Integer> partitionEnd = new ArrayList<>(8);
+        if (sets.length == 0) return partitionEnd;
         int partitionEndI = 1;
         for (int parentI = 0; parentI < sets.length; parentI++) {
             int parentSet = sets[parentI];
@@ -276,11 +298,12 @@ public class MSBoardSolver {
             this.board.generate(startFieldPos);
         }
         this.revealSquare(startFieldPos, false);
-        for (int loops = 0; loops < 1000; loops++) {
+        for (int loops = 0; loops < 500; loops++) {
             boolean doneSomething = !this.squaresTodo.isEmpty();
             this.processTodoSquares();
-            boolean t = this.processTodoSets();
-            doneSomething = t || doneSomething;
+            doneSomething = doneSomething || this.processTodoSets();
+            System.out.println("Solve loop: " + loops + " , printing current board knowledge.");
+            System.out.print(this.boardKnowledgeToString());
             if (doneSomething) continue;
 
             /*
@@ -316,10 +339,11 @@ public class MSBoardSolver {
                     }
                 }
             }
-            if (!squaresTodo.isEmpty()) continue;
+            if (!this.squaresTodo.isEmpty()) continue;
             loops += 999;
-            if (loops > 1000) break;
-            // Ignore NP brute forcing without unreachable code error
+            if (loops > 999) continue;
+
+            System.out.println("We should not get here");
 
             // Brute force remaining bomb layouts
             int[] allSets = this.setStore.getAllSets();
@@ -585,6 +609,20 @@ public class MSBoardSolver {
 
     private void invalidateSets() {
         this.setStore.clear();
+    }
 
+    public String boardKnowledgeToString() {
+        String typeStrings = "?X 12345678";
+        StringBuilder builder = new StringBuilder(board.size() * board.size() + board.size());
+        int i = 0;
+        for (int y = 0; y < board.size(); y++) {
+            for (int x = 0; x < board.size(); x++) {
+                Type type = boardKnowledge[i];
+                builder.append(typeStrings.charAt(type.getId() + 2));
+                i++;
+            }
+            builder.append('\n');
+        }
+        return builder.toString();
     }
 }

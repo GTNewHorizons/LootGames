@@ -53,10 +53,11 @@ public class MineSets {
     }
 
     public void addSet(int set) {
-        short mask = LogicMineSet.getSetMask(set);
+        int mask = LogicMineSet.getSetMask(set);
         assert (mask != 0);
-        byte x = LogicMineSet.getSetX(set);
+        int x = LogicMineSet.getSetX(set);
         int y = LogicMineSet.getSetY(set);
+        // System.out.println("Adding " + LogicMineSet.toString(set));
 
         // while ((mask & 0b111) == 0) {
         // mask >>= 3;
@@ -71,6 +72,10 @@ public class MineSets {
             x++;
         }
         set = LogicMineSet.Set(x, y, mask, LogicMineSet.getSetBombs(set));
+        // System.out.println("Adding " +LogicMineSet.toString(set));
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("Set mask contains illegal index");
+        }
         if (this.sets.add(set)) this.todo.add(set);
     }
 
@@ -120,17 +125,17 @@ public class MineSets {
         }
         while (diffX > 0) {
             maskB = maskB & ~(0b100100100);
-            maskB = maskB << 1;
+            maskB <<= 1;
             diffX--;
         }
         while (diffX < 0) {
             maskB = maskB & ~(0b001001001);
-            maskB = maskB >> 1;
+            maskB >>= 1;
             diffX++;
         }
         while (diffY > 0) {
-            maskB = maskB & ~(0b000000111);
-            maskB = maskB << 3;
+            maskB = maskB & ~(0b111000000);
+            maskB <<= 3;
             diffY--;
         }
         while (diffY < 0) {
@@ -140,7 +145,7 @@ public class MineSets {
         }
 
         if (isDiff) {
-            maskB = maskB ^ 0b111111;
+            maskB = maskB ^ 0b111111111;
         }
 
         return maskA & maskB;
@@ -149,8 +154,8 @@ public class MineSets {
     public List<Integer> setOverlap(int set) {
         // Find all the sets that overlap the given one in this's sets
         List<SortedSet<Integer>> sets = new ArrayList<>(5);
-        byte setX = LogicMineSet.getSetX(set);
-        byte setY = LogicMineSet.getSetY(set);
+        int setX = LogicMineSet.getSetX(set);
+        int setY = LogicMineSet.getSetY(set);
         int sizeGuess = 0;
         for (int dx = Math.max(-2, -setX); dx <= Math.min(2, LogicMineSet.posBitMask - setX); dx++) {
             byte lowY = (byte) (Math.max(-2, -setY) + setY);
@@ -197,6 +202,10 @@ public class MineSets {
 
     public int size() {
         return this.sets.size();
+    }
+
+    public int todoSize() {
+        return this.todo.size();
     }
 
     public int getRandomSet() {
