@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 
+import ru.timeconqueror.lootgames.api.util.BombPerturbation;
 import ru.timeconqueror.lootgames.api.util.Pos2i;
 import ru.timeconqueror.lootgames.utils.future.ICodec;
 import ru.timeconqueror.timecore.api.util.CodecUtils;
@@ -337,7 +338,6 @@ public class MSBoard {
                     } else connectedBombs++;
                 }
             }
-            // getConnectedBombCount assumes (x,y) is not a bomb.
             this.board[x][y].type = Type.byId((byte) (connectedBombs - 1));
         } else {
             this.bombCount++;
@@ -354,7 +354,7 @@ public class MSBoard {
 
     }
 
-    public List<Integer> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
+    public List<BombPerturbation> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
         List<Integer> availableIndices = new ArrayList<>(8);
         if (toFillOrEmpty.isEmpty()) {
             throw new IllegalArgumentException("Cells to perturb must not be empty");
@@ -384,37 +384,51 @@ public class MSBoard {
             int x = i % this.size;
             int y = i / this.size;
             if (isBomb(x, y)) {
-                if (foundMines-- == 0) break;
+                if (--foundMines == 0) break;
             } else {
-                if (foundClears-- == 0) break;
+                if (--foundClears == 0) break;
             }
         }
         // If we cannot find enough bombs to fill or empty the given positions return null
         if (foundClears != 0 && foundMines != 0) return null;
 
-        List<Integer> res = new ArrayList<>(bombsToClear);
+        List<BombPerturbation> res = new ArrayList<>(foundClears == 0 ? bombsToClear * 2 : bombsToFill * 2);
         int startingBombs = bombCount;
         for (Pos2i p : toFillOrEmpty) {
             this.flipBomb(p);
         }
         if (foundClears == 0) {
             for (int i : availableIndices) {
-                int x = i % this.size;
-                int y = i / this.size;
-                if (!isBomb(x, y)) {
-                    res.add(i);
-                    flipBomb(new Pos2i(x, y));
-                    if (bombsToClear-- == 0) break;
+                Pos2i pos = toPos(i);
+                if (!isBomb(pos)) {
+                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) 1));
+                    flipBomb(pos);
+                    if (--bombsToClear == 0) break;
+                }
+            }
+            for (Pos2i pos : toFillOrEmpty) {
+                if (isBomb(pos)) {
+                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) -1));
+                    flipBomb(pos);
                 }
             }
         } else {
             for (int i : availableIndices) {
-                int x = i % this.size;
-                int y = i / this.size;
-                if (isBomb(x, y)) {
-                    res.add(~i); // Use negative index so you can tell if the set was filled or emptied
-                    flipBomb(new Pos2i(x, y));
-                    if (bombsToFill-- == 0) break;
+                Pos2i pos = toPos(i);
+                if (isBomb(pos)) {
+                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) -1)); // Use negative
+                                                                                                    // index so you can
+                                                                                                    // tell if the set
+                                                                                                    // was filled or
+                                                                                                    // emptied
+                    flipBomb(pos);
+                    if (--bombsToFill == 0) break;
+                }
+            }
+            for (Pos2i pos : toFillOrEmpty) {
+                if (!isBomb(pos)) {
+                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) 1));
+                    flipBomb(pos);
                 }
             }
         }

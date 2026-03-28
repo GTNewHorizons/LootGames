@@ -142,8 +142,8 @@ public class MineSets {
             diffY--;
         }
         while (diffY < 0) {
-            maskB = maskB & ~(0b111000000);
-            maskB = maskB >> 3;
+//            maskB = maskB & ~(0b000000111);
+            maskB >>= 3;
             diffY++;
         }
 

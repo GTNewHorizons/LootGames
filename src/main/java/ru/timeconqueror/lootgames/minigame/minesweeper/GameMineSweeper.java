@@ -299,10 +299,10 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                         LocalTime start = LocalTime.now();
                         if (solveInfo == -1) {
                             System.out.println("Solver failed to solve, dumping final knowledge");
-                            System.out.print(solver.boardKnowledgeToString());
                         } else {
                             System.out.println("Solver solved board/ran out of logic");
                         }
+                        System.out.print(solver.boardKnowledgeToString());
                     } catch (Exception e) {
                         System.out.println(
                                 "Solving minesweeper board ran into an issue; dumping current board knowledge");
