@@ -110,7 +110,7 @@ public class MSBoard {
         loop: for (MSField[] msFields : board) {
             for (MSField msField : msFields) {
                 if (msField.type == Type.BOMB) {
-                    if (!msField.isHidden || msField.mark != Mark.FLAG) {
+                    if (!msField.isHidden) {
                         winState = false;
                         break loop;
                     }
@@ -324,36 +324,6 @@ public class MSBoard {
         setBoard(CodecUtils.read2DimArr(boardTag, MSField.class, MSField.SAVE_CODEC));
     }
 
-    private void flipBomb(Pos2i pos) {
-        int x = pos.getX();
-        int y = pos.getY();
-        if (isBomb(x, y)) {
-            this.bombCount--;
-            int connectedBombs = 0;
-            for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
-                for (int yy = Math.max(0, y - 1); yy < Math.min(size - 1, y + 1); yy++) {
-                    MSField cell = this.board[xx][yy];
-                    if (cell.type != Type.BOMB) {
-                        cell.type = Type.byId((byte) (cell.type.getId() - 1));
-                    } else connectedBombs++;
-                }
-            }
-            this.board[x][y].type = Type.byId((byte) (connectedBombs - 1));
-        } else {
-            this.bombCount++;
-            this.board[x][y].type = Type.BOMB;
-            for (int xx = Math.max(0, x - 1); xx < Math.min(size - 1, x + 1); xx++) {
-                for (int yy = Math.max(0, y - 1); yy < Math.min(size - 1, y + 1); yy++) {
-                    MSField cell = this.board[xx][yy];
-                    if (cell.type != Type.BOMB) {
-                        cell.type = Type.byId((byte) (cell.type.getId() + 1));
-                    }
-                }
-            }
-        }
-
-    }
-
     public List<BombPerturbation> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
         List<Integer> availableIndices = new ArrayList<>(8);
         if (toFillOrEmpty.isEmpty()) {
@@ -393,48 +363,66 @@ public class MSBoard {
         if (foundClears != 0 && foundMines != 0) return null;
 
         List<BombPerturbation> res = new ArrayList<>(foundClears == 0 ? bombsToClear * 2 : bombsToFill * 2);
-        int startingBombs = bombCount;
-        for (Pos2i p : toFillOrEmpty) {
-            this.flipBomb(p);
-        }
+
         if (foundClears == 0) {
             for (int i : availableIndices) {
                 Pos2i pos = toPos(i);
                 if (!isBomb(pos)) {
                     res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) 1));
-                    flipBomb(pos);
                     if (--bombsToClear == 0) break;
                 }
             }
             for (Pos2i pos : toFillOrEmpty) {
                 if (isBomb(pos)) {
                     res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) -1));
-                    flipBomb(pos);
                 }
             }
         } else {
             for (int i : availableIndices) {
                 Pos2i pos = toPos(i);
                 if (isBomb(pos)) {
-                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) -1)); // Use negative
-                                                                                                    // index so you can
-                                                                                                    // tell if the set
-                                                                                                    // was filled or
-                                                                                                    // emptied
-                    flipBomb(pos);
+                    res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) -1));
                     if (--bombsToFill == 0) break;
                 }
             }
             for (Pos2i pos : toFillOrEmpty) {
                 if (!isBomb(pos)) {
                     res.add(new BombPerturbation((byte) pos.getX(), (byte) pos.getY(), (byte) 1));
-                    flipBomb(pos);
                 }
             }
         }
-        assert startingBombs == getBombCount();
-
         return res;
+    }
+
+    public void applyPerturbations(List<BombPerturbation> perturbations) {
+        for (BombPerturbation p : perturbations) {
+            MSField field = getField(p.x, p.y);
+            if ((field.type == Type.BOMB) !=  (p.bombDiff == -1)) {
+                throw new IllegalArgumentException("Cannot perturb mine into mine or clear into clear");
+            }
+        }
+        for (BombPerturbation p : perturbations) {
+            int surroundingBombs = 0;
+            for (int y = p.y-1; y <= (p.y+1); y++) {
+                for (int x = p.x-1; x <= (p.x + 1); x++) {
+                    if (x < 0 || x>= size || y < 0 || y >= size) continue;
+                    MSField field = getField(x, y);
+                    if (field.type == Type.BOMB) {
+                        surroundingBombs++;
+                        continue;
+                    }
+                    field.type = Type.byId((byte) Math.max(Math.min(field.type.getId() + p.bombDiff,8),0));
+
+                }
+            }
+            if (p.bombDiff == 1) {
+                getField(p.x, p.y).type = Type.BOMB;
+            } else {
+                getField(p.x, p.y).type = Type.byId((byte) (surroundingBombs - 1));
+            }
+
+        }
+
     }
 
     public static class MSField {

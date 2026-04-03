@@ -80,7 +80,6 @@ public class MSBoardSolver {
         if (setMask == 0) return;
         int setX = LogicMineSet.getSetX(set);
         int setY = LogicMineSet.getSetY(set);
-        System.out.println("Revealing " + LogicMineSet.toString(set) + " to be " + (isMine ? "bomb" : "clear"));
         for (int dy = 0; dy < 3; dy++) {
             for (int dx = 0; dx < 3; dx++) {
                 if ((setMask & bit) != 0) {
@@ -98,10 +97,7 @@ public class MSBoardSolver {
             revealedSquare = Type.BOMB;
         } else {
             revealedSquare = this.board.getType(pos);
-            // This will likely change when perturbations exist
         }
-//        System.out.println(
-//                "Revealing square at " + pos.getX() + ", " + pos.getY() + " to be " + revealedSquare.toString());
         this.boardKnowledge[this.board.toIndex(pos)] = revealedSquare;
         this.addSquareToDo(pos);
     }
@@ -111,7 +107,6 @@ public class MSBoardSolver {
     }
 
     private void processTodoSquares() {
-        System.out.println("Processing " + squaresTodo.size() + " squares on todo list.");
         for (int i = 0; i < this.squaresTodo.size(); i++) {
             Pos2i pos = this.squaresTodo.get(i);
             Type cellType = this.getKnownField(pos);
@@ -140,9 +135,6 @@ public class MSBoardSolver {
                 }
                 if (mask != 0) {
                     int set = LogicMineSet.Set(pos.getX() - 1, pos.getY() - 1, mask, bombs);
-//                    System.out.println(
-//                            "Creating set around square " + pos
-//                                    .getX() + " " + pos.getY() + " " + LogicMineSet.toString(set));
                     if (bombs == 0) {
                         this.revealSquares(set, false);
                     } else if (bombs == LogicMineSet.getMaskSquareCount(mask)) {
@@ -155,9 +147,7 @@ public class MSBoardSolver {
 
             // Remove the revealed square from the mask of all known sets
             List<Integer> modifiedSets = this.setStore.setOverlap((byte) pos.getX(), (byte) pos.getY());
-//            System.out.println("Removing revealed square from " + modifiedSets.size() + " known sets");
             for (int modSet : modifiedSets) {
-                // System.out.println("Found overlapping " + LogicMineSet.toString(modSet));
                 int newMask = this.setStore.setMunge(modSet, LogicMineSet.Set(pos.getX(), pos.getY(), 1, 0), true);
 
                 this.setStore.removeSet(modSet);
@@ -173,7 +163,6 @@ public class MSBoardSolver {
     }
 
     private boolean processTodoSets() {
-//        System.out.println("Processing " + setStore.todoSize() + " todo sets.");
         boolean foundLogic = false;
         while (this.setStore.hasTodo()) {
             int todoSet = this.setStore.getTodo();
@@ -182,23 +171,14 @@ public class MSBoardSolver {
             byte todoBombs = LogicMineSet.getSetBombs(todoSet);
 
             int todoSquares = LogicMineSet.getMaskSquareCount(LogicMineSet.getSetMask(todoSet));
-            System.out.println("Processing " + LogicMineSet.toString(todoSet));
             if (todoBombs == 0 || todoBombs == todoSquares) {
-//                if (todoBombs == todoSquares) {
-//                    System.out.println("Processed Set has same cardinality as bombs");
-//                } else {
-//                    System.out.println("Processed Set has no bombs");
-//                }
                 this.revealSquares(todoSet, todoBombs == todoSquares);
-                // this.setStore.removeSet(todoSet);
                 foundLogic = true;
                 break;
             }
             // Otherwise find all overlapping sets and attempt deductions
             List<Integer> overlappingSets = this.setStore.setOverlap(todoSet);
             for (int otherSet : overlappingSets) {
-//                System.out.println("Overlapping " + LogicMineSet.toString(otherSet));
-                // if (otherSet == todoSet) continue;
                 // Find the non overlapping parts of otherSet and todoSet
                 int wing1 = this.setStore.setMunge(todoSet, otherSet, true);
                 int wing2 = this.setStore.setMunge(otherSet, todoSet, true);
@@ -210,34 +190,20 @@ public class MSBoardSolver {
                 // Check if the cardinality of one set's wing is the same as the difference between the sets bombs
                 // then the wing of the set with more bombs must be full, and the other wing empty
                 if ((wing1Squares == (todoBombs - otherBombs)) || (wing2Squares == (otherBombs - todoBombs))) {
-                    System.out.println("Found same cardinality wings; Other" + LogicMineSet.toString(otherSet));
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(LogicMineSet.setSetMask(todoSet, wing1), isWing1Mines);
                     revealSquares(LogicMineSet.setSetMask(otherSet, wing2), !isWing1Mines);
-                    // int foundMines = isWing1Mines ? wing1Squares : wing2Squares;
-                    // Processing todoSquares will clear the sets, but clear the current sets early
-                    // this.setStore.removeSet(todoSet);
-                    // this.setStore.removeSet(otherSet);
-                    // this.setStore.addSet(LogicMineSet.setSetMask(todoSet, middleMask) - foundMines // since the count
-                    // is
-                    // the LSD can
-                    // directly subtract
-                    // );
                     foundLogic = true;
                     continue;
                 }
 
                 // Otherwise check if one set is a subset of the other.
                 if (wing1Squares == 0 && wing2Squares != 0) {
-                    System.out.println("Found wing1 subset; Other" + LogicMineSet.toString(otherSet));
                     // setTodo is a subset of otherSet
-                    // this.setStore.removeSet(otherSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(otherSet, wing2) - todoBombs);
                     foundLogic = true;
                 } else if (wing2Squares == 0 && wing1Squares != 0) {
-                    System.out.println("Found wing2 subset; Other" + LogicMineSet.toString(otherSet));
                     // otherSet is a subset of setTodo
-                    // this.setStore.removeSet(todoSet);
                     this.setStore.addSet(LogicMineSet.setSetMask(todoSet, wing1) - otherBombs);
                     foundLogic = true;
                 }
@@ -337,19 +303,6 @@ public class MSBoardSolver {
         if (unknownMines == 0 || unknownMines == hiddenSquares) {
             System.out.println("All hidden squares are either clear or mine");
             return 0;
-            // int x = 0;
-            // int y = 0;
-            // for (Type type : this.boardKnowledge) {
-            // if (type == Type.SOLVER_HIDDEN) {
-            // this.revealSquare(new Pos2i(x, y), unknownMines == hiddenSquares);
-            // }
-            //
-            // x++;
-            // if (x == this.board.size()) {
-            // x = 0;
-            // y++;
-            // }
-            // }
         }
 
         if (this.bruteForce(unknownMines, hiddenSquares)) return 2;
@@ -369,72 +322,10 @@ public class MSBoardSolver {
 
             int logicResult = solveStep();
             if (logicResult == 0) return 0; // We solved the board
-            else if (logicResult == 2) return -1;
             // Else we found logic (1 or 2) or had to perturb the board (3)
 
         }
         return -1;
-        /*
-         * boolean doneSomething = !this.squaresTodo.isEmpty(); this.processTodoSquares(); doneSomething = doneSomething
-         * || this.processTodoSets(); System.out.println("Solve loop: " + loops +
-         * " , printing current board knowledge."); System.out.print(this.boardKnowledgeToString()); if (doneSomething)
-         * continue; /* We have nothing left on our todolist, which means all localized deductions have failed. Our next
-         * step is to resort to global deduction based on the total bomb count. This is computationally expensive
-         * compared to any of the above deductions, which is why we only ever do it when all else fails, so that
-         * hopefully it won't have to happen too often. Start by scanning the grid the see how many bombs and unknown
-         * squares are left. int hiddenSquares = 0; int unknownMines = this.board.getBombCount(); for (Type type :
-         * this.boardKnowledge) { if (type == Type.SOLVER_HIDDEN) hiddenSquares++; else if (type == Type.BOMB)
-         * unknownMines--; } if (hiddenSquares == 0) { // We have revealed all squares we have solved the board return
-         * 0; } // Other simple cases, remaining squares are all bombs or clear. if (unknownMines == 0 || unknownMines
-         * == hiddenSquares) { int x = 0; int y = 0; for (Type type : this.boardKnowledge) { if (type ==
-         * Type.SOLVER_HIDDEN) { this.revealSquare(new Pos2i(x, y), unknownMines == hiddenSquares); } x++; if (x ==
-         * this.board.size()) { x = 0; y++; } } } if (!this.squaresTodo.isEmpty()) continue; // Brute force remaining
-         * bomb layouts int[] allSets = this.setStore.getAllSets(); List<Integer> partitions =
-         * this.partitionSets(allSets); int partitionStart = 0; int unseenSquares = hiddenSquares; List<TreeMap<Integer,
-         * Map<Integer, Integer>>> partitionBruteForcedMines = new ArrayList<>( partitions.size()); int
-         * minBruteForcedMines = 0; int maxBruteForcedMines = 0; for (int partitionEnd : partitions) { Set<Integer>
-         * partitionIndices = this.findAvailableIndices(allSets, partitionStart, partitionEnd); unseenSquares -=
-         * partitionIndices.size(); TreeMap<Integer, Map<Integer, Integer>> bruteForced = new TreeMap<>(); // A map of
-         * placed numBombs -> partitionIndex -> CanBeMine or CanBeClear (2 bits) this.bruteForceRecursion( bruteForced,
-         * allSets, partitionStart, partitionEnd, unknownMines, unseenSquares, 0, new ArrayList<>(partitionIndices));
-         * partitionStart = partitionEnd; partitionBruteForcedMines.add(bruteForced); maxBruteForcedMines +=
-         * bruteForced.lastKey(); minBruteForcedMines += bruteForced.firstKey(); } int minPlaceableMines = Math.max(0,
-         * unknownMines - unseenSquares); int maxPlaceableMines = unknownMines; int[] knownSetMines = new int[1];
-         * Map<Integer, Integer> prunedBruteForcedMines = this.pruneBruteForcedMines( partitionBruteForcedMines,
-         * minPlaceableMines, maxPlaceableMines, minBruteForcedMines, maxBruteForcedMines, knownSetMines); for
-         * (Map.Entry<Integer, Integer> entry : prunedBruteForcedMines.entrySet()) { if (entry.getValue() != 0b11) { int
-         * index = entry.getKey(); this.revealSquare(this.board.toPos(index), entry.getValue() == 0b10); } } if
-         * (knownSetMines[0] != -1 && (knownSetMines[0] == unknownMines || unknownMines - knownSetMines[0] ==
-         * unseenSquares)) { // The partitions all have a known bomb count which equals the bombs we have to place or //
-         * leave all unseen as bombs. // So all other cells must be safe to reveal for (int i = 0; i <
-         * boardKnowledge.length; i++) { if (this.boardKnowledge[i] == Type.SOLVER_HIDDEN &&
-         * !prunedBruteForcedMines.containsKey(i)) { this.revealSquare(this.board.toPos(i), knownSetMines[0] !=
-         * unknownMines); } } } if (!this.squaresTodo.isEmpty()) { // Revealing a square adds it to the do list // Use
-         * the knowledge gained from brute forcing to attempt more local deductions continue; } loops += 999; if (loops
-         * > 999) continue; // Brute force analysis could not find any safe squares, so perturb the underlying grid //
-         * to provide further logic. Do so by either filling or emptying a set from setStore // We may have no sets at
-         * this point; there are 2+ unknown squares walled off by bombs so no clue reaches // them List<Pos2i>
-         * cellsToChange = new ArrayList<>(); int backtrackDepth = 4; if (this.setStore.size() == 0) { // We have no
-         * sets so backtrack until we can perturb the grid to be solvable // TODO check if this produces unusually large
-         * clusters of bombs. May need to instead break the wall of // bombs for (int i = 0; i <
-         * this.boardKnowledge.length; i++) { if (this.boardKnowledge[i] == Type.SOLVER_HIDDEN)
-         * cellsToChange.add(this.board.toPos(i)); } backtrackDepth <<= 1; this.backtrack(backtrackDepth); } else { int
-         * set = this.setStore.getRandomSet(); int x = LogicMineSet.getSetX(set); int y = LogicMineSet.getSetY(set); for
-         * (int bit : LogicMineSet.iterateSetMask(set)) { cellsToChange.add(new Pos2i(x + bit % 3, y + bit / 3)); } }
-         * List<BombPerturbation> changedOtherCells = this.board.perturbBombLocations(cellsToChange,
-         * this.boardKnowledge); // The perturb may fail to fill or empty the provided cells to change, // eg not enough
-         * bombs or safe squares outside the cells to change while (changedOtherCells == null) { // In that case
-         * backtrack further in logic to provide more bombs or safe cells this.backtrack(backtrackDepth); backtrackDepth
-         * <<= 1; changedOtherCells = this.board.perturbBombLocations(cellsToChange, this.boardKnowledge); } // If we
-         * have to backtrack then the mask's of the sets will not correlate with the // boundary of known and unknown
-         * tiles, so rebuild all the sets. if (backtrackDepth != 4) this.invalidateSets(); // The board returns a list
-         * of negative numbers if it filled cellsToChange with bombs // Apply the perturb's changes to the solver's
-         * knowledge for (BombPerturbation bp : changedOtherCells) { this.applyPerturb(bp); } // if
-         * (isCellsToChangeBomb) { // for (int i : changedOtherCells) this.applyPerturb(~i, +1); // for (Pos2i pos :
-         * cellsToChange) this.applyPerturb(this.board.toIndex(pos), -1); // } else { // for (int i : changedOtherCells)
-         * this.applyPerturb(i, -1); // for (Pos2i pos : cellsToChange) this.applyPerturb(this.board.toIndex(pos), 1);
-         * // } // Having perturbed the grid to generate logic continue solving } return -1;
-         */
     }
 
     public void perturbBoard() {
@@ -488,14 +379,15 @@ public class MSBoardSolver {
         for (BombPerturbation bp : changedOtherCells) {
             this.applyPerturb(bp);
         }
+        board.applyPerturbations(changedOtherCells);
         System.out.print(boardKnowledgeToString());
         if (backtrackDepth != initialBacktrackDepth) this.rebuildSets();
     }
 
     private void applyPerturb(BombPerturbation bp) {
         byte adjacentMines = 0;
-        for (int x = Math.max(0, bp.x - 1); x < Math.min(bp.x + 1, this.board.size() - 1); x++) {
-            for (int y = Math.max(0, bp.y - 1); y < Math.min(bp.y + 1, this.board.size() - 1); y++) {
+        for (int x = Math.max(0, bp.x - 1); x <= Math.min(bp.x + 1, this.board.size() - 1); x++) {
+            for (int y = Math.max(0, bp.y - 1); y <= Math.min(bp.y + 1, this.board.size() - 1); y++) {
                 int ii = this.board.toIndex(new Pos2i(x, y));
                 Type type = this.boardKnowledge[ii];
                 if (type == Type.BOMB) adjacentMines++;
@@ -547,6 +439,17 @@ public class MSBoardSolver {
                     0,
                     new ArrayList<>(partitionIndices));
             System.out.println("Brute force found the following map " + bruteForced);
+            if (bruteForced.isEmpty()) {
+                this.bruteForceRecursion(
+                        bruteForced,
+                        allSets,
+                        partitionStart,
+                        partitionEnd,
+                        unknownMines,
+                        unseenSquares,
+                        0,
+                        new ArrayList<>(partitionIndices));
+            }
             partitionStart = partitionEnd;
             partitionBruteForcedMines.add(bruteForced);
             maxBruteForcedMines += bruteForced.lastKey();
