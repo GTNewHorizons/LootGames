@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.util.BombPerturbation;
 import ru.timeconqueror.lootgames.api.util.LogicMineSet;
 import ru.timeconqueror.lootgames.api.util.MineSets;
@@ -114,6 +115,7 @@ public class MSBoardSolver {
         } else {
             revealedSquare = this.board.getType(pos);
         }
+        LootGames.LOGGER.trace("Revealing square {} to be {}", pos, revealedSquare);
         this.boardKnowledge[this.board.toIndex(pos)] = revealedSquare;
         this.addSquareToDo(pos);
     }
@@ -264,15 +266,10 @@ public class MSBoardSolver {
             int set = sets[i];
             int x = LogicMineSet.getSetX(set);
             int y = LogicMineSet.getSetY(set);
-            int mask = LogicMineSet.getSetMask(set);
-            int bit = 1;
-            for (int dy = 0; dy <= 2; dy++) {
-                for (int dx = 0; dx <= 2; dx++) {
-                    if ((mask & bit) != 0) {
-                        res.add(x + dx + (this.board.size() * (y + dy)));
-                    }
-                    bit <<= 1;
-                }
+            for (int bit : LogicMineSet.iterateSetMask(set)) {
+                int x_ = x + bit % 3;
+                int y_ = y + bit / 3;
+                res.add(x_ + (board.size() * y_));
             }
         }
         return res;
@@ -305,7 +302,7 @@ public class MSBoardSolver {
     }
 
     public int slowLogic() {
-        System.out.println("Performing slow logic checks");
+        LootGames.LOGGER.trace("Performing slow logic checks");
         int hiddenSquares = 0;
         int unknownMines = this.board.getBombCount();
         for (Type type : this.boardKnowledge) {
@@ -313,13 +310,13 @@ public class MSBoardSolver {
             else if (type == Type.BOMB) unknownMines--;
         }
         if (hiddenSquares == 0) {
-            System.out.println("We have revealed all squares");
+            LootGames.LOGGER.trace("We have revealed all squares");
             // We have revealed all squares we have solved the board
             return 0;
         }
         // Other simple cases, remaining squares are all bombs or clear.
         if (unknownMines == 0 || unknownMines == hiddenSquares) {
-            System.out.println("All hidden squares are either clear or mine");
+            LootGames.LOGGER.trace("All hidden squares are either clear or mine");
             return 0;
         }
 
@@ -348,8 +345,7 @@ public class MSBoardSolver {
     }
 
     public boolean bruteForce(int unknownMines, int hiddenSquares) {
-        System.out.println("Attempting to brute force sets to find any safe squares or known mines");
-        System.out.print(boardKnowledgeToString());
+        LootGames.LOGGER.info("Starting brute force logic for minesweeper.");
         // Brute force remaining bomb layouts
         if (setStore.size() == 0) return false;
         int[] allSets = this.setStore.getAllSets();
@@ -374,17 +370,9 @@ public class MSBoardSolver {
                     unseenSquares,
                     0,
                     new ArrayList<>(partitionIndices));
-            System.out.println("Brute force found the following map " + bruteForced);
+            LootGames.LOGGER.trace("Brute force found the following map {}", bruteForced);
             if (bruteForced.isEmpty()) {
-                this.bruteForceRecursion(
-                        bruteForced,
-                        allSets,
-                        partitionStart,
-                        partitionEnd,
-                        unknownMines,
-                        unseenSquares,
-                        0,
-                        new ArrayList<>(partitionIndices));
+                throw new IllegalStateException("Brute force analysis could not find any satisfying mine assignment");
             }
             unseenSquares += partitionIndices.size();
             partitionStart = partitionEnd;
@@ -423,7 +411,7 @@ public class MSBoardSolver {
 
         }
         // Tell caller if we found any logic
-        System.out.println("Brute force found " + squaresTodo.size() + " squares to reveal");
+        LootGames.LOGGER.trace("Brute force found {} squares to reveal", squaresTodo.size());
         endDeduction();
         return !this.squaresTodo.isEmpty();
     }
@@ -468,7 +456,9 @@ public class MSBoardSolver {
                     setGridIndices.add(i);
                 }
             }
-            if (bombsToPlace < 0 || unknownBombs - bombsToPlace < 0 || bombsToPlace > setGridIndices.size()) return; // Another set(s)'s bombs have overfilled this set, or we have run out of mines to fill this set
+            if (bombsToPlace < 0 || unknownBombs - bombsToPlace < 0 || bombsToPlace > setGridIndices.size()) {
+                return; // Another set(s)'s bombs have overfilled this set, or we have run out of mines to fill this set
+            }
 
             for (int setGridIndex : setGridIndices) {
                 this.boardKnowledge[setGridIndex] = Type.EMPTY;
@@ -565,7 +555,7 @@ public class MSBoardSolver {
             // We have no sets so backtrack until we can perturb the grid to be solvable
             // TODO check if this produces unusually large clusters of bombs. May need to instead break the wall of
             // bombs
-            System.out.println("Perturbing entire board");
+            LootGames.LOGGER.trace("Perturbing entire board");
             for (int i = 0; i < this.boardKnowledge.length; i++) {
                 if (this.boardKnowledge[i] == Type.SOLVER_HIDDEN) cellsToChange.add(this.board.toPos(i));
             }
@@ -573,7 +563,7 @@ public class MSBoardSolver {
             this.backtrack(backtrackDepth);
         } else {
             int set = this.setStore.getRandomSet();
-            System.out.println("Perturbing " + LogicMineSet.toString(set));
+            LootGames.LOGGER.trace("Perturbing {}", LogicMineSet.toString(set));
             int x = LogicMineSet.getSetX(set);
             int y = LogicMineSet.getSetY(set);
             for (int bit : LogicMineSet.iterateSetMask(set)) {
@@ -584,12 +574,11 @@ public class MSBoardSolver {
         // The perturb may fail to fill or empty the provided cells to change,
         // eg not enough bombs or safe squares outside the cells to change
         while (changedOtherCells == null) {
-            System.out.println("Board failed to perturb");
+            LootGames.LOGGER.trace("Board failed to perturb, backtracking {} deductions.", backtrackDepth);
             // In that case backtrack further in logic to provide more bombs or safe cells
             this.backtrack(backtrackDepth);
             backtrackDepth <<= 1;
             changedOtherCells = this.board.perturbBombLocations(cellsToChange, this.boardKnowledge);
-            System.out.print(boardKnowledgeToString());
         }
 
         // If we have to backtrack then the mask's of the sets will not correlate with the
@@ -600,12 +589,12 @@ public class MSBoardSolver {
 
         // The board returns a list of negative numbers if it filled cellsToChange with bombs
         // Apply the perturb's changes to the solver's knowledge
-        System.out.println("Applying " + changedOtherCells.size() + " perturbations");
+        LootGames.LOGGER.trace("Applying {} perturbations", changedOtherCells.size());
         for (BombPerturbation bp : changedOtherCells) {
             this.applyPerturb(bp);
         }
         board.applyPerturbations(changedOtherCells);
-        System.out.print(boardKnowledgeToString());
+        LootGames.LOGGER.trace(boardKnowledgeToString());
         if (backtrackDepth != initialBacktrackDepth) this.rebuildSets();
     }
 
@@ -638,14 +627,6 @@ public class MSBoardSolver {
 
 
     private void backtrack(int depth) {
-        // Todo make the backtrack work with depth of deductions and not squares
-        // XXXOO_
-        // _4X211
-        // The deduction is to reveal both OO at the same time,
-        // Splitting up the squares may make the perturbation place a mine in one O
-        // whilst the solver still thinks that there exists logic to reveal the other O
-        // since the backtrack didn't mark the other O as unknown
-        System.out.println("Backtracking " + depth + " squares");
         for (depth = Math.min(depth, deductionStack.size()); depth > 0; depth--) {
             LinkedList<Pos2i> poses = deductionStack.pop();
             for (Pos2i pos : poses) {
@@ -673,13 +654,17 @@ public class MSBoardSolver {
         StringBuilder builder = new StringBuilder(board.size() * board.size() + board.size());
         int i = 0;
         for (int y = 0; y < board.size(); y++) {
+            builder.append('\n');
             for (int x = 0; x < board.size(); x++) {
                 Type type = boardKnowledge[i];
                 builder.append(typeStrings.charAt(type.getId() + 2));
                 i++;
             }
-            builder.append('\n');
         }
         return builder.toString();
+    }
+
+    public String deductionsToString() {
+        return deductionStack.toString();
     }
 }

@@ -58,7 +58,7 @@ public class ConfigMS extends Config {
         boardLogic = config.getInt(
                 "board_logic",
                 getKey(),
-                0,
+                1,
                 0,
                 1,
                 "Applies logic to the generation of the board. 0: No logic, 1: Full logic (No guess).");

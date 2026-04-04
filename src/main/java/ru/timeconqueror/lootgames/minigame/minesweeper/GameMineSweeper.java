@@ -2,7 +2,6 @@ package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +11,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.minigame.BoardLootGame;
 import ru.timeconqueror.lootgames.api.minigame.ILootGameFactory;
 import ru.timeconqueror.lootgames.api.minigame.NotifyColor;
@@ -41,7 +41,6 @@ import ru.timeconqueror.timecore.api.util.Wrapper;
 // TODO add leveling info in chat
 // todo add game rules in chat
 // TODO remove break particle before left click interact
-// TODO if all non-bomb fields are revealed, finish the game
 // TODO remove interact with opened fields
 public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
@@ -288,29 +287,29 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
         public void generateBoard(EntityPlayerMP player, Pos2i clickedPos) {
             board.generate(clickedPos);
-            boolean configSolveBoard = true;
-            if (configSolveBoard) {
+            int logic = LGConfigs.MINESWEEPER.boardLogic;
+            if (logic == 1) {
                 if (board.size() <= 125) {
                     MSBoardSolver solver = new MSBoardSolver(board);
                     try {
 
                         int solveInfo = solver.solve(clickedPos);
 
-                        LocalTime start = LocalTime.now();
                         if (solveInfo == -1) {
-                            System.out.println("Solver failed to solve, dumping final knowledge");
-                        } else {
-                            System.out.println("Solver solved board/ran out of logic");
+                            LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
+                            LootGames.LOGGER.trace(solver.boardKnowledgeToString());
                         }
-                        System.out.print(solver.boardKnowledgeToString());
                     } catch (Exception e) {
-                        System.out.println(
-                                "Solving minesweeper board ran into an issue; dumping current board knowledge");
-                        System.out.print(solver.boardKnowledgeToString());
-                        throw e;
+                        LootGames.LOGGER.error(
+                                "Solving minesweeper board ran into an issue; dumping current board knowledge"
+                        );
+                        LootGames.LOGGER.error(e);
+                        LootGames.LOGGER.error(solver.boardKnowledgeToString());
+                        LootGames.LOGGER.error(solver.deductionsToString());
+                        sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.solver_error"), NotifyColor.GRAVE_NOTIFY);
                     }
                 } else {
-                    // Put chat message
+                    sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"), NotifyColor.WARN);
                 }
             }
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));
