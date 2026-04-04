@@ -297,7 +297,6 @@ public class MSBoardSolver {
         if (haveSets || haveSquares) {
             return 1;
         }
-//        return 2;
         return this.slowLogic();
     }
 
@@ -611,11 +610,8 @@ public class MSBoardSolver {
             }
         }
         int index = bp.x + bp.y * this.board.size();
-        this.boardKnowledge[index] =
-                this.boardKnowledge[index] == Type.SOLVER_HIDDEN
-                        ? Type.SOLVER_HIDDEN : bp.bombDiff == 1
-                        ? Type.BOMB
-                        : Type.byId((byte) (adjacentMines - 1));
+        this.boardKnowledge[index] = this.boardKnowledge[index] == Type.SOLVER_HIDDEN ? Type.SOLVER_HIDDEN
+                : bp.bombDiff == 1 ? Type.BOMB : Type.byId((byte) (adjacentMines - 1));
 
         // Update all the sets containing the perturbation
         List<Integer> affectedSets = setStore.setOverlap(bp.x, bp.y);
@@ -624,7 +620,6 @@ public class MSBoardSolver {
             setStore.addSet(set + (int) bp.bombDiff);
         }
     }
-
 
     private void backtrack(int depth) {
         for (depth = Math.min(depth, deductionStack.size()); depth > 0; depth--) {

@@ -397,21 +397,21 @@ public class MSBoard {
     public void applyPerturbations(List<BombPerturbation> perturbations) {
         for (BombPerturbation p : perturbations) {
             MSField field = getField(p.x, p.y);
-            if ((field.type == Type.BOMB) !=  (p.bombDiff == -1)) {
+            if ((field.type == Type.BOMB) != (p.bombDiff == -1)) {
                 throw new IllegalArgumentException("Cannot perturb mine into mine or clear into clear");
             }
         }
         for (BombPerturbation p : perturbations) {
             int surroundingBombs = 0;
-            for (int y = p.y-1; y <= (p.y+1); y++) {
-                for (int x = p.x-1; x <= (p.x + 1); x++) {
-                    if (x < 0 || x>= size || y < 0 || y >= size) continue;
+            for (int y = p.y - 1; y <= (p.y + 1); y++) {
+                for (int x = p.x - 1; x <= (p.x + 1); x++) {
+                    if (x < 0 || x >= size || y < 0 || y >= size) continue;
                     MSField field = getField(x, y);
                     if (field.type == Type.BOMB) {
                         surroundingBombs++;
                         continue;
                     }
-                    field.type = Type.byId((byte) Math.max(Math.min(field.type.getId() + p.bombDiff,8),0));
+                    field.type = Type.byId((byte) Math.max(Math.min(field.type.getId() + p.bombDiff, 8), 0));
 
                 }
             }

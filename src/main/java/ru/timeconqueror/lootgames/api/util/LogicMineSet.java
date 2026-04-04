@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LogicMineSet {
+
     // A bit vector representation of a small set of mines around an x, y position
     // Upper byte is (signed) x pos
     // Next byte is (signed) y pos
@@ -38,12 +39,14 @@ public class LogicMineSet {
     }
 
     public static int setSetMask(int mask) {
-        if (mask > 0x1ff || mask < 0) throw new IllegalArgumentException("Cannot set mine set with illegal set mask: " + Integer.toBinaryString(mask));
+        if (mask > 0x1ff || mask < 0) throw new IllegalArgumentException(
+                "Cannot set mine set with illegal set mask: " + Integer.toBinaryString(mask));
         return mask << 7;
     }
 
     public static int setSetMask(int set, int mask) {
-        if (mask > 0x1ff || mask < 0) throw new IllegalArgumentException("Cannot set mine set with illegal set mask: " + Integer.toBinaryString(mask));
+        if (mask > 0x1ff || mask < 0) throw new IllegalArgumentException(
+                "Cannot set mine set with illegal set mask: " + Integer.toBinaryString(mask));
         set = (set & 0xffff007f) | LogicMineSet.setSetMask(mask);
         return set;
     }
@@ -53,12 +56,14 @@ public class LogicMineSet {
     }
 
     public static int setSetMines(byte count) {
-        if (count < 0 || count >= 15) throw  new IllegalArgumentException("Cannot create mine set with illegal bomb count: " + count);
+        if (count < 0 || count >= 15)
+            throw new IllegalArgumentException("Cannot create mine set with illegal bomb count: " + count);
         return count;
     }
 
     public static int setSetMines(int set, byte count) {
-        if (count < 0 || count > 15) throw new IllegalArgumentException("Cannot set mine set with illegal bomb count: " + count);
+        if (count < 0 || count > 15)
+            throw new IllegalArgumentException("Cannot set mine set with illegal bomb count: " + count);
         return (set & 0xfffffff0) | count;
     }
 

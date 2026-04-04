@@ -300,16 +300,21 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                             LootGames.LOGGER.trace(solver.boardKnowledgeToString());
                         }
                     } catch (Exception e) {
-                        LootGames.LOGGER.error(
-                                "Solving minesweeper board ran into an issue; dumping current board knowledge"
-                        );
+                        LootGames.LOGGER
+                                .error("Solving minesweeper board ran into an issue; dumping current board knowledge");
                         LootGames.LOGGER.error(e);
                         LootGames.LOGGER.error(solver.boardKnowledgeToString());
                         LootGames.LOGGER.error(solver.deductionsToString());
-                        sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.solver_error"), NotifyColor.GRAVE_NOTIFY);
+                        sendTo(
+                                player,
+                                new ChatComponentTranslation("msg.lootgames.ms.solver_error"),
+                                NotifyColor.GRAVE_NOTIFY);
                     }
                 } else {
-                    sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"), NotifyColor.WARN);
+                    sendTo(
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"),
+                            NotifyColor.WARN);
                 }
             }
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));
