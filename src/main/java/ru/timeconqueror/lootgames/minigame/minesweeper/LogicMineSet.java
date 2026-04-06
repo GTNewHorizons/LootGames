@@ -1,4 +1,4 @@
-package ru.timeconqueror.lootgames.api.util;
+package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import java.util.Iterator;
 import java.util.LinkedList;

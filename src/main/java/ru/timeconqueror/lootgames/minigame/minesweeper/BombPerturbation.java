@@ -1,4 +1,4 @@
-package ru.timeconqueror.lootgames.api.util;
+package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 public class BombPerturbation {
 
