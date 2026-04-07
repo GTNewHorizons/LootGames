@@ -32,8 +32,8 @@ public class ConfigSudoku extends Config {
                 "weight",
                 getKey(),
                 1,
-                1,
-                9,
+                0,
+                Integer.MAX_VALUE,
                 "How likely this game is chosen compared to other games. The higher this value is, the more likely this game is chosen. Set to 0 to turn this off.");
 
         level1.init(config);
