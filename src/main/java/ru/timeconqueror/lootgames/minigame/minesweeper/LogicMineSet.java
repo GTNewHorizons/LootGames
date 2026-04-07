@@ -56,7 +56,7 @@ public class LogicMineSet {
     }
 
     public static int setSetMines(byte count) {
-        if (count < 0 || count >= 15)
+        if (count < 0 || count > 15)
             throw new IllegalArgumentException("Cannot create mine set with illegal bomb count: " + count);
         return count;
     }
