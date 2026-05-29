@@ -473,7 +473,7 @@ public class MSBoardSolver {
                         bombsPlaced + bombsToPlace,
                         partitionIndices);
                 for (int sGIi : bombSpots) {
-                    this.boardKnowledge[setGridIndices.get(sGIi)] = Type.SOLVER_HIDDEN;
+                    this.boardKnowledge[setGridIndices.get(sGIi)] = Type.EMPTY;
                 }
 
             }
@@ -485,14 +485,23 @@ public class MSBoardSolver {
 
     }
 
+    /**
+     * Combine the partitions produced by brute forcing the mines. Prune off any solutions with a bomb count that is infeasible.
+     * Eg: 4 partitions have bomb counts [4,5,6,7,8], [1,2], [1], [1] with max, min placeable being 8, 0
+     * From inspection, the first partition cannot have 6,7 or 8 bombs, as that would require placing more bombs than are available
+     * 
+     * @param knownSetMines a pointer to tell the caller if the number of mines required to place in the partitions is known exactly
+     * @return
+     */
     private Map<Integer, Integer> pruneBruteForcedMines(List<TreeMap<Integer, Map<Integer, Integer>>> partitions,
             int minPlace, int maxPlace, int minBrute, int maxBrute, int[] knownSetMines) {
         TreeMap<Integer, Integer> res = new TreeMap<>();
 
         if (minPlace > minBrute || maxBrute > maxPlace) {
-            boolean pruned = false;
+            boolean pruned;
             int loops = 20;
             do {
+                pruned = false;
                 for (TreeMap<Integer, Map<Integer, Integer>> p : partitions) {
                     minBrute -= p.firstKey();
                     maxBrute -= p.lastKey();
@@ -507,21 +516,24 @@ public class MSBoardSolver {
                     for (int bombs : p.descendingKeySet()) {
                         if (bombs + minBrute > maxPlace) {
                             highKey = bombs;
-                        }
+                        } else break;
                     }
                     pruned = pruned || lowKey != -1 || highKey != -1;
-                    if (lowKey != -1) p.headMap(lowKey).clear();
+                    if (lowKey != -1) p.headMap(lowKey, true).clear();
                     if (highKey != -1) p.tailMap(highKey).clear();
                     minBrute += p.firstKey();
                     maxBrute += p.lastKey();
                 }
             } while (pruned && (loops-- >= 0));
         }
+        // We have pruned all partition solutions with infeasible bomb counts
+        // Combine the partition solutions into a single map of index -> bomb | clear | unknown; see call of bruteForceRecursion in bruteForce
         knownSetMines[0] = 0;
         for (Map<Integer, Map<Integer, Integer>> p : partitions) {
             if (knownSetMines[0] != -1 && p.size() == 1) {
+                // Check if the solution to the partition has a known number of bombs
                 knownSetMines[0] += (int) p.keySet().toArray()[0];
-            } else knownSetMines[0] = -1;
+            } else knownSetMines[0] = -1; // If any are unknown, then the sum is unknown
             for (Map<Integer, Integer> posToBits : p.values()) {
                 for (Map.Entry<Integer, Integer> posBits : posToBits.entrySet()) {
                     int pos = posBits.getKey();
