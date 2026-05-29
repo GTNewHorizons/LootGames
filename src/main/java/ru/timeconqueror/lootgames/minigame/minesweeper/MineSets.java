@@ -1,11 +1,11 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
-import ru.timeconqueror.lootgames.LootGames;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import ru.timeconqueror.lootgames.LootGames;
 
 /*
  * <!-- spotless:off -->
@@ -86,7 +86,7 @@ public class MineSets {
 
     /**
      * Get and remove a set from the todoSet
-      */
+     */
     public int getTodo() {
         int res = this.todo.first();
         this.todo.remove(res);

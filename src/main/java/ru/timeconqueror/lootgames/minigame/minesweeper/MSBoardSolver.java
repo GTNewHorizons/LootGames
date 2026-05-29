@@ -204,8 +204,8 @@ public class MSBoardSolver {
 
                 // Check if the cardinality of one set's wing is the same as the difference between the sets bombs
                 // then the wing of the set with more bombs must be full, and the other wing empty
-                // Eg  1?3  must be  1?3
-                //    ?????         __?XX
+                // Eg 1?3 must be 1?3
+                // . ????? . . . __?XX
                 if ((wing1Squares == (todoBombs - otherBombs)) || (wing2Squares == (otherBombs - todoBombs))) {
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(LogicMineSet.setSetMask(todoSet, wing1), isWing1Mines, false);
@@ -314,7 +314,8 @@ public class MSBoardSolver {
         // Other simple cases, remaining squares are all bombs or clear.
         if (unknownMines == 0 || unknownMines == hiddenSquares) {
             LootGames.LOGGER.trace("All hidden squares are either clear or mine");
-            // We could reveal the squares in the solver and then return from the above check, but we only need know if the board is solvable, so we return immediately
+            // We could reveal the squares in the solver and then return from the above check, but we only need know if
+            // the board is solvable, so we return immediately
             return 0;
         }
 
@@ -488,11 +489,13 @@ public class MSBoardSolver {
     }
 
     /**
-     * Combine the partitions produced by brute forcing the mines. Prune off any solutions with a bomb count that is infeasible.
-     * Eg: 4 partitions have bomb counts [4,5,6,7,8], [1,2], [1], [1] with max, min placeable being 8, 0
-     * From inspection, the first partition cannot have 6,7 or 8 bombs, as that would require placing more bombs than are available
+     * Combine the partitions produced by brute forcing the mines. Prune off any solutions with a bomb count that is
+     * infeasible. Eg: 4 partitions have bomb counts [4,5,6,7,8], [1,2], [1], [1] with max, min placeable being 8, 0
+     * From inspection, the first partition cannot have 6,7 or 8 bombs, as that would require placing more bombs than
+     * are available
      * 
-     * @param knownSetMines a pointer to tell the caller if the number of mines required to place in the partitions is known exactly
+     * @param knownSetMines a pointer to tell the caller if the number of mines required to place in the partitions is
+     *                      known exactly
      * @return
      */
     private Map<Integer, Integer> pruneBruteForcedMines(List<TreeMap<Integer, Map<Integer, Integer>>> partitions,
@@ -529,7 +532,8 @@ public class MSBoardSolver {
             } while (pruned && (loops-- >= 0));
         }
         // We have pruned all partition solutions with infeasible bomb counts
-        // Combine the partition solutions into a single map of index -> bomb | clear | unknown; see call of bruteForceRecursion in bruteForce
+        // Combine the partition solutions into a single map of index -> bomb | clear | unknown; see call of
+        // bruteForceRecursion in bruteForce
         knownSetMines[0] = 0;
         for (Map<Integer, Map<Integer, Integer>> p : partitions) {
             if (knownSetMines[0] != -1 && p.size() == 1) {
