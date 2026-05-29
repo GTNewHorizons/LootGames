@@ -1,5 +1,7 @@
 package ru.timeconqueror.lootgames.minigame.minesweeper;
 
+import ru.timeconqueror.lootgames.LootGames;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
@@ -55,7 +57,7 @@ public class MineSets {
     public void addSet(int set) {
         int mask = LogicMineSet.getSetMask(set);
         if (mask == 0) {
-            System.out.println("Cannot add set with invalid mask. " + LogicMineSet.toString(set));
+            LootGames.LOGGER.trace("Cannot add set with invalid mask. {}", LogicMineSet.toString(set));
             return;
         }
         int x = LogicMineSet.getSetX(set);
