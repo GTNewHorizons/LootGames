@@ -198,13 +198,14 @@ public class MSBoardSolver {
                 // Find the non overlapping parts of otherSet and todoSet
                 int wing1 = this.setStore.setMunge(todoSet, otherSet, true);
                 int wing2 = this.setStore.setMunge(otherSet, todoSet, true);
-                // int middleMask = this.setStore.setMunge(todoSet, otherSet, false);
                 int wing1Squares = LogicMineSet.getMaskSquareCount(wing1);
                 int wing2Squares = LogicMineSet.getMaskSquareCount(wing2);
                 int otherBombs = LogicMineSet.getSetBombs(otherSet);
 
                 // Check if the cardinality of one set's wing is the same as the difference between the sets bombs
                 // then the wing of the set with more bombs must be full, and the other wing empty
+                // Eg  1?3  must be  1?3
+                //    ?????         __?XX
                 if ((wing1Squares == (todoBombs - otherBombs)) || (wing2Squares == (otherBombs - todoBombs))) {
                     boolean isWing1Mines = wing1Squares == todoBombs - otherBombs;
                     revealSquares(LogicMineSet.setSetMask(todoSet, wing1), isWing1Mines, false);
@@ -313,6 +314,7 @@ public class MSBoardSolver {
         // Other simple cases, remaining squares are all bombs or clear.
         if (unknownMines == 0 || unknownMines == hiddenSquares) {
             LootGames.LOGGER.trace("All hidden squares are either clear or mine");
+            // We could reveal the squares in the solver and then return from the above check, but we only need know if the board is solvable, so we return immediately
             return 0;
         }
 

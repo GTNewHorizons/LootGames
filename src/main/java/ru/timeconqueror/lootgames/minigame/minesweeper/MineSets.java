@@ -46,9 +46,6 @@ public class MineSets {
     private final TreeSet<Integer> sets;
     private final TreeSet<Integer> todo;
 
-    /*
-     * 123 456 789
-     */
     public MineSets() {
         this.sets = new TreeSet<>();
         this.todo = new TreeSet<>();
@@ -62,7 +59,6 @@ public class MineSets {
         }
         int x = LogicMineSet.getSetX(set);
         int y = LogicMineSet.getSetY(set);
-        // System.out.println("Adding " + LogicMineSet.toString(set));
 
         // while ((mask & 0b111) == 0) {
         // mask >>= 3;
@@ -77,7 +73,6 @@ public class MineSets {
             x++;
         }
         set = LogicMineSet.Set(x, y, mask, LogicMineSet.getSetBombs(set));
-        // System.out.println("Adding " +LogicMineSet.toString(set));
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException("Set mask contains illegal index");
         }
@@ -89,8 +84,10 @@ public class MineSets {
         this.todo.remove(set);
     }
 
+    /**
+     * Get and remove a set from the todoSet
+      */
     public int getTodo() {
-        // Get and remove a set from the todoSet
         int res = this.todo.first();
         this.todo.remove(res);
         return res;
