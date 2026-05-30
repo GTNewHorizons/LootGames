@@ -78,7 +78,7 @@ public class LogicMineSet {
     }
 
     public static Iterable<Integer> iterateSetMask(int set) {
-        return () -> new java.util.Iterator<>() {
+        return () -> new Iterator<>() {
 
             int remaining = LogicMineSet.getSetMask(set);
 
@@ -106,7 +106,7 @@ public class LogicMineSet {
 
     // n choose k
     public static Iterable<List<Integer>> permutations(int n, int k) {
-        return () -> new java.util.Iterator<>() {
+        return () -> new Iterator<>() {
 
             int currentI = n;
             Iterator<List<Integer>> subIter = k > 0 ? permutations(n - 1, k - 1).iterator() : null;
