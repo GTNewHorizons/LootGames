@@ -601,7 +601,6 @@ public class MSBoardSolver {
         // (SetOverlap is quicker on empty tree)
         if (backtrackDepth != initialBacktrackDepth) this.setStore.clear();
 
-        // The board returns a list of negative numbers if it filled cellsToChange with bombs
         // Apply the perturb's changes to the solver's knowledge
         LootGames.LOGGER.trace("Applying {} perturbations", changedOtherCells.size());
         for (BombPerturbation bp : changedOtherCells) {
