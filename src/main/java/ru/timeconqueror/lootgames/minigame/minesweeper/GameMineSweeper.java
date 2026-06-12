@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.api.minigame.BoardLootGame;
 import ru.timeconqueror.lootgames.api.minigame.ILootGameFactory;
 import ru.timeconqueror.lootgames.api.minigame.NotifyColor;
@@ -40,7 +41,6 @@ import ru.timeconqueror.timecore.api.util.Wrapper;
 // TODO add leveling info in chat
 // todo add game rules in chat
 // TODO remove break particle before left click interact
-// TODO if all non-bomb fields are revealed, finish the game
 // TODO remove interact with opened fields
 public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
@@ -287,6 +287,36 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
         public void generateBoard(EntityPlayerMP player, Pos2i clickedPos) {
             board.generate(clickedPos);
+            int logic = LGConfigs.MINESWEEPER.boardLogic;
+            if (logic == 1) {
+                if (board.size() <= 125) {
+                    MSBoardSolver solver = new MSBoardSolver(board);
+                    try {
+
+                        int solveInfo = solver.solve(clickedPos);
+
+                        if (solveInfo == -1) {
+                            LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
+                            LootGames.LOGGER.trace(solver.boardKnowledgeToString());
+                        }
+                    } catch (Exception e) {
+                        LootGames.LOGGER
+                                .error("Solving minesweeper board ran into an issue; dumping current board knowledge");
+                        LootGames.LOGGER.error(e);
+                        LootGames.LOGGER.error(solver.boardKnowledgeToString());
+                        LootGames.LOGGER.error(solver.deductionsToString());
+                        sendTo(
+                                player,
+                                new ChatComponentTranslation("msg.lootgames.ms.solver_error"),
+                                NotifyColor.GRAVE_NOTIFY);
+                    }
+                } else {
+                    sendTo(
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"),
+                            NotifyColor.WARN);
+                }
+            }
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));
             revealField(player, clickedPos);
 

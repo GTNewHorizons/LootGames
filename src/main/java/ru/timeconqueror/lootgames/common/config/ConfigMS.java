@@ -16,6 +16,7 @@ public class ConfigMS extends Config {
 
     public int detonationTime;
     public int attemptCount;
+    public int boardLogic;
 
     public final StageConfig stage1;
     public final StageConfig stage2;
@@ -54,6 +55,13 @@ public class ConfigMS extends Config {
                 1,
                 Integer.MAX_VALUE,
                 "It represents the number of attempts the player has to beat the game successfully.");
+        boardLogic = config.getInt(
+                "board_logic",
+                getKey(),
+                1,
+                0,
+                1,
+                "Applies logic to the generation of the board. 0: No logic, 1: Full logic (No guess).");
 
         stage1.init(config);
         stage2.init(config);
