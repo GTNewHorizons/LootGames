@@ -1,5 +1,6 @@
 package ru.timeconqueror.lootgames.minigame.sudoku;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,6 +21,7 @@ public class SudokuBoard {
     public Integer[][] solution = new Integer[SIZE][SIZE]; // Complete solution
     public Integer[][] puzzle = new Integer[SIZE][SIZE]; // Puzzle after removing cells
     public Integer[][] player = new Integer[SIZE][SIZE]; // Player's filled values
+    public boolean[][][] notes = new boolean[SIZE][SIZE][9]; // Pencil notes storage
 
     public static final ICodec<Integer, NBTTagCompound> INT_CODEC = new ICodec<>() {
 
@@ -133,6 +135,20 @@ public class SudokuBoard {
 
     public void resetPlayer() {
         for (int i = 0; i < SIZE; i++) System.arraycopy(puzzle[i], 0, player[i], 0, SIZE);
+        notes = new boolean[SIZE][SIZE][9];
+    }
+
+    public void clearWrongPlayerCells() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (puzzle[i][j] == 0 && player[i][j] != null
+                        && player[i][j] != 0
+                        && !player[i][j].equals(solution[i][j])) {
+                    player[i][j] = 0;
+                    Arrays.fill(notes[i][j], false);
+                }
+            }
+        }
     }
 
     public boolean isGenerated() {
@@ -178,6 +194,29 @@ public class SudokuBoard {
         player[r][c] = (player[r][c] + 1) % 10;
     }
 
+    public void toggleNote(Pos2i pos, int digit) {
+        int r = pos.getX(), c = pos.getY();
+        if (digit < 1 || digit > 9) return;
+        if (puzzle[r][c] != 0) return;
+
+        notes[r][c][digit - 1] = !notes[r][c][digit - 1];
+    }
+
+    public boolean[] getNotes(Pos2i pos) {
+        int r = pos.getX(), c = pos.getY();
+        return Arrays.copyOf(notes[r][c], 9);
+    }
+
+    public void setNotes(Pos2i pos, boolean[] notes) {
+        int r = pos.getX(), c = pos.getY();
+        if (notes == null || notes.length != 9) {
+            Arrays.fill(this.notes[r][c], false);
+            return;
+        }
+
+        System.arraycopy(notes, 0, this.notes[r][c], 0, 9);
+    }
+
     public boolean checkWin() {
         for (int i = 0; i < SIZE; i++) for (int j = 0; j < SIZE; j++) {
             if (player[i][j] == null || player[i][j] == 0 || !player[i][j].equals(solution[i][j])) return false;
@@ -190,6 +229,7 @@ public class SudokuBoard {
         t.setTag("puzzle", CodecUtils.write2DimArr(puzzle, INT_CODEC));
         t.setTag("player", CodecUtils.write2DimArr(player, INT_CODEC));
         t.setTag("solution", CodecUtils.write2DimArr(solution, INT_CODEC));
+        t.setByteArray("notes", writeNotes());
         return t;
     }
 
@@ -197,6 +237,38 @@ public class SudokuBoard {
         puzzle = CodecUtils.read2DimArr(t.getCompoundTag("puzzle"), Integer.class, INT_CODEC);
         player = CodecUtils.read2DimArr(t.getCompoundTag("player"), Integer.class, INT_CODEC);
         solution = CodecUtils.read2DimArr(t.getCompoundTag("solution"), Integer.class, INT_CODEC);
+        readNotes(t.getByteArray("notes"));
+    }
+
+    private byte[] writeNotes() {
+        byte[] serialized = new byte[SIZE * SIZE * 9];
+        int index = 0;
+
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
+                for (int d = 0; d < 9; d++) {
+                    serialized[index++] = (byte) (notes[r][c][d] ? 1 : 0);
+                }
+            }
+        }
+
+        return serialized;
+    }
+
+    private void readNotes(byte[] serialized) {
+        notes = new boolean[SIZE][SIZE][9];
+        if (serialized == null || serialized.length != SIZE * SIZE * 9) {
+            return;
+        }
+
+        int index = 0;
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
+                for (int d = 0; d < 9; d++) {
+                    notes[r][c][d] = serialized[index++] != 0;
+                }
+            }
+        }
     }
 
     public void cSetPlayerValue(Pos2i pos, int value) {
