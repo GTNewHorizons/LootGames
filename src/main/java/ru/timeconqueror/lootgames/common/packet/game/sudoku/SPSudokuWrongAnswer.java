@@ -9,18 +9,18 @@ import ru.timeconqueror.lootgames.api.packet.NBTGamePacket;
 import ru.timeconqueror.lootgames.minigame.sudoku.GameSudoku;
 import ru.timeconqueror.lootgames.minigame.sudoku.SudokuBoard;
 
-public class SPSSyncBoard extends NBTGamePacket {
+public class SPSudokuWrongAnswer extends NBTGamePacket {
 
     /**
      * Only for using via reflection
      */
     @Deprecated
-    public SPSSyncBoard() {}
+    public SPSudokuWrongAnswer() {}
 
-    public SPSSyncBoard(SudokuBoard board) {
+    public SPSudokuWrongAnswer(SudokuBoard resetBoard) {
         super(() -> {
             NBTTagCompound nbt = new NBTTagCompound();
-            nbt.setTag("board", board.writeNBT());
+            nbt.setTag("board", resetBoard.writeNBT());
             return nbt;
         });
     }
@@ -29,7 +29,8 @@ public class SPSSyncBoard extends NBTGamePacket {
     public <S extends LootGame.Stage, T extends LootGame<S, T>> void runOnClient(LootGame<S, T> genericGame) {
         GameSudoku game = (GameSudoku) genericGame;
         NBTTagCompound boardTag = Objects.requireNonNull(getCompound()).getCompoundTag("board");
-        game.getBoard().readNBT(boardTag);
-        game.startBoardRevealAnim();
+        SudokuBoard pendingReset = new SudokuBoard();
+        pendingReset.readNBT(boardTag);
+        game.startWrongAnswerAnim(pendingReset);
     }
 }

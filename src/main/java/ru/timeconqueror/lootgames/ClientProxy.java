@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import ru.timeconqueror.lootgames.client.ClientEventHandler;
 import ru.timeconqueror.lootgames.client.IconLoader;
 import ru.timeconqueror.lootgames.client.render.MSOverlayHandler;
+import ru.timeconqueror.lootgames.client.render.SudokuBoardClickHandler;
 import ru.timeconqueror.lootgames.client.render.SudokuOverlayHandler;
 import ru.timeconqueror.lootgames.client.render.SudokuRenderer;
 import ru.timeconqueror.lootgames.client.render.tile.GOLMasterRenderer;
@@ -42,6 +43,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
         MinecraftForge.EVENT_BUS.register(new MSOverlayHandler());
         MinecraftForge.EVENT_BUS.register(new SudokuOverlayHandler());
+        MinecraftForge.EVENT_BUS.register(new SudokuBoardClickHandler());
 
         ClientRegistry.bindTileEntitySpecialRenderer(GOLMasterTile.class, Hacks.safeCast(new GOLMasterRenderer()));
         ClientRegistry.bindTileEntitySpecialRenderer(MSMasterTile.class, Hacks.safeCast(new MSMasterRenderer()));
