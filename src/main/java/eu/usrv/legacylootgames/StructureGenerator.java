@@ -240,7 +240,7 @@ public class StructureGenerator {
 
     private void genLightBlock(int x, int y, int z, Block block, int meta) {
         if (fitVanillaStyle()) {
-            _mWorldObj.setBlock(x, y, z, Blocks.torch, 0, 2);
+            _mWorldObj.setBlock(x, y, z, Blocks.glowstone, 0, 2);
         } else {
             _mWorldObj.setBlock(x, y, z, block, meta, 2);
         }
@@ -248,7 +248,13 @@ public class StructureGenerator {
 
     private void genWallBlock(int x, int y, int z, Block block, int meta) {
         if (fitVanillaStyle()) {
-            _mWorldObj.setBlock(x, y, z, (Block) RandHelper.chance(75, Blocks.stone, Blocks.mossy_cobblestone), 0, 2);
+            _mWorldObj.setBlock(
+                    x,
+                    y,
+                    z,
+                    (Block) RandHelper.chance(75, Blocks.cobblestone, Blocks.mossy_cobblestone),
+                    0,
+                    2);
         } else {
             _mWorldObj.setBlock(x, y, z, block, meta, 2);
         }
