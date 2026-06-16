@@ -163,16 +163,15 @@ public class StructureGenerator {
                             if (axisX == (PUZZLEROOM_CENTER_TO_BORDER * -1) || axisX == PUZZLEROOM_CENTER_TO_BORDER
                                     || axisZ == (PUZZLEROOM_CENTER_TO_BORDER * -1)
                                     || axisZ == PUZZLEROOM_CENTER_TO_BORDER) {
-                                if (axisY == (_mDungeonTop - (int) Math.floor((PUZZLEROOM_HEIGHT / 2))))
-                                    genLightBlock(
-                                            axisX + _mCenterX,
-                                            axisY,
-                                            axisZ + _mCenterZ,
-                                            LGBlocks.DUNGEON_LAMP,
-                                            (Integer) RandHelper.chance(
-                                                    10,
-                                                    DungeonLightSource.State.BROKEN.ordinal(),
-                                                    DungeonLightSource.State.NORMAL.ordinal()));
+                                if (axisY == (_mDungeonTop - (int) Math.floor((PUZZLEROOM_HEIGHT / 2)))) genLightBlock(
+                                        axisX + _mCenterX,
+                                        axisY,
+                                        axisZ + _mCenterZ,
+                                        LGBlocks.DUNGEON_LAMP,
+                                        (Integer) RandHelper.chance(
+                                                10,
+                                                DungeonLightSource.State.BROKEN.ordinal(),
+                                                DungeonLightSource.State.NORMAL.ordinal()));
                                 else genWallBlock(
                                         axisX + _mCenterX,
                                         axisY,
