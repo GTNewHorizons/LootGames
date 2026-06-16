@@ -10,6 +10,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import eu.usrv.legacylootgames.blocks.DungeonBrick;
 import eu.usrv.legacylootgames.blocks.DungeonLightSource;
+import ru.timeconqueror.lootgames.common.config.LGConfigs;
 import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.timecore.api.util.RandHelper;
 
@@ -130,62 +131,57 @@ public class StructureGenerator {
                         if (axisX == 0 && axisZ == 0 && axisY == _mDungeonBottom + PUZZLEROOM_MASTER_TE_OFFSET)
                             _mWorldObj.setBlock(axisX + _mCenterX, axisY, axisZ + _mCenterZ, LGBlocks.PUZZLE_MASTER);
                         else if (axisY == _mDungeonBottom) // bottom layer of the dungeon
-                            _mWorldObj.setBlock(
+                            genWallBlock(
                                     axisX + _mCenterX,
                                     axisY,
                                     axisZ + _mCenterZ,
                                     LGBlocks.DUNGEON_WALL,
-                                    RandHelper.chance(
+                                    (Integer) RandHelper.chance(
                                             10,
                                             DungeonBrick.Type.FLOOR_CRACKED.ordinal(),
-                                            DungeonBrick.Type.FLOOR.ordinal()),
-                                    2);
+                                            DungeonBrick.Type.FLOOR.ordinal()));
                         else if (axisY == _mDungeonTop) // Top layer of the dungeon
-                            _mWorldObj.setBlock(
+                            genWallBlock(
                                     axisX + _mCenterX,
                                     axisY,
                                     axisZ + _mCenterZ,
                                     LGBlocks.DUNGEON_WALL,
-                                    RandHelper.chance(
+                                    (Integer) RandHelper.chance(
                                             10,
                                             DungeonBrick.Type.CEILING_CRACKED.ordinal(),
-                                            DungeonBrick.Type.CEILING.ordinal()),
-                                    2);
+                                            DungeonBrick.Type.CEILING.ordinal()));
                         else if (axisY == _mDungeonBottom + 1) // Playfield placeholder to the player doesn't stand
                                                                // within generated
                             // blocks
-                            _mWorldObj.setBlock(
+                            genWallBlock(
                                     axisX + _mCenterX,
                                     axisY,
                                     axisZ + _mCenterZ,
                                     LGBlocks.DUNGEON_WALL,
-                                    DungeonBrick.Type.FLOOR_SHIELDED.ordinal(),
-                                    2);
+                                    DungeonBrick.Type.FLOOR_SHIELDED.ordinal());
                         else {
                             if (axisX == (PUZZLEROOM_CENTER_TO_BORDER * -1) || axisX == PUZZLEROOM_CENTER_TO_BORDER
                                     || axisZ == (PUZZLEROOM_CENTER_TO_BORDER * -1)
                                     || axisZ == PUZZLEROOM_CENTER_TO_BORDER) {
                                 if (axisY == (_mDungeonTop - (int) Math.floor((PUZZLEROOM_HEIGHT / 2))))
-                                    _mWorldObj.setBlock(
+                                    genLightBlock(
                                             axisX + _mCenterX,
                                             axisY,
                                             axisZ + _mCenterZ,
                                             LGBlocks.DUNGEON_LAMP,
-                                            RandHelper.chance(
+                                            (Integer) RandHelper.chance(
                                                     10,
                                                     DungeonLightSource.State.BROKEN.ordinal(),
-                                                    DungeonLightSource.State.NORMAL.ordinal()),
-                                            2);
-                                else _mWorldObj.setBlock(
+                                                    DungeonLightSource.State.NORMAL.ordinal()));
+                                else genWallBlock(
                                         axisX + _mCenterX,
                                         axisY,
                                         axisZ + _mCenterZ,
                                         LGBlocks.DUNGEON_WALL,
-                                        RandHelper.chance(
+                                        (Integer) RandHelper.chance(
                                                 10,
                                                 DungeonBrick.Type.WALL_CRACKED.ordinal(),
-                                                DungeonBrick.Type.WALL.ordinal()),
-                                        2);
+                                                DungeonBrick.Type.WALL.ordinal()));
                             }
                         }
                     }
@@ -236,6 +232,26 @@ public class StructureGenerator {
                             pLocationX,
                             pLocationZ));
             return false;
+        }
+    }
+
+    private boolean fitVanillaStyle() {
+        return LGConfigs.GENERAL.worldGen.fitVanillaDungeonStyle;
+    }
+
+    private void genLightBlock(int x, int y, int z, Block block, int meta) {
+        if (fitVanillaStyle()) {
+            _mWorldObj.setBlock(x, y, z, Blocks.torch, 0, 2);
+        } else {
+            _mWorldObj.setBlock(x, y, z, block, meta, 2);
+        }
+    }
+
+    private void genWallBlock(int x, int y, int z, Block block, int meta) {
+        if (fitVanillaStyle()) {
+            _mWorldObj.setBlock(x, y, z, (Block) RandHelper.chance(75, Blocks.stone, Blocks.mossy_cobblestone), 0, 2);
+        } else {
+            _mWorldObj.setBlock(x, y, z, block, meta, 2);
         }
     }
 
