@@ -361,6 +361,7 @@ public class MSBoardSolver {
         }
         return SolverLogic.TOOK_TOO_LONG;
     }
+
     public boolean bruteForce(int unknownMines, int hiddenSquares) {
         LootGames.LOGGER.info("Starting brute force logic for minesweeper.");
         // Brute force remaining bomb layouts
@@ -748,6 +749,7 @@ public class MSBoardSolver {
     }
 
     public enum SolverLogic {
+
         SOLVED((byte) 0),
         LOCAL_LOGIC((byte) 1),
         GLOBAL_LOGIC((byte) 2),

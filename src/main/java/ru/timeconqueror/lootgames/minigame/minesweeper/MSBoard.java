@@ -350,7 +350,7 @@ public class MSBoard {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 char c = rows[j].charAt(i);
-                Type t = c == ' ' ? Type.EMPTY : c == 'X' || c == 'x'  ? Type.BOMB : Type.byId((byte) (c - '0'));
+                Type t = c == ' ' ? Type.EMPTY : c == 'X' || c == 'x' ? Type.BOMB : Type.byId((byte) (c - '0'));
                 if (t == Type.BOMB) bombCount++;
                 if (t == null) throw new IllegalArgumentException("Provided string contains unknown character: " + c);
                 board[i][j] = new MSField(t, false, Mark.NO_MARK);

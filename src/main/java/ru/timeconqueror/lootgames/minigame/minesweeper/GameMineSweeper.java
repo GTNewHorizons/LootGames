@@ -316,7 +316,9 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 MSBoardSolver.SolverLogic lastLogic = solver.solveStep();
                 LootGames.LOGGER.info(solver.boardKnowledgeToString());
 
-                while (!solver.isKnown(guessingPos) && steps-- > 0 && lastLogic != MSBoardSolver.SolverLogic.NO_LOGIC_LEFT && lastLogic != MSBoardSolver.SolverLogic.SOLVED) {
+                while (!solver.isKnown(guessingPos) && steps-- > 0
+                        && lastLogic != MSBoardSolver.SolverLogic.NO_LOGIC_LEFT
+                        && lastLogic != MSBoardSolver.SolverLogic.SOLVED) {
                     lastLogic = solver.solveStep();
                 }
 
@@ -325,9 +327,9 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                     // Therefore fail the game as the player incorrectly thought a guess was required
                     sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_known", NotifyColor.FAIL));
                     triggerBombs(guessingPos);
-//                    LootGames.LOGGER.info(guessingPos);
-//                    LootGames.LOGGER.info(solver.boardKnowledgeToString());
-//                    LootGames.LOGGER.info(solver.deductionsToString());
+                    // LootGames.LOGGER.info(guessingPos);
+                    // LootGames.LOGGER.info(solver.boardKnowledgeToString());
+                    // LootGames.LOGGER.info(solver.deductionsToString());
                     return;
                 }
                 List<Pos2i> revealCandidates = solver.nearbyUnknowns(guessingPos);
@@ -391,7 +393,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 MSBoardSolver solver = new MSBoardSolver(board);
                 try {
 
-                    ru.timeconqueror.lootgames.minigame.minesweeper.MSBoardSolver.SolverLogic solveInfo = solver.solveAndPerturb(clickedPos);
+                    ru.timeconqueror.lootgames.minigame.minesweeper.MSBoardSolver.SolverLogic solveInfo = solver
+                            .solveAndPerturb(clickedPos);
 
                     if (solveInfo == MSBoardSolver.SolverLogic.TOOK_TOO_LONG) {
                         LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
