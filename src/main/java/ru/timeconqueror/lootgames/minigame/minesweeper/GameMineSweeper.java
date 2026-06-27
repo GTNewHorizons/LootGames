@@ -393,8 +393,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 MSBoardSolver solver = new MSBoardSolver(board);
                 try {
 
-                    ru.timeconqueror.lootgames.minigame.minesweeper.MSBoardSolver.SolverLogic solveInfo = solver
-                            .solveAndPerturb(clickedPos);
+                    MSBoardSolver.SolverLogic solveInfo = solver.solveAndPerturb(clickedPos);
 
                     if (solveInfo == MSBoardSolver.SolverLogic.TOOK_TOO_LONG) {
                         LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
