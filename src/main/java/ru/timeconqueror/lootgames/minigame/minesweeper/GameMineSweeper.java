@@ -2,6 +2,7 @@ package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import static ru.timeconqueror.timecore.api.util.NetworkUtils.getPlayersNearby;
 
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -256,6 +257,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public class StageWaiting extends BoardStage {
 
         private static final String ID = "waiting";
+        private static final boolean autoReveal = true;
 
         public StageWaiting() {}
 
@@ -273,10 +275,17 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                     if (type == MouseClickType.LEFT) {
                         if (board.getMark(pos) == Mark.NO_MARK) {
                             revealField(sPlayer, pos);
-                        }
+                        } else if (board.getMark(pos) == Mark.QUESTION_MARK
+                                && LGConfigs.MINESWEEPER.boardLogic == LGConfigs.MINESWEEPER.INTERACTIVE_SOLVER) {
+                                    revealIfImpossible(sPlayer, pos);
+                                }
                     } else {
                         if (player.isSneaking()) {
-                            revealAllNeighbours(sPlayer, pos, false);
+                            if (board.isHidden(pos) && autoReveal) {
+                                setFieldMark(pos, Mark.QUESTION_MARK);
+                            } else {
+                                revealAllNeighbours(sPlayer, pos, false);
+                            }
                         } else if (board.isHidden(pos)) {
                             swapFieldMark(pos);
                         }
@@ -285,42 +294,121 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             }
         }
 
-        public void generateBoard(EntityPlayerMP player, Pos2i clickedPos) {
-            board.generate(clickedPos);
-            int logic = LGConfigs.MINESWEEPER.boardLogic;
-            if (logic == 1) {
-                if (board.size() <= 125) {
-                    MSBoardSolver solver = new MSBoardSolver(board);
-                    try {
+        protected void revealIfImpossible(EntityPlayerMP player, Pos2i guessingPos) {
+            if (board.isHidden(guessingPos)) {
 
-                        int solveInfo = solver.solve(clickedPos);
+                // Avoid running solver if the guess is for a 50/50 that can be found locally.
+                Pos2i trivialPos = new TrivialGuessChecker(board).isTrivial(guessingPos);
+                if (trivialPos != null) {
+                    sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_unknown", NotifyColor.SUCCESS));
+                    setFieldMark(guessingPos, Mark.NO_MARK);
+                    revealField(player, trivialPos);
+                    return;
+                }
 
-                        if (solveInfo == -1) {
-                            LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
-                            LootGames.LOGGER.trace(solver.boardKnowledgeToString());
-                        }
-                    } catch (Exception e) {
-                        LootGames.LOGGER
-                                .error("Solving minesweeper board ran into an issue; dumping current board knowledge");
-                        LootGames.LOGGER.error(e);
-                        LootGames.LOGGER.error(solver.boardKnowledgeToString());
-                        LootGames.LOGGER.error(solver.deductionsToString());
-                        sendTo(
-                                player,
-                                new ChatComponentTranslation("msg.lootgames.ms.solver_error"),
-                                NotifyColor.GRAVE_NOTIFY);
+                MSBoardSolver solver = new MSBoardSolver(board);
+                board.forEach((Pos2i p) -> {
+                    if (!board.isHidden(p)) {
+                        solver.revealSquare(p, false);
                     }
-                } else {
-                    sendTo(
-                            player,
-                            new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"),
-                            NotifyColor.WARN);
+                });
+                int steps = 1000;
+                MSBoardSolver.SolverLogic lastLogic = solver.solveStep();
+                LootGames.LOGGER.info(solver.boardKnowledgeToString());
+
+                while (!solver.isKnown(guessingPos) && steps-- > 0 && lastLogic != MSBoardSolver.SolverLogic.NO_LOGIC_LEFT && lastLogic != MSBoardSolver.SolverLogic.SOLVED) {
+                    lastLogic = solver.solveStep();
+                }
+
+                if (solver.isKnown(guessingPos)) {
+                    // The square requested to be known is deducible
+                    // Therefore fail the game as the player incorrectly thought a guess was required
+                    sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_known", NotifyColor.FAIL));
+                    triggerBombs(guessingPos);
+//                    LootGames.LOGGER.info(guessingPos);
+//                    LootGames.LOGGER.info(solver.boardKnowledgeToString());
+//                    LootGames.LOGGER.info(solver.deductionsToString());
+                    return;
+                }
+                List<Pos2i> revealCandidates = solver.nearbyUnknowns(guessingPos);
+                if (solver.surroundingKnowns(guessingPos) < 3 || (revealCandidates.isEmpty() && solver.hasSets())) {
+                    // The square the player is trying to reveal is disconnected from known knowledge
+                    // Don't reveal the square to prevent cheesing (eg asking to reveal in a spread out 3x3 pattern)
+                    // ......... like guessing these squares.
+                    // .?..?..?.
+                    // .........
+                    sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_isolated", NotifyColor.WARN));
+                    return;
+                }
+                if (revealCandidates.isEmpty()) {
+                    // There is no clues near the guessed square and there is no possible logic left.
+                    for (int x = 0; x < board.size(); x++) {
+                        for (int y = 0; y < board.size(); y++) {
+                            if (!solver.isKnown(x, y)) {
+                                revealCandidates.add(new Pos2i(x, y));
+                            }
+                        }
+                    }
+
+                }
+                revealCandidates.sort(Comparator.comparingInt(o -> o.manhattanDistanceTo(guessingPos)));
+
+                // Since there are issues with revealing where bombs are, always reveal a nearby safe square
+                // eg: How does the solver know which cells are known bombs?
+                // How does the game prevent unflagging the known bomb?
+                // This does tell the player that the guessed square is a bomb if it isn't revealed
+                // but taking advantage of that information without letting the solver known
+                // is generally more effort than using that information to reveal squares and solve the board.
+                sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_unknown", NotifyColor.SUCCESS));
+                setFieldMark(guessingPos, Mark.NO_MARK);
+                for (Pos2i pos : revealCandidates) {
+                    if (!board.isBomb(pos)) {
+                        revealField(player, pos);
+                        break;
+                    }
                 }
             }
+        }
+
+        public void generateBoard(EntityPlayerMP player, Pos2i clickedPos) {
+            board.generate(clickedPos);
+            solveBoard(player, clickedPos);
             sendUpdatePacketToNearby(new SPMSGenBoard(GameMineSweeper.this));
             revealField(player, clickedPos);
 
             save();
+        }
+
+        private void solveBoard(EntityPlayerMP player, Pos2i clickedPos) {
+            if (LGConfigs.MINESWEEPER.boardLogic == LGConfigs.MINESWEEPER.NO_GUESS) {
+                if (board.size() > 125) {
+                    sendTo(
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.ms.board_too_large_to_solve"),
+                            NotifyColor.WARN);
+                    return;
+                }
+                MSBoardSolver solver = new MSBoardSolver(board);
+                try {
+
+                    ru.timeconqueror.lootgames.minigame.minesweeper.MSBoardSolver.SolverLogic solveInfo = solver.solveAndPerturb(clickedPos);
+
+                    if (solveInfo == MSBoardSolver.SolverLogic.TOOK_TOO_LONG) {
+                        LootGames.LOGGER.trace("Solver failed to solve, dumping final knowledge");
+                        LootGames.LOGGER.trace(solver.boardKnowledgeToString());
+                    }
+                } catch (Exception e) {
+                    LootGames.LOGGER
+                            .error("Solving minesweeper board ran into an issue; dumping current board knowledge");
+                    LootGames.LOGGER.error(e);
+                    LootGames.LOGGER.error(solver.boardKnowledgeToString());
+                    LootGames.LOGGER.error(solver.deductionsToString());
+                    sendTo(
+                            player,
+                            new ChatComponentTranslation("msg.lootgames.ms.solver_error"),
+                            NotifyColor.GRAVE_NOTIFY);
+                }
+            }
         }
 
         public void revealField(EntityPlayerMP player, Pos2i pos) {
@@ -346,6 +434,37 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 } else if (type == Type.BOMB) {
                     triggerBombs(pos);
                 }
+                if (autoReveal && type != Type.BOMB) {
+                    for (int x = -1; x <= 1; x++) {
+                        for (int y = -1; y <= 1; y++) {
+                            if (!board.isGenerated()) return;
+                            if (!board.hasFieldOn(pos.getX() + x, pos.getY() + y)
+                                    || board.isHidden(pos.getX() + x, pos.getY() + y))
+                                continue;
+                            int surroundingHiddens = 0;
+                            for (int xx = -1; xx <= 1; xx++) {
+                                for (int yy = -1; yy <= 1; yy++) {
+                                    Pos2i pos2 = pos.add(xx + x, yy + y);
+                                    if (board.hasFieldOn(pos2) && board.isHidden(pos2)) {
+                                        surroundingHiddens++;
+                                    }
+                                }
+                            }
+                            if (surroundingHiddens == board.getType(pos.getX() + x, pos.getY() + y).getId()) {
+                                for (int xx = -1; xx <= 1; xx++) {
+                                    for (int yy = -1; yy <= 1; yy++) {
+                                        Pos2i pos2 = pos.add(xx + x, yy + y);
+                                        if (board.isGenerated() && board.hasFieldOn(pos2)
+                                                && board.isHidden(pos2)
+                                                && board.getMark(pos2) == Mark.NO_MARK) {
+                                            swapFieldMark(pos2);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 save();
 
@@ -353,6 +472,10 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 // the board might already be reset
                 if (!board.isGenerated()) return;
 
+                if (autoReveal) {
+                    revealAllNeighbours(player, pos, false);
+                    if (!board.isGenerated()) return;
+                }
                 if (board.checkWin()) {
                     onLevelSuccessfullyFinished();
                 }
@@ -362,7 +485,12 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
         private void revealAllNeighbours(EntityPlayerMP player, Pos2i mainPos, boolean revealMarked) {
             if (!revealMarked) {
                 if (board.isHidden(mainPos)) {
-                    sendTo(player, new ChatComponentTranslation("msg.lootgames.ms.reveal_on_hidden"), NotifyColor.WARN);
+                    if (!autoReveal) {
+                        sendTo(
+                                player,
+                                new ChatComponentTranslation("msg.lootgames.ms.reveal_on_hidden"),
+                                NotifyColor.WARN);
+                    }
                     return;
                 }
 
@@ -379,10 +507,12 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 }
 
                 if (marked != bombsAround) {
-                    sendTo(
-                            player,
-                            new ChatComponentTranslation("msg.lootgames.ms.reveal_invalid_mark_count"),
-                            NotifyColor.WARN);
+                    if (!autoReveal) {
+                        sendTo(
+                                player,
+                                new ChatComponentTranslation("msg.lootgames.ms.reveal_invalid_mark_count"),
+                                NotifyColor.WARN);
+                    }
                     return;
                 }
             }
@@ -409,10 +539,30 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
 
                 sendUpdatePacketToNearby(new SPMSFieldChanged(pos, board.getField(pos)));
                 save();
+                if (autoReveal) {
+                    for (int x = -1; x <= 1; x++) {
+                        for (int y = -1; y <= 1; y++) {
+                            if (!board.isGenerated()) continue;
+                            Pos2i newPos = pos.add(x, y);
+                            if (board.hasFieldOn(newPos)) {
+                                revealAllNeighbours(null, pos.add(x, y), false);
+                            }
+                        }
+                    }
+                }
             }
+            // I think is not needed any more as flagging mines is not required for winning
+            // if (board.checkWin()) {
+            // onLevelSuccessfullyFinished();
+            // }
+        }
 
-            if (board.checkWin()) {
-                onLevelSuccessfullyFinished();
+        public void setFieldMark(Pos2i pos, Mark mark) {
+            if (board.isHidden(pos)) {
+                board.setMark(pos, mark);
+
+                sendUpdatePacketToNearby(new SPMSFieldChanged(pos, board.getField(pos)));
+                save();
             }
         }
 
