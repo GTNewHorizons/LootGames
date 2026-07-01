@@ -324,7 +324,6 @@ public class MSBoardSolver {
 
         if (this.bruteForce(unknownMines, hiddenSquares)) return SolverLogic.GLOBAL_LOGIC;
 
-        // this.perturbBoard();
 
         return SolverLogic.NO_LOGIC_LEFT;
 
