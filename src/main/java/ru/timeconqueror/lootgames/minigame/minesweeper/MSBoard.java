@@ -2,6 +2,7 @@ package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -271,6 +272,35 @@ public class MSBoard {
                 func.accept(x, y);
             }
         }
+    }
+
+    public Iterable<Pos2i> surrounding(Pos2i pos) {
+        return () -> new Iterator<>() {
+
+            final int xLow = Math.max(pos.getX() - 1, 0);
+            final int xHigh = Math.min(pos.getX() + 1, size - 1);
+            final int yLow = Math.max(pos.getY() - 1, 0);
+            final int yHigh = Math.min(pos.getY() + 1, size - 1);
+            int currX = xLow;
+            int currY = yLow;
+
+            @Override
+            public boolean hasNext() {
+                return currX <= xHigh;
+            }
+
+            @Override
+            public Pos2i next() {
+                Pos2i res = new Pos2i(currX, currY);
+                currY++;
+                if (currY > yHigh) {
+                    currY = yLow;
+                    currX++;
+                }
+                return res;
+            }
+
+        };
     }
 
     public void cSetField(Pos2i pos, MSField field) {
