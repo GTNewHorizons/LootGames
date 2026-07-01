@@ -257,7 +257,7 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
     public class StageWaiting extends BoardStage {
 
         private static final String ID = "waiting";
-        private static final boolean autoReveal = true; // Only used for testing, should always be false in release
+        private static final boolean autoReveal = false; // Only used for testing, should always be false in release
 
         public StageWaiting() {}
 
