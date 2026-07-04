@@ -314,7 +314,6 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
             });
             int steps = 1000;
             MSBoardSolver.SolverLogic lastLogic = solver.solveStep();
-            LootGames.LOGGER.info(solver.boardKnowledgeToString());
 
             while (!solver.isKnown(guessingPos) && steps-- > 0
                     && lastLogic != MSBoardSolver.SolverLogic.NO_LOGIC_LEFT
@@ -326,10 +325,8 @@ public class GameMineSweeper extends BoardLootGame<GameMineSweeper> {
                 // The square requested is deducible
                 // Therefore fail the game as the player incorrectly thought a guess was required
                 sendToNearby(new ChatComponentTranslation("msg.lootgames.ms.reveal_known", NotifyColor.FAIL));
+                // TODO send chat message to tell the player which square they can safely reveal
                 triggerBombs(guessingPos);
-                // LootGames.LOGGER.info(guessingPos);
-                // LootGames.LOGGER.info(solver.boardKnowledgeToString());
-                // LootGames.LOGGER.info(solver.deductionsToString());
                 return;
             }
             List<Pos2i> revealCandidates = solver.nearbyUnknowns(guessingPos);
