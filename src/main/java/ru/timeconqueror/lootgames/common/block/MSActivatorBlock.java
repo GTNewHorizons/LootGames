@@ -1,6 +1,7 @@
 package ru.timeconqueror.lootgames.common.block;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -15,6 +16,7 @@ import ru.timeconqueror.lootgames.registry.LGBlocks;
 import ru.timeconqueror.lootgames.registry.LGSounds;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.lootgames.utils.future.WorldExt;
+import ru.timeconqueror.timecore.api.util.NetworkUtils;
 
 public class MSActivatorBlock extends GameBlock {
 
@@ -43,6 +45,9 @@ public class MSActivatorBlock extends GameBlock {
                     .forTileIfSucceed(MSMasterTile.class, master -> master.init(snapshot)).isSucceed();
 
             if (succeed) {
+                if (LGConfigs.MINESWEEPER.boardLogic == LGConfigs.MINESWEEPER.INTERACTIVE_SOLVER) {
+                    NetworkUtils.sendMessage(player, new ChatComponentTranslation("msg.lootgames.ms.interactive_start"));
+                }
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.MS_START_GAME, 0.6F, 1.0F);
                 LGAchievements.MS_START.trigger(player);
             }
