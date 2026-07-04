@@ -33,6 +33,7 @@ msg.lootgames.attempt_left=You have %d attempts left.
 msg.lootgames.field.not_enough_space=The construction whines drawlingly. Seems like there's no place for it: %dx%dx%d
 msg.lootgames.ms.board_too_large_to_solve=The board size is too large to solve. Generating random board instead.
 msg.lootgames.ms.bomb_touched=Oops... It seems to be a BOOM. Run!
+msg.lootgames.ms.interactive_start=Interactive solver enabled: If a guess is required, mark the offending block with '?' and reveal it to safely reveal a nearby block. If a guess is not required, the structure will blow up in anger.
 msg.lootgames.ms.new_attempt=The structure calmed down. You can try to play again.
 msg.lootgames.ms.reveal_invalid_mark_count=You can't reveal field's neighbours, because flagged neighbours differ from its number.
 msg.lootgames.ms.reveal_isolated=The structure refuses to reveal isolated squares; You should look elsewhere.
