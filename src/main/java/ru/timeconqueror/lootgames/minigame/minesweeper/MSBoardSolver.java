@@ -268,9 +268,6 @@ public class MSBoardSolver {
         return res;
     }
 
-    /**
-     * @return int: [0: solved, 1: did local logic, 2: did global logic, 3: found no logic (needs/did perturb)]
-     */
     public SolverLogic solveStep() {
         boolean haveSquares = !squaresTodo.isEmpty();
         this.processTodoSquares();
@@ -282,9 +279,6 @@ public class MSBoardSolver {
         return this.slowLogic();
     }
 
-    /**
-     * @return int: [0: solved, 1: did local logic, 2: did global logic, 3: found no logic (needs/did perturb)]
-     */
     public SolverLogic solveStepAndPerturb() {
         SolverLogic res = solveStep();
         if (res == SolverLogic.NO_LOGIC_LEFT) {
@@ -337,8 +331,7 @@ public class MSBoardSolver {
         for (int loops = 0; loops < 500; loops++) {
 
             SolverLogic logicResult = solveStepAndPerturb();
-            if (logicResult == SolverLogic.SOLVED) return logicResult; // We solved the board
-            // Else we found logic (1 or 2) or had to perturb the board (3)
+            if (logicResult == SolverLogic.SOLVED) return logicResult;
 
         }
         return SolverLogic.TOOK_TOO_LONG;
@@ -354,7 +347,6 @@ public class MSBoardSolver {
 
             SolverLogic logicResult = solveStep();
             if (logicResult == SolverLogic.SOLVED || logicResult == SolverLogic.NO_LOGIC_LEFT) return logicResult;
-            // Else we found logic (1 or 2)
 
         }
         return SolverLogic.TOOK_TOO_LONG;
@@ -688,11 +680,9 @@ public class MSBoardSolver {
 
     public int surroundingKnowns(Pos2i pos) {
         int sum = 0;
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (isKnown(pos.add(dx, dy))) {
-                    sum++;
-                }
+        for (Pos2i surPos : board.surrounding(pos)) {
+            if (isKnown(surPos)) {
+                sum++;
             }
         }
         return sum;
