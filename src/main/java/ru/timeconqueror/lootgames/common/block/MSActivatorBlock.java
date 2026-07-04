@@ -46,7 +46,8 @@ public class MSActivatorBlock extends GameBlock {
 
             if (succeed) {
                 if (LGConfigs.MINESWEEPER.boardLogic == LGConfigs.MINESWEEPER.INTERACTIVE_SOLVER) {
-                    NetworkUtils.sendMessage(player, new ChatComponentTranslation("msg.lootgames.ms.interactive_start"));
+                    NetworkUtils
+                            .sendMessage(player, new ChatComponentTranslation("msg.lootgames.ms.interactive_start"));
                 }
                 WorldExt.playSoundServerly(worldIn, pos, LGSounds.MS_START_GAME, 0.6F, 1.0F);
                 LGAchievements.MS_START.trigger(player);
