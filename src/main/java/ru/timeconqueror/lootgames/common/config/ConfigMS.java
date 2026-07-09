@@ -16,7 +16,11 @@ public class ConfigMS extends Config {
 
     public int detonationTime;
     public int attemptCount;
+
     public int boardLogic;
+    public final int NO_LOGIC = 0;
+    public final int NO_GUESS = 1;
+    public final int INTERACTIVE_SOLVER = 2;
 
     public final StageConfig stage1;
     public final StageConfig stage2;
@@ -60,8 +64,8 @@ public class ConfigMS extends Config {
                 getKey(),
                 1,
                 0,
-                1,
-                "Applies logic to the generation of the board. 0: No logic, 1: Full logic (No guess).");
+                2,
+                "Applies logic to the generation of the board. 0: No logic, 1: Full logic (No guess). 2: Interactive solver (You can reveal a square when a guess is required).");
 
         stage1.init(config);
         stage2.init(config);
