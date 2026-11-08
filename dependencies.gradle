@@ -2,6 +2,7 @@
 
 dependencies {
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.8.102-GTNH:dev")
+    compileOnly("com.github.GTNewHorizons:Dashboard:1.0.20:api")
 
     implementation('com.google.auto.value:auto-value-annotations:1.10.1')
     annotationProcessor('com.google.auto.value:auto-value:1.10.1')

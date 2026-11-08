@@ -6,11 +6,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import ru.timeconqueror.lootgames.client.ClientEventHandler;
 import ru.timeconqueror.lootgames.client.IconLoader;
+import ru.timeconqueror.lootgames.client.render.DashboardHud;
 import ru.timeconqueror.lootgames.client.render.MSOverlayHandler;
 import ru.timeconqueror.lootgames.client.render.SudokuBoardClickHandler;
 import ru.timeconqueror.lootgames.client.render.SudokuOverlayHandler;
@@ -43,6 +45,9 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
         MinecraftForge.EVENT_BUS.register(new MSOverlayHandler());
         MinecraftForge.EVENT_BUS.register(new SudokuOverlayHandler());
+        if (Loader.isModLoaded("dashboard")) {
+            DashboardHud.register();
+        }
         MinecraftForge.EVENT_BUS.register(new SudokuBoardClickHandler());
 
         ClientRegistry.bindTileEntitySpecialRenderer(GOLMasterTile.class, Hacks.safeCast(new GOLMasterRenderer()));
