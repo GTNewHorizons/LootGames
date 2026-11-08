@@ -68,7 +68,10 @@ public class SudokuOverlayHandler {
         int remaining = totalBlanks - filled;
 
         String textRemaining = String.format(StatCollector.translateToLocal("msg.lootgames.sdk.remaining"), remaining);
-        drawPanel(textRemaining);
+        if (!ClientProxy.DASHBOARD || DashboardHud.beginGameInfo(event.resolution)) {
+            drawPanel(textRemaining);
+            if (ClientProxy.DASHBOARD) DashboardHud.endRender();
+        }
 
         ACTIVE_GAMES.clear();
     }

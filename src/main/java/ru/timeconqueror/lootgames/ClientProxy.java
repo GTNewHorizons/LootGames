@@ -26,6 +26,8 @@ import ru.timeconqueror.timecore.api.util.Hacks;
 
 public class ClientProxy extends CommonProxy {
 
+    public static final boolean DASHBOARD = Loader.isModLoaded("dashboard");
+
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
@@ -45,7 +47,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
         MinecraftForge.EVENT_BUS.register(new MSOverlayHandler());
         MinecraftForge.EVENT_BUS.register(new SudokuOverlayHandler());
-        if (Loader.isModLoaded("dashboard")) {
+        if (DASHBOARD) {
             DashboardHud.register();
         }
         MinecraftForge.EVENT_BUS.register(new SudokuBoardClickHandler());
