@@ -54,13 +54,12 @@ public class MSBoardSolver {
     private final Stack<LinkedList<Pos2i>> deductionStack;
     private LinkedList<Pos2i> currentDeduction;
     private final MineSets setStore;
-    private Pos2i startPos;
 
     public MSBoardSolver(MSBoard board) {
         if (board.size() > 125) {
             // The set store may not find range queries correctly on x over the 127-129 range,
             // as the bit vector changes sign.
-            // Also it may take too long to solve boards over 8 chunks in size.
+            // Also, it may take too long to solve boards over 8 chunks in size.
             throw new IllegalArgumentException("Cannot solve too large of a Minesweeper Board.");
         }
         this.board = board;
@@ -104,24 +103,21 @@ public class MSBoardSolver {
         if (isFullDeduction) endDeduction();
     }
 
-    private void revealSquare(Pos2i pos, boolean isMine) {
+    public void revealSquare(Pos2i pos, boolean isMine) {
         this.currentDeduction.add(pos);
-        Type revealedSquare;
-        if (isMine) {
-            revealedSquare = Type.BOMB;
-        } else {
-            revealedSquare = this.board.getType(pos);
-        }
+        Type revealedSquare = (isMine) ? Type.BOMB : board.getType(pos);
+
         LootGames.LOGGER.trace("Revealing square {} to be {}", pos, revealedSquare);
         this.boardKnowledge[this.board.toIndex(pos)] = revealedSquare;
         this.addSquareToDo(pos);
     }
 
-    private Type getKnownField(Pos2i pos) {
+    public Type getKnownField(Pos2i pos) {
         return this.boardKnowledge[this.board.toIndex(pos)];
     }
 
     private void processTodoSquares() {
+        // Processing a square that is trivial will add to squaresTodo, so ignore
         for (int i = 0; i < this.squaresTodo.size(); i++) {
             Pos2i pos = this.squaresTodo.get(i);
             Type cellType = this.getKnownField(pos);
@@ -134,10 +130,9 @@ public class MSBoardSolver {
                 int bit = 0b1;
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dx = -1; dx <= 1; dx++) {
-                        if (!(pos.getX() + dx < 0 || pos.getX() + dx >= this.board.size()
-                                || pos.getY() + dy < 0
-                                || pos.getY() + dy >= this.board.size())) {
-                            Type adjField = this.getKnownField(pos.add(dx, dy));
+                        Pos2i pos2 = pos.add(dx, dy);
+                        if (board.hasFieldOn(pos2)) {
+                            Type adjField = this.getKnownField(pos2);
                             if (adjField == Type.SOLVER_HIDDEN) {
                                 mask = mask | bit;
                             } else if (adjField == Type.BOMB) {
@@ -186,7 +181,7 @@ public class MSBoardSolver {
             // which are trivially known squares
             byte todoBombs = LogicMineSet.getSetBombs(todoSet);
 
-            int todoSquares = LogicMineSet.getMaskSquareCount(LogicMineSet.getSetMask(todoSet));
+            int todoSquares = LogicMineSet.getSetSquareCount(todoSet);
             if (todoBombs == 0 || todoBombs == todoSquares) {
                 this.revealSquares(todoSet, todoBombs == todoSquares);
                 foundLogic = true;
@@ -273,32 +268,26 @@ public class MSBoardSolver {
         return res;
     }
 
-    public boolean isStarted() {
-        return this.startPos != null;
-    }
-
-    public void startSolve(Pos2i startFieldPos) {
-        if (this.startPos != null) {
-            throw new IllegalStateException("Cannot start an already started solver");
-        }
-        this.startPos = startFieldPos;
-        if (!this.board.isGenerated()) this.board.generate(startFieldPos);
-        this.revealSquare(startFieldPos, false);
-        endDeduction();
-    }
-
-    public int solveStep() {
+    public SolverLogic solveStep() {
         boolean haveSquares = !squaresTodo.isEmpty();
         this.processTodoSquares();
         boolean haveSets = this.setStore.hasTodo();
         this.processTodoSets();
         if (haveSets || haveSquares) {
-            return 1;
+            return SolverLogic.LOCAL_LOGIC;
         }
         return this.slowLogic();
     }
 
-    public int slowLogic() {
+    public SolverLogic solveStepAndPerturb() {
+        SolverLogic res = solveStep();
+        if (res == SolverLogic.NO_LOGIC_LEFT) {
+            perturbBoard();
+        }
+        return res;
+    }
+
+    public SolverLogic slowLogic() {
         LootGames.LOGGER.trace("Performing slow logic checks");
         int hiddenSquares = 0;
         int unknownMines = this.board.getBombCount();
@@ -309,25 +298,31 @@ public class MSBoardSolver {
         if (hiddenSquares == 0) {
             LootGames.LOGGER.trace("We have revealed all squares");
             // We have revealed all squares we have solved the board
-            return 0;
+            return SolverLogic.SOLVED;
         }
         // Other simple cases, remaining squares are all bombs or clear.
         if (unknownMines == 0 || unknownMines == hiddenSquares) {
             LootGames.LOGGER.trace("All hidden squares are either clear or mine");
-            // We could reveal the squares in the solver and then return from the above check, but we only need know if
-            // the board is solvable, so we return immediately
-            return 0;
+            // For the interactive solver we need to reveal all the squares to fail any player that
+            // deems a guess is necessary
+            int i = 0;
+            for (Type t : boardKnowledge) {
+                if (t == Type.SOLVER_HIDDEN) {
+                    revealSquare(board.toPos(i), unknownMines == hiddenSquares);
+                }
+                i++;
+            }
+            processTodoSquares();
+            return SolverLogic.SOLVED;
         }
 
-        if (this.bruteForce(unknownMines, hiddenSquares)) return 2;
+        if (this.bruteForce(unknownMines, hiddenSquares)) return SolverLogic.GLOBAL_LOGIC;
 
-        this.perturbBoard();
-
-        return 3;
+        return SolverLogic.NO_LOGIC_LEFT;
 
     }
 
-    public int solve(Pos2i startFieldPos) {
+    public SolverLogic solveAndPerturb(Pos2i startFieldPos) {
         if (!this.board.isGenerated()) {
             this.board.generate(startFieldPos);
         }
@@ -335,18 +330,32 @@ public class MSBoardSolver {
         endDeduction();
         for (int loops = 0; loops < 500; loops++) {
 
-            int logicResult = solveStep();
-            if (logicResult == 0) return 0; // We solved the board
-            // Else we found logic (1 or 2) or had to perturb the board (3)
+            SolverLogic logicResult = solveStepAndPerturb();
+            if (logicResult == SolverLogic.SOLVED) return logicResult;
 
         }
-        return -1;
+        return SolverLogic.TOOK_TOO_LONG;
+    }
+
+    public SolverLogic solve(Pos2i startFieldPos) {
+        if (!this.board.isGenerated()) {
+            this.board.generate(startFieldPos);
+        }
+        this.revealSquare(startFieldPos, false);
+        endDeduction();
+        for (int loops = 0; loops < 500; loops++) {
+
+            SolverLogic logicResult = solveStep();
+            if (logicResult == SolverLogic.SOLVED || logicResult == SolverLogic.NO_LOGIC_LEFT) return logicResult;
+
+        }
+        return SolverLogic.TOOK_TOO_LONG;
     }
 
     public boolean bruteForce(int unknownMines, int hiddenSquares) {
         LootGames.LOGGER.info("Starting brute force logic for minesweeper.");
         // Brute force remaining bomb layouts
-        if (setStore.size() == 0) return false;
+        if (setStore.isEmpty()) return false;
         int[] allSets = this.setStore.getAllSets();
         List<Integer> partitions = this.partitionSets(allSets);
         int partitionStart = 0;
@@ -496,7 +505,6 @@ public class MSBoardSolver {
      * 
      * @param knownSetMines a pointer to tell the caller if the number of mines required to place in the partitions is
      *                      known exactly
-     * @return
      */
     private Map<Integer, Integer> pruneBruteForcedMines(List<TreeMap<Integer, Map<Integer, Integer>>> partitions,
             int minPlace, int maxPlace, int minBrute, int maxBrute, int[] knownSetMines) {
@@ -565,7 +573,7 @@ public class MSBoardSolver {
         List<Pos2i> cellsToChange = new ArrayList<>();
         int initialBacktrackDepth = 4;
         int backtrackDepth = initialBacktrackDepth;
-        if (this.setStore.size() == 0) {
+        if (setStore.isEmpty()) {
             // We have no sets so backtrack until we can perturb the grid to be solvable
             // TODO check if this produces unusually large clusters of bombs. May need to instead break the wall of
             // bombs
@@ -586,7 +594,7 @@ public class MSBoardSolver {
         }
         List<BombPerturbation> changedOtherCells = this.board.perturbBombLocations(cellsToChange, this.boardKnowledge);
         // The perturb may fail to fill or empty the provided cells to change,
-        // eg not enough bombs or safe squares outside the cells to change
+        // e.g. not enough bombs or safe squares outside the cells to change
         while (changedOtherCells == null) {
             LootGames.LOGGER.trace("Board failed to perturb, backtracking {} deductions.", backtrackDepth);
             // In that case backtrack further in logic to provide more bombs or safe cells
@@ -601,7 +609,6 @@ public class MSBoardSolver {
         // (SetOverlap is quicker on empty tree)
         if (backtrackDepth != initialBacktrackDepth) this.setStore.clear();
 
-        // The board returns a list of negative numbers if it filled cellsToChange with bombs
         // Apply the perturb's changes to the solver's knowledge
         LootGames.LOGGER.trace("Applying {} perturbations", changedOtherCells.size());
         for (BombPerturbation bp : changedOtherCells) {
@@ -616,16 +623,16 @@ public class MSBoardSolver {
         byte adjacentMines = 0;
         for (int x = Math.max(0, bp.x - 1); x <= Math.min(bp.x + 1, this.board.size() - 1); x++) {
             for (int y = Math.max(0, bp.y - 1); y <= Math.min(bp.y + 1, this.board.size() - 1); y++) {
-                int ii = this.board.toIndex(new Pos2i(x, y));
-                Type type = this.boardKnowledge[ii];
+                int i = x + y * board.size();
+                Type type = this.boardKnowledge[i];
                 if (type == Type.BOMB) adjacentMines++;
                 else if (type != Type.SOLVER_HIDDEN) {
-                    this.boardKnowledge[ii] = Type.byId((byte) (type.getId() + bp.bombDiff));
+                    this.boardKnowledge[i] = Type.byId((byte) (type.getId() + bp.bombDiff));
                 }
             }
         }
-        int index = bp.x + bp.y * this.board.size();
-        this.boardKnowledge[index] = this.boardKnowledge[index] == Type.SOLVER_HIDDEN ? Type.SOLVER_HIDDEN
+        int i = bp.x + bp.y * this.board.size();
+        this.boardKnowledge[i] = this.boardKnowledge[i] == Type.SOLVER_HIDDEN ? Type.SOLVER_HIDDEN
                 : bp.bombDiff == 1 ? Type.BOMB : Type.byId((byte) (adjacentMines - 1));
 
         // Update all the sets containing the perturbation
@@ -649,7 +656,7 @@ public class MSBoardSolver {
         int x = 0;
         int y = 0;
         for (Type cell : this.boardKnowledge) {
-            if (cell.getId() > Type.EMPTY.getId()) {
+            if (cell.getId() >= Type.EMPTY.getId()) {
                 this.addSquareToDo(new Pos2i(x, y));
             }
             if (++x == board.size()) {
@@ -657,6 +664,57 @@ public class MSBoardSolver {
                 y++;
             }
         }
+    }
+
+    public boolean hasSets() {
+        return !setStore.isEmpty();
+    }
+
+    public boolean isKnown(Pos2i pos) {
+        return board.hasFieldOn(pos) && boardKnowledge[pos.getX() + pos.getY() * board.size()] != Type.SOLVER_HIDDEN;
+    }
+
+    public boolean isKnown(int x, int y) {
+        return board.hasFieldOn(x, y) && boardKnowledge[x + y * board.size()] != Type.SOLVER_HIDDEN;
+    }
+
+    public int surroundingKnowns(Pos2i pos) {
+        int sum = 0;
+        for (Pos2i surPos : board.surrounding(pos)) {
+            if (isKnown(surPos)) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * Return a list of positions to search for a clear for the board to reveal
+     */
+    public List<Pos2i> nearbyUnknowns(Pos2i pos) {
+        int cellMask = 0;
+        List<Integer> sets = setStore.setOverlap((byte) pos.getX(), (byte) pos.getY());
+        Pos2i topLeft = pos.add(-2, -2);
+        for (int set : sets) {
+            int dx = LogicMineSet.getSetX(set) - topLeft.getX();
+            int dy = LogicMineSet.getSetY(set) - topLeft.getY();
+            int mask = LogicMineSet.getSetMask(set);
+            mask = (mask & 0b111) | ((mask & 0b111000) << 2) | ((mask & 0b111000000) << 4);
+            mask <<= dx;
+            mask <<= (dy * 5);
+            cellMask |= mask;
+        }
+
+        List<Pos2i> res = new ArrayList<>(Integer.bitCount(cellMask));
+        while (cellMask != 0) {
+            int bit = Integer.numberOfTrailingZeros(cellMask);
+            int x = bit % 5;
+            int y = bit / 5;
+            res.add(topLeft.add(x, y));
+            cellMask &= cellMask - 1;
+        }
+        return res;
+
     }
 
     public String boardKnowledgeToString() {
@@ -676,5 +734,25 @@ public class MSBoardSolver {
 
     public String deductionsToString() {
         return deductionStack.toString();
+    }
+
+    public enum SolverLogic {
+
+        SOLVED((byte) 0),
+        LOCAL_LOGIC((byte) 1),
+        GLOBAL_LOGIC((byte) 2),
+        NO_LOGIC_LEFT((byte) 3),
+        TOOK_TOO_LONG((byte) 4);
+
+        private final byte id;
+
+        SolverLogic(byte id) {
+            this.id = id;
+        }
+
+        public byte getId() {
+            return id;
+        }
+
     }
 }

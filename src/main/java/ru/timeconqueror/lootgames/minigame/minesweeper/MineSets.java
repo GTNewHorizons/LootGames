@@ -205,6 +205,10 @@ public class MineSets {
         return this.sets.size();
     }
 
+    public boolean isEmpty() {
+        return this.sets.isEmpty();
+    }
+
     public int todoSize() {
         return this.todo.size();
     }

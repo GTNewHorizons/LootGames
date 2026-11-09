@@ -71,6 +71,10 @@ public class LogicMineSet {
         return Integer.bitCount(mask);
     }
 
+    public static int getSetSquareCount(int set) {
+        return Integer.bitCount(getSetMask(set));
+    }
+
     public static int Set(int x, int y, int mask, int count) {
         return LogicMineSet.setSetX((byte) x) | LogicMineSet.setSetY((byte) y)
                 | LogicMineSet.setSetMask(mask)
@@ -126,7 +130,7 @@ public class LogicMineSet {
                 res.add(currentI - 1);
                 if (!subIter.hasNext()) {
                     currentI--;
-                    subIter = permutations(currentI - 1, k - 1).iterator();
+                    if (hasNext()) subIter = permutations(currentI - 1, k - 1).iterator();
                 }
                 return res;
             }
