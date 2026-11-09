@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -41,7 +40,6 @@ public class SudokuOverlayHandler {
         if (event.type != RenderGameOverlayEvent.ElementType.HOTBAR) return;
 
         EntityPlayer player = ClientProxy.player();
-        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
         List<GameSudoku> visible = new ArrayList<>();
 
         Iterator<Map.Entry<BlockPos, WeakReference<GameSudoku>>> it = ACTIVE_GAMES.entrySet().iterator();
@@ -70,7 +68,16 @@ public class SudokuOverlayHandler {
         int remaining = totalBlanks - filled;
 
         String textRemaining = String.format(StatCollector.translateToLocal("msg.lootgames.sdk.remaining"), remaining);
-        int widthRemaining = font.getStringWidth(textRemaining);
+        if (!ClientProxy.DASHBOARD || DashboardHud.beginGameInfo(event.resolution)) {
+            drawPanel(textRemaining);
+            if (ClientProxy.DASHBOARD) DashboardHud.endRender();
+        }
+
+        ACTIVE_GAMES.clear();
+    }
+
+    static void drawPanel(String textRemaining) {
+        int widthRemaining = Minecraft.getMinecraft().fontRenderer.getStringWidth(textRemaining);
 
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -91,8 +98,6 @@ public class SudokuOverlayHandler {
         DrawHelper.drawStringWithShadow(Minecraft.getMinecraft().fontRenderer, textRemaining, 33, 13, 0xFFFFFF);
 
         GL11.glPopMatrix();
-
-        ACTIVE_GAMES.clear();
     }
 
     public static DrawHelper.TexturedRect FIRST_SLOT_START = new DrawHelper.TexturedRect(
