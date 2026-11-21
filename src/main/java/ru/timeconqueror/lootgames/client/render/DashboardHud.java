@@ -21,6 +21,9 @@ public final class DashboardHud {
 
     private static final HudElement GAME_INFO = new HudElement("lootgames:game_info", DashboardHud::getBounds);
 
+    private static float minesweeperPanelWidth;
+    private static int minesweeperGames;
+
     private DashboardHud() {}
 
     public static void register() {
@@ -35,15 +38,34 @@ public final class DashboardHud {
         return HudRegistry.beginRender(GAME_INFO, resolution);
     }
 
+    /**
+     * Like {@link #beginGameInfo}, with the size of the panel about to be drawn, since every game nearby adds a row.
+     */
+    static boolean beginMinesweeper(ScaledResolution resolution, float panelWidth, int games) {
+        minesweeperPanelWidth = panelWidth;
+        minesweeperGames = games;
+        return beginGameInfo(resolution);
+    }
+
+    static void noMinesweeper() {
+        minesweeperGames = 0;
+    }
+
     static void endRender() {
         HudRegistry.endRender();
     }
 
     /**
-     * The icon and the panel next to it, as both overlays draw them in the top left, as wide as the wider panel with a
-     * typical text. More Minesweeper games nearby add smaller rows below.
+     * The icon and the panel next to it, as both overlays draw them in the top left. While Minesweeper games are
+     * nearby, the size they are drawn at, otherwise as wide as the wider panel with a typical text.
      */
     private static HudBounds getBounds(int screenWidth, int screenHeight) {
+        if (minesweeperGames > 0) {
+            int width = (int) Math.ceil(15 * 1.5F + minesweeperPanelWidth);
+            // The first row is 24 high, the rows below it start at y 20, 15 high and 10.5 apart
+            int height = minesweeperGames == 1 ? 24 : (int) Math.ceil(30 + (minesweeperGames - 2) * 7 * 1.5F);
+            return new HudBounds(5, 5, width, height);
+        }
         FontRenderer font = Minecraft.getMinecraft().fontRenderer;
         int sudokuPanel = font.getStringWidth(getSudokuText(81)) + 20;
         int minesweeperPanel = font.getStringWidth("x99") + 11;

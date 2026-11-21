@@ -76,8 +76,10 @@ public class MSOverlayHandler {
             games.add(game);
         }
 
-        if (games.isEmpty()) return;
-        if (ClientProxy.DASHBOARD && !DashboardHud.beginGameInfo(resolution)) return;
+        if (games.isEmpty()) {
+            if (ClientProxy.DASHBOARD) DashboardHud.noMinesweeper();
+            return;
+        }
 
         boolean extendedInfo = games.size() > 1;
 
@@ -87,6 +89,7 @@ public class MSOverlayHandler {
 
             maxRectWidth = Math.max(maxRectWidth, fontRenderer.getStringWidth(toDisplay) + 5.5F * 2);
         }
+        if (ClientProxy.DASHBOARD && !DashboardHud.beginMinesweeper(resolution, maxRectWidth, games.size())) return;
 
         float startY = 20;
 
