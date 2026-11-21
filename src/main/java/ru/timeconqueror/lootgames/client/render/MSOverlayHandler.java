@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -18,11 +19,11 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import ru.timeconqueror.lootgames.ClientProxy;
 import ru.timeconqueror.lootgames.LootGames;
 import ru.timeconqueror.lootgames.minigame.minesweeper.GameMineSweeper;
 import ru.timeconqueror.lootgames.utils.future.BlockPos;
 import ru.timeconqueror.timecore.api.util.MathUtils;
-import ru.timeconqueror.timecore.api.util.client.ClientProxy;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper;
 import ru.timeconqueror.timecore.api.util.client.DrawHelper.TexturedRect;
 
@@ -44,12 +45,12 @@ public class MSOverlayHandler {
     @SubscribeEvent
     public void renderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.type == RenderGameOverlayEvent.ElementType.HOTBAR) {
-            renderNearbyGameBombs();
+            renderNearbyGameBombs(event.resolution);
             ACTIVE_GAMES.clear();
         }
     }
 
-    private static void renderNearbyGameBombs() {
+    private static void renderNearbyGameBombs(ScaledResolution resolution) {
         EntityPlayer player = ClientProxy.player();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
@@ -75,7 +76,10 @@ public class MSOverlayHandler {
             games.add(game);
         }
 
-        if (games.isEmpty()) return;
+        if (games.isEmpty()) {
+            if (ClientProxy.DASHBOARD) DashboardHud.noMinesweeper();
+            return;
+        }
 
         boolean extendedInfo = games.size() > 1;
 
@@ -85,6 +89,7 @@ public class MSOverlayHandler {
 
             maxRectWidth = Math.max(maxRectWidth, fontRenderer.getStringWidth(toDisplay) + 5.5F * 2);
         }
+        if (ClientProxy.DASHBOARD && !DashboardHud.beginMinesweeper(resolution, maxRectWidth, games.size())) return;
 
         float startY = 20;
 
@@ -130,6 +135,7 @@ public class MSOverlayHandler {
                 startY += 7 * 1.5F;
             }
         }
+        if (ClientProxy.DASHBOARD) DashboardHud.endRender();
     }
 
     private static String getBombDisplayString(GameMineSweeper game, boolean extended) {
