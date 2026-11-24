@@ -51,6 +51,7 @@ public class ConfigGeneral extends Config {
         public static final String DISABLE_DUNGEON_GEN = "disable_dungeon_gen";
         public static final String DUNGEON_LOG_LEVEL = "dungeon_log_level";
         public static final String DISABLE_MINIGAMES = "disable_minigames";
+        public static final String FIT_VANILLA_DUNGEON_STYLE = "fit_vanilla_dungeon_style";
         public static final String PER_DIMENSION_CONFIGS = "per_dimension_configs";
     }
 
@@ -65,6 +66,7 @@ public class ConfigGeneral extends Config {
         public boolean retroGenDungeons;
         private Map<Integer, Integer> dimRhombs;
         public String dungeonLogLevel;
+        public boolean fitVanillaDungeonStyle;
 
         private void init(Configuration config) {
             disableDungeonGen = config.getBoolean(
@@ -86,6 +88,11 @@ public class ConfigGeneral extends Config {
                     Level.INFO.toString(),
                     "Log level for the separate DungeonGenerator Logger. Valid options: INFO, DEBUG, TRACE",
                     new String[] { "INFO", "DEBUG", "TRACE" });
+            fitVanillaDungeonStyle = config.getBoolean(
+                    Names.FIT_VANILLA_DUNGEON_STYLE,
+                    Names.CATEGORY_WORLDGEN,
+                    false,
+                    "Changes the structure's exterior blocks to fit the style of vanilla dungeons.");
 
             config.setCategoryComment(Names.CATEGORY_WORLDGEN, "Regulates dungeon appearing in world.");
         }
