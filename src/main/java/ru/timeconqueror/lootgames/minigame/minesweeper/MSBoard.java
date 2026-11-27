@@ -2,11 +2,14 @@ package ru.timeconqueror.lootgames.minigame.minesweeper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -72,6 +75,10 @@ public class MSBoard {
         getField(pos).swapMark();
     }
 
+    void setMark(Pos2i pos, Mark mark) {
+        getField(pos).mark = mark;
+    }
+
     public Mark getMark(Pos2i pos) {
         return getField(pos).mark;
     }
@@ -97,6 +104,10 @@ public class MSBoard {
 
     boolean isBomb(Pos2i pos) {
         return getType(pos) == Type.BOMB;
+    }
+
+    public boolean hasFieldOn(int x, int y) {
+        return x >= 0 && y >= 0 && x < size && y < size;
     }
 
     public boolean hasFieldOn(Pos2i pos) {
@@ -263,6 +274,35 @@ public class MSBoard {
         }
     }
 
+    public Iterable<Pos2i> surrounding(Pos2i pos) {
+        return () -> new Iterator<>() {
+
+            final int xLow = Math.max(pos.getX() - 1, 0);
+            final int xHigh = Math.min(pos.getX() + 1, size - 1);
+            final int yLow = Math.max(pos.getY() - 1, 0);
+            final int yHigh = Math.min(pos.getY() + 1, size - 1);
+            int currX = xLow;
+            int currY = yLow;
+
+            @Override
+            public boolean hasNext() {
+                return currX <= xHigh;
+            }
+
+            @Override
+            public Pos2i next() {
+                Pos2i res = new Pos2i(currX, currY);
+                currY++;
+                if (currY > yHigh) {
+                    currY = yLow;
+                    currX++;
+                }
+                return res;
+            }
+
+        };
+    }
+
     public void cSetField(Pos2i pos, MSField field) {
         MSField oldField = board[pos.getX()][pos.getY()];
         Mark oldMark = oldField.mark;
@@ -323,6 +363,38 @@ public class MSBoard {
         setBoard(CodecUtils.read2DimArr(boardTag, MSField.class, MSField.SAVE_CODEC));
     }
 
+    void readFromTestString(String data) {
+        String[] rows = data.split("\n");
+        int stringSize = rows.length;
+        int k = 0;
+        for (String s : rows) {
+            if (s.length() != stringSize) throw new IllegalArgumentException(
+                    "Provided string must be square. Row " + k + " is length " + s.length() + "\n" + data);
+            k++;
+
+        }
+        size = stringSize;
+        board = new MSField[size][size];
+        bombCount = 0;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                char c = rows[j].charAt(i);
+                Type t = c == ' ' ? Type.EMPTY : c == 'X' || c == 'x' ? Type.BOMB : Type.byId((byte) (c - '0'));
+                if (t == Type.BOMB) bombCount++;
+                if (t == null) throw new IllegalArgumentException("Provided string contains unknown character: " + c);
+                board[i][j] = new MSField(t, false, Mark.NO_MARK);
+            }
+        }
+    }
+
+    /**
+     * @param toFillOrEmpty    List of positions to either clear of bombs or fill with mines
+     * @param currentKnowledge What the solver knows, so that bombs can be moved from only unknown locations.
+     * @return List of perturbations, or null if there is not enough unknown spaces to fill or empty the provided
+     *         positions.
+     */
+    @Nullable
     public List<BombPerturbation> perturbBombLocations(List<Pos2i> toFillOrEmpty, Type[] currentKnowledge) {
         List<Integer> availableIndices = new ArrayList<>(8);
         if (toFillOrEmpty.isEmpty()) {
