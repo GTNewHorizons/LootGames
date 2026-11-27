@@ -87,8 +87,6 @@ public class SudokuRenderer extends TileEntitySpecialRenderer implements IResour
             }
         }
 
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-
         Minecraft mc = Minecraft.getMinecraft();
 
         float revealProgress = game.getBoardRevealProgress();
@@ -143,7 +141,6 @@ public class SudokuRenderer extends TileEntitySpecialRenderer implements IResour
                     float offsetY = -stringHeight * scale / 2f;
 
                     GL11.glPushMatrix();
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
                     GL11.glTranslatef(cx + 0.525f, cz + 0.55f, -0.02f);
                     GL11.glScalef(scale, scale, scale);
                     GL11.glTranslatef(offsetX / scale, offsetY / scale, 0);
@@ -157,8 +154,6 @@ public class SudokuRenderer extends TileEntitySpecialRenderer implements IResour
                     int shadowColor = (color & 0xfcfcfc) >> 2;
                     mc.fontRenderer.drawString(text, 0, 0, shadowColor, false);
                     GL11.glPopMatrix();
-
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
                 } else if (puzzleVal == 0) {
                     boolean[] cellNotes = board.getNotes(pos);
                     float noteScale = 0.027f;
@@ -188,7 +183,6 @@ public class SudokuRenderer extends TileEntitySpecialRenderer implements IResour
             }
         }
 
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
 
